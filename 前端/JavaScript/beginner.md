@@ -138,11 +138,11 @@ alert(3);
 
 > script 一定要擺在下面，因為要等DOM元素載完才呼叫JS，不然程式會壞掉
 
-解決方法:把程式碼放入windows.onload裡面
+解決方法:把程式碼放入window.onload裡面
 
 ```js
 //等畫面元素下載完成後才執行，例如圖片
-windows.onload = function()(
+window.onload = function()(
     alert(1);
 )
 ```
@@ -152,7 +152,7 @@ windows.onload = function()(
 ### Debug Console.log()
 
 ```js
-windows.onload = function()(
+window.onload = function()(
    console.log("我到畫面上了");
 )
 ```
@@ -160,7 +160,7 @@ windows.onload = function()(
 > 訊息在開發者工具的console面板查看
 
 ```js
-windows.onload = function()(
+window.onload = function()(
    console.error("發生錯誤了");
 )
 ```
@@ -174,7 +174,7 @@ windows.onload = function()(
 **宣告變數**
 
 ```js
-windows.onload = function()(
+window.onload = function()(
   var a = 1;
   console.log(a);
 )

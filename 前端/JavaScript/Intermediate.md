@@ -32,8 +32,19 @@
    - [跨網域存取CORS](#跨網域存取CORS)
 - [第四章 共用組件](#第四章-共用組件)
    - [非同步載入共用組件](#非同步載入共用組件)
+   - [程式流程控管](#程式流程控管)
 - [第五章 網址兩三事篇](#第五章-網址兩三事篇)
+   - [網頁轉址與重整](#網頁轉址與重整)
+   - [開新視窗](#開新視窗)
+   - [網址GET參數](#網址GET參數)
+   - [轉址帶參數注意事項](#轉址帶參數注意事項)
 - [第六章 正規表達式入門](#第六章-正規表達式入門)
+  - [什麼是正規表達式 (Regular Expression)](#什麼是正規表達式-regular-expression)
+  - [匹配](#匹配)
+  - [模糊匹配](#模糊匹配)
+  - [檢查是否輸入大寫英文](#檢查是否輸入大寫英文)
+  - [範例](#範例)
+  - [方括號與大括號](#方括號與大括號)
 - [第七章 ES6升級指南篇](#第七章-ES6升級指南篇)
 - [第八章 Javascript 模組入門篇](#第八章-Javascript-模組入門篇)
 - [第九章 Javascript 矯正篇](#第十章-Javascript-矯正篇)
@@ -1262,3 +1273,320 @@ axios.post('api',fobj)
 # 第四章 共用組件
 
 ### 非同步載入共用組件
+
+ ![圖片說明](../../img/javascript/01.png)
+
+ 步驟1:先把共用的html放在componet的資料夾裡面
+
+ 步驟2:用javascript抓取放在componet資料夾裡的共用html檔案
+
+ ```js
+window.onload = function(){
+    var header = document.getElementById("header");
+    var footer = document.getElementById("footer");
+
+    //header
+    axios.get("./component/header.html") //路徑要從引入這javascript的html路徑找尋
+    .then(function(res){
+        console.log(res);
+        header.innerHTML = res.data; 
+    })
+    .catch(function(error){
+        console.error(error);
+    })
+
+    //footer
+     axios.get("./component/footer.html") //路徑要從引入這javascript的html路徑找尋
+    .then(function(res){
+        console.log(res);
+        footer.innerHTML = res.data; 
+    })
+    .catch(function(error){
+        console.error(error);
+    })
+}
+ ```
+
+### 程式流程控管
+
+> 確保DOM元素被載入完成再執行後面的程式
+
+**axios 有提供一個all的方法可以把所有非同步處理都處理完成後再執行callBack**
+
+```js
+window.onload = function(){
+    var header = document.getElementById("header");
+    var footer = document.getElementById("footer");
+
+    function headerData(){
+        return axios.get("./components/header.html") ;
+    }
+
+    function footerData(){
+        return axios.get("./components/footer.html") ;
+    }
+    //確保axios都拿回資料才做處理
+    axios.all([headerData(),footerData()])
+    .then(axios.spread(function(resHeader,resFooter){
+        console.log(resHeader.data,resFooter.data)
+        header.innerHTML = resHeader.data;
+        footer.innerHTML = resFooter.data;
+    })).catch(function(error){
+        console.log(error)
+    })
+}
+```
+---
+
+# 第五章 網址兩三事篇
+
+### 網頁轉址與重整
+
+**只要是和網址有關的事情，都會在`window.loaction裡面** 
+
+**重整**
+
+```js
+
+   var btn =  document.getElementById('btn')
+        
+   btn.addEventListener('click', function(){
+      window.loaction.reload();
+    });
+
+```
+
+**跳轉**
+
+```js
+
+   var btn =  document.getElementById('btn')
+        
+   btn.addEventListener('click', function(){
+        //跳到同個目錄下的open.html
+         window.loaction.href="open.html"; 
+
+         //轉址時沒有歷史紀錄，無法點擊上一頁
+         window.loaction.replace("open.html"); 
+    });
+
+```
+
+- window.loaction.href => 有歷史紀錄
+
+- window.loaction.replace =>沒有歷史紀錄(不能回上一頁)
+
+### 開新視窗
+
+**開新的頁面**
+
+```js
+  var btn = document.getElementById('btn');
+  btn.addEventListener('click', function(){
+    //開啟新的頁面
+    window.open("https://www.youtube.com/")
+
+  });
+```
+
+**開新的視窗**
+
+```js
+  var btn = document.getElementById('btn');
+  btn.addEventListener('click', function(){
+    //開啟新的頁面
+    window.open("https://www.youtube.com/","_blank","width=400,jeight=200");
+
+  });
+```
+
+- window.open => 三個參數
+  - 第一個參數: 網址
+  - 第二個參數: 是否要開新的分頁
+  - 第三個參數: 新的分頁的寬和高，若沒設就是全頻
+
+  **window.open還有一些其他的參數，有興趣可以console.log或上網查詢**
+
+  ### 網址GET參數
+
+  [取得網址後面參數的小工具](https://github.com/Mikhus/domurl)
+
+  ```js
+  // ?name=mike&age=12
+  var url = new Url(window.location.href);
+  console.log(url);
+  console.log(url.query,name); //mike
+  console.log(url.query,age); //age
+  ```
+
+  ### 轉址帶參數注意事項
+
+  ```js
+   var btn = document.getElementById('btn')
+   btn.addEventListener('click', function(){
+            //此頁面有參數透過window.location.href時參數並不會帶過去
+            window.location.href = "open.html";
+            console.log(window.location.search)//取得後面參數
+             window.location.href= "open.html"+window.location.search;
+
+        });
+  ```
+
+  > window.location.search: 取得後面參數(字串)
+
+```js
+   var search = new Url(window.location.search);
+        
+    if(search.query.from !== undefined){
+        console.log("從"+search.query.from+"來的");
+        alert("從"+search.query.from+"來的");
+    }
+```
+
+> 可以判斷從哪裡轉址過來的，可做數據流量
+
+---
+
+# 第六章 正規表達式入門
+
+### 什麼是正規表達式 (Regular Expression)
+
+> 正規表達式與js無關，它是一種電腦的表達法
+
+[正規表達式線上測試](https://regexper.com/)
+
+| 正規表達式   | 說明                         | 例子                                                                 |
+|--------------|------------------------------|----------------------------------------------------------------------|
+| `/ /`        | 斜線之間要放比對的內容物      | `/-/` => 要尋找 `-` 符號                                            |
+| `g`          | 全部 global 的意思，搜尋全部匹配項目 | `/-/g` => 要尋找全部的 `-` 符號                                      |
+| `i`          | 修飾符號，模糊大小寫          | `/E([a-zA-Z]+)t/g` => 尋找第一個字母為 `E/e`，最後一個字母為 `t/T` 的多個字元 |
+| `^`          | 匹配開頭                      | `/^air/` => 尋找開頭為 `air` 的字串                                 |
+| `$`          | 匹配尾巴                      | `/er$/` => 尋找尾巴為 `er` 的字串                                   |
+| `.`          | 包含所有字元、數字和特殊符號  | `/a.b/` => 可以匹配 `a1b`、`a-b`、`a b` 等                           |
+| `*`          | 匹配 0 次或多次               | `/a*b/` => 匹配 `b`、`ab`、`aab` 等                                |
+| `[a-zA-Z]`   | 所有大小寫字母                | `/E([a-zA-Z])t/g` => 尋找第一個字母為 `E`，最後一個字母為 `t` 的第一個字元 |
+| `+`          | 匹配 1 次或多次               | `/E([a-zA-Z]+)t/g` => 尋找第一個字母為 `E`，最後一個字母為 `t` 的多個字元 |
+| `[0-9]`      | 只匹配數字                    | `/\d+/` => 尋找數字串                                               |
+| `{}`         | 匹配指定次數                  | `/a{2,4}/` => 匹配兩到四次的字母 `a`，例如 `aa`、`aaa`、`aaaa` 等  |
+| `[]`         | 匹配範圍內的字符               | `/[a-z]/` => 匹配小寫字母，`/[A-Z]/` => 匹配大寫字母                 |
+| `\`          | 轉義字符，匹配特殊字符       | `/\./` => 匹配 `.` 字符，`/\$/` => 匹配 `$` 字符                    |
+| `()`         | 小括號，用於分組或捕獲組     | `/(abc)+/` => 匹配一個或多個 "abc"，例如 `"abcabc"`、`"abc"` 等  |
+| `match`      | 比對方法，會返回一個陣列     | `"hello".match(/e/g)` => 返回 `["e"]`                                |
+| `test`       | 檢查是否符合正規表達式，會返回 `true` 或 `false` | `/air/.test("airplane")` => 返回 `true`                               |
+| `exec`       | 返回匹配的結果，若匹配成功返回匹配的陣列，若失敗返回 `null` | `"hello world".exec(/world/)` => 返回 `["world"]`                    |
+
+
+
+
+
+
+
+**正規表達式用來找尋字串處理的規則，取得鄉匹配和對應的內容字串出來做其他的操作**
+
+### 匹配
+
+**把所有的ECMAScript換成Javscript**
+
+```js
+var str = 'ECMAScript is a scripting-language specification standardized by Ecma International in ECMA-262 and ISO/IEC 16262. It was created to standardize JavaScript, so as to foster multiple independent implementations. JavaScript has remained the best-known implementation of ECMAScript since the standard was first published, with other well-known implementations including JScript and ActionScript.ECMAScript is commonly used for client-side scripting on the World Wide Web, and it is increasingly being used for writing server applications and services using Node.js.'
+var txt = str.replace(/ECMAScript/g,'Javscript');
+console.log(txt);
+```
+
+### 模糊匹配
+**抓第一個字母為`E`最後一個字母為`t`的單字**
+```js
+var str = 'ECMAScript Javscript EggCat E123456789t Eabcdefg ecmascripT Ecmascript'
+var reg = /E([a-zA-Z]+)t/g;
+var txtArr = str.match(reg);
+var html = "";
+console.log(txtArr);
+txtArr.forEach(function(arr){
+html+='<li>'+arr+'</li>';
+})
+document.getElementById('app').innerHTML = html;
+```
+
+[正規表示法線上預覽工具](https://regex101.com/)
+
+### 檢查是否輸入大寫英文
+
+```js
+ var searchBar = document.getElementById("searchBar");
+ var submit = document.getElementById("submit");
+ var regex = /[A-Z]/g;
+            
+ submit.addEventListener("click", function(){
+    var value = searchBar.value.trim()
+    if(value === ""){
+        alert("欄位不可以空白");
+        return;
+    }
+    if(!regex.text(value)){
+        alert("請輸入大寫英文");
+        return;
+    }
+
+    alert("輸入成功");
+                
+ });
+    
+```
+
+### 範例
+
+**篩選特殊信箱**
+
+```js
+ var mail = [
+    'a123@gmail.com',
+    'tesst@hotmail.com',
+    'n789@gmail.com',
+    'abcdef@yahoo.com',
+    '55555@gmail.com',
+    '1245@hotmail.com',
+    'abc123@hotmail.com',
+]
+var reg = /^.*@gmail\.com$/
+var mailList = mail.filter(function(mail){
+return reg.test(mail);
+})
+console.log(mailList);
+```
+
+### 方括號與大括號
+```js
+   var Datestr = [
+    "2006/02/03",
+    "test/07/sd",
+    "2016/05/10",
+    "1998/03/07",
+    "12345/23/45678",
+    "1234/23/45678",
+    "12345/23/45",
+    ];
+    var html = '';
+    var reg = /^([0-9]{4})\/({0-9}{2})\/({0-9}{2})/;
+    var dataStr = Datestr.filter(function(data){
+        return reg.test(data);
+    }).map(function(item){
+        return item.replace(/\//g,'-');
+    })
+
+    console.log(dataStr)
+```
+
+| 描述               | 正規表達式                                                                                                                                 |
+|--------------------|------------------------------------------------------------------------------------------------------------------------------------------|
+| 檢查字串只能有文字與數字 | `/^[a-zA-Z0-9]*$/`                                                                                                                     |
+| 檢查字串只能有文字     | `/^[a-zA-Z]*$/`                                                                                                                         |
+| 檢查字串只能有數字     | `/^[0-9]*$/`                                                                                                                           |
+| 檢查日期型態 (MM/DD/YYYY) | `/^((0?[1-9]|1[012])[- /.](0?[1-9]|[12][0-9]|3[01])[- /.](19|20)?[0-9]{2})*$/`                                                       |
+| 檢查日期型態 (YYYY/MM/DD) | `/^((19|20)?[0-9]{2}[- /.](0?[1-9]|1[012])[- /.](0?[1-9]|[12][0-9]|3[01]))*$/`                                                       |
+| Email檢查           | `/^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4})*$/`                                                                                 |
+| 檢查IP位址           | `/^((?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))*$/`                                   |
+| 檢查密碼：長度8碼以上並包含小寫字母、大寫字母及數字 | `/^(?=^.{8,}$)((?=.*[A-Za-z0-9])(?=.*[A-Z])(?=.*[a-z]))^.*$/`                                                                     |
+| 檢查網址             | `/^(((http|https|ftp):\/\/)?([[a-zA-Z0-9]\-\.])+(\.)([[a-zA-Z0-9]]){2,4}([[a-zA-Z0-9]\/+=%&_\.~?\-]*))*$/`                             |
+
+
+---
