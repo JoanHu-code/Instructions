@@ -2076,4 +2076,35 @@ import axios from "axios"
 |module.export=模塊|var 名稱= require("模塊檔名")|
 |export default 模塊|import 名稱 from "模塊檔名" |
 
+
+**若ES Module要用在HTML裡面要在 script 加 type="module"**
+
+> add.js
+
+```js
+const Add = (a,b) =>{
+    return a+b;
+}
+export const Name = "mike";
+export const age = 12;
+export default Add;
+
+```
+
+> index.html
+
+```html
+<script type="module">
+    import Add, (Name,age) from "./js/Tools.js";
+    console.log(Add(3,2));
+    console.log(Name);
+    console.log(age)
+</script>
+```
+
+**export的東西只能用const方式丟出去**
+
+- IE完全不支援
+- 主流瀏覽器幾乎都支援
+
 ---
