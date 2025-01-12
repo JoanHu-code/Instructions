@@ -13,6 +13,7 @@
         - [filter](#filter)
         - [every](#every)
         - [map](#map)
+        - [方法總結](方法總結)
 - [第二章 進階字串處理](#第二章-進階字串處理)
 - [第三章 非同步處理](#第三章-非同步處理)
 - [第四章 共用組件](#第四章-共用組件)
@@ -796,3 +797,65 @@ window.onload = function(){
 [完整範例](https://codepen.io/JoanHu/pen/KwPoBRx)
 
 #### every
+
+```js
+  var arr = {
+    document.getElementById('query1');
+    document.getElementById('query2');
+    document.getElementById('query3');
+  }
+  const isAllCheck = arr.every(function(el){
+    return el.checked === true;
+  })
+  console.log(isAllCheck);
+```
+
+> every 和 filter 最大的不同在於回傳的值，every是回傳true或false，而filter是回傳array
+
+[完整範例](https://codepen.io/JoanHu/pen/vEBRaPx)
+
+#### map
+
+> map可以重組一個新的array
+
+```js
+var originalObj = [
+            {
+                name: "遊戲",
+                sex: "male"
+            },
+            {
+                name: "幸子",
+                sex: "female"
+            },
+            {
+                name: "城之內",
+                sex: "male"
+            },
+            {
+                name: "海馬",
+                sex: "male"
+            },
+            {
+                name: "本田",
+                sex: "male"
+            }
+]
+var newArray = originalObj.map(function(obj){
+    return obj.name + obj.sex;
+})
+console.log(newArray);
+
+```
+
+[完整範例](https://codepen.io/JoanHu/pen/YPKaOKV)
+
+### 方法總結
+
+
+| 方法      | 描述                                                         | 回傳結果                            |
+|-----------|--------------------------------------------------------------|------------------------------------|
+| `forEach()` | 會將陣列內的每個元素傳入並執行給定的函式一次。                        | 無回傳結果（`undefined`）。               |
+| `filter()`  | 會搜尋符合條件的資料，然後返回再構成的新陣列。                         | 返回一個新陣列，包含符合條件的所有元素。     |
+| `every()`   | 會檢查陣列中所有的元素是否符合條件，只會回傳一個 `true` 或 `false`。     | 返回一個布林值（`true` 或 `false`）。        |
+| `map()`     | 透過函式內所回傳的值，組合成一個新陣列。                            | 返回一個新陣列，包含每個元素經過函式處理後的結果。 |
