@@ -54,8 +54,8 @@
   - [箭頭涵式](#箭頭涵式)
   - [function預設值](#function預設值)
 - [第八章 Javascript 模組入門篇](#第八章-Javascript-模組入門篇)
-- [第九章 Javascript 矯正篇](#第十章-Javascript-矯正篇)
-
+   - [parceljs 高版本js轉換](#parceljs-高版本js轉換)
+   - [Import and Repuire](#Import-and-Repuire)
 
 ---
 
@@ -1888,6 +1888,192 @@ document.querySelector('.link').addEventListener("click",(e)=>{
     console.log(Add(2, 3)); // 5
 ```
 --- 
+
 # 第八章 Javascript 模組入門篇
 
  ![圖片說明](../../img/javascript/02.png)
+
+ - nvm: 管理nodejs版本問題，可以安裝和切換nodejs版本
+
+ - nodejs: vue、react、sass都是預處理工具，都需要轉變成css、html和javascript統一的規格。
+
+ - npm: 可以用來引入library，不用再採用cdn的方式引入
+
+ **[安裝nodejs](https://nodejs.org/zh-tw/download)**
+
+ > 要下載LTS的版本，LTS的版本是穩定版，相對current版本比較好
+
+ **[安裝nvm](https://github.com/coreybutler/nvm-windows/releases)**
+
+1. 要下載 nvm-setup.zip
+
+  ![圖片說明](../../img/javascript/03.png)
+
+2. 開啟命令提示字元(cmd)
+
+**查尋目前執行的 Node 版本**
+```shell
+nvm -v
+```
+
+**查看已安裝的版本**
+```shell
+nvm list
+```
+**查看有哪些 Node 版本可以裝**
+```shell
+nvm list available
+```
+
+**安裝指定的 Node 版本**
+```shell
+nvm install v10.16.0
+```
+
+**使用指定的 Node 版本**
+```shell
+nvm use v10.16.0
+```
+
+3. 查看nodejs和npm
+
+```shell
+node -v
+```
+
+```shell
+npm -v
+```
+
+### parceljs 高版本js轉換
+
+[parceljs官網](https://parceljs.org/)
+
+[說明文件](https://createapp.dev/parcel)
+
+1. 先執行安裝parcel-bundler到電腦全域
+
+```shell
+npm install -g parcel-bundler
+```
+
+2. 將命令提式視窗路徑指向專案資料夾
+
+```shell
+npm install
+```
+
+> package.json : 專案所有會用到的細節、模組、套件，甚至專案名稱都會在這裡面
+
+3. 打開專案，安專npm
+
+```shell
+npm install
+```
+
+**在上傳到github的時候不要把NodeMudles上傳上去，那會導致速度很慢**
+
+=> 記住加到gitignore裡面
+
+**如何啟動專案?**
+
+> 在package.json裡面尋找"script"， 那裡會有啟動專案的指令
+
+例如:
+
+```shell
+npm run dev
+```
+
+```shell
+npm run start
+```
+
+**src資料夾裡面瀏覽器不吃，瀏覽器只吃dist資料夾裡的內容**
+
+> 上線都會壓縮後再上線
+
+```shell
+npm run build
+```
+
+```shell
+npm run build-prod
+```
+
+### Import and Repuire
+
+**模組規範**
+
+> html裡面應該只會載入`index.js`，其他的都要先載入到`index.js`，再透過`index.js`再入進來
+
+> photo.js
+
+```js
+//把模組丟出去
+const photo = (arr = [])=>{
+    arr.forEach(element=>{
+        console.log(element);
+    })
+}
+module.exports = {
+    name: "Joan",
+    photo: photo
+}
+
+```
+
+> index.js
+
+```js
+var obj = require("./photo.js");
+var Pfn = require("./photo.js");
+Pfn([1,2,3,4,5,6]);
+```
+
+**Import 模組規範**
+
+>上線用的套件
+
+``` shell
+npm install axios -S  
+```
+
+> 開發用的套件
+
+``` shell
+npm install axios -D  
+```
+
+> photo.js
+
+```js
+//把模組丟出去
+const photo = (arr = [])=>{
+    arr.forEach(element=>{
+        console.log(element);
+    })
+}
+export default photo;
+
+```
+
+> index.js
+```js
+import photo from "./photo.js"
+import axios from "axios"
+```
+
+**Node應用由模塊組成，採用 CommonJS 模塊規範**
+
+> 每個文件就是一個模塊，有自己的作用域。在一個文件裡面定義的變數、function、類別，都是私有的。
+
+**如果用`export default`要用`import`，如果用`module.exports`要用`require`**
+
+
+|輸出|引入|
+|----|----|
+|module.export=模塊|var 名稱= require("模塊檔名")|
+|export default 模塊|import 名稱 from "模塊檔名" |
+
+---
