@@ -15,6 +15,12 @@
         - [map](#map)
         - [方法總結](#方法總結)
 - [第二章 進階字串處理](#第二章-進階字串處理)
+    - [trim 字串前後去除空白](#trim-字串前後去除空白)
+    - [slice 字串切割](#slice-字串切割)
+    - [變換英文字母大小寫](#變換英文字母大小寫)
+    - [reverse 字串反轉](#reverse-字串反轉)
+    - [replace 字串取代](#replace-字串取代)
+    - [indexOf 取得字串索引位置](#indexOf-取得字串索引位置)
 - [第三章 非同步處理](#第三章-非同步處理)
 - [第四章 共用組件](#第四章-共用組件)
 - [第五章 網址兩三事篇](#第五章-網址兩三事篇)
@@ -859,3 +865,158 @@ console.log(newArray);
 | `filter()`  | 會搜尋符合條件的資料，然後返回再構成的新陣列。                         | 返回一個新陣列，包含符合條件的所有元素。     |
 | `every()`   | 會檢查陣列中所有的元素是否符合條件，只會回傳一個 `true` 或 `false`。     | 返回一個布林值（`true` 或 `false`）。        |
 | `map()`     | 透過函式內所回傳的值，組合成一個新陣列。                            | 返回一個新陣列，包含每個元素經過函式處理後的結果。 |
+
+---
+
+# 第二章 進階字串處理
+
+### trim 字串前後去除空白
+
+```html
+<body>
+    <div>  
+        <input id="searchBar" type="text">
+        <button id="submit">送出</button>
+    </div>
+
+
+    <script>
+        
+        var searchBar = document.getElementById("searchBar")
+        var submit = document.getElementById("submit")
+        
+
+        submit.addEventListener("click", function(){
+            var str = searchBar.value.trim();
+            if(str){
+                alert("恭喜輸入成功");
+            }else{
+                alert("請輸入值");
+            }
+        })
+
+
+    </script>
+
+
+
+</body>
+```
+[完整範例](https://codepen.io/JoanHu/pen/RNbMYrj)
+
+### slice 字串切割
+```js
+var email = "1208966@gamil.com"
+
+//起始索引為0， 結束索引為7
+console.log(email.slice(0,7)); //1208966
+
+//索引為7之後面都被切出來(不包含索引7)
+console.log(email.slice(7)); //@gamil.com
+
+//找尋符合此字元的索引位置
+console.log(email.indexOf('@')) //12
+
+//不管前面有幾個字元都可以撈出來
+console.log(email.slice(0,email.indexOf('@'))); //1208966
+```
+
+### 變換英文字母大小寫
+
+> toLocaleLowerCase 大寫轉小寫
+> toLocaleUpperCase 小寫轉大寫
+
+```js
+    var searchBar = document.getElementById("searchBar")
+    var submit = document.getElementById("submit")
+        
+    submit.addEventListener("click", function(){
+            var str = searchBar.value.trim();
+            var strChange = str.toLocaleLowerCase();
+            console.log(strChange);
+    });
+```
+
+### reverse 字串反轉
+
+```js
+    function reverse(txt){
+         //split分割字串為陣列
+        var sp = txt.split('');
+        //反轉陣列
+        var re = sp.reverse(); 
+        //合併陣列變成字串
+        var join =re.join(''); 
+
+        var finialTxt = txt.split('').reserve().join('');
+
+        return join
+    }
+
+    var text = reverse("HelloMike!");
+    console.log(text);
+
+```
+
+### replace 字串取代
+
+```js
+  // "2019-01-01"  ---> "2019/01/01"
+  var date = "2019-01-01";
+
+  //第一個參數為想要取代的參數
+
+  const change = date.replace('-','/')   //只會取代第一個為'-'的參數 
+
+  console.log(change); //2019/01-01
+
+
+  //使用正規表達式
+  const change2 = date.replace('/-/g','/')   //g代表權部的意思 
+  console.log(change2); //2019/01/01
+
+```
+
+### indexOf 取得字串索引位置
+
+```js
+    var arr = ["Mike", "Jacky", "Andy", "Alice", "Max"];
+    var str = "123@456789";
+
+    console.log(str.indexOf('@')); //3
+    console.log(arr.indexOf('Andy')); //2
+
+    //若找不到則會回傳-1
+    console.log(str.indexOf('g')); //-1
+```
+
+> 不只string可以使用array也可以使用
+> 當indexOf找不到值會回傳-1
+
+**千分位加逗點練習**
+
+```js
+   
+ function Num(num){
+           var sp = String(num).split('');
+           var re = sp.reverse(); 
+           var tmp = [];
+           var count = 0;
+           for(let i=0;i<re.length;i++){
+               if(i%3==0 && i!=0){
+                 tmp[count]= ',';
+                 count++;
+               }
+               tmp[count]=re[i];
+               count++;
+           }   
+           return tmp.reverse().join(''); 
+        }
+
+        var n = Num(52415223456);
+        console.log(n);
+        
+```
+---
+
+### 第三章 非同步處理
