@@ -11,6 +11,7 @@
     - [jenkinsfile](前端/jenkinsfile.md)
     - JavaScript
         - [beginner](前端/JavaScript/beginner.md)
+        - [Intermediate](前端/JavaScript/Intermediate.md)
 
 - 部屬相關
     - [docker](部屬相關/docker.md)
