@@ -22,7 +22,16 @@
     - [replace 字串取代](#replace-字串取代)
     - [indexOf 取得字串索引位置](#indexOf-取得字串索引位置)
 - [第三章 非同步處理](#第三章-非同步處理)
+   - [什麼是api](#什麼是api)
+   - [什麼是非同步](#什麼是非同步)
+   - [什麼是JSON](#什麼是JSON)
+   - [什麼是get? 什麼是post?](#什麼是get-什麼是post)
+   - [非同步工具  axios](#非同步工具-axios)
+   - [JSON 與 FormData](#JSON-與-FormData)
+   - [常見的HTTP狀態碼](#常見的HTTP狀態碼)
+   - [跨網域存取CORS](#跨網域存取CORS)
 - [第四章 共用組件](#第四章-共用組件)
+   - [非同步載入共用組件](#非同步載入共用組件)
 - [第五章 網址兩三事篇](#第五章-網址兩三事篇)
 - [第六章 正規表達式入門](#第六章-正規表達式入門)
 - [第七章 ES6升級指南篇](#第七章-ES6升級指南篇)
@@ -1019,4 +1028,237 @@ console.log(email.slice(0,email.indexOf('@'))); //1208966
 ```
 ---
 
-### 第三章 非同步處理
+# 第三章 非同步處理
+
+### [什麼是api](https://youtu.be/zvKadd9Cflc)
+
+> api的全名是 application programming interface (應用程式介面)
+
+https://vue-lessons-api.vercel.app/courses/list
+
+### 什麼是非同步
+
+**同步例子**
+
+```js
+console.log('1');
+console.log('2');
+console.log('3');
+console.log('4');
+console.log('5');
+```
+
+> 會照順序由上而下執行
+
+**非同步例子**
+
+```js
+console.log('1');
+console.log('2');
+setTimeout(function(){
+    console.log('3')
+},1000)
+console.log('4');
+console.log('5');
+```
+
+> 不會按照順序執行
+
+**API的處理也是非同步**
+
+### [什麼是JSON](https://www.json.org/)
+
+> JavaScript Object Notation (JSON) 為將結構化資料呈現為 
+> JavaScript 物件的標準格式，常用於網站上的資料呈現。
+
+> JSON 是依照 JavaScript 物件語法的資料格式，雖然 JSON 是以 ?
+> JavaScript 語法為基礎，但可獨立使用，且許多程式設計環境亦可讀取 (剖析) 並產生 JSON。
+
+> JSON 可能是物件或字串。當你想從 JSON中讀取資料時，JSON可作為物件；當要跨網路傳送 JSON 時，就會是字串。這不是什麼大問題 —  JavaScript 提供全域 JSON 物件，其內的函式可進行切換。
+
+> JSON 物件可儲存於其自有的檔案中，基本上就是副檔名為 .json 的文字檔案。
+
+```json
+[
+    {
+      "name":"mike",
+      "age":123
+    },
+]
+```
+
+**注意:在json的格式裡面只能用雙引號，不能用單引號，若下面已經沒值的話是無法接`,`**
+
+> json會用在和後端溝通上面
+
+
+### 什麼是get? 什麼是post?
+
+**get**
+
+> 用get可以把資料傳遞給網址後面，用`?`的形式加參數
+
+> get傳資料很不安全，因為是透過網址傳過去，因此get不適合傳資料，比較適合拿取資料
+
+**post**
+
+> 用來丟資料給後端，不會秀在網址上面
+
+> 按F12，點選Network，勾選Preserve log，可以看到寄送的資料，如:header、Form data...等
+
+> 因為post還是用明碼的方式傳送，如果想要安全傳送還是要透過`https`的方式傳送會比較安全
+
+### [非同步工具  axios](https://github.com/axios/axios)
+
+**get**
+
+```js
+console.log('1')
+axios.get('api') //可以放入api(網址)
+.then(function(res){
+    //請求成功時做的事情
+    console.log(res);
+    //拿到的資料
+    console.log(res.data);
+    console.log('2')
+})
+.catch(function(error){
+     //請求失敗時做的事情
+    console.error(error)
+    //後端有寫才有，沒寫就沒有
+    console.error(error.response)
+    console.log('3')
+})
+.finally(function(){
+    //不管是成功還是失敗都會做的事情
+})
+console.log('4')
+```
+> 通常只會用到`then`和`catch`
+
+> console的順序為: 1 4 2 (成功)，1 4 3(失敗) 
+
+**post**
+
+```js
+//可以放入api(網址)
+axios.post('api',{
+    firstName: 'Fred',  //放入參數=>傳給後端會是json的格式
+    lastName: 'Flintstone'
+}) 
+.then(function(res){
+    //請求成功時做的事情
+    console.log(res);
+    //拿到的資料
+    console.log(res.data);
+})
+.catch(function(error){
+     //請求失敗時做的事情
+    console.error(error)
+})
+.finally(function(){
+    //不管是成功還是失敗都會做的事情
+})
+
+```
+
+[線上模擬API](https://www.mocky.io/)
+
+### JSON 與 FormData
+
+```js
+//json資料格式 Content Type: application/json
+var obj = {
+  firstName: 'Fred', 
+  lastName: 'Flintstone'
+}
+
+axios.post('api',obj) 
+.then(function(res){
+    console.log(res);
+    console.log(res.data);
+})
+.catch(function(error){
+    console.log(error)
+})
+.finally(function(){
+
+})
+```
+
+> json資料格式 Content Type: application/json
+
+> FormData資料格式 Content Type: multipart/form-data
+
+[FromData相關內容](https://developer.mozilla.org/zh-TW/docs/Web/API/FormData)
+
+```js
+//FormData=>如果用<form>表單包裹會傳送的格式 Content Type: multipart/form-data
+
+var fobj = new FormData();
+//第一個參數是key，第二個是value
+fobj.append('firstName','Fred'); 
+fobj.append('lastName','Flintstone');
+
+axios.post('api',fobj) 
+.then(function(res){
+    console.log(res);
+    console.log(res.data);
+})
+.catch(function(error){
+    console.log(error)
+})
+.finally(function(){
+
+})
+```
+
+> 查詢資料格式是否正確 F12->Network->XHR
+
+### [常見的HTTP狀態碼](https://developer.mozilla.org/zh-TW/docs/Web/HTTP/Status)
+
+- 2xx成功 : http請求成功
+- 4xx用戶端錯誤 : http 請求失敗，常見的可能是
+  - 404找不到資源，或是403請求不符合規範
+- 5xx伺服器錯誤
+  - 這類狀態碼 90% 代表了伺服器在處理請求的過程中有錯誤或者異常狀態發生，你就可以先去找後端，不是你的code寫錯！
+ 
+ **在axios裡，若status是200會進入then，不是200就會到catch裡面**
+
+### 跨網域存取CORS
+
+> 以威秀影城為例
+```js
+  axios.get("https://www.vscinemas.com.tw/VsWeb/api/GetLstDicCinema")
+  .then(function(res){
+    console.log(res);
+
+  }).catch(function(error){
+     console.error(error);
+  })
+```
+
+> 在瀏覽器上面不能不同的網址傳達資料，除非後端有設定
+
+**遇到這問題，找後端解決**
+
+
+```js
+ var proxy = "https://cors-anywhere.herokuapp.com/";
+ var url = "https://www.vscinemas.com.tw/VsWeb/api/GetLstDicCinema";
+   axios.get(proxy+url)
+  .then(function(res){
+    console.log(res);
+
+  }).catch(function(error){
+     console.error(error);
+  })
+
+```
+
+**不要用這個`proxy`傳遞敏感資料**
+---
+
+# 第四章 共用組件
+
+### 非同步載入共用組件
