@@ -46,6 +46,13 @@
   - [範例](#範例)
   - [方括號與大括號](#方括號與大括號)
 - [第七章 ES6升級指南篇](#第七章-ES6升級指南篇)
+  - [let與const](#let與const)
+  - [解構賦值](#解構賦值)
+  - [展開運算子Array](#展開運算子Array)
+  - [展開運算子Object](#展開運算子Object)
+  - [字串模板](#字串模板)
+  - [箭頭涵式](#箭頭涵式)
+  - [function預設值](#function預設值)
 - [第八章 Javascript 模組入門篇](#第八章-Javascript-模組入門篇)
 - [第九章 Javascript 矯正篇](#第十章-Javascript-矯正篇)
 
@@ -1590,3 +1597,297 @@ console.log(mailList);
 
 
 ---
+
+# 第七章 ES6升級指南篇
+
+### let與const
+
+```js
+console.log(a) //undefine 找得到變數但沒有值
+var a = 1;
+
+console.log(b); //b is undefine 找不到變數也找不到值
+if(true){
+    let b = 1;
+}
+
+```
+
+- var: 沒有區域概念，會直接把變數提升到window底下
+
+- let: 只有在括號的範圍內才使用到
+
+- const: 用const命名的變數必須要有初始值，並且無法被改變
+
+**for迴圈裡用setTimeout(非同步的環境底下)時要用let不能用var**
+
+```js
+for(var i = 0; i<5:i++){ 
+    //會執行五次
+    setTimeout(function(){
+        console.log(i);
+    },1000)
+}
+
+
+for(let i = 0; i<5:i++){ 
+    //會執行四次
+    setTimeout(function(){
+        console.log(i);
+    },1000)
+}
+```
+
+**const如果是object或array的話，可以改裡面的值，但是無法修改它的類型**
+
+```js
+const SETED = [];
+const OBJ = {};
+
+// 這是可以的
+SETED[0] = 1; 
+OBJ.idx = 1
+console.log(SETED[0]);
+
+SETED = 1; // 這是不行的
+```
+
+### 解構賦值
+
+```js
+let data = {
+    name: "Kate",
+    age: 12,
+    time: "2019/04/01"
+}
+//原先寫法
+name = data.name;
+age = data.age;
+time = data.time;
+
+//ES6寫法
+let {name,age,time} = data;
+
+console.log(name,age,time);
+
+function dataSet(obj){
+    let {name,age,time} = data;
+    return{
+        name: name+'123',
+        age,
+        time,
+    }
+}
+let objs = dataSet(data);
+console.log(objs);
+```
+
+**解構的變數名稱只能和object裡面的key的名稱一樣，不能自行隨意改**
+
+### 展開運算子Array
+
+**把兩個或多個array合併成一個array**
+
+> `...`:展開運算子
+
+ ```js
+ let arr1 = [1, 2, 3, 4];
+ let arr2 = ["a", "b", "c", "d"];
+ let arr3 = [12,11,10];
+
+ //ES5
+ let newArr1 = [].concat(arr1,arr2,arr3);
+  console.log(newArr1);
+
+ //ES6
+ let newArr2 = [...arr1,...arr2,...arr3];
+  console.log(newArr2);
+
+ ```
+
+### 展開運算子Object
+
+ **把兩個或多個Object合併成一個Object**
+
+> `...`:展開運算子
+
+ ```js
+  let obj1 = {
+    name: "mike"
+  };
+  let obj2 = {
+     age: 12,
+     title: "前端工程師"
+  };
+
+
+  let newObj1 = Object.assign(obj1,obj2);
+  console.log(newObj1);
+
+  let newObj2 = {...obj1,...obj2};
+  console.log(newObj2);
+
+ ```
+
+### 字串模板
+
+```js
+const name = "mike";
+const mail = "1208966@gmail.com";
+
+//ES5
+document.getElementById("title").innerHTML = "姓名:"+name+ "/ 信箱: "+ mail;
+
+//ES6 字串模板
+document.getElementById("title").innerHTML = `姓名${name}/信箱:${mail}`;
+
+  // ES5
+ var html = "";
+ html += '<ul>';
+ html += '<li>'+name+'</li>';
+ html += '<li>'+mail+'</li>';
+ html += '<ul>';
+
+ // ES6 可以直接換行
+ const html = `
+     <ul>
+         <li>${name}</li>
+         <li>${mail}</li>
+     </ul>
+ `
+ document.getElementById("title").innerHTML = html;
+```
+
+### 箭頭涵式
+
+```html
+<body>
+
+    
+    <button id="btn">測試點擊</button>
+
+    <script src="./data.js"></script>
+    <script>
+        //取得按鈕本身
+
+        //ES5
+        document.getElementById("btn").addEventListener("click",function(e){
+            console.log(this);
+            console.log(e.target);
+        })
+
+        //ES6
+         document.getElementById("btn").addEventListener("click",(e)=>{
+            console.log(this); //箭頭涵式裡面本身沒有this
+            console.log(e.target);
+        })
+        
+        // 若箭頭涵式只有取一個值可以寫下面這方法，會直接return回來
+        const fdata = data.filter((item)=>item.sex == 'male');
+        console.log(fdata);
+
+        //若箭頭涵式的參數只有一個值可以不用`()`
+        const fdata = data.filter(item=>item.sex == 'male');
+        console.log(fdata);
+
+        data.forEach(obj=>{
+
+        })
+
+        //兩個值就要括號
+         data.forEach((obj,index)=>{
+
+        })
+         
+
+        console.log(add3(3,2)); //會找不到add3這個function
+
+        function add1(a,b){
+            return a+b;
+        }
+
+        const add2 = (a,b)=>{
+            return a+b;
+        }
+
+        const add3 = (a,b)=> a+b;
+
+         console.log(add3(3,2)); //放這才會找到
+        
+
+    </script>
+
+</body>
+```
+
+**在箭頭涵式的本身是沒有`this`的，`this`會指向最外層的window**
+
+**變數和function一定要拉到最上面，才不會發生找不到的問題**
+
+**補充 target 和 currentTarget**
+
+> 只有`link`會不一樣，`button`不會有問題
+
+- target => 事件的觸發者
+
+- currentTarget => 事件的真正監聽者。
+
+```html
+<div class="link">
+    <p>Mike</p>
+    <p>Andy</p>
+    <p>Jacky</p>
+</div>
+
+<script>
+document.querySelector('.link').addEventListener("click",(e)=>{
+    console.log(e.target); //<p>mike</p> 
+    console.log(e.currentTarget) // <div class="link"><div>
+})
+</script>
+
+```
+
+> 額外補充一個小知識，其原因是因為我們的滑鼠放在DOM上面操作會穿透，所以它會觸發click事件，事件打穿到裡面的 p 標籤，所以我們可以使用 pointer-events: none; 來禁止該物件可以被觸發，就可以避免這問題
+
+```css
+.link > p {
+    pointer-events: none;
+}
+```
+
+### function預設值
+
+```js
+ // ES5
+    function Add(a, b){
+        return a + b
+    }
+    console.log(Add());     // NaN
+    console.log(Add(2, 3)); // 5
+
+   //設預設值
+    function Add(a, b){
+        if(a === undefined){
+            a=1
+        }
+        if(b === undefined){
+            b=2
+        }
+        return a + b
+    }
+    console.log(Add());     // 3
+    console.log(Add(2, 3)); // 5
+        
+    // ES6
+    //直接設預設值
+    const Add =(a=1,b=2)=>{
+         return a + b;
+    }
+    console.log(Add());     // 3
+    console.log(Add(2, 3)); // 5
+```
+--- 
+# 第八章 Javascript 模組入門篇
+
+ ![圖片說明](../../img/javascript/02.png)
