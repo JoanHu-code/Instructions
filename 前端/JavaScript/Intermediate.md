@@ -1349,7 +1349,7 @@ window.onload = function(){
 
 ### 網頁轉址與重整
 
-**只要是和網址有關的事情，都會在`window.loaction裡面** 
+**只要是和網址有關的事情，都會在`window.location裡面** 
 
 **重整**
 
@@ -1358,7 +1358,7 @@ window.onload = function(){
    var btn =  document.getElementById('btn')
         
    btn.addEventListener('click', function(){
-      window.loaction.reload();
+      window.location.reload();
     });
 
 ```
@@ -1371,17 +1371,17 @@ window.onload = function(){
         
    btn.addEventListener('click', function(){
         //跳到同個目錄下的open.html
-         window.loaction.href="open.html"; 
+         window.location.href="open.html"; 
 
          //轉址時沒有歷史紀錄，無法點擊上一頁
-         window.loaction.replace("open.html"); 
+         window.location.replace("open.html"); 
     });
 
 ```
 
-- window.loaction.href => 有歷史紀錄
+- window.location.href => 有歷史紀錄
 
-- window.loaction.replace =>沒有歷史紀錄(不能回上一頁)
+- window.location.replace =>沒有歷史紀錄(不能回上一頁)
 
 ### 開新視窗
 
