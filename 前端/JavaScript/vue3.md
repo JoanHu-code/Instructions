@@ -1171,8 +1171,8 @@ Vue.createApp(App).mount("#app");
               i++;
               // console.log(i);
               if (i == data.length) {
+                imgArr.arr = data;
                 isLoading.value = false;
-                console.log("ok");
               }
             };
           });
@@ -1214,8 +1214,9 @@ const handleLoading = (data) => {
       i++;
       // console.log(i);
       if (i == data.length) {
+         imgArr.arr = data; //要記得塞回原本的資料
         isLoading.value = false;
-        console.log("ok");
+       
       }
     };
   });
