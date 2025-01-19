@@ -1604,12 +1604,17 @@ axios
         terms: false,
       }
      -->
-    <script>
+       <script>
       const { reactive, ref } = Vue;
       const app = {
         setup() {
           const isSuccess = ref(false);
-          const errMsg = reactive({ email: "", password: "", username: "" });
+          const errMsg = reactive({});
+          const HandleError = (err) => {
+            Object.keys(err).forEach((error) => {
+              errMsg[error] = err[error];
+            });
+          };
           const handleSubmit = () => {
             console.log(registered);
             axios
@@ -1625,9 +1630,7 @@ axios
               })
               .catch((error) => {
                 console.log(error.response.data.error_message);
-                errMsg.email = error.response.data.error_message.email;
-                errMsg.password = error.response.data.error_message.password;
-                errMsg.username = error.response.data.error_message.username;
+                HandleError(error.response.data.error_message);
               });
           };
           const registered = reactive({
