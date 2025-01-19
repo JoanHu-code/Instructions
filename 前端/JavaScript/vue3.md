@@ -1303,9 +1303,9 @@ const handleLoading = (data) => {
 </a>
 ```
 
-> 如果要在a link裡面再包一個跳轉頁面，又不想要出現兩次跳轉的話，在vue裡面可以使用`@click.stop="gotoInfoPage"`，來阻止冒泡事件往上傳遞
+> 如果要在 a link 裡面再包一個跳轉頁面，又不想要出現兩次跳轉的話，在 vue 裡面可以使用`@click.stop="gotoInfoPage"`，來阻止冒泡事件往上傳遞
 
-> 如果想要同時處理`#`和冒泡事件往上傳遞，可以使用`@click.prevent.stop="gotoInfoPage"` => 先處理prevent在處理stop
+> 如果想要同時處理`#`和冒泡事件往上傳遞，可以使用`@click.prevent.stop="gotoInfoPage"` => 先處理 prevent 在處理 stop
 
 **注意: 事件修飾符是有順序性的!!**
 
@@ -1313,9 +1313,9 @@ const handleLoading = (data) => {
 
 ### FormBindings
 
-> 可以使用v-model去做綁定
+> 可以使用 v-model 去做綁定
 
-- 一般的input: 直接使用ref賦予值
+- 一般的 input: 直接使用 ref 賦予值
 
 - checkBox : 可以賦予 false 或 true (單選)
 
@@ -1333,31 +1333,34 @@ const handleLoading = (data) => {
     <div id="app">
       <div class="input-box">
         <p>E-MAIL</p>
-        <input type="text" placeholder="輸入email" v-model="email"/>
+        <input type="text" placeholder="輸入email" v-model="email" />
       </div>
       <div class="input-box">
         <p>PASSWORD</p>
-        <input type="text" placeholder="輸入密碼" v-model="password"/>
+        <input type="text" placeholder="輸入密碼" v-model="password" />
       </div>
       <div class="input-box">
-        <input type="checkbox" id="checkbox" v-model="checkValue"/>
+        <input type="checkbox" id="checkbox" v-model="checkValue" />
         <label for="checkbox">我已閱讀使用者條款</label>
       </div>
       <a class="btn" @click="handleCheck()">送出</a>
     </div>
-      <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <script>
       const App = {
         setup() {
-          const {ref} = Vue;
-          const email =ref(null);
+          const { ref } = Vue;
+          const email = ref(null);
           const password = ref(null);
           const checkValue = ref(false);
-          const handleCheck = ()=>{
-            console.log(email.value,password.value,checkValue.value);
-          }
+          const handleCheck = () => {
+            console.log(email.value, password.value, checkValue.value);
+          };
           return {
-            email,password,checkValue,handleCheck
+            email,
+            password,
+            checkValue,
+            handleCheck,
           };
         },
       };
@@ -1366,12 +1369,11 @@ const handleLoading = (data) => {
     </script>
   </body>
 </html>
-
 ```
 
 ### checkBox
 
-> 多選: 透過binding array的方式可以直接做多選
+> 多選: 透過 binding array 的方式可以直接做多選
 
 ```html
 <html lang="en">
@@ -1387,7 +1389,12 @@ const handleLoading = (data) => {
       <div>
         <ul>
           <li v-for="item in courseslist.tags" :key="item.tag">
-            <input type="checkbox" :id="item.tag" :value="item.tag" v-model="courseslist.selectArr"/>
+            <input
+              type="checkbox"
+              :id="item.tag"
+              :value="item.tag"
+              v-model="courseslist.selectArr"
+            />
             <label :for="item.tag">{{item.tag}}</label>
           </li>
         </ul>
@@ -1399,9 +1406,8 @@ const handleLoading = (data) => {
       const { reactive } = Vue;
       const App = {
         setup() {
-        
           const courseslist = reactive({
-            selectArr:[],
+            selectArr: [],
             tags: [
               { tag: "JavaScript" },
               { tag: "Html" },
@@ -1414,10 +1420,10 @@ const handleLoading = (data) => {
               { tag: "Canvas" },
             ],
           });
-          const handleSubmit= ()=>{
+          const handleSubmit = () => {
             console.log(courseslist.selectArr);
-          }
-          return { courseslist,handleSubmit };
+          };
+          return { courseslist, handleSubmit };
         },
       };
 
@@ -1443,12 +1449,20 @@ const handleLoading = (data) => {
     <div id="app">
       <div class="select-box">
         <select v-model="selectCity">
-          <option disabled value="" >請選擇縣市</option>
-          <option v-for="item in twZip.city" :key="item.name" :value="item.name">{{item.name}}</option>
+          <option disabled value="">請選擇縣市</option>
+          <option
+            v-for="item in twZip.city"
+            :key="item.name"
+            :value="item.name"
+          >
+            {{item.name}}
+          </option>
         </select>
         <select v-model="selectArea">
-          <option disabled value="" >請選擇區域</option>
-          <option v-for="item in twZip.area" :key="item.name" :value="item.zip">{{item.zip}} {{item.name}}</option>
+          <option disabled value="">請選擇區域</option>
+          <option v-for="item in twZip.area" :key="item.name" :value="item.zip">
+            {{item.zip}} {{item.name}}
+          </option>
         </select>
       </div>
       <a class="btn" @click="handleSubmit()">送出</a>
@@ -1458,34 +1472,34 @@ const handleLoading = (data) => {
     <script>
       const App = {
         setup() {
-          const {reactive,ref,onMounted,watch} = Vue;
-          const twZip = reactive({city:[],area:[]});
+          const { reactive, ref, onMounted, watch } = Vue;
+          const twZip = reactive({ city: [], area: [] });
           const selectCity = ref("");
           const selectArea = ref("");
-          const handleSubmit =()=>{
-            console.log(selectCity.value,selectArea.value)
-          }
-          watch(selectCity,(newValue)=>{
+          const handleSubmit = () => {
+            console.log(selectCity.value, selectArea.value);
+          };
+          watch(selectCity, (newValue) => {
             // console.log(twZip.city)
             selectArea.value = "";
-            twZip.city.forEach(item =>{
-              if(item.name === newValue){
+            twZip.city.forEach((item) => {
+              if (item.name === newValue) {
                 twZip.area = item.area;
                 // console.log(item.area)
               }
-            })
-           
-          })
-          onMounted(()=>{
-            axios.get("https://vue-lessons-api.vercel.app/city/list").then(res=>{
-              // console.log(res.data.twzip.city)
-              twZip.city = res.data.twzip.city;
-              twZip.area.length = 0;
-              // console.log(twZip)
             });
-
-          })
-          return {twZip,selectCity,selectArea,handleSubmit};
+          });
+          onMounted(() => {
+            axios
+              .get("https://vue-lessons-api.vercel.app/city/list")
+              .then((res) => {
+                // console.log(res.data.twzip.city)
+                twZip.city = res.data.twzip.city;
+                twZip.area.length = 0;
+                // console.log(twZip)
+              });
+          });
+          return { twZip, selectCity, selectArea, handleSubmit };
         },
       };
 
@@ -1493,6 +1507,144 @@ const handleLoading = (data) => {
     </script>
   </body>
 </html>
+```
 
+### registered 會員註冊
 
+> 錯誤訊息請去 F12 network 裡的 response 查看!!
+
+> 也可以印出來
+
+```js
+axios
+  .post("https://vue-lessons-api.vercel.app/auth/registered", registered)
+  .then((res) => {
+    console.log(res);
+    if (res.status === 200) {
+      isSuccess.value = true;
+    }
+  })
+  .catch((error) => {
+    console.log(error.response);
+  });
+```
+
+```html
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>registered</title>
+    <link rel="stylesheet" href="./css/main.css" />
+    <link rel="stylesheet" href="./css/04-registered.css" />
+  </head>
+  <body>
+    <div id="app">
+      <div v-if="!isSuccess">
+        <div class="input-box">
+          <p>NAME</p>
+          <input
+            type="text"
+            placeholder="輸入使用者名稱"
+            v-model="registered.username"
+          />
+          <p class="error">{{errMsg.username}}</p>
+        </div>
+        <div class="input-box">
+          <p>PASSWORD</p>
+          <input
+            type="password"
+            placeholder="輸入密碼"
+            v-model="registered.password"
+          />
+          <p class="error">{{errMsg.password}}</p>
+        </div>
+        <div class="input-box">
+          <p>E-MAIL</p>
+          <input
+            type="text"
+            placeholder="輸入email"
+            v-model="registered.email"
+          />
+          <p class="error">{{errMsg.email}}</p>
+        </div>
+        <div class="input-box">
+          <p>年齡</p>
+          <input
+            type="number"
+            placeholder="輸入年齡"
+            v-model="registered.age"
+          />
+        </div>
+        <div class="input-box">
+          <input type="radio" id="boy" value="boy" v-model="registered.sex" />
+          <label for="boy">boy</label>
+          <input type="radio" id="girl" value="girl" v-model="registered.sex" />
+          <label for="girl">girl</label>
+        </div>
+        <div class="input-box">
+          <input type="checkbox" id="checkbox" v-model="registered.terms" />
+          <label for="checkbox">我已閱讀使用者條款</label>
+        </div>
+        <a class="btn" @click="handleSubmit()">送出</a>
+      </div>
+      <div v-else>
+        <h1>註冊成功</h1>
+      </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.20.0/axios.min.js"></script>
+    <script src="./js/vue.js"></script>
+    <!-- 
+      {
+        username: 'mike',
+        password: '123456789',
+        sex: 'boy',
+        email: 'qwer@gmail.com',
+        age: '12'
+        terms: false,
+      }
+     -->
+    <script>
+      const { reactive, ref } = Vue;
+      const app = {
+        setup() {
+          const isSuccess = ref(false);
+          const errMsg = reactive({ email: "", password: "", username: "" });
+          const handleSubmit = () => {
+            console.log(registered);
+            axios
+              .post(
+                "https://vue-lessons-api.vercel.app/auth/registered",
+                registered
+              )
+              .then((res) => {
+                console.log(res);
+                if (res.status === 200) {
+                  isSuccess.value = true;
+                }
+              })
+              .catch((error) => {
+                console.log(error.response.data.error_message);
+                errMsg.email = error.response.data.error_message.email;
+                errMsg.password = error.response.data.error_message.password;
+                errMsg.username = error.response.data.error_message.username;
+              });
+          };
+          const registered = reactive({
+            username: "",
+            password: "",
+            sex: "",
+            email: "",
+            age: "",
+            terms: false,
+          });
+
+          return { registered, handleSubmit, isSuccess, errMsg };
+        },
+      };
+
+      Vue.createApp(app).mount("#app");
+    </script>
+  </body>
+</html>
 ```
