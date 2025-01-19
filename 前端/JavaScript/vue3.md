@@ -20,7 +20,7 @@
     - [選染資料](#選染資料)
     - [邏輯處理](#邏輯處理)
     - [loading](#loading)
-  - [注入html](#注入html)
+  - [注入 html](#注入html)
   - [事件修飾符](#事件修飾符)
   - [關於 ref 跟 reactive 以及 watch 與 deep](#關於-ref-跟-reactive-以及-watch-與-deep)
 - [第二章 Vue 常見的表單元件處理](#第二章-vue常見的表單元件處理)
@@ -1214,18 +1214,19 @@ const handleLoading = (data) => {
       i++;
       // console.log(i);
       if (i == data.length) {
-         imgArr.arr = data; //要記得塞回原本的資料
+        imgArr.arr = data; //要記得塞回原本的資料
         isLoading.value = false;
-       
       }
     };
   });
 };
 ```
 
-### 注入html
+### 注入 html
 
 **若要做編輯器有關的內容，可以利用`v-html`**
+
+> v-html 等於 innerHTML，如果有 JS 會被觸發
 
 ```html
 <html lang="en">
@@ -1258,9 +1259,11 @@ const handleLoading = (data) => {
           const dom = ref("");
 
           onMounted(() => {
-            axios.get("https://vue-lessons-api.vercel.app/dom/content").then((res) => {
-              dom.value = res.data.html;
-            });
+            axios
+              .get("https://vue-lessons-api.vercel.app/dom/content")
+              .then((res) => {
+                dom.value = res.data.html;
+              });
           });
 
           return {
@@ -1273,5 +1276,37 @@ const handleLoading = (data) => {
     </script>
   </body>
 </html>
-
 ```
+
+### 事件修飾符
+
+```html
+<a class="card" href="#" @click="gotoCourseListPage"></a>
+```
+
+> 當點擊時原本的網址會多一個`#`
+
+為了避免這件事情:
+
+- 原本的方法: 把`href="#"`改成`href="javascript:;"`
+- vue 的方法: 把`@click="gotoCourseListPage"`改成`@click.prevent="gotoCourseListPage""`
+
+```html
+<a class="card" href="#" @click="gotoCourseListPage">
+  <div class="img-box">
+    <img src="./images/courses.jpg" alt="" />
+    <p class="info" @click="gotoInfoPage">課程資訊</p>
+  </div>
+  <div class="text-box">
+    <p>2020 Vue3 專業職人 | 入門篇 (預購中)</p>
+  </div>
+</a>
+```
+
+> 如果要在a link裡面再包一個跳轉頁面，又不想要出現兩次跳轉的話，在vue裡面可以使用`@click.stop="gotoInfoPage"`，來阻止冒泡事件往上傳遞
+
+> 如果想要同時處理`#`和冒泡事件往上傳遞，可以使用`@click.prevent.stop="gotoInfoPage"` => 先處理prevent在處理stop
+
+**注意: 事件修飾符是有順序性的!!**
+
+# 第二章 Vue 常見的表單元件處理
