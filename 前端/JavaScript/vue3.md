@@ -1310,3 +1310,189 @@ const handleLoading = (data) => {
 **注意: 事件修飾符是有順序性的!!**
 
 # 第二章 Vue 常見的表單元件處理
+
+### FormBindings
+
+> 可以使用v-model去做綁定
+
+- 一般的input: 直接使用ref賦予值
+
+- checkBox : 可以賦予 false 或 true (單選)
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>From Bindings</title>
+    <link rel="stylesheet" href="./css/main.css" />
+    <link rel="stylesheet" href="./css/01-FromBindings.css" />
+  </head>
+  <body>
+    <div id="app">
+      <div class="input-box">
+        <p>E-MAIL</p>
+        <input type="text" placeholder="輸入email" v-model="email"/>
+      </div>
+      <div class="input-box">
+        <p>PASSWORD</p>
+        <input type="text" placeholder="輸入密碼" v-model="password"/>
+      </div>
+      <div class="input-box">
+        <input type="checkbox" id="checkbox" v-model="checkValue"/>
+        <label for="checkbox">我已閱讀使用者條款</label>
+      </div>
+      <a class="btn" @click="handleCheck()">送出</a>
+    </div>
+      <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script>
+      const App = {
+        setup() {
+          const {ref} = Vue;
+          const email =ref(null);
+          const password = ref(null);
+          const checkValue = ref(false);
+          const handleCheck = ()=>{
+            console.log(email.value,password.value,checkValue.value);
+          }
+          return {
+            email,password,checkValue,handleCheck
+          };
+        },
+      };
+
+      Vue.createApp(App).mount("#app");
+    </script>
+  </body>
+</html>
+
+```
+
+### checkBox
+
+> 多選: 透過binding array的方式可以直接做多選
+
+```html
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Checkbox</title>
+    <link rel="stylesheet" href="./css/main.css" />
+    <link rel="stylesheet" href="./css/02-Checkbox.css" />
+  </head>
+  <body>
+    <div id="app">
+      <div>
+        <ul>
+          <li v-for="item in courseslist.tags" :key="item.tag">
+            <input type="checkbox" :id="item.tag" :value="item.tag" v-model="courseslist.selectArr"/>
+            <label :for="item.tag">{{item.tag}}</label>
+          </li>
+        </ul>
+        <a class="btn" @click="handleSubmit()">送出</a>
+      </div>
+    </div>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script>
+      const { reactive } = Vue;
+      const App = {
+        setup() {
+        
+          const courseslist = reactive({
+            selectArr:[],
+            tags: [
+              { tag: "JavaScript" },
+              { tag: "Html" },
+              { tag: "Css" },
+              { tag: "Html5" },
+              { tag: "Vuejs" },
+              { tag: "React" },
+              { tag: "Sass" },
+              { tag: "Css3" },
+              { tag: "Canvas" },
+            ],
+          });
+          const handleSubmit= ()=>{
+            console.log(courseslist.selectArr);
+          }
+          return { courseslist,handleSubmit };
+        },
+      };
+
+      Vue.createApp(App).mount("#app");
+    </script>
+  </body>
+</html>
+```
+
+### 下拉式選單
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Select</title>
+    <link rel="stylesheet" href="./css/main.css" />
+    <link rel="stylesheet" href="./css/03-Select.css" />
+  </head>
+  <body>
+    <div id="app">
+      <div class="select-box">
+        <select v-model="selectCity">
+          <option disabled value="" >請選擇縣市</option>
+          <option v-for="item in twZip.city" :key="item.name" :value="item.name">{{item.name}}</option>
+        </select>
+        <select v-model="selectArea">
+          <option disabled value="" >請選擇區域</option>
+          <option v-for="item in twZip.area" :key="item.name" :value="item.zip">{{item.zip}} {{item.name}}</option>
+        </select>
+      </div>
+      <a class="btn" @click="handleSubmit()">送出</a>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.20.0/axios.min.js"></script>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script>
+      const App = {
+        setup() {
+          const {reactive,ref,onMounted,watch} = Vue;
+          const twZip = reactive({city:[],area:[]});
+          const selectCity = ref("");
+          const selectArea = ref("");
+          const handleSubmit =()=>{
+            console.log(selectCity.value,selectArea.value)
+          }
+          watch(selectCity,(newValue)=>{
+            // console.log(twZip.city)
+            selectArea.value = "";
+            twZip.city.forEach(item =>{
+              if(item.name === newValue){
+                twZip.area = item.area;
+                // console.log(item.area)
+              }
+            })
+           
+          })
+          onMounted(()=>{
+            axios.get("https://vue-lessons-api.vercel.app/city/list").then(res=>{
+              // console.log(res.data.twzip.city)
+              twZip.city = res.data.twzip.city;
+              twZip.area.length = 0;
+              // console.log(twZip)
+            });
+
+          })
+          return {twZip,selectCity,selectArea,handleSubmit};
+        },
+      };
+
+      Vue.createApp(App).mount("#app");
+    </script>
+  </body>
+</html>
+
+
+```
