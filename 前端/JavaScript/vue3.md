@@ -20,7 +20,7 @@
     - [選染資料](#選染資料)
     - [邏輯處理](#邏輯處理)
     - [loading](#loading)
-  - [範例 拼圖遊戲製作](#範例-拼圖遊戲製作)
+  - [注入html](#注入html)
   - [事件修飾符](#事件修飾符)
   - [關於 ref 跟 reactive 以及 watch 與 deep](#關於-ref-跟-reactive-以及-watch-與-deep)
 - [第二章 Vue 常見的表單元件處理](#第二章-vue常見的表單元件處理)
@@ -1221,4 +1221,57 @@ const handleLoading = (data) => {
     };
   });
 };
+```
+
+### 注入html
+
+**若要做編輯器有關的內容，可以利用`v-html`**
+
+```html
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>v-html</title>
+    <style>
+      .content {
+        width: 500px;
+        margin: 0 auto;
+      }
+      img {
+        display: block;
+        width: 100%;
+        height: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <div class="content" v-html="dom"></div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.20.0/axios.min.js"></script>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script>
+      const { ref, onMounted } = Vue;
+      const app = {
+        setup() {
+          const dom = ref("");
+
+          onMounted(() => {
+            axios.get("https://vue-lessons-api.vercel.app/dom/content").then((res) => {
+              dom.value = res.data.html;
+            });
+          });
+
+          return {
+            dom,
+          };
+        },
+      };
+
+      Vue.createApp(app).mount("#app");
+    </script>
+  </body>
+</html>
+
 ```
