@@ -1548,7 +1548,7 @@ axios
             placeholder="輸入使用者名稱"
             v-model="registered.username"
           />
-          <p class="error">{{errMsg.username}}</p>
+          <p class="error" v-if="errMsg.username">{{errMsg.username}}</p>
         </div>
         <div class="input-box">
           <p>PASSWORD</p>
@@ -1557,7 +1557,7 @@ axios
             placeholder="輸入密碼"
             v-model="registered.password"
           />
-          <p class="error">{{errMsg.password}}</p>
+          <p class="error" v-if="errMsg.password">{{errMsg.password}}</p>
         </div>
         <div class="input-box">
           <p>E-MAIL</p>
@@ -1566,7 +1566,7 @@ axios
             placeholder="輸入email"
             v-model="registered.email"
           />
-          <p class="error">{{errMsg.email}}</p>
+          <p class="error" v-if="errMsg.email">{{errMsg.email}}</p>
         </div>
         <div class="input-box">
           <p>年齡</p>
