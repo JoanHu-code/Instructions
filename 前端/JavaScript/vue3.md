@@ -27,9 +27,9 @@
   - [FormBindings](#formbindings)
   - [Checkbox](#checkbox)
   - [下拉式選單](#下拉式選單)
-  - [registered 會員註冊](#registered會員註冊)
-  - [v-model Modifiers 修飾符](#v-model-modifiers修飾符)
-  - [Vue 表單自動暫存](#vue表單自動暫存)
+  - [registered 會員註冊](#registered-會員註冊)
+  - [v-model Modifiers 修飾符](#v-model-modifiers-修飾符)
+
 
 ---
 
