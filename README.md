@@ -12,6 +12,7 @@
     - JavaScript
         - [beginner](前端/JavaScript/beginner.md)
         - [Intermediate](前端/JavaScript/Intermediate.md)
+        - [vue3](前端/JavaScript/vue3.md)
 
 - 部屬相關
     - [docker](部屬相關/docker.md)
@@ -26,3 +27,14 @@
     - [intellIJ_IDEA](intellIJ_IDEA.md)
     - [SQL語法指南](SQL語法指南.md)
 
+**會用到的網頁**
+
+[Unsplash](https://unsplash.com/)
+
+[Icon8](https://icons8.com/icons/)
+
+[Google Font](https://fonts.google.com/)
+
+[Font Awesome](https://fontawesome.com/start)
+
+[Animation](https://storyset.com)
