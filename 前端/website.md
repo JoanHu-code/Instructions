@@ -4,8 +4,9 @@
 
 - [第一章 www 和 HTTP](#第一章-www和HTTP)
 - [第二章 伺服器與用戶端](#第二章-伺服器與用戶端)
-- [第三章 DNS 和瀏覽器比較](#第三章-DNS和瀏覽器比較)
+- [第三章 DNS 和瀏覽器比較](#第三章-DNS-和瀏覽器比較)
 - [第四章 W3C](#第四章-W3C)
+- [推薦網站](#推薦網站)
 
 # 第一章 www 和 HTTP
 
@@ -70,3 +71,12 @@ W3C 所制定的標準:
 - DOM
 - SVG
 - XML
+
+# 推薦網站
+
+[MDN Web Docs](https://developer.mozilla.org/zh-TW/)
+[w3c](https://www.w3.org/TR/)
+[Css tricks](https://css-tricks.com/)
+[stack overflow](https://stackoverflow.com/)
+[free code camp](https://www.freecodecamp.org/)
+[w3c school](https://www.w3schools.com/)
