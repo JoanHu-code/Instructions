@@ -8,7 +8,14 @@
 - [第四章 物件導向 Object-Oriented](#第四章-物件導向-Object-Oriented)
 - [第五章 HTML Skeleton](#第五章-HTML-Skeleton)
 - [第六章 head 標籤](#第六章-head-標籤)
-- [第七章 h1-h6](#第七章-h1-h6)
+- [第七章 Html 常用的標籤](#第七章-Html-常用的標籤)
+  - [h1-h6](#h1-h6)
+  - [anchor tag](#anchor-tag)
+  - [img 絕對路徑 相對路徑](#img-絕對路徑-相對路徑)
+  - [ul ol 標籤](#ul-ol-標籤)
+- [block and inline](#block-and-inline)
+- [基本表格製作](#基本表格製作)
+- [基本表單製作](#基本表單製作)
 
 # 第一章 HTML 簡介
 
@@ -128,9 +135,18 @@ HTML 標籤的設計方式是採用物件導向的想法，物件包含兩個部
 
 `<body></body>`: 網頁使用者可看見的內容，定義文檔的正文
 
-`lang屬性`: 可以設定網頁的語言
+`lang屬性`: 可以設定網頁的語言，[html lang attribute](https://www.w3schools.com/tags/ref_language_codes.asp)
 
-'<!---->': HTML 的註解寫法
+    > Chinese (Traditional) :`zh-Hant`
+
+`<!---->`: HTML 的註解寫法
+`<meta charset="UTF-8" />`: 要放在<head></head>標籤裡面的最上面；charset:character set 的意思，文字編碼使用`UTF-8`
+
+`meta`:是用來定義這個網頁本身的資訊
+
+` <meta name="viewport" content="width=device-width, initial-scale=1.0" />` : viewport=>視窗，內容:設備寬度，網頁初始放大程度:原始大小，不放大也不縮小
+
+    - 用 chorme 按 F12 可以看出`initial-scale=1.0"`的效果
 
 ```html
 <!DOCTYPE html>
@@ -175,4 +191,157 @@ HTML 標籤的設計方式是採用物件導向的想法，物件包含兩個部
     </p>
   </body>
 </html>
+```
+
+# 第六章 head 標籤
+
+[head 標籤說明](https:/htmlhead.dev)
+
+` <meta name="description" content="這是一個簡單介紹故宮博物院的網站" />`: 加這行有助於 SEO，幫助人們更容易找到這個網站；搜尋引擎下面的文字介紹也會來自這裡的`content`
+`<meta name="robots" content="index,follow" />`:讓搜尋引擎能較容易找到網頁
+`<meta name="googlebot" content="index,follow" />`:讓 GOOGLE 的搜尋引擎能更容易地找到你的網頁
+`<meta name="author" content="Jaon Hu" />`:可以設定網頁的作者是誰
+
+# 第七章 Html 常用的標籤
+
+### h1-h6
+
+- <h1>到<h6>標籤用於定義HTML標題。<h1>是最重要的~<h6>是最不重要的
+- HTML 裡面沒有<h7>標籤
+
+**注意:每頁只使用一個<h1>，這應該代表整個頁面的主業標題/主題**
+
+**特別注意:<h1>~<h6>的標籤並不是拿來調整文字大小，文字大小應該使用 css 做修改，HTML 標籤的任務是定義整個網頁架構，因此並須正確的使用 HTML 標籤，才可以讓網頁做到 SEO(Search Engine Optimization)**
+
+### anchor tag
+
+- `<p>`標籤定義了一個段落。瀏覽器會自動在每個`<p>`元素之前和之後添加一行空行
+- `<a>`標籤(anchor tag):用於網頁的超連結，用於在連結其他網頁或同一網頁的某些部份
+
+  - 屬性:
+
+  1. `href`(hypertext reference)=>`<a href=""></a>`，他用於提供 absolute linking 或 relative linking 作為其'href'的值
+  2. `target`: 用來決定新頁面是否會開啟新的瀏覽器分頁
+     - `_self`(預設): 顯示的地方為目前的網頁
+     - `_blank`: 會開啟新的分頁顯示
+     - `_blank`: 會開啟新的分頁顯示
+
+  - 也可以用`<base>`標籤來定義所有`<a>`標籤的 target
+
+  ```html
+  <head>
+    <base target="_blank" />
+    <!--讓預設變target="_blank"-->
+  </head>
+  ```
+
+```html
+<!-- 相對連結 -->
+<a href="https://www.npm.gov.tw/" target="_self">故宮網站連結</a>
+<a href="https://www.npm.gov.tw/" target="_blank">故宮網站連結</a>
+<!-- 相對連結 -->
+<a href="./html.md">html說明文件</a>
+```
+
+### img 絕對路徑 相對路徑
+
+- `<img>`標籤用於 HTML 頁面中嵌入圖像，`src`(source)是圖片來源，`alt`(alternative)是圖片無法顯示時使用的替代文字
+
+- `<img>、<base>、<meta>`為 self-closing tag，為自己本身為 opening tag 和 closing tag (有些東西並不需要放入 content)
+
+  1.絕對路徑(absolute linking/path):使用完整的 URL 當作連結對象，如果要連結不在伺服器內的資源時就要使用絕對路徑
+
+  2.相對路徑(relative linking/path):可以連結到相對目前文件所在位置的檔案
+
+        - `.`:代表目前HTML文件所在資料夾位置
+        - `..`:代表上層資料夾位置
+        - `/`:可以從根目錄向下連結
+
+**注意:文件與檔案名稱不建議中間留空白，不然路徑很容易抓不到!!**
+
+```html
+<!-- 鄉對路徑 -->
+<img
+  width="600"
+  height="300"
+  src="./範例/故宮範例/img/故宮圖片1.jpeg"
+  alt="無法顯示"
+/>
+<!-- 絕對路徑 -->
+<img
+  width="600"
+  height="300"
+  src="https://upload.wikimedia.org/wikipedia/commons/b/b4/NationalPalace_MuseumFrontView.jpg"
+  alt="無法顯示"
+/>
+```
+
+### ul ol 標籤
+
+- `<ul>`:代表 unordered list，沒有順序性的列表
+- `<ol>`:代表 ordered list，有順序性的列表
+- `<li>`:`<ul>`和`<ol>`裡面的東西，有幾個東西就要放幾個`<li>`
+
+```html
+<h2>故宮院區</h2>
+<ul>
+  <li>北部院區</li>
+  <li>南部院區</li>
+</ul>
+```
+
+```html
+<h2>故宮三寶</h2>
+<ol>
+  <li>范寬〈谿山行旅圖〉</li>
+  <li>郭熙〈早春圖〉</li>
+  <li>李唐〈萬壑松風圖〉</li>
+</ol>
+```
+
+**[<ol>是可以設定改變排序樣式的屬性](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/ol)**
+
+```html
+<h2>故宮三寶</h2>
+<ol type="i">
+  <li>范寬〈谿山行旅圖〉</li>
+  <li>郭熙〈早春圖〉</li>
+  <li>李唐〈萬壑松風圖〉</li>
+</ol>
+```
+
+**也可以使用巢狀元素(Nesting elements)的形式**
+
+```html
+<h2>故宮三寶</h2>
+<ol>
+  <li>范寬〈谿山行旅圖〉</li>
+  <li>郭熙〈早春圖〉</li>
+  <li>李唐〈萬壑松風圖〉</li>
+  <li>
+    另外三寶
+    <ol>
+      <li>〈翠玉白菜〉</li>
+      <li>〈肉形石〉</li>
+      <li>〈毛公鼎〉</li>
+    </ol>
+  </li>
+</ol>
+```
+
+```html
+<h2>故宮三寶</h2>
+<ol>
+  <li>范寬〈谿山行旅圖〉</li>
+  <li>郭熙〈早春圖〉</li>
+  <li>李唐〈萬壑松風圖〉</li>
+  <li>
+    另外三寶
+    <ul>
+      <li>〈翠玉白菜〉</li>
+      <li>〈肉形石〉</li>
+      <li>〈毛公鼎〉</li>
+    </ul>
+  </li>
+</ol>
 ```
