@@ -13,9 +13,9 @@
   - [anchor tag](#anchor-tag)
   - [img 絕對路徑 相對路徑](#img-絕對路徑-相對路徑)
   - [ul ol 標籤](#ul-ol-標籤)
-- [block and inline](#block-and-inline)
-- [基本表格製作](#基本表格製作)
-- [基本表單製作](#基本表單製作)
+- [第八章 block and inline](#第八章-block-and-inline)
+- [第九章 基本表格製作](#第九章-基本表格製作)
+- [第十章 基本表單製作](#第十章-基本表單製作)
 
 # 第一章 HTML 簡介
 
@@ -55,6 +55,8 @@ p: 段落
 
 4. 元素(element): 以上三者加起來就是元素，所以通常會說標籤是 HTML element。
 
+**`<img>、<base>、<meta>`為 self-closing tag，為自己本身為 opening tag 和 closing tag (有些東西並不需要放入 content)**
+
 > 下面這行是 HTML 元素
 
 ```HTML
@@ -65,7 +67,7 @@ p: 段落
 
 ## 巢狀元素(Nesting elements)
 
-> 把元素放到另一個元素裡面這叫做這`巢套(nesting)`，例如: p，tag 內部可以放入 strong tag。
+> 把元素放到另一個元素裡面這叫做`巢套(nesting)`，例如: p，tag 內部可以放入 strong tag。
 
 ```html
 <p>
@@ -310,6 +312,26 @@ HTML 標籤的設計方式是採用物件導向的想法，物件包含兩個部
 </ol>
 ```
 
+**[<ul>是可以設定改變排序樣式的屬性](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/ul)**
+
+- type:
+  - circle
+  - disc
+  - square
+
+**預設是:disc**
+
+**注意:這些屬性都可以用 css 來設計，建議用 css 來做**
+
+```html
+<h2>故宮三寶</h2>
+<ol type="disc">
+  <li>范寬〈谿山行旅圖〉</li>
+  <li>郭熙〈早春圖〉</li>
+  <li>李唐〈萬壑松風圖〉</li>
+</ol>
+```
+
 **也可以使用巢狀元素(Nesting elements)的形式**
 
 ```html
@@ -345,3 +367,179 @@ HTML 標籤的設計方式是採用物件導向的想法，物件包含兩個部
   </li>
 </ol>
 ```
+
+# 第八章 block and inline
+
+**在 HTML 中有兩種重要元素的類別:**
+
+- block elements(區塊級元素):
+
+  - 定義: 在頁面中組成一個可見區塊，會單獨佔據一行，前後內容都將以一個換行分隔
+  - 作用: 傾向作為於頁面上的結構化元素(structural elements)
+
+    - 段落: <p>
+    - 列表: <ul>、<ol>
+    - 導航選單(navigation menus)
+    - 頁尾(footers)
+    - <body>
+    - <div>
+
+  - 注意: block element 不會巢套在 inline elements 中，但有可能會巢套其他 block element 中。例如:<div>(division)，但 inline elements 可以巢套在 block element 之中。
+
+- inline-block: 留到 css box model 再解釋
+
+- inline elements:
+  - 定義: 放在 block elements 之中的內容，這些元素只由文件內容的一小部分組成，而非由完整的段落或群組式內容組成
+  - 用法呈現: 當好幾個 inline elements 放一起，會以並排的方式呈現
+    - <a>
+    - <span>
+
+# 第九章 基本表格製作
+
+**製作表格必須使用以下這幾種標籤:**
+
+- `<table>` : 定義了整個表格
+- `<tr>`(table row) : 用於建構每一行
+- `<th>`(table head) : 定義 HTML 表格中的標題單元格
+- `<td>`(table data): 定義實際數據
+
+**注意:<td>和<th>並不會重複使用**
+
+**製作表格常用屬性:**
+
+- `colspan`: 定義表格單元格應跨越的列數
+- `rowspan`: 定義表格單元格應跨越的行數
+
+```html
+<table>
+  <tr>
+    <th colspan="3">國立故宮博物院</th>
+  </tr>
+  <tr>
+    <th>所屬部門</th>
+    <th>員額</th>
+    <th>授權法源</th>
+  </tr>
+
+  <tr>
+    <td>行政院</td>
+    <td>502人(2020年)</td>
+    <td><<行政院組織法>> <<國立故宮博物院組織法>></td>
+  </tr>
+</table>
+```
+
+**選擇性使用的標籤:(語意上的標籤對外觀沒有任何影響)**
+
+- `<thead>`: 定義表格的表頭部分，通常包含標題列（header row），用於描述表格的每一列的含義。
+
+```html
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Age</th>
+      <th>City</th>
+    </tr>
+  </thead>
+</table>
+```
+
+- `<tbody>`: 定義表格的主要內容部分（body），通常用於存放多行數據
+
+```html
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Age</th>
+      <th>City</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>John</td>
+      <td>25</td>
+      <td>New York</td>
+    </tr>
+    <tr>
+      <td>Jane</td>
+      <td>30</td>
+      <td>San Francisco</td>
+    </tr>
+  </tbody>
+</table>
+```
+
+- `<tfoot>`:定義表格的表尾部分，通常用於顯示總結或附加資訊。
+
+```html
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Age</th>
+      <th>City</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>John</td>
+      <td>25</td>
+      <td>New York</td>
+    </tr>
+    <tr>
+      <td>Jane</td>
+      <td>30</td>
+      <td>San Francisco</td>
+    </tr>
+  </tbody>
+  <tfoot>
+    <tr>
+      <td colspan="3">Total: 2 entries</td>
+    </tr>
+  </tfoot>
+</table>
+```
+
+# 第十章 基本表單製作
+
+**表單目的和作用: 前端 HTML 表單內的資料會被傳到後端伺服器，而伺服器會把收到的資料存放到資料庫，再回傳一個回應給客戶端**
+
+**<From>標籤的屬性:**
+
+- action: 定義了在 HTML 文檔中提交表單時將表單數據發送到何處
+- method: 告訴瀏覽器如何將表單數據發送到伺服器
+  - GET:
+    - 方法:from data 會被附加到 action 指定的 URL，並且用`?`分隔數據。
+    - 用途: 通常用來向伺服器發送非隱密資料，或向伺服器請求資料
+  - POST:
+    - 用途: 通常用來向伺服器寄出隱密資料(例如密碼)，或用來向伺服器送出需要被儲存或處理的資料
+
+**注意:在<from>標籤內的所有內容，有設定 name 屬性的資料才會被送到後端伺服器**
+
+> 可從網址查看
+
+**常見<input>標籤屬性:**
+
+- type:
+  - text
+  - checkbox
+  - email
+  - file
+  - number
+  - password
+  - radio
+  - range
+- checked
+- max
+- min
+- maxlength
+- minlength
+- placeholder
+- required
+- value
+
+**<button>標籤若放在<from>標籤內，則預設的 type 是 submit**
+
+**跟<input>常用的搭配為<label>，<label>有一個屬性叫`for`，若這屬性和<input>裡的`id`屬性名稱相同的話，就可以再點 label 時<input>同時被聚焦**
