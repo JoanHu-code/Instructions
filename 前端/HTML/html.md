@@ -16,6 +16,13 @@
 - [第八章 block and inline](#第八章-block-and-inline)
 - [第九章 基本表格製作](#第九章-基本表格製作)
 - [第十章 基本表單製作](#第十章-基本表單製作)
+  - [checkbox email file](#checkbox-email-file)
+  - [number password](#number-password)
+  - [radio range](#radio-range)
+  - [button selection option datalist textarea](#button-selection-option-datalist-textarea)
+- [第十一章 br hr comment](#第十一章-br-hr-comment)
+- [第十二章 index.html html entity](#第十二章-indexhtml-html-entity)
+- [第十三章 favicon.ico](#第十三章-faviconico)
 
 # 第一章 HTML 簡介
 
@@ -509,11 +516,12 @@ HTML 標籤的設計方式是採用物件導向的想法，物件包含兩個部
 **<From>標籤的屬性:**
 
 - action: 定義了在 HTML 文檔中提交表單時將表單數據發送到何處
-- method: 告訴瀏覽器如何將表單數據發送到伺服器
+- method: 告訴瀏覽器如何將表單數據發送到伺服器(沒有做預設的值會是 GET)
   - GET:
     - 方法:from data 會被附加到 action 指定的 URL，並且用`?`分隔數據。
     - 用途: 通常用來向伺服器發送非隱密資料，或向伺服器請求資料
   - POST:
+    - 方法: 會把資料隱藏起來，不會出現在 URL 裡面，必須在 DevTools 才能看見資料
     - 用途: 通常用來向伺服器寄出隱密資料(例如密碼)，或用來向伺服器送出需要被儲存或處理的資料
 
 **注意:在<from>標籤內的所有內容，有設定 name 屬性的資料才會被送到後端伺服器**
