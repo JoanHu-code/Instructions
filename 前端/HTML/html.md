@@ -551,3 +551,210 @@ HTML 標籤的設計方式是採用物件導向的想法，物件包含兩個部
 **<button>標籤若放在<from>標籤內，則預設的 type 是 submit**
 
 **跟<input>常用的搭配為<label>，<label>有一個屬性叫`for`，若這屬性和<input>裡的`id`屬性名稱相同的話，就可以再點 label 時<input>同時被聚焦**
+
+```html
+<label for="name">name</label> <input id="name" type="text" name="name" />
+```
+
+[input 說明文件](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input)
+
+### checkbox email file
+
+1. checkbox:
+
+- checkbox 的 label 標籤大多會放在 input 的後面，label 的 for 和 id 名稱要一樣,這樣在點 label 的文字時才會憶起跟著打勾
+- 要記得在 input 標籤裡面增加 name 的屬性，submit 才會把資料給後端
+- 如果沒有特別設定 input 裡面的 value 屬性的話，打勾預設為 on，沒有打勾就不會送東西給後端
+- input 裡面直接加屬性 checked 預設就會是打勾的
+- type 為 text，value 是使用者所決定，但 checkbox 的 value 是由前端工程師所決定
+
+```html
+<input
+  type="checkbox"
+  id="newspaper"
+  name="newspaper"
+  value="subscribe"
+  checked
+/>
+<label for="newspaper">order newspaper?</label>
+```
+
+**小題外話: 行為經濟學:有關器官捐贈問題，可以預設打勾，不要再把勾勾拿掉**
+
+2. email:
+
+- email 外表跟 type 設定 text 沒什麼不同，差別只差在他會檢查格式是否符合 email，若不符合是不會讓使用者提交表單，他會跑一個警告告訴使用者請填入 email 格式
+
+- input 有個屬性叫 required，意思是強制讓使用者輸入這格欄位，若沒填入欄位是不可以提交表單
+
+```html
+<input
+ <label for="email">email</label>
+<input type="email" name="email" id="email" required />
+```
+
+3. file:
+
+- 可以讓使用者上傳文件到後端
+
+```html
+<input type="file">請上傳檔案</input>
+```
+
+### number password
+
+4. number:
+
+- 只能輸入數字，並且有上下箭頭可以選
+
+- 如果想讓使用者預設有值，可以在後面加上 value 這個屬性，並且賦予它值
+
+- 年齡有特別的屬性: min(最小值)和 max(最大值)
+
+- step 屬性:
+
+  - 可以設定按上下一次跳多少數字間隔，但只有整數，如果不寫預設值為 1
+  - 若 step 設定為整數就只能填整數，若設定為小數點可以填包含小數點的值
+
+```html
+<label for="age">age:</label>
+<input
+  type="number"
+  name="age"
+  id="age"
+  min="0"
+  max="125"
+  step="2"
+  step="0.1"
+/>
+```
+
+5. password:
+
+- 輸入的東西會成為 `*` ，不會直接被看到
+- minlength: 限制最短長度
+- maxlength: 限制最長長度
+- placeholder: 在沒有填值的情況下預設會出現的東西
+
+```html
+<label for="password">password</label>
+<input type="password" id="password" name="password" minlength="6" />
+
+<input type="checkbox" id="showPassword" />
+<label for="showPassword">show password</label>
+
+<script>
+  let showPassword = document.queryselector("#showPassword");
+  let password = document.queryselector("#password");
+  showPassword.addElementListener("click", () => {
+    if (password.type === "text") {
+      password.type = "password";
+    } else {
+      password.type = "text";
+    }
+  });
+</script>
+```
+
+**min 和 max 是給數字使用 minlength 和 maxlength 是給輸入文字(text、password)使用**
+
+### radio range
+
+6. range
+
+- 設定屬性 type 為 range 和 type 為 number 其實是一樣的，只不過一個是輸入，一個是用拖拉決定值
+- 可以在 input 的前後面加數字，可以設定範圍
+
+```html
+<label for="height">height:</label> 0<input
+  type="range"
+  name="height"
+  id="height"
+  min="0"
+  max="250"
+  step="50"
+/>250
+```
+
+7. radio
+
+- 與 checkbox 不一樣的點在於 在一個選項集合裡面 checkbox 可以多選，但 radio 是單選
+- 由 name 來控制是否是一個 set，屬性 name 名稱一樣代表是一組 set
+- checked 一樣可以預設勾選的選項
+- 若要強制填寫要在相同 name 的 其中一個 input tag 裡面加上 required
+
+```html
+<input type="radio" id="male" value="male" name="gender" />
+<label for="male">male</label>
+<input type="radio" id="female" value="female" name="gender" required />
+<label for="female">female</label>
+<input type="radio" id="other" value="other" name="gender" />
+<label for="other">other</label>
+```
+
+# button selection option datalist textarea
+
+**其他的標籤:**
+
+1. button:
+
+- 如果放在 form 標籤裡面，預設的值會是 submit
+- 有三種不同的 type
+  - submit: 如果放在表單裡面，點擊時就會把表單的資料給交出去給後端
+  - reset: 所有的值都會被重新設定
+  - button: 預設的 type，前提是不要放在 form 裡面
+
+2. selection: 下拉是選單，裡面會包含 option tag
+
+3. option: 為下拉式選單的選項，value 屬性為會送給後端的值，content 內容則是顯示給使用者的文字
+
+- 若要清除預設，可以加一個空白的 option，為了避免傳空白的值記得在 select 標籤裡面新增 required 屬性
+
+```html
+<label for="gender">gender</label>
+<select name="gender" id="gender" required>
+  <option></option>
+  <option value="male">male</option>
+  <option value="female">female</option>
+  <option value="other">other</option>
+</select>
+```
+
+4. datalist
+
+- 可以幫 input tag 完成自動填入的功能
+
+- 方法: input tag 的屬性 list 值要填上跟 datalist tag id 一樣的名稱，這樣在 input 輸入有相似的字，就會自動跑出選項
+
+- datalist 裡的選項也是使用 option 去包裹，用法和 select 裡的 option 一樣
+
+```html
+<label for="area">地區</label>
+<input list="area_list" type="text" id="area" name="area" />
+<datalist id="area_list">
+  <option value="Taipei">Taipei City</option>
+  <option value="New Taipei">New Taipei City</option>
+  <option value="Taoyuan">Taoyuan City</option>
+  <option value="Taichung">Taichung City</option>
+  <option value="Tainan">Tainan City</option>
+  <option value="Kaohsiung">Kaohsiung City</option>
+</datalist>
+```
+
+5. textarea
+
+- 可以讓使用者自動拖拉設定大小的輸入框
+- 有兩個屬性可以設定大小
+  1. cols: 行的數量
+  2. rows: 列的數量
+
+```html
+<label for="suggestion"></label>
+<textarea
+  name="suggestion"
+  cols="30"
+  rows="10"
+  id="suggestion"
+  placeholder="Write some suggestion"
+></textarea>
+```

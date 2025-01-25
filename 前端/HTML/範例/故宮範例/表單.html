@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="Content-Language" content="en" />
+    <title>Document</title>
+  </head>
+  <body>
+    <form action="">
+      <label for="name">name</label>
+      <input
+        id="name"
+        type="text"
+        name="name"
+        placeholder="please enter your email"
+      />
+      <label for="email">email</label>
+      <input
+        type="email"
+        name="email"
+        id="email"
+        required
+        placeholder="please enter your email"
+      />
+
+      <label for="age">age:</label>
+      <input
+        type="number"
+        name="age"
+        id="age"
+        value="18"
+        min="0"
+        max="250"
+        step="0.1"
+      />
+
+      <label for="password"></label>
+      <input
+        type="password"
+        name="password"
+        id="password"
+        placeholder="please enter your password"
+        minlength="6"
+      />
+
+      <input
+        type="checkbox"
+        id="showPassowrd"
+        name="showPassowrd"
+        value="true"
+      />
+      Show Password
+      <!-- <label for="showPassowrd">Show Password</label> -->
+      <!-- <input type="file" name="file" /> -->
+      <label for="height">height:</label>
+      0<input
+        type="range"
+        name="height"
+        id="height"
+        min="0"
+        max="250"
+        step="50"
+      />250
+
+      <input type="radio" id="male" value="male" name="gender" />
+      <label for="male">male</label>
+      <input type="radio" id="female" value="female" name="gender" required />
+      <label for="female">female</label>
+      <input type="radio" id="other" value="other" name="gender" />
+      <label for="other">other</label>
+
+      <label for="gender">gender</label>
+      <select name="gender" id="gender" required>
+        <option></option>
+        <option value="male">male</option>
+        <option value="female">female</option>
+        <option value="other">other</option>
+      </select>
+
+      <label for="area">地區</label>
+      <input list="area_list" type="text" id="area" name="area" />
+      <datalist id="area_list">
+        <option value="Taipei">Taipei City</option>
+        <option value="New Taipei">New Taipei City</option>
+        <option value="Taoyuan">Taoyuan City</option>
+        <option value="Taichung">Taichung City</option>
+        <option value="Tainan">Tainan City</option>
+        <option value="Kaohsiung">Kaohsiung City</option>
+      </datalist>
+      <label for="suggestion">suggestion for website</label>
+      <textarea
+        name="suggestion"
+        cols="30"
+        rows="10"
+        id="suggestion"
+        placeholder="Write some suggestion"
+      ></textarea>
+      <input
+        type="checkbox"
+        id="newspaper"
+        name="newspaper"
+        value="subscribe"
+        checked
+      />
+      <label for="newspaper">order newspaper?</label>
+      <button type="submit">submit</button>
+    </form>
+    <script>
+      // showPassowrdCheckBox = document.getElementById("showPassowrd");
+      // password = document.getElementById("password");
+
+      // showPassowrdCheckBox.addEventListener("click", function () {
+      //   if (password.type === "password") {
+      //     password.type = "text";
+      //   } else {
+      //     password.type = "password";
+      //   }
+      // });
+      let checkbox = document.querySelector("#showPassowrd");
+      let password = document.querySelector("#password");
+      checkbox.addEventListener("click", () => {
+        if (password.type === "text") {
+          password.type = "password";
+        } else {
+          password.type = "text";
+        }
+      });
+    </script>
+  </body>
+</html>
