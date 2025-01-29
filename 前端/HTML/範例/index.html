@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HTML 編輯與預覽</title>
+  <link rel="icon" href="./故宮範例/img/favicon.ico">
+  <style>
+    body {
+      overflow: hidden;
+    }
+
+    .row {
+      display: flex;
+      flex-direction: row;
+    }
+
+    .editor {
+      flex: 50%;
+      display: flex;
+      border-bottom: 1px black solid;
+      border-left: 1px black solid;
+      border-top: 1px black solid;
+    }
+
+    .editor,
+    #showResult {
+      flex: 50%;
+      overflow-y: auto;
+      /* 啟用垂直捲動 */
+      border: 1px solid black;
+      /* 邊框區分區塊 */
+      overflow-x: hidden;
+    }
+
+    #order {
+      height: 100%;
+      background-color: rgb(211, 211, 211);
+      border-right: 1px black solid;
+      flex: 5%;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    #htmlString {
+      flex: 95%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    #showResult {
+      flex: 50%;
+      padding: 20px;
+      background-color: #f9f9f9;
+      border-bottom: 1px black solid;
+      border-left: 1px black solid;
+      border-right: 1px black solid;
+    }
+
+    input {
+      height: 20px;
+      outline: none;
+      border: none;
+      box-sizing: border-box;
+      padding: 0;
+      margin: 0;
+      font-size: 14px;
+      line-height: 20px;
+      vertical-align: top;
+    }
+  </style>
+</head>
+
+<body>
+  <div style="display: flex; flex-direction: column; padding: 20px">
+    <span style="border: 1px black solid; padding: 20px">HTML範例</span>
+    <div class="row" style="max-height: 400px; min-height: 400px;""
+      >
+        <!-- 左邊輸入 -->
+        <div class=" editor">
+      <div id="order"></div>
+      <div id="htmlString"></div>
+    </div>
+    <!-- 右邊結果 -->
+    <div id="showResult"></div>
+  </div>
+  </div>
+
+  <script>
+    window.onload = function () {
+      let count = 1; // 初始行數
+      let htmlOrder = ""; // 用於存放行號的 HTML 字串
+      const order = document.getElementById("order");
+      const htmlString = document.getElementById("htmlString");
+      const showResult = document.getElementById("showResult");
+
+      // 更新右側預覽結果
+      const updatePreview = () => {
+        const inputs = htmlString.querySelectorAll("input");
+        let result = "";
+        inputs.forEach((input) => {
+          result += input.value + "\n";
+        });
+        showResult.innerHTML = result;
+      };
+
+      // 每次呼叫用於生成行號與輸入框
+      const addInputNum = () => {
+        htmlOrder = "";
+        for (let i = 1; i <= count; i++) {
+          if (i > 20) {
+            htmlOrder += `<div style="height: 20px; background-color: rgb(211, 211, 211);box-sizing: border-box; padding: 0; margin: 0; line-height: 20px;border-right:1px solid;">${i}</div>`;
+          } else {
+            htmlOrder += `<div style="height: 20px; background-color: rgb(211, 211, 211);box-sizing: border-box; padding: 0; margin: 0; line-height: 20px;">${i}</div>`;
+          }
+        }
+        order.innerHTML = htmlOrder; // 更新行號
+
+        const inputs = htmlString.querySelectorAll("input"); // 獲取現有輸入框
+        let inputValues = Array.from(inputs).map((input) => input.value); // 儲存每個輸入框的內容
+
+        htmlString.innerHTML = ""; // 清空輸入框區域
+        for (let i = 0; i < count; i++) {
+          const input = document.createElement("input");
+          input.type = "text";
+          input.style =
+            "height: 20px; outline: none; box-sizing: border-box; padding: 0; margin: 0; font-size: 14px; line-height: 20px; vertical-align: top;width:100%;";
+          input.value = inputValues[i] || ""; // 恢復之前的內容或設為空
+          input.addEventListener("input", updatePreview); // 綁定輸入事件
+
+          // 當按下 Enter 時增加行數並聚焦新行
+          input.addEventListener("keydown", (e) => {
+            // 確保每次都獲取最新的 inputs 陣列
+            const inputs = htmlString.querySelectorAll("input"); // 更新 inputs
+            const currentIndex = Array.from(inputs).indexOf(e.target); // 計算當前焦點索引
+
+            if (e.key === "Enter") {
+              count++;
+              addInputNum(); // 重新生成行號與輸入框
+
+              // 將焦點移到最後一個輸入框
+              const newInput =
+                htmlString.querySelectorAll("input")[currentIndex + 1];
+              if (newInput) newInput.focus();
+            }
+
+            // 向上或向下切換焦點
+            else if (e.key === "ArrowUp" && currentIndex > 0) {
+              // 按向上鍵切換到上一行
+              inputs[currentIndex - 1].focus();
+            } else if (
+              e.key === "ArrowDown" &&
+              currentIndex < inputs.length - 1
+            ) {
+              // 按向下鍵切換到下一行
+              inputs[currentIndex + 1].focus();
+            }
+
+            // 按下 Backspace 刪除空行
+            else if (e.key === "Backspace" && e.target.value === "") {
+              // 當按 Backspace 且輸入框為空時，刪除當前行
+              if (inputs.length > 1) {
+                const previousIndex = currentIndex > 0 ? currentIndex - 1 : 0;
+
+                // 刪除行號和輸入框
+                inputs[currentIndex].remove();
+                order.children[currentIndex].remove();
+                count--; // 減少行號計數
+
+                // 重新編號
+                Array.from(order.children).forEach((child, index) => {
+                  child.innerText = index + 1;
+                });
+
+                // 重新獲取輸入框並移動焦點
+                const newInputs = htmlString.querySelectorAll("input");
+                if (newInputs.length > 0) {
+                  newInputs[previousIndex].focus(); // 將焦點移至上一行
+                }
+              }
+            }
+          });
+
+          htmlString.appendChild(input); // 加入到輸入框區域
+        }
+
+        updatePreview(); // 更新右側預覽
+      };
+
+      addInputNum(); // 初始化呼叫
+    };
+  </script>
+</body>
+
+</html>

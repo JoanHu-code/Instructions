@@ -20,7 +20,7 @@
   - [number password](#number-password)
   - [radio range](#radio-range)
   - [button selection option datalist textarea](#button-selection-option-datalist-textarea)
-- [第十一章 br hr comment](#第十一章-br-hr-comment)
+- [第十一章 其他資訊](#第十一章-其他資訊)
 - [第十二章 index.html html entity](#第十二章-indexhtml-html-entity)
 - [第十三章 favicon.ico](#第十三章-faviconico)
 
@@ -757,4 +757,52 @@ HTML 標籤的設計方式是採用物件導向的想法，物件包含兩個部
   id="suggestion"
   placeholder="Write some suggestion"
 ></textarea>
+```
+
+# 第十一章 其他資訊
+
+1. HTML 中的注註解以`<!--`開頭並以`-->`結尾
+
+- 功用:
+  - 過一個月或一年以後回來看自己的程式碼看得懂
+  - 跟別人憶起工作的時候，讓別人看得懂
+
+2. <br> 標籤: 插入一個換行符號。
+
+- 使用時機: 想換行但不想要開始一個新<p> 標籤的時候，例如:寫詩或寫住址
+
+```html
+<p>
+  Shall I compare thee to a summer’s day?<br />
+  Thou art more lovely and more temperate:<br />
+  Rough winds do shake the darling buds of May,<br />
+  And summer’s lease hath all too short a date:<br />
+  Sometime too hot the eye of heaven shines,<br />
+  And often is his gold complexion dimm’d; <br />
+  And every fair from fair sometime declines, <br />
+  By chance, or nature’s changing course untrimm’d; <br />
+  But thy eternal summer shall not fade, <br />
+  Nor lose possession of that fair thou ow’st, <br />
+  Nor shall death brag thou wander’st in his shade, <br />
+  When in eternal lines to time thou grow’st: <br />
+  So long as men can breathe, or eyes can see, <br />
+  So long lives this, and this gives life to thee.<br />
+</p>
+```
+
+3. <hr>(horizontal rule) 標籤: 水平規則，段落之間的主題中斷
+
+- 例如: 故事中場景變化，或章節內的主題轉移
+
+4. HTML entity: 可以使用與號(&)開頭並以分號(;)結尾
+   [HTML entity](https://www.htmlsymbols.xyz/)
+
+5. index.html 是伺服器在目錄中查找的默認文件，打 domain name 連過來就會先找 index.html
+
+6. self-closing tag 和所有其他標籤之間的重要區別是自閉合標籤，代表 void element。img 和 br 等 void element 不能包含任何 content。所有其他標籤可能(但不是必須)包含 content。
+
+7. Favicon 是 favorites icon 的縮寫，瀏覽器可以將 favicon 顯示於瀏覽器的網址列中，也可置於書籤列表的網站名前，通常來說 icon 的名稱會設定為 favicon.ico
+
+```html
+<link rel="icon" href="./故宮範例/img/favicon.ico" />
 ```
