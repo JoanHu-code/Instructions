@@ -2,7 +2,7 @@
 
 ## 目錄
 
-- [第一章 HTML 簡介](#第一章-HTML簡介)
+- [第一章 HTML 簡介](#第一章-HTML-簡介)
 - [第二章 第一個網頁製作](#第二章-第一個網頁製作)
 - [第三章 p,h1,h2 標籤與 html validator](#第三章-ph1h2-標籤與-html-validator)
 - [第四章 物件導向 Object-Oriented](#第四章-物件導向-Object-Oriented)
@@ -21,8 +21,6 @@
   - [radio range](#radio-range)
   - [button selection option datalist textarea](#button-selection-option-datalist-textarea)
 - [第十一章 其他資訊](#第十一章-其他資訊)
-- [第十二章 index.html html entity](#第十二章-indexhtml-html-entity)
-- [第十三章 favicon.ico](#第十三章-faviconico)
 
 # 第一章 HTML 簡介
 
