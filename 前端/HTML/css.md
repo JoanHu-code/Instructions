@@ -20,3 +20,177 @@
 - [第十六章 stacking context,cursor,table](#第十六章-stacking-contextcursortable)
 - [第十七章 Transform](#第十七章-Transform)
 - [第十八章 Animation](#第十八章-Animation)
+
+# 第一章 CSS 簡介
+
+**DOM Tree (Document Object Model 文件物件模型)**
+
+是加載到瀏覽器中的網頁的樹狀表示，在 DOM Tree 的 Parent Node 可被稱為 Child Node 的父元素(Parent Element)，反之，Child Node 可稱為 Parent Node 的子元素(child Element)。
+
+瀏覽器加仔網頁時，它會創建該頁面的 DOM Tree。
+
+<html>標籤是<head>標籤和<body>標籤的父元素(Parent Element)，反之<html>標籤的子元素(child Element)是<head>標籤和<body>標籤。
+
+```html
+<html>
+  <head></head>
+  <body></body>
+</html>
+```
+
+**CSS(Cascading Style Sheet) 階層式的樣式表**
+被用來設定網頁的樣式及布局。舉例來說，改變字體、顏色、尺寸以及擺放您的內容、拆分為多欄，或是添加動畫效果和其他的裝飾
+
+注意!! 沒有必要了解所有世界上存在的 CSS 屬性!只要認識常用的以及實用的屬性即可!
+
+CSS comment 語法為`/**/`
+
+```html
+<style>
+  /*selector*/
+  h1 {
+    color: red;
+  }
+  h2 {
+    color: green;
+  }
+</style>
+```
+
+# 第二章 CSS 放置位置
+
+可以放置三個不同的地方:
+
+1. inline styling
+
+   - 優點: 優先層級最高
+   - 缺點: 只能對特定的標籤設定樣式
+
+   ```html
+   <h1 style="color: red;">This is h1</h1>
+   ```
+
+2. internal styling
+
+   - 優點: 方便撰寫
+   - 缺點: 多個 HTML 頁面會難以維護
+
+   ```html
+   <html>
+     <head>
+       <style>
+         h1 {
+           color: red;
+         }
+         h2 {
+           color: green;
+         }
+       </style>
+     </head>
+     <body>
+       <h1>This is h1</h1>
+       <h2>This is h2</h2>
+     </body>
+   </html>
+   ```
+
+3. external styling(最常用)
+   - 優點: 易維護
+
+**style.css**
+
+```css
+h1 {
+  color: red;
+}
+h2 {
+  color: green;
+}
+```
+
+**index.html**
+
+```html
+<html>
+  <head>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <h1>This is h1</h1>
+    <h2>This is h2</h2>
+  </body>
+</html>
+```
+
+# 第三章 CSS 顏色設定
+
+1. Color Keywords: 這些為 CSS 預定保留的關鍵字，例如: red,black,purple,green,coral 等等。
+
+```css
+h1 {
+  color: red;
+}
+h2 {
+  color: green;
+}
+```
+
+2. rgb: 依照光學三原色，分別設定紅、綠、藍三色彩，數值範圍是 0 到 255, 共 256 種不同選擇。每個 color channel 使用 1 byte 來儲存。
+
+```css
+h1 {
+  color: rgb(0, 0, 0);
+}
+h2 {
+  color: rgb(255, 255, 255);
+}
+h3 {
+  color: rgb(255, 255, 0);
+}
+```
+
+3. rgba: 同 rgb，但使用多一個叫 alpha 的 channel 來儲存透明度。透明度範圍是 0 到 1。
+
+```css
+h1 {
+  color: rgba(0, 0, 0, 0.2);
+}
+h2 {
+  color: rgba(255, 255, 255, 0.5);
+}
+h3 {
+  color: rgba(255, 255, 0, 0.7);
+}
+```
+
+4. hex: 使用十六進制的數字來代表顏色。十六進制數字範圍是 0、1、2、...、9、A、B、...、F。
+
+```css
+h1 {
+  color: #000000;
+}
+h2 {
+  color: #ffffff;
+}
+h3 {
+  color: #fff000;
+}
+```
+
+5. HSL: 即色相、飽和度、亮度(英文: Hue,Saturation,Lightness)。這種表示法試圖做到比基於笛卡爾座標系的幾何結構 RGB 更加直觀。
+
+[HSL 與 hex 系統互換](https://coloors86.netlify.app/)
+
+[css 顏色參考](https://developer.mozilla.org/en-US/docs/Web/CSS/named-color)
+
+| Bit 數 | 可能的組合                             | 種類數量 |
+| ------ | -------------------------------------- | -------- |
+| 1 bit  | 0, 1                                   | 2 種     |
+| 2 bits | 00, 01, 10, 11                         | 4 種     |
+| 3 bits | 000, 001, 010, 011, 100, 101, 110, 111 | 8 種     |
+| n bits | 2 的 n 次方種                          | 2ⁿ 種    |
+
+8 bits => 1 byte
+
+RAM 8GB (8 Gigabyte)
+1 gigabyte = 10 億 bytes
