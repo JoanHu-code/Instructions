@@ -194,3 +194,132 @@ h3 {
 
 RAM 8GB (8 Gigabyte)
 1 gigabyte = 10 億 bytes
+
+# 第四章 Selectors
+
+- Universal Selector: `*`
+
+  - 匹配任何類型的 HTML element
+
+  ```css
+  * {
+    color: blue;
+  }
+  ```
+
+- Element Selector:
+
+  - 可選擇特定的 HTML element
+
+    ```css
+    h1 {
+      color: blue;
+    }
+    ```
+
+- ID Selector:
+
+  - 可選擇特有特定 ID 屬性的 HTML element
+  - ID 一定要是唯一，不能在一個 HTML 檔案裡有重複
+
+    ```html
+    <button id="btnId">click me</button>
+    ```
+
+    ```css
+    #btnId {
+      color: blue;
+    }
+    ```
+
+- Class Selector:
+
+  - 可選擇特有特定 Class 屬性的 HTML element
+  - 可重複利用，一個 HTML 檔案可以有多個重複的 Class
+  - 一個標籤裡面可以有多個 class
+
+    ```html
+    <button class="btnClass FontSize">click me 1</button>
+    <button class="btnClass">click me 2</button>
+    ```
+
+    ```css
+    .btnClass {
+      color: blue;
+    }
+    .FontSize {
+      font-size: 32px;
+    }
+    ```
+
+- Grouping Selector:
+
+  - 可一次選擇所有數個 HTML 元素，並以逗號分隔
+
+    ```html
+    <h1>This is h1</h1>
+    <h2>This is h2</h2>
+    <h3>This is h3</h3>
+    ```
+
+    ```css
+    h1,
+    h2,
+    h3 {
+      color: red;
+    }
+    ```
+
+- Descendant Selector:
+
+  - 由兩個或多個用空格分隔的選擇器組成
+
+    ```html
+    <div class="link1">
+      <a href="https://www.google.com">Google首頁</a>
+      <a href="https://www.youtube.com">Youtube首頁</a>
+    </div>
+    <div class="link2">
+      <a href="../HTML/範例/故宮範例/表單.html">表單</a>
+    </div>
+    ```
+
+    ```css
+    div.link1 a {
+      color: red;
+    }
+    div.link2 a {
+      color: green;
+    }
+    ```
+
+- Attribute Selector:
+
+  - 選擇所有具有相同屬性的 HTML element
+
+    ```html
+    <label for="name">name:</label>
+    <input type="text" id="name"></input>
+    <label for="phone">phone:</label>
+    <input type="text" id="phone"></input>
+    ```
+
+    ```css
+    input[type="text"] {
+      color: red;
+    }
+    ```
+
+**Element Selector 和 Class Selector 可以並用**
+
+```html
+<button class="btnClass FontSize">click me 1</button>
+<button class="btnClass">click me 2</button>
+<a class="FontSize"> This is a link</a>
+```
+
+```css
+a.FontSize {
+  font-size: 10px;
+}
+```
