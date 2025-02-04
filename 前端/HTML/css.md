@@ -11,14 +11,12 @@
 - [第七章 文字樣式 text styling](#第七章-文字樣式-text-styling)
 - [第八章 背景設定](#第八章-背景設定)
 - [第九章 Box Model 基本認識](#第九章-Box-Model-基本認識)
-- [第十章 width,height 和 overflow](#第十章-widthheight-和-overflow)
-- [第十一章 content-box and border-box](#第十一章-content-box-and-border-box)
-- [第十二章 inline-block](#第十二章-inline-block)
-- [第十三章 position](#第十三章-position)
-- [第十四章 sticky 和 fix 的比較](#第十四章-sticky-和-fix-的比較)
-- [第十五章 stacking context,cursor,table](#第十五章-stacking-contextcursortable)
-- [第十六章 Transform](#第十六章-Transform)
-- [第十七章 Animation](#第十七章-Animation)
+- [第十章 inline-block](#第十章-inline-block)
+- [第十一章 position](#第十一章-position)
+- [第十二章 sticky 和 fix 的比較](#第十二章-sticky-和-fix-的比較)
+- [第十三章 stacking context,cursor,table](#第十三章-stacking-contextcursortable)
+- [第十四章 Transform](#第十四章-Transform)
+- [第十五章 Animation](#第十五章-Animation)
 
 # 第一章 CSS 簡介
 
@@ -545,3 +543,77 @@ h1 {
 | vw   | viewport width，表示當前 viewport（瀏覽器視窗）寬度的 `1/100`。`100vw` 可能會略大於網頁寬度，若將元素設定為 `100vw`，可能會導致水平滾動條（horizontal scrollbar）。                                  |
 | vh   | viewport height，表示當前 viewport（瀏覽器視窗）高度的 `1/100`。                                                                                                                                     |
 | %    | 百分比，代表相對於 parent element 的值。例如，若 parent element 的寬度為 `500px`，子元素的 `width: 50%`，則實際寬度為 `250px`。                                                                      |
+
+# 第八章 背景設定
+
+- background-color: 用來設定 HTML 元素的背景顏色，值可以是顏色亦可以是特定關鍵字，例如 transparent
+
+  ```css
+  h1 {
+    background-color: rgba(200, 200, 200, 0.5);
+  }
+  h2 {
+    background-color: transparent;
+  }
+  ```
+
+- background-image: 在元素上設置一個或多個背景圖像
+  ```css
+  body {
+    background-image: url("./範例/故宮範例/img/故宮圖片2.jpeg");
+  }
+  ```
+- background-size: 設置元素背景圖像的大小
+  - contain: 會在其容器盡可能大地等比例縮放圖像，而不裁剪或拉伸圖像，若容器大於圖像會導致圖像重複平鋪
+  - cover: 圖像保持同比例儘可能縮小尺寸以填充容器，即高度和寬度符合容器，不留空白，若長寬比不符合容器會自動進行裁切
+  - [mvn background size](https://developer.mozilla.org/en-US/docs/Web/CSS/background-size)
+- background-repeat: 設置圖像是否重複
+  - no-repeat:不重複
+- background-position: 設置每個背景圖像地初始位置。
+  - center:使圖像居中
+  - top: 圖像往上(超出的下面部分會被裁切但最上面會保留)
+  - left: 圖像往左(超出的右邊部分會被裁切但最左邊會保留)
+  - bottom: 圖像往底部(超出的上面部分會被裁切但最下面會保留)
+  - right: 圖樣往右(超出的左邊部分會被裁切但最右邊會保留)
+- background: 背景各種設定的 shorthand 設定，可一次設置所有背景樣式屬性，例如顏色，圖像、圓點和大小或重複的方法
+  - background:green 等同於 background-color:green
+  - background:url("test.jpg") 等同於 background-image:url("test.jpg")
+  - [其他語法設定](https://developer.mozilla.org/en-US/docs/Web/CSS/background)
+
+**[免費商用圖片 unsplash](https://unsplash.com/)**
+
+# 第九章 Box Model 基本認識
+
+**CSS Box Model 是指每個 block element 都被視為一個 box，並且 box 由 margin,border,padding 以及 content 所組成。inline element 僅使用 Box Model 中定義的一部分屬性**
+
+![CSS Box Model](../../img/css/02.png)
+
+- content: 顯示於內容的區域；使用 width 和 height 等屬性調整大小
+- padding: 位於 content 周圍的區域，在 content 與 border 之間；可使用 padding 屬性調整大小
+  - 快捷設定(shorthand):
+    - 只設定一個值四邊都會應用
+    - 設定兩個值，第一個是垂直，第二個是水平
+    - 設定三個值，第一個上面，第二個水平，第三個下面
+    - 設定四個值，第一個上面，第二個右邊，第三個下面，第四個左邊
+  - [其餘 padding 資料](https://developer.mozilla.org/en-US/docs/Web/CSS/padding)
+- border: 包住 content 與 padding 的邊框；可使用 border 屬性調整大小
+  - 有三個參數可以設定
+    - 外框大小
+    - [外框的種類](https://developer.mozilla.org/en-US/docs/Web/CSS/border-style)
+    - 外框的顏色
+  - [其餘 border 資料](https://developer.mozilla.org/en-US/docs/Web/CSS/border)
+- margin: border 外的區域，可用 margin 屬性調整大小
+
+**padding、border 以及 margin 都可再分別設定上下左右的個別屬性。另外 border 可以特別設定 border-radius(外框圓滑度) 屬性**
+
+- border-radius 的數值越大越圓滑
+- border-radius:50% =>為正圓
+
+```css
+h1 {
+  border: 1px solid black;
+  border-radius:30px
+  padding: 10px 30px;
+  margin: 0rem 3rem;
+}
+```
