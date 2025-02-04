@@ -330,11 +330,11 @@ HTML 標籤的設計方式是採用物件導向的想法，物件包含兩個部
 
 ```html
 <h2>故宮三寶</h2>
-<ol type="disc">
+<ul type="disc">
   <li>范寬〈谿山行旅圖〉</li>
   <li>郭熙〈早春圖〉</li>
   <li>李唐〈萬壑松風圖〉</li>
-</ol>
+</ul>
 ```
 
 **也可以使用巢狀元素(Nesting elements)的形式**

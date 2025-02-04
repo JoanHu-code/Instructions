@@ -8,18 +8,17 @@
 - [第四章 Selectors](#第四章-Selectors)
 - [第五章 Pseudo class,element](#第五章-Pseudo-classelement)
 - [第六章 CSS 重點概念](#第六章-CSS-重點概念)
-- [第七章 CSS 單位](#第七章-CSS-單位)
-- [第八章 font 設定](#第八章-font-設定)
-- [第九章 背景設定](#第九章-背景設定)
-- [第十章 Box Model 基本認識](#第十章-Box-Model-基本認識)
-- [第十一章 width,height 和 overflow](#第十一章-widthheight-和-overflow)
-- [第十二章 content-box and border-box](#第十二章-content-box-and-border-box)
-- [第十三章 inline-block](#第十三章-inline-block)
-- [第十四章 position](#第十四章-position)
-- [第十五章 sticky 和 fix 的比較](#第十五章-sticky-和-fix-的比較)
-- [第十六章 stacking context,cursor,table](#第十六章-stacking-contextcursortable)
-- [第十七章 Transform](#第十七章-Transform)
-- [第十八章 Animation](#第十八章-Animation)
+- [第七章 文字樣式 text styling](#第七章-文字樣式-text-styling)
+- [第八章 背景設定](#第八章-背景設定)
+- [第九章 Box Model 基本認識](#第九章-Box-Model-基本認識)
+- [第十章 width,height 和 overflow](#第十章-widthheight-和-overflow)
+- [第十一章 content-box and border-box](#第十一章-content-box-and-border-box)
+- [第十二章 inline-block](#第十二章-inline-block)
+- [第十三章 position](#第十三章-position)
+- [第十四章 sticky 和 fix 的比較](#第十四章-sticky-和-fix-的比較)
+- [第十五章 stacking context,cursor,table](#第十五章-stacking-contextcursortable)
+- [第十六章 Transform](#第十六章-Transform)
+- [第十七章 Animation](#第十七章-Animation)
 
 # 第一章 CSS 簡介
 
@@ -505,3 +504,44 @@ h1 {
   color: blue;
 }
 ```
+
+# 第七章 文字樣式 text styling
+
+- font-size: 設定字體的大小。可以設置絕對單位或是相對單位
+  - [預設字體大小](https://www.w3schools.com/cssref/css_default_values.php)
+- text-align: 設置 block element 或 table cell 中的 content 的水平對齊位置
+  - center: 中間對齊
+  - right: 往右對齊
+  - left: 往左對齊(預設)
+- text-decoration: 設置文本上的裝飾線的外觀
+  - <a> tag 預設 underline
+  - line-through
+- line-height: 通常用於設置文字行距
+- letter-soacing: 設置文自水平間距
+- font-family: 為所選元素指定一個或多個字體系列的優先順序
+  - [Google font](https://fonts.google.com/)
+  - 從 google font 拿來的網只要貼在 引入自己的 stylesheet 的上方
+- text-indent: 設段落的內縮長度 (寫文章開頭要空兩格字的大小)
+- font-weight: 文字粗體設置
+
+**css 單位:**
+
+1. Absolute units: 只有預設數值或是現實生活定義的單位，包含 px(代表 pixel，長度為 2.54cm (1 inch)的 1/96), in,mm,cm 等等
+
+2. Relative units 是指相對於某種數值的單位，包含:
+
+- em: 相對於 parent element 的長度。多層的 DOM Tree 當中，越下層的 element 的 em 值可能難以計算，所以在 css 當中會必免使用 em；例:如果 paraent element 的長度為 50px，那 children element 的 1em 就會是 50px，2em 為 100px，0.5em 為 25px。
+- rem: root rem 的意思。rem 會找到<html>這個元素的設定。網頁瀏覽器的預設 font-size 為 16px，所以 1rem 等於 16px。如果年長者使用的網頁瀏覽器設定字體放大，則網頁瀏覽器預設 font-size 可能為 24px，則 1rem 等於 24px。
+- vw: viewport width 的縮寫，是指目前 viewport(也就是瀏覽器視窗)的寬度的 1/100。100vw 長度通常會略寬於網頁寬度，所以設定某個元素的寬度為 100 vw 會導致出現 horizontal scrollbar。
+- vh: viewport height 的縮寫，指目前 viewport(也就是瀏覽器視窗)的高度的 1/100。
+- %: percentage 代表相對於 parent element 的值。例如，parent element 的 width 是 500px，在 child element 設定 50%則 children element 寬度就是 250px
+
+**單位表單整理**
+
+| 單位 | 說明                                                                                                                                                                                                 |
+| ---- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| em   | 相對於 parent element 的長度。在多層 DOM Tree 中，越下層的 element 的 em 值可能難以計算。；如果 paraent element 的長度為 50px，那 children element 的 1em 就會是 50px，2em 為 100px，0.5em 為 25px。 |
+| rem  | root em 的意思。rem 會參照 `<html>` 元素的設定。瀏覽器的預設 `font-size` 為 `16px`，所以 `1rem = 16px`。如果使用者修改了瀏覽器的字體大小，例如設為 `24px`，則 `1rem = 24px`。                        |
+| vw   | viewport width，表示當前 viewport（瀏覽器視窗）寬度的 `1/100`。`100vw` 可能會略大於網頁寬度，若將元素設定為 `100vw`，可能會導致水平滾動條（horizontal scrollbar）。                                  |
+| vh   | viewport height，表示當前 viewport（瀏覽器視窗）高度的 `1/100`。                                                                                                                                     |
+| %    | 百分比，代表相對於 parent element 的值。例如，若 parent element 的寬度為 `500px`，子元素的 `width: 50%`，則實際寬度為 `250px`。                                                                      |
