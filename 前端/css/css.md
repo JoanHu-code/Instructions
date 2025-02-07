@@ -732,18 +732,18 @@ h1 {
 
 - outer display type:決定不同 box 之間在網頁的排版位置
   - block :會佔據整行，並且自動換行
-    - 例如: <div>,<p>,<h1>
+    - 例如: `<div>,<p>,<h1>`
   - inline : 內容會在同一行顯示，但不能設定寬度
-    - 例如: <span>,<a>,<strong>
+    - 例如: `<span>,<a>,<strong>`
   - inline-block: 內容在同一行顯示，但可以設定 width 和 height。
-    - 例如:<button>,<input>,<img>
+    - 例如:`<button>,<input>,<img>`
 - inner display type: 決定 boxes 內部的元素在網頁的排版位置
   - flex
   - grid
 
-| display-type | new line | width,height | margin-top/bottom,padding-top/bottom     | margin-left/right,padding-top/right | 範例                                           |
-| ------------ | -------- | ------------ | ---------------------------------------- | ----------------------------------- | ---------------------------------------------- |
-| block        | 會換行   | 可以設定     | 可以設定                                 | 可以設定                            | <h1>,<p>等等                                   |
-| inline       | 不會換行 | 不能設定     | 可以設定，但不會推開其他 inlien elements | 可以設定                            | <a>,<span>等等                                 |
-| inline-block | 不會換行 | 可以設定     | 可以設定                                 | 可以設定                            | 只有<img>,<button>,<input>,<select>,<textarea> |
-| flex item    | 不會換行 | 可以設定     | 可以設定                                 | 可以設定                            | 任何在 flex 之下的 element                     |
+| display-type | new line | width,height | margin-top/bottom,padding-top/bottom     | margin-left/right,padding-top/right | 範例                                             |
+| ------------ | -------- | ------------ | ---------------------------------------- | ----------------------------------- | ------------------------------------------------ |
+| block        | 會換行   | 可以設定     | 可以設定                                 | 可以設定                            | `<h1>,<p>`等等                                   |
+| inline       | 不會換行 | 不能設定     | 可以設定，但不會推開其他 inlien elements | 可以設定                            | `<a>,<span>`等等                                 |
+| inline-block | 不會換行 | 可以設定     | 可以設定                                 | 可以設定                            | 只有`<img>,<button>,<input>,<select>,<textarea>` |
+| flex item    | 不會換行 | 可以設定     | 可以設定                                 | 可以設定                            | 任何在 flex 之下的 element                       |
