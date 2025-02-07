@@ -24,7 +24,7 @@
 
 是加載到瀏覽器中的網頁的樹狀表示，在 DOM Tree 的 Parent Node 可被稱為 Child Node 的父元素(Parent Element)，反之，Child Node 可稱為 Parent Node 的子元素(child Element)。
 
-瀏覽器加仔網頁時，它會創建該頁面的 DOM Tree。
+瀏覽器加載網頁時，它會創建該頁面的 DOM Tree。
 
 <html>標籤是<head>標籤和<body>標籤的父元素(Parent Element)，反之<html>標籤的子元素(child Element)是<head>標籤和<body>標籤。
 
