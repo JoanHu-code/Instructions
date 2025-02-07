@@ -459,7 +459,49 @@ a.FontSize {
   - 由於一個 HTML 文件可以連結到數個 CSS Stylesheet，且單一 Stylesheet 內部可能出現重複設定樣式的情況，所以 css 程式碼之間可能存在衝突
   - 衝突處理原則有:
 
-        - Priority(優先度)
+    - Priority (優先度)
+
+      - 根據 W3C 標準，網頁瀏覽器的預設樣式被稱為 **User Agent Stylesheet**，而開發者定義的樣式則被稱為 **User Stylesheet**。優先級 (Priority) 順序如下：
+
+      | 優先級 | 類型                  | 說明                                          |
+      | ------ | --------------------- | --------------------------------------------- |
+      | 1      | Inline Styling        | 最高優先級，直接寫在 HTML 標籤內的 `style=""` |
+      | 2      | User Stylesheet       | 內部 CSS，具體度 (Specificity) 影響優先順序   |
+      | 3      | User Agent Stylesheet | 瀏覽器預設樣式                                |
+      | 4      | Inheritance (繼承)    | 某些屬性會從父元素繼承                        |
+
+    - Specificity (特定度)
+
+      - 當一個標籤有多個 CSS 選擇器應用時，會選擇 **特定度 (Specificity) 更高** 的樣式，而不考慮順序。
+
+      | Specificity | 類型                            | 計算方式             |
+      | ----------- | ------------------------------- | -------------------- |
+      | `1,0,0`     | `id` 選擇器 (`#id`)             | `id` 的特定度最高    |
+      | `0,1,0`     | `class` 選擇器 (`.class`)       | `class` 的特定度次高 |
+      | `0,0,1`     | `tag` 選擇器 (`div`, `p`, `h1`) | `tag` 的特定度最低   |
+
+      - **具體程度**: `id > class > tag`
+
+    - Order Rule (順序性)
+
+      - 當選擇器的 Specificity 相同時，**後寫的樣式會覆蓋前面的樣式**。例如:
+
+      ```css
+
+      p {
+      color: blue;
+      }
+      p {
+      color: red;
+      } /_ 這條規則會覆蓋前面的 _/
+      ```
+
+      | 順序性規則                         | 說明                                                                                              |
+      | ---------------------------------- | ------------------------------------------------------------------------------------------------- |
+      | 後寫的樣式會覆蓋前面的樣式         | 例如 CSS 內部規則，後寫的 `p { color: red; }` 會覆蓋前寫的 `p { color: blue; }`                   |
+      | 後面的 `<link>` 樣式表會覆蓋前面的 | `<link rel="stylesheet" href="style1.css">` 會被 `<link rel="stylesheet" href="style2.css">` 覆蓋 |
+
+<!-- - Priority(優先度)
 
           - 根據 W3C 的標準，網頁連覽器的預設樣被稱為 user agent stylesheet，而網頁瀏覽器連結的 stylesheet 被稱為 user stylesheet。Pority 優先即順序為:
 
@@ -482,7 +524,7 @@ a.FontSize {
 
         - Order Rule(順序性)
           - 當我們有相同specificty的選擇器時，後寫的選擇器樣式會覆蓋前面寫的樣式。
-          - 放在比較後面的<link> stylesheet會複寫放在前面的<link> stylesheet
+          - 放在比較後面的<link> stylesheet會複寫放在前面的<link> stylesheet -->
 
 **user styling(stylesheet) 和 user agent styling(stylesheet)**
 
