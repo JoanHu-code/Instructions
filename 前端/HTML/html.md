@@ -727,7 +727,7 @@ HTML 標籤的設計方式是採用物件導向的想法，物件包含兩個部
 - datalist 裡的選項也是使用 option 去包裹，用法和 select 裡的 option 一樣
 
 ```html
-<label for="area">地區</label>
+<label for="area">City</label>
 <input list="area_list" type="text" id="area" name="area" />
 <datalist id="area_list">
   <option value="Taipei">Taipei City</option>
@@ -759,11 +759,11 @@ HTML 標籤的設計方式是採用物件導向的想法，物件包含兩個部
 
 # 第十一章 其他資訊
 
-1. HTML 中的注註解以`<!--`開頭並以`-->`結尾
+1. HTML 中的註解以`<!--`開頭並以`-->`結尾
 
 - 功用:
   - 過一個月或一年以後回來看自己的程式碼看得懂
-  - 跟別人憶起工作的時候，讓別人看得懂
+  - 跟別人一起工作的時候，讓別人看得懂
 
 2. <br> 標籤: 插入一個換行符號。
 

@@ -11,7 +11,7 @@
 - [第七章 文字樣式 text styling](#第七章-文字樣式-text-styling)
 - [第八章 背景設定](#第八章-背景設定)
 - [第九章 Box Model 基本認識](#第九章-Box-Model-基本認識)
-- [第十章 inline-block](#第十章-inline-block)
+- [第十章 display](#第十章-display)
 - [第十一章 position](#第十一章-position)
 - [第十二章 sticky 和 fix 的比較](#第十二章-sticky-和-fix-的比較)
 - [第十三章 stacking context,cursor,table](#第十三章-stacking-contextcursortable)
@@ -617,3 +617,133 @@ h1 {
   margin: 0rem 3rem;
 }
 ```
+
+**width 和 height 與 overflow 的屬性**
+
+- width 屬性指定元素的寬度。預設情況下，該屬性定義內容 content 的寬度。但是，如果 box-sizing 設置為 border-box，它會被設定為 border 區域的寬度。
+
+- height 屬性指定元素的高度。預設情況下，該屬性定義 content 區域的高度。但是，如果 box-sizing 設置為 border-box，他會被設定為 border 區域的高度。
+
+**CSS 當中有個非常特別的規定，那就是 width 可以直接設定%，但 height 不行!!!**
+
+> 如果我們希望使用%來設定某個元素的高度的話，我們必須先設定 parent element 高度為某個特定的值，這樣 child element 的%就可以計算出來。例如設定 parent element 高度為 1000px、300vh 等等。
+
+> 另外，在許多的情況下，我們不會去設定某個元素的高度，而是讓瀏覽器根據 content 的內容來決定元素的高度。若有設定高度，則須考慮 overflow 的情況，當元素的寬度或高度小於 comtent 時，我們可以設定 overflow 屬性來選擇處理方式
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      div.box {
+        width: 500px;
+        height: 50vh;
+        /* height: 500px; */
+        padding: 10px;
+        border: 10px solid black;
+        background-color: green;
+      }
+      div.box2 {
+        width: 50%;
+        padding: 10px;
+        border: 10px solid black;
+        background-color: green;
+      }
+      div.box.innerBox {
+        /* height: 50%; */
+        background-color: green;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="box">
+      <div class="innerBox"></div>
+    </div>
+    <div class="box2"></div>
+  </body>
+</html>
+```
+
+**overflow 屬性**
+
+1. visible: content 不會被修剪，可以呈現在元素框之外。此為預設值。
+2. hidden: 如果有需要，內容將被剪裁以適合元素。不提供滾動條。
+3. scroll:如果有必要，內容將被剪裁以適合填充框。瀏覽器顯示移動軸
+
+> 若想要指定特定方樣的 overflow 屬性，可只選擇 overflow-x 或 overflow-y
+
+**content-box 和 border-box**
+
+1. content-box:意指 padding 與 border 會附加到已經設定的 width 與 height 上面，拓展整個 box model 的大小
+
+   - css 預設的 box-sizing 屬性
+
+   ```css
+   .box {
+     width: 350px;
+     height: 150px;
+     margin: 10px;
+     padding: 25px;
+     border: 5px solid black;
+   }
+   ```
+
+   > box 實際佔用空間是 410px 寬(350+25+25+10)和 210px 高(150+25+25+10)，margin 不算進 box 的佔用空間，它算外層
+
+   ![content-box](../../img/css/03.png)
+
+2. border-box:width 和 height 屬性包括內容(content)，內邊距(padding)和邊框(border)，但不包括外邊距(margin)
+
+```css
+* {
+  box-sizing: border-box;
+}
+.box {
+  width: 350px;
+  height: 150px;
+  margin: 10px;
+  padding: 25px;
+  border: 5px solid black;
+}
+```
+
+> box 實際佔用空間是 350px 寬，content 寬只有 290px(350-25-25-5-5)，需減去上下 padding 和 border，總高度為 150px 但 content 高只有 90px(150-25-25-5-5)。
+
+![content-box](../../img/css/04.png)
+
+[其他 box-sizing 補充](https://developer.mozilla.org/en-US/docs/Web/CSS/box-sizing)
+
+在大多數的網站設定 box-sizing 都會設置為 border-box
+
+```css
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+```
+
+# 第十章 display
+
+每個 HTML 元素都有兩種 display 類型，一種被稱為 outer display type，另一個是 inner display type。
+
+- outer display type:決定不同 box 之間在網頁的排版位置
+  - block :會佔據整行，並且自動換行
+    - 例如: <div>,<p>,<h1>
+  - inline : 內容會在同一行顯示，但不能設定寬度
+    - 例如: <span>,<a>,<strong>
+  - inline-block: 內容在同一行顯示，但可以設定 width 和 height。
+    - 例如:<button>,<input>,<img>
+- inner display type: 決定 boxes 內部的元素在網頁的排版位置
+  - flex
+  - grid
+
+| display-type | new line | width,height | margin-top/bottom,padding-top/bottom     | margin-left/right,padding-top/right | 範例                                           |
+| ------------ | -------- | ------------ | ---------------------------------------- | ----------------------------------- | ---------------------------------------------- |
+| block        | 會換行   | 可以設定     | 可以設定                                 | 可以設定                            | <h1>,<p>等等                                   |
+| inline       | 不會換行 | 不能設定     | 可以設定，但不會推開其他 inlien elements | 可以設定                            | <a>,<span>等等                                 |
+| inline-block | 不會換行 | 可以設定     | 可以設定                                 | 可以設定                            | 只有<img>,<button>,<input>,<select>,<textarea> |
+| flex item    | 不會換行 | 可以設定     | 可以設定                                 | 可以設定                            | 任何在 flex 之下的 element                     |
