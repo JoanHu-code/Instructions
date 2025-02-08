@@ -13,10 +13,8 @@
 - [第九章 Box Model 基本認識](#第九章-Box-Model-基本認識)
 - [第十章 display](#第十章-display)
 - [第十一章 position](#第十一章-position)
-- [第十二章 sticky 和 fix 的比較](#第十二章-sticky-和-fix-的比較)
-- [第十三章 stacking context,cursor,table](#第十三章-stacking-contextcursortable)
-- [第十四章 Transform](#第十四章-Transform)
-- [第十五章 Animation](#第十五章-Animation)
+- [第十二章 Transform](#第十二章-Transform)
+- [第十三章 Animation](#第十三章-Animation)
 
 # 第一章 CSS 簡介
 
@@ -789,3 +787,44 @@ h1 {
 | inline       | 不會換行 | 不能設定     | 可以設定，但不會推開其他 inlien elements | 可以設定                            | `<a>,<span>`等等                                 |
 | inline-block | 不會換行 | 可以設定     | 可以設定                                 | 可以設定                            | 只有`<img>,<button>,<input>,<select>,<textarea>` |
 | flex item    | 不會換行 | 可以設定     | 可以設定                                 | 可以設定                            | 任何在 flex 之下的 element                       |
+
+# 第十一章 position
+
+> position 屬性:設置元素在文檔中的定位方式。top、right、bottom 和 left 屬性確定定位元素的最終位置。可設定的值包含:
+
+- static: 元素根據文檔的 normal flow 進行定位。top、right、bottom、left 和 z-index 屬性無效。這是 position 屬性的預設值。
+
+  - 所謂的 css normal flow 是指瀏覽器的正常排版規則，包含 block element 換行，inline elemenet 並排直到沒有空間等等規則
+    - **Static 並不是 positioned element**
+  - z-index 是指在 stacking context 相同的情況下，positioned element 會具有較大 z-index 的重疊元素覆蓋具有較小的 z-index 的元素。
+    - **z-index 只會套用在 positioned element 上面**
+
+- relative: HTML element 根據 normal flow 定位，然後根據 top、right、bottom 和 left 的值相對於自身進行偏移。
+
+  - 所謂的 relative 是指 element is positioned relative to its normal position.
+
+- absolute: 該元素會從 normal flow 中移除，不保留任任何空間。根據 top、right、bottom 和 left 的值相對於自身進行定位，定位的參考對象是 closest positioned ancestor。若不斷往上找，都找不到任何 positioned ancestor，則定位的參考對象是 initial containing block，即瀏覽器的初始視窗。
+
+  - ancestor: parent element，離它最近父元素的 positioned element
+
+- fixed: 該元素會從 normal flow 中移除，不保留任何空間。根據 top、right、bottom 和 left 的值相對於自身進行定位，固定在瀏覽器視窗的固定位置，不會隨滾動捲軸拉動。定位的參考對象是 viewport 形成的 initial containing block
+
+- sticky: 是 relative position 和 fixed position 的混合體。HTML 被視為相對定位，直到它超過指定的 threshold(臨界點)，此時它被視為固定定位。例如:
+
+```css
+#one {
+  position: sticky;
+  top: 10px;
+}
+```
+
+> 會讓 id 為 one 的元素保持 relative position，直到元素與瀏覽器上方的空間小於 10px。超過指定的 threshold 後，元素會被 fixed 在距離上方 10px 的位置
+
+**這幾種裡面只有 static 不是 positioned element，其他都是 positioned element，只要是 positioned element 都可以使用 z-index**
+
+**z-index 越大，會越上面**
+
+## sticky 和 fixed 比較
+
+> sticky 的範圍會到上一層的父元素，但 fixed 則是參考整個 body(viewport)
+> fixed 會在 normol flow 移除(找原先的位置會找不到)，但 sticky 還在原本的位置

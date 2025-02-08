@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        div.container {
+            width: 200px;
+            height: 600px;
+            background-color: black;
+            position: relative;
+        }
+
+        div.inlineBlock {
+            display: inline-block;
+        }
+
+        .box {
+            width: 200px;
+            height: 200px;
+        }
+
+        .box1 {
+            background-color: aqua;
+        }
+
+        .box2 {
+            background-color: green;
+        }
+
+        .box3 {
+            background-color: red;
+        }
+
+        .font_size {
+            font-size: 20px;
+            text-align: center;
+        }
+
+
+        .box4 {
+            background-color: aqua;
+            position: relative;
+            top: 200px;
+        }
+
+        .box5 {
+            background-color: green;
+            position: relative;
+            top: 100px;
+            left: 100px;
+            z-index: 1;
+        }
+
+        .box6 {
+            background-color: red;
+            position: relative;
+            bottom: 50px;
+            z-index: 2;
+        }
+
+        .box7 {
+            background-color: aqua;
+        }
+
+        .box8 {
+            background-color: green;
+            position: absolute;
+            right: 0;
+            top: 0;
+            display: inline;
+        }
+
+        .box9 {
+            background-color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <!--static-->
+    <div class="container inlineBlock">
+        <div class="box box1 font_size">1</div>
+        <div class="box box2 font_size">2</div>
+        <div class="box box3 font_size">3</div>
+    </div>
+    <!--relative-->
+    <div class="container inlineBlock">
+        <div class="box box4 font_size">4</div>
+        <div class="box box5 font_size">5</div>
+        <div class="box box6 font_size">6</div>
+    </div>
+
+    <!--absolute-->
+    <div class="container inlineBlock ">
+        <div class="box box7 font_size">7</div>
+        <div class="box box8 font_size">8</div>
+        <div class="box box9 font_size">9</div>
+    </div>
+</body>
+
+</html>
