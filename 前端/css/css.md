@@ -13,8 +13,9 @@
 - [第九章 Box Model 基本認識](#第九章-Box-Model-基本認識)
 - [第十章 display](#第十章-display)
 - [第十一章 position](#第十一章-position)
-- [第十二章 Transform](#第十二章-Transform)
-- [第十三章 Animation](#第十三章-Animation)
+- [第十二章 Transition](#第十二章-Transition)
+- [第十三章 Transform](#第十三章-Transform)
+- [第十四章 Animation](#第十四章-Animation)
 
 # 第一章 CSS 簡介
 
@@ -828,3 +829,158 @@ h1 {
 
 > sticky 的範圍會到上一層的父元素，但 fixed 則是參考整個 body(viewport)
 > fixed 會在 normol flow 移除(找原先的位置會找不到)，但 sticky 還在原本的位置
+
+## stacking context
+
+Stacking Context 是 HTML 元素沿虛擬 Z 軸相對於用戶的 3D 概念化，假設用戶面向的網頁為 XY 平面，HTML 元素根據元素屬性和優先級順序佔據該空間。
+
+- Stacking context 的形成情況包含(但不限於):
+- Root element of the document(`<html>`)
+- 任何元素有設定 position 的值為 absolute 或 relative，且 z-index 的值不是 auto，則內部形成新的 stacking context。
+- 任何元素有設定 position 的值為 fixed 或 sticky(sticky 適用於所有 mobile browsers)。
+
+[其他資料](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_positioned_layout/Understanding_z-index/Stacking_context)
+
+## 表格樣式設定
+
+- border-collapse:設置`<table>`內的單元格是否具有共享或單獨的邊框
+- 若螢幕太小而無法顯示完整內容，則表格將超出螢幕介面。通常這種問題會發生在手機螢幕瀏覽網頁上。如果要做出響應是表格(responsive table)，我們可以在表格元素周圍添加一個帶有 `overflow-x:auto` 的容器元素，例如:在`<table>`外面建立一個`<div>`標籤，裡面放 `overflow-x:auto`。如此一來，若在手機螢幕瀏覽網頁上表格，就只會表格區域產生 horizontal scrollbar。
+
+[範例](https://codepen.io/JoanHu/pen/zxYOoXq)
+
+## Opacity 與 Cursor 設定
+
+- opacity 屬性設置元素的不透明度。
+  - 不透明度是元素背後的內容被隱藏的程度，與透明度相反，可設置的範圍是 0~1
+    - 0: 完全透明
+    - 1: 完全不透明
+    - HTML 元素的 opacity 預設值為 1
+    ```css
+    h1 {
+      opacity: 0.2;
+    }
+    ```
+- cursor 屬性設置屬標游標的不同圖示
+  ```css
+  h1 {
+    cursor: pointer;
+  }
+  ```
+  - [mdn](https://developer.mozilla.org/en-US/docs/Web/CSS/cursor)
+
+# 第十二章 Transition
+
+- transition 屬性可以幫助我們設定某個 CSS 屬性轉換時的 timing function 以及速度。Transition 本身為一個 shorthand property，可以一次設定這四種 CSS 屬性
+
+  - transition-property
+  - transition-duration
+  - transition-timing-function
+  - transition-delay
+
+- 常見的 transition 設定是:
+  - property name
+  - duration
+  - easing function(時間函數)
+  - 其他的可用設定請參考 MDN。
+- [easing function](https://easings.net/zh-tw)
+
+```css
+h1 {
+  transition: all 2s;
+}
+h1:hover {
+  background-color: green;
+  color: white;
+}
+```
+
+**若把 transition 設定在 hover 裡面移開後不會有 transition 的效果**
+
+# 第十三章 Transform
+
+> transform 屬性允許我們旋轉、縮放、傾斜或平移 HTML 元素。它修改了 CSS 視覺格式化模型座標空間。每當我們使用一個或多個 Transform 屬性時，瀏覽器都會通過一系列內部矩陣乘法計算 HTML 元素的結果位置、大小和形狀。
+
+- 可設定的值包含:
+
+  - translate:可以把元素拿來做置中
+
+    - 一般使用
+
+    ```css
+    div.container {
+      width: 500px;
+      height: 500px;
+      background-color: black;
+    }
+    div.box {
+      width: 100px;
+      height: 100px;
+      background-color: aqua;
+      transition: all 1s ease-in-out;
+    }
+    div.box:hover {
+      transform: translate(-100px, 200px);
+    }
+    ```
+
+    - 置中
+
+    ```css
+    div.container {
+      width: 500px;
+      height: 500px;
+      background-color: black;
+      position: relative;
+    }
+    div.box {
+      width: 100px;
+      height: 100px;
+      background-color: aqua;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    ```
+
+  - rotate
+    ```css
+    div.container {
+      width: 500px;
+      height: 500px;
+      background-color: black;
+    }
+    div.box {
+      width: 100px;
+      height: 100px;
+      background-color: aqua;
+      transition: all 1s ease-in-out;
+    }
+    div.box:hover {
+      transform: rotate(90deg);
+      transform: rotateX(180deg);
+      transform: rotateY(90deg);
+    }
+    ```
+  - scale
+
+    ```css
+    div.container {
+      width: 500px;
+      height: 500px;
+      background-color: black;
+    }
+    div.box {
+      width: 100px;
+      height: 100px;
+      background-color: aqua;
+      transition: all 1s ease-in-out;
+    }
+    div.box:hover {
+      transform: scale(1.5);
+      transform: scale(0.5);
+      transform: scale(2, 6);
+    }
+    ```
+
+- 每個值都可分別設定 x,y,z 方向的變換
