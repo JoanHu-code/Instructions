@@ -984,3 +984,95 @@ h1:hover {
     ```
 
 - 每個值都可分別設定 x,y,z 方向的變換
+
+# 第十四章 Animation
+
+> CSS 動畫可由 transition 屬性與 transform 屬性合併設定來完成。然而，若我們希望製作更複雜的動畫，則可使用 CSS 的 animation 屬性來客製化動畫流程。
+
+- 每個 CSS 動畫可設定:
+
+  - animation-name(keyframes): 動畫名字
+  - animation-duration: 進行的時間
+  - animation-timing-function: 跟 transition 一樣
+  - animation-delay: 動畫延遲多久才開始播放
+  - animation-iteration-count: 動畫循環幾次
+  - animation-direction: 動畫前進方向，順著播放、倒敘播放
+  - animation-fill-mode: 動畫結束時 css 屬性長什麼樣子，結束回到開始屬性還是停留在結束屬性
+  - animation-play-state
+
+- CSS 的 animation 屬性是個 shorthand property，可一次設定上述多種 animation 相關屬性。設定的順序是:
+
+  - name
+  - duration
+  - timing-function
+  - delay
+  - iteration-count
+  - direction
+  - fill-mode
+  - play-state
+
+- 若有跳過設定，則會套用 CSS 的預設值。例如:animation:cross 1s 3s forwards。是指 keyframes 為 cross 的動畫，開頭到結束的時間為一秒，延遲三秒，fill-mode 為 forwards。其餘屬性皆保留為預設值。
+
+```css
+@keyframes changeColor {
+  from {
+    background-color: aqua;
+    top: 0px;
+    left: 0px;
+  }
+  to {
+    background-color: red;
+    top: 400px;
+    left: 400px;
+  }
+}
+```
+
+**用法**
+
+```html
+<div class="container">
+  <div class="box"></div>
+</div>
+```
+
+```css
+div.container {
+  width: 500px;
+  height: 500px;
+  background-color: black;
+}
+
+div.box {
+  width: 100px;
+  height: 100px;
+  position: relative;
+  background-color: aqua;
+
+  /*套用changeColor動畫*/
+  animation-name: changeColor;
+  /*兩秒內動畫要完成*/
+  animation-duration: 2s;
+  /*進網頁兩秒後才開始*/
+  animation-delay: 2s;
+  /*讓顏色最後停留在紅色*/
+  animation-fill-mode: forwards;
+  /*設定動畫播放次數*/
+  animation-iteration-count: infinite;
+  /*設定動畫播放方向*/
+  animation-direction: reverse;
+  animation-direction: alternate;
+}
+```
+
+**合併寫法**
+
+```css
+div.box {
+  animation: changeColor 2s ease-in 2s infinite alternate forwards;
+}
+```
+
+[範例](https://codepen.io/JoanHu/pen/xbxKyWw)
+
+[mdn](https://developer.mozilla.org/en-US/docs/Web/CSS/animation)
