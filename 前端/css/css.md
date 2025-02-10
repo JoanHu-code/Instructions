@@ -193,6 +193,14 @@ h3 {
 | 3 bits    | 000, 001, 010, 011, 100, 101, 110, 111 | 8 types         |
 | n bits    | 2 to the power of n                    | 2ⁿ types        |
 
+| Unit                | Conversion  |
+| ------------------- | ----------- |
+| **1 Byte**          | 8 Bits      |
+| **1 KB** (Kilobyte) | 1,024 Bytes |
+| **1 MB** (Megabyte) | 1,024 KB    |
+| **1 GB** (Gigabyte) | 1,024 MB    |
+| **1 TB** (Terabyte) | 1,024 GB    |
+
 8 bits => 1 byte
 
 RAM 8GB (8 Gigabyte)
