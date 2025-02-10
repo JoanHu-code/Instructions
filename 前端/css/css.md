@@ -186,6 +186,13 @@ h3 {
 | 3 bits | 000, 001, 010, 011, 100, 101, 110, 111 | 8 種     |
 | n bits | 2 的 n 次方種                          | 2ⁿ 種    |
 
+| Bit Count | Possible Combinations                  | Number of Types |
+| --------- | -------------------------------------- | --------------- |
+| 1 bit     | 0, 1                                   | 2 types         |
+| 2 bits    | 00, 01, 10, 11                         | 4 types         |
+| 3 bits    | 000, 001, 010, 011, 100, 101, 110, 111 | 8 types         |
+| n bits    | 2 to the power of n                    | 2ⁿ types        |
+
 8 bits => 1 byte
 
 RAM 8GB (8 Gigabyte)
