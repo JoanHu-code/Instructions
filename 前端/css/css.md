@@ -428,11 +428,10 @@ a.FontSize {
 
 # 第六章 CSS 重點概念
 
-| Specificity | Type                              | Calculation Method                |
-| ----------- | --------------------------------- | --------------------------------- |
-| `1,0,0`     | `id` Selector (`#id`)             | `id` has the highest specificity. |
-| `0,1,0`     | `class` Selector (`.class`)       | `class` has medium specificity.   |
-| `0,0,1`     | `tag` Selector (`div`, `p`, `h1`) | `tag` has the lowest specificity. |
+| Order Rule                                       | Description                                                                                                         |
+| ------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------- |
+| Later styles override earlier styles             | For example, in internal CSS, `p { color: red; }` written later will override `p { color: blue; }` written earlier. |
+| Later `<link>` stylesheets override earlier ones | `<link rel="stylesheet" href="style1.css">` will be overridden by `<link rel="stylesheet" href="style2.css">`.      |
 
 **Cascading Style Sheet**
 
@@ -509,11 +508,6 @@ a.FontSize {
           color: red;
           } /_ 這條規則會覆蓋前面的 _/
           ```
-
-          | Order Rule                           | Description                                                                                          |
-          |--------------------------------------|------------------------------------------------------------------------------------------------------|
-          | Later styles override earlier styles | For example, in internal CSS, `p { color: red; }` written later will override `p { color: blue; }` written earlier. |
-          | Later `<link>` stylesheets override earlier ones | `<link rel="stylesheet" href="style1.css">` will be overridden by `<link rel="stylesheet" href="style2.css">`. |
 
 <!-- - Priority(優先度)
 
