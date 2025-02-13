@@ -428,6 +428,13 @@ a.FontSize {
 
 # 第六章 CSS 重點概念
 
+| Priority | Type                  | Description                                                          |
+| -------- | --------------------- | -------------------------------------------------------------------- |
+| 1        | Inline Styling        | Highest priority, written directly in the HTML tag using `style=""`. |
+| 2        | User Stylesheet       | Internal CSS; specificity affects priority order.                    |
+| 3        | User Agent Stylesheet | Default styles provided by the browser.                              |
+| 4        | Inheritance           | Certain properties are inherited from parent elements.               |
+
 **Cascading Style Sheet**
 
 - Inheritance:
@@ -479,12 +486,7 @@ a.FontSize {
           - 根據 W3C 標準，網頁瀏覽器的預設樣式被稱為 **User Agent Stylesheet**，而開發者定義的樣式則被稱為 **User Stylesheet**。優先級 (Priority) 順序如下：
 
 
-          | Priority | Type                  | Description                                      |
-          |----------|-----------------------|--------------------------------------------------|
-          | 1 | Inline Styling | Highest priority, written directly in the HTML tag using `style=""`. |
-          | 2 | User Stylesheet | Internal CSS; specificity affects priority order. |
-          | 3 | User Agent Stylesheet | Default styles provided by the browser. |
-          | 4 | Inheritance | Certain properties are inherited from parent elements. |
+
 
         - Specificity (特定度)
 
