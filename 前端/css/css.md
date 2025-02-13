@@ -310,9 +310,9 @@ RAM 8GB (8 Gigabyte)
 
     ```html
     <label for="name">name:</label>
-    <input type="text" id="name"></input>
+    <input type="text" id="name" />
     <label for="phone">phone:</label>
-    <input type="text" id="phone"></input>
+    <input type="text" id="phone" />
     ```
 
     ```css
@@ -341,7 +341,7 @@ a.FontSize {
 
   - hover: 可用於在用戶滑鼠懸停在標籤上時更改標籤的樣式。
   - active: 可用於在用戶滑鼠點擊標籤上時更改標籤的樣式。
-  - focus: 可用於在用戶滑鼠點擊<input>標籤上時更改<input>標籤的樣式
+  - focus: 可用於在用戶滑鼠點擊`<input>`標籤上時更改`<input>`標籤的樣式
   - nth-child(): 可用來選擇第 n 個元素
 
     ```html

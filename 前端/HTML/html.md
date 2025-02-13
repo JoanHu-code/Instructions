@@ -21,6 +21,7 @@
   - [radio range](#radio-range)
   - [button selection option datalist textarea](#button-selection-option-datalist-textarea)
 - [第十一章 其他資訊](#第十一章-其他資訊)
+- [第十二章 HTML Semantic Tags](#第十二章-HTML-Semantic-Tags)
 
 # 第一章 HTML 簡介
 
@@ -804,3 +805,28 @@ HTML 標籤的設計方式是採用物件導向的想法，物件包含兩個部
 ```html
 <link rel="icon" href="./故宮範例/img/favicon.ico" />
 ```
+
+# 第十二章 HTML Semantic Tags
+
+> Sematics(語意)是指一段 code 的含意，例如"這個 HTML 元素有什麼目的或作用"，而不是"它看起來像什麼?"
+> 傳統上來說，我們會在網頁大量使用`<div>`來表示不同的區塊，但`<div>`本身不代表任何含意。從 HTML5 開始新增了`<article>`,`<aside>`,`<details>`,`<figcaption>`,`<figure>`,`<footer>`,`<header>`,`<main>`,`<mark>`,`<nav>`,`<section>`,`<summary>`,`<time>`這些 semantic tags。
+> Semantic elements = elements with a meaning
+
+> 正確的使用這些 semantic tags 可以告訴網頁瀏覽器與開發者每個標籤的作用與功能。
+
+**這些東西跟`<div>`並沒有實質性的差別，只是讓寫程式的人更加知道這是什麼東西**
+
+- `<nav>`:製作導覽列
+- `<main>`:網站主要內容
+- `<header>`:網站標題
+- `<footer>`: 頁尾
+
+```html
+<header>
+  <nav></nav>
+</header>
+<main></main>
+<footer></footer>
+```
+
+[其餘東西請參考 w3s](https://www.w3schools.com/html/html5_semantic_elements.asp)
