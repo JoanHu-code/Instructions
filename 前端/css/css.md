@@ -16,6 +16,7 @@
 - [第十二章 Transition](#第十二章-Transition)
 - [第十三章 Transform](#第十三章-Transform)
 - [第十四章 Animation](#第十四章-Animation)
+- [第十五章 響應式網頁設計](#第十五章-響應式網頁設計)
 
 # 第一章 CSS 簡介
 
@@ -1091,3 +1092,69 @@ div.box {
 [範例](https://codepen.io/JoanHu/pen/xbxKyWw)
 
 [mdn](https://developer.mozilla.org/en-US/docs/Web/CSS/animation)
+
+# 第十五章 響應式網頁設計
+
+> 響應式網頁設計(Responsive Web Design)是一種網頁設計的技術，這種設計可使網站在不同的裝置(從桌面電腦顯示器、行動電話、平板或其他行動裝置)上瀏覽時，對應不同解析度皆有適合的呈現，減少使用者縮放、平移和捲動等操作行為。
+
+- 過去的錢端工程師需要針對各種裝置進行不同的設計，但目前主流的響應式網頁設計原則是:
+  - Flexbox 來自動排版，不需要再去對不同螢幕寬度做個別設定
+  - 元素、圖片皆使用相對單位，如：rem、%、vh、vw 來調整大小，防止他們跑版。
+  - 內容物要像水一樣，可以適應所有的容器
+    ![RWD說明圖片](../../img/css/05.png)
+
+1.  Flexbox:
+
+    - 現代網頁的布局排版要配合響應式網頁的設計理念，所以需要一種事半功倍的 CSS 寫法。
+    - Flexbox 布局背後的主要思想是讓容器能夠改變其項目的寬度/高度(和順序)以最好地填充可用空間(主要是為了適應各種顯示設備和螢幕尺寸)
+    - 彈性容器擴展項目以填充可用的可用空間或縮小他們以防止溢出
+
+    [參考內容](https://css-tricks.com/snippets/css/a-guide-to-flexbox/)
+
+2.  Propertise for the Parent(flex container)
+
+    - display: flex 是一種 inner display type
+    - 任何定義 display:flex 的元素皆為 flex container，而此元素內部的 HTML 元素皆為 flex item
+    - 對於下圖 HTML 元素來說，藍色外在的東西是 flex container， 裡面黃色的是 flex item
+      ![flex item和flex container](../../img/css/06.png)
+    - flex item 本身可再定義 display:flex 變成 dispaly container，所以一個 HTML 元素可同時為 flex container 以及 flex item。對於這個 HTML 元素來說，outer display type 是 flex item，inner dispaly type 是 flex
+
+      - flex item: 預設情況下不會換行，可以設定高和寬，也可以設定 margin 和 padding。
+
+             ```html
+             <div class="container2">
+              <a href="https://www.youtube.com/">youtube</a>
+              <a href="https://www.amazon.com/">amazon</a>
+              <a href="https://www.google.co.uk/">google</a>
+              <a href="https://www.facebook.com/">facebook</a>
+              <a href="https://www.tesla.com/">telsa</a>
+             </div>
+             ```
+
+             ```css
+             /*anchor tags outer display type = flex item*/
+             div.container2 a{
+                background-color:red;
+                width:100px;
+                height:50px;
+              }
+              ```
+
+3.  flex container 可設定 display: flex 後，能夠設定的屬性包含：
+    - flex-direction
+    - flex-wrap
+    - justify-content
+    - align-items
+
+**Outer display type vs Inner display type**
+
+- Outer display type（外部展示類型）
+  - 決定該元素在其父層中的排版方式，例如：
+    - block：獨佔一整行，像 `<div>`、`<p>`、`<h1>` 等。
+    - inline：不換行，僅佔用內容所需的寬度，像 `<span>`、`<a>` 等。
+    - inline-block：像 inline 一樣可以與其他 inline 元素並排，但可以設定寬高。
+- Inner display type（內部展示類型）
+  - 決定該元素的內部子元素應如何排列，例如：
+    - flex：彈性布局，例如 display: flex;。
+    - grid：網格布局，例如 display: grid;。
+    - block：子元素默認按 block 方式排列（通常適用於 `<div>`）。
