@@ -428,12 +428,11 @@ a.FontSize {
 
 # 第六章 CSS 重點概念
 
-| Priority | Type                  | Description                                                          |
-| -------- | --------------------- | -------------------------------------------------------------------- |
-| 1        | Inline Styling        | Highest priority, written directly in the HTML tag using `style=""`. |
-| 2        | User Stylesheet       | Internal CSS; specificity affects priority order.                    |
-| 3        | User Agent Stylesheet | Default styles provided by the browser.                              |
-| 4        | Inheritance           | Certain properties are inherited from parent elements.               |
+| Specificity | Type                              | Calculation Method                |
+| ----------- | --------------------------------- | --------------------------------- |
+| `1,0,0`     | `id` Selector (`#id`)             | `id` has the highest specificity. |
+| `0,1,0`     | `class` Selector (`.class`)       | `class` has medium specificity.   |
+| `0,0,1`     | `tag` Selector (`div`, `p`, `h1`) | `tag` has the lowest specificity. |
 
 **Cascading Style Sheet**
 
@@ -492,11 +491,7 @@ a.FontSize {
 
           - 當一個標籤有多個 CSS 選擇器應用時，會選擇 **特定度 (Specificity) 更高** 的樣式，而不考慮順序。
 
-          | Specificity | Type                        | Calculation Method          |
-          |------------|-----------------------------|-----------------------------|
-          | `1,0,0`    | `id` Selector (`#id`)       | `id` has the highest specificity. |
-          | `0,1,0`    | `class` Selector (`.class`) | `class` has medium specificity. |
-          | `0,0,1`    | `tag` Selector (`div`, `p`, `h1`) | `tag` has the lowest specificity. |
+
 
 
           - **具體程度**: `id > class > tag`
