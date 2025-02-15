@@ -1156,42 +1156,42 @@ div.box {
 3.  flex container 可設定 display: flex 後，能夠設定的屬性包含：
     - flex-direction: 屬性設置 flex items 如何放置在 flex 容器中的主要配置方向(main axis)。可使用的值包含:
       - row: flex items 橫向放置(預設)
-        ![flex item和flex container](../../img/css/07.png)
+        - ![flex item和flex container](../../img/css/07.png)
       - column: flex items 直向放置
-        ![flex item和flex container](../../img/css/09.png)
+        - ![flex item和flex container](../../img/css/09.png)
       - row-reverse: flex items 橫向相反放置
-        ![flex item和flex container](../../img/css/08.png)
+        - ![flex item和flex container](../../img/css/08.png)
       - column-reverse: flex items 直向相反放置
-        ![flex item和flex container](../../img/css/10.png)
+        - ![flex item和flex container](../../img/css/10.png)
     - flex-wrap
       - 強制在一行上還是可以換行到多行上
       - 預設: no-wrap(不會換行)
       - wrap:才會換行
-        ![flex item和flex container](../../img/css/11.png)
+        - ![flex item和flex container](../../img/css/11.png)
     - justify-content: 定義瀏覽器如何沿著 flex container 的主軸(main axis)在 flex items 之間和周圍分配空間，常見的設定有:
       - flex-start(預設)
-        ![flex item和flex container](../../img/css/12.png)
+        - ![flex item和flex container](../../img/css/12.png)
       - flex-end
-        ![flex item和flex container](../../img/css/13.png)
+        - ![flex item和flex container](../../img/css/13.png)
       - center
-        ![flex item和flex container](../../img/css/14.png)
+        - ![flex item和flex container](../../img/css/14.png)
       - space-between
-        ![flex item和flex container](../../img/css/15.png)
+        - ![flex item和flex container](../../img/css/15.png)
       - space-around
-        ![flex item和flex container](../../img/css/16.png)
+        - ![flex item和flex container](../../img/css/16.png)
       - space-evenly
-        ![flex item和flex container](../../img/css/17.png)
+        - ![flex item和flex container](../../img/css/17.png)
     - align-items: 在 Flexbox 中，align-items 屬性控制項目在 cross asix(與 main axis 軸垂直)上的對其方式。常在可設定的值有:
       - stretch(預設值)
-        ![flex item和flex container](../../img/css/18.png)
+        - ![flex item和flex container](../../img/css/18.png)
       - flex-start
-        ![flex item和flex container](../../img/css/19.png)
+        - ![flex item和flex container](../../img/css/19.png)
       - flex-end
-        ![flex item和flex container](../../img/css/20.png)
+        - ![flex item和flex container](../../img/css/20.png)
       - center
-        ![flex item和flex container](../../img/css/21.png)
+        - ![flex item和flex container](../../img/css/21.png)
       - baseline
-        ![flex item和flex container](../../img/css/22.png)
+        - ![flex item和flex container](../../img/css/22.png)
 4.  flex items 可設定的屬性:
     - flex-grow :如何將 flex container 中的剩餘空間(remaining space)分配給 flex item。
       - flex-grow 屬性可以設定每個 flex item 的彈性增長因子(grow factor)。成長因子值範圍是 0~無限大。
