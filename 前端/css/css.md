@@ -1140,12 +1140,6 @@ div.box {
                 }
                 ```
 
-3.  flex container 可設定 display: flex 後，能夠設定的屬性包含：
-    - flex-direction
-    - flex-wrap
-    - justify-content
-    - align-items
-
 **Outer display type vs Inner display type**
 
 - Outer display type（外部展示類型）
@@ -1158,3 +1152,62 @@ div.box {
     - flex：彈性布局，例如 display: flex;。
     - grid：網格布局，例如 display: grid;。
     - block：子元素默認按 block 方式排列（通常適用於 `<div>`）。
+
+3.  flex container 可設定 display: flex 後，能夠設定的屬性包含：
+    - flex-direction: 屬性設置 flex items 如何放置在 flex 容器中的主要配置方向(main axis)。可使用的值包含:
+      - row: flex items 橫向放置(預設)
+        ![flex item和flex container](../../img/css/07.png)
+      - column: flex items 直向放置
+        ![flex item和flex container](../../img/css/09.png)
+      - row-reverse: flex items 橫向相反放置
+        ![flex item和flex container](../../img/css/08.png)
+      - column-reverse: flex items 直向相反放置
+        ![flex item和flex container](../../img/css/10.png)
+    - flex-wrap
+      - 強制在一行上還是可以換行到多行上
+      - 預設: no-wrap(不會換行)
+      - wrap:才會換行
+        ![flex item和flex container](../../img/css/11.png)
+    - justify-content: 定義瀏覽器如何沿著 flex container 的主軸(main axis)在 flex items 之間和周圍分配空間，常見的設定有:
+      - flex-start(預設)
+        ![flex item和flex container](../../img/css/12.png)
+      - flex-end
+        ![flex item和flex container](../../img/css/13.png)
+      - center
+        ![flex item和flex container](../../img/css/14.png)
+      - space-between
+        ![flex item和flex container](../../img/css/15.png)
+      - space-around
+        ![flex item和flex container](../../img/css/16.png)
+      - space-evenly
+        ![flex item和flex container](../../img/css/17.png)
+    - align-items: 在 Flexbox 中，align-items 屬性控制項目在 cross asix(與 main axis 軸垂直)上的對其方式。常在可設定的值有:
+      - stretch(預設值)
+        ![flex item和flex container](../../img/css/18.png)
+      - flex-start
+        ![flex item和flex container](../../img/css/19.png)
+      - flex-end
+        ![flex item和flex container](../../img/css/20.png)
+      - center
+        ![flex item和flex container](../../img/css/21.png)
+      - baseline
+        ![flex item和flex container](../../img/css/22.png)
+4.  flex items 可設定的屬性:
+    - flex-grow :如何將 flex container 中的剩餘空間(remaining space)分配給 flex item。
+      - flex-grow 屬性可以設定每個 flex item 的彈性增長因子(grow factor)。成長因子值範圍是 0~無限大。
+      - 剩餘空間(remaining space): flex container 的大小減去所有 flex item 大小的總和。如果所有同級的 flex items 具有相同的彈性增長因子，則所有項目將貨的相同的剩餘空間份額，否則根據不同彈性增長因子數值比例分配。
+    - flex-shrink: 定義 flex item 在必要時收縮能力。
+      - [mdn](https://developer.mozilla.org/en-US/docs/Web/CSS/flex-shrink)
+    - flex-basis: 定義在分配剩餘空間之前的元素的默認大小。
+      - flex container 的空間會先分配給 flex-basis，有剩餘空間才會按照 flex-grow 分配
+      - flex-basis 可以是長度(例如:20%、5rem 等)或關鍵字。
+      - 僅適用於 flex container 的 main axis。若為 flex-direction: row 則定義 width，反之 flex-direction: column 則定義 height。
+    - 以上三種屬性可以一次設定 shorthand property-flex 即可
+    ```css
+    .box {
+      /*flex-grow,flex-shrink,flex-basis*/
+      flex: 1 1 100px;
+    }
+    ```
+    - align-self: 允許為單個 flex item 複寫默認對其方式(由 align-items 指定的對齊方式)
+      ![flex item和flex container](../../img/css/23.png)
