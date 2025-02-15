@@ -572,7 +572,8 @@ h1 {
   - <a> tag 預設 underline
   - line-through
 - line-height: 通常用於設置文字行距
-- letter-soacing: 設置文自水平間距
+  - [mdn](https://developer.mozilla.org/en-US/docs/Web/CSS/line-height)
+- letter-spacing: 設置文自水平間距
 - font-family: 為所選元素指定一個或多個字體系列的優先順序
   - [Google font](https://fonts.google.com/)
   - 從 google font 拿來的網只要貼在 引入自己的 stylesheet 的上方
@@ -581,7 +582,7 @@ h1 {
 
 **css 單位:**
 
-1. Absolute units: 只有預設數值或是現實生活定義的單位，包含 px(代表 pixel，長度為 2.54cm (1 inch)的 1/96), in,mm,cm 等等
+1. Absolute units: 是指預設數值或是現實生活定義的單位，包含 px(代表 pixel，長度為 2.54cm (1 inch)的 1/96), in,mm,cm 等等
 
 2. Relative units 是指相對於某種數值的單位，包含:
 
@@ -600,6 +601,14 @@ h1 {
 | vw   | viewport width，表示當前 viewport（瀏覽器視窗）寬度的 `1/100`。`100vw` 可能會略大於網頁寬度，若將元素設定為 `100vw`，可能會導致水平滾動條（horizontal scrollbar）。                                  |
 | vh   | viewport height，表示當前 viewport（瀏覽器視窗）高度的 `1/100`。                                                                                                                                     |
 | %    | 百分比，代表相對於 parent element 的值。例如，若 parent element 的寬度為 `500px`，子元素的 `width: 50%`，則實際寬度為 `250px`。                                                                      |
+
+| Unit | Description                                                                                                                                                                                                                                                         |
+| ---- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| em   | Relative to the length of the parent element. In a deeply nested DOM tree, the `em` value can be difficult to calculate. If the parent element's size is `50px`, then `1em` in the child element will be `50px`, `2em` will be `100px`, and `0.5em` will be `25px`. |
+| rem  | Stands for "root em." `rem` refers to the `<html>` element's font size. The browser's default `font-size` is `16px`, so `1rem = 16px`. If the user changes the browser's font size to `24px`, then `1rem = 24px`.                                                   |
+| vw   | Viewport width, representing `1/100` of the current viewport (browser window) width. `100vw` may be slightly larger than the webpage width, potentially causing a horizontal scrollbar if an element is set to `100vw`.                                             |
+| vh   | Viewport height, representing `1/100` of the current viewport (browser window) height.                                                                                                                                                                              |
+| %    | Percentage, relative to the parent element. For example, if the parent element's width is `500px`, a child element with `width: 50%` will have an actual width of `250px`.                                                                                          |
 
 # 第八章 背景設定
 
@@ -1216,3 +1225,4 @@ div.box {
       ![flex item和flex container](../../img/css/23.png)
 
     [圖片大小不一的並排處理方式](https://codepen.io/JoanHu/pen/MYWwOQd)
+    [plans 範例](https://codepen.io/JoanHu/pen/QwWbOxz)
