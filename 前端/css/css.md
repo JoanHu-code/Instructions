@@ -1193,6 +1193,7 @@ div.box {
       - baseline
         - ![flex item和flex container](../../img/css/22.png)
 4.  flex items 可設定的屬性:
+
     - flex-grow :如何將 flex container 中的剩餘空間(remaining space)分配給 flex item。
       - flex-grow 屬性可以設定每個 flex item 的彈性增長因子(grow factor)。成長因子值範圍是 0~無限大。
       - 剩餘空間(remaining space): flex container 的大小減去所有 flex item 大小的總和。如果所有同級的 flex items 具有相同的彈性增長因子，則所有項目將貨的相同的剩餘空間份額，否則根據不同彈性增長因子數值比例分配。
@@ -1203,11 +1204,15 @@ div.box {
       - flex-basis 可以是長度(例如:20%、5rem 等)或關鍵字。
       - 僅適用於 flex container 的 main axis。若為 flex-direction: row 則定義 width，反之 flex-direction: column 則定義 height。
     - 以上三種屬性可以一次設定 shorthand property-flex 即可
+
     ```css
     .box {
       /*flex-grow,flex-shrink,flex-basis*/
       flex: 1 1 100px;
     }
     ```
+
     - align-self: 允許為單個 flex item 複寫默認對其方式(由 align-items 指定的對齊方式)
       ![flex item和flex container](../../img/css/23.png)
+
+    [圖片大小不一的並排處理方式](https://codepen.io/JoanHu/pen/MYWwOQd)
