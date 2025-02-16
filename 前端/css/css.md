@@ -588,9 +588,11 @@ h1 {
 
 - em: 相對於 parent element 的長度。多層的 DOM Tree 當中，越下層的 element 的 em 值可能難以計算，所以在 css 當中會必免使用 em；例:如果 paraent element 的長度為 50px，那 children element 的 1em 就會是 50px，2em 為 100px，0.5em 為 25px。
 - rem: root em 的意思。rem 會找到`<html>`這個元素 font-size 的設定。網頁瀏覽器的預設 font-size 為 16px，所以 1rem 等於 16px。如果年長者使用的網頁瀏覽器設定字體放大，則網頁瀏覽器預設 font-size 可能為 24px，則 1rem 等於 24px。
-- vw: viewport width 的縮寫，是指目前 viewport(也就是瀏覽器視窗)的寬度的 1/100。100vw 長度通常會略寬於網頁寬度，所以設定某個元素的寬度為 100 vw 會導致出現 horizontal scrollbar。
+- vw: viewport width 的縮寫，是指目前 viewport(也就是瀏覽器視窗)的寬度的 1/100。100vw 長度通常會略寬於網頁寬度，因為 vw 有包含 vertical scrollbar，所以設定某個元素的寬度為 100 vw 會導致出現 horizontal scrollbar。
 - vh: viewport height 的縮寫，指目前 viewport(也就是瀏覽器視窗)的高度的 1/100。
-- %: percentage 代表相對於 parent element 的值。例如，parent element 的 width 是 500px，在 child element 設定 50%則 children element 寬度就是 250px
+- %: percentage 代表相對於 parent element 的值。例如，parent element 的 width 和 height 是 200px，在 child element 設定 50%則 children element 寬度和高度就是 100px
+
+**使用相對單位的好處:大小長度可以隨者視窗大小來做變化，有助於 RWD**
 
 **單位表單整理**
 
