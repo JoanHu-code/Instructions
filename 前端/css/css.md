@@ -17,6 +17,7 @@
 - [第十三章 Transform](#第十三章-Transform)
 - [第十四章 Animation](#第十四章-Animation)
 - [第十五章 響應式網頁設計](#第十五章-響應式網頁設計)
+- [第十六章 Bootstrap](#第十六章-Bootstrap)
 
 # 第一章 CSS 簡介
 
@@ -1247,6 +1248,31 @@ div.box {
                background-color: red;
             }
          }
-      ```
+     ```
 
     3.  圖片與其他元素應要隨者螢幕大小而變化
+
+# 第十六章 Bootstrap
+
+- Bootstrap 是一組用於網路應用程式開發的開源前端框架，包括 HTML、CSS 以及 Javascript 的框架，提供字體排版、表單、按鈕、導航及其他各種元件，以及 Javascript 擴充套件，旨在使動態網頁和 Web 應用的開發更加容易
+  - 前端:展現給終端使用者的介面
+  - 後段:在伺服器上面執行的代碼
+- Bootstrap 內建的樣式都自帶 RWD 的設計，可以方便有效地建立起美觀的網站
+
+**Content delivery network (內容傳遞網路):在 html 檔案裡引入即可以使用此套件**
+
+bootstrap cdn
+
+```html
+<link
+  href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+  rel="stylesheet"
+  integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+  crossorigin="anonymous"
+/>
+<script
+  src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+  crossorigin="anonymous"
+></script>
+```
