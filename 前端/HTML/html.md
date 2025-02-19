@@ -23,6 +23,7 @@
 - [第十一章 其他資訊](#第十一章-其他資訊)
 - [第十二章 HTML Semantic Tags](#第十二章-HTML-Semantic-Tags)
 - [第十三章 User Snippet](#第十三章-User-Snippet)
+- [第十四章 icon 網站](#第十四章-icon-網站)
 
 # 第一章 HTML 簡介
 
@@ -853,3 +854,57 @@ HTML 標籤的設計方式是採用物件導向的想法，物件包含兩個部
 ![snippet](../../img/html/02.png)
 ![snippet](../../img/html/03.png)
 ![snippet](../../img/html/04.png)
+
+# 第十四章 免費 icon 網站
+
+- Font Awesome （需註冊下載）
+
+  - 提供 SVG 與 Web 字體格式的圖示
+  - 適用於 HTML、CSS 和 JavaScript
+  - 內建於許多前端框架，例如 Bootstrap
+
+- Google Material Icons
+
+  - Google Material Design 的官方圖示庫
+  - 適用於 Android、Web 和 iOS
+  - 提供 SVG、PNG 和 Web 字體
+
+- Heroicons
+
+  - Tailwind CSS 官方提供的免費圖示
+  - 適合搭配 Vue.js、React、Tailwind
+
+- Remix Icon
+
+  - 免費且精緻的 2D 圖示庫
+  - 提供 SVG 和 Web 字體格式
+  - 適用於網頁與移動端設計
+
+- Bootstrap Icons
+
+  - Bootstrap 官方圖示庫
+  - 適合 Bootstrap 開發的專案
+
+- Feather Icons
+
+  - 極簡風格的 SVG 圖示庫
+  - 適合搭配 Vue.js、React 等前端框架
+
+- Flaticon（部分免費）
+
+  - 提供大量 PNG、SVG 圖示
+  - 部分圖示需標註來源
+
+- Iconfinder（部分免費）
+
+  - 提供多種風格的圖示
+  - 部分資源可免費使用，但需標註出處
+
+- Icons8（部分免費）
+
+  - 提供 PNG、SVG、WebP、Base64 圖示
+  - 需註冊才能下載部分免費圖示
+
+- The Noun Project（部分免費）
+
+  - 提供創意性強的圖示，適合 UI/UX 設計
