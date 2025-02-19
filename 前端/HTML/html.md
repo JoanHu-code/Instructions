@@ -22,6 +22,7 @@
   - [button selection option datalist textarea](#button-selection-option-datalist-textarea)
 - [第十一章 其他資訊](#第十一章-其他資訊)
 - [第十二章 HTML Semantic Tags](#第十二章-HTML-Semantic-Tags)
+- [第十三章 User Snippet](#第十三章-User-Snippet)
 
 # 第一章 HTML 簡介
 
@@ -830,3 +831,25 @@ HTML 標籤的設計方式是採用物件導向的想法，物件包含兩個部
 ```
 
 [其餘東西請參考 w3s](https://www.w3schools.com/html/html5_semantic_elements.asp)
+
+# 第十三章 User Snippet
+
+> 文字編輯器，包含 vscode,atom,sunlime text 等等都有提供 user snippet 的功能。User snippet 是指，每個程式語言都可以設定使用者可客製化的程式碼片段。程式碼片段可被重複使用，使程式開發效率可以提升。
+
+> 每個 user snippet 可以設定名稱、程式碼主體、描述以及 trigger。
+
+    - Trigger: 我們需要打什麼才能觸發 snippet 選項。名稱與描述則是可以隨意填寫。
+    - 例如: `!`: 出現 HTML Skeleton
+
+> [snippet generator](https://snippet-generator.app/?description=&tabtrigger=&snippet=&mode=vscode)
+
+    - Description: 對 snippet 的描述
+    - trigger: 輸入什麼來引發
+    - snippet: 輸入引發的正文
+
+> 範例(製作自己的 snippet):
+
+![snippet](../../img/html/snippet.png)
+![snippet](../../img/html/02.png)
+![snippet](../../img/html/03.png)
+![snippet](../../img/html/04.png)
