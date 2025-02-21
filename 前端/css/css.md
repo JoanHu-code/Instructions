@@ -18,7 +18,7 @@
 - [第十四章 Animation](#第十四章-Animation)
 - [第十五章 響應式網頁設計](#第十五章-響應式網頁設計)
 - [第十六章 Bootstrap](#第十六章-Bootstrap)
-- [第十七章 User Snippet](#第十七章-User-Snippet)
+- [第十七章 Local Font 設定](#第十七章-Local-Font-設定)
 
 # 第一章 CSS 簡介
 
@@ -1278,4 +1278,25 @@ bootstrap cdn
 ></script>
 ```
 
+# 第十七章 Local Font 設定
 
+步驟:
+
+1. 去網路上找可以商用的字體
+
+   - [清松手寫體](https://mrmad.com.tw/jasonhandwriting)
+   - [其他英文商用字體](https://www.100font.com/forum-1-1.htm?tagids=3_0_0_0)
+
+2. 下載後把.ttf 檔案放到專案中
+
+3. 在 css 裡打應用的指令
+
+```css
+@font-face {
+  font-family: "myFont";
+  src: url("./JasonHandwriting1.ttf");
+}
+* {
+  font-family: "myFont", DFkai-sb, sans-self;
+}
+```

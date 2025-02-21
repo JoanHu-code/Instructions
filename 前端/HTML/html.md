@@ -24,6 +24,7 @@
 - [第十二章 HTML Semantic Tags](#第十二章-HTML-Semantic-Tags)
 - [第十三章 User Snippet](#第十三章-User-Snippet)
 - [第十四章 icon 網站](#第十四章-icon-網站)
+- [第十五章 HTML Bookmark](#第十五章-HTML-Bookmark)
 
 # 第一章 HTML 簡介
 
@@ -910,4 +911,157 @@ HTML 標籤的設計方式是採用物件導向的想法，物件包含兩個部
   - 提供創意性強的圖示，適合 UI/UX 設計
 
 - [undraw](https://undraw.co/illustrations)
+
   - 主要提供的是插畫（Illustrations），但它的風格簡潔、可調整顏色，對 UI/UX 設計非常友好，所以如果你是要找大尺寸、向量化的圖像來搭配網站或應用程式，Undraw 會是很好的選擇。
+
+# 第十五章 HTML Bookmark
+
+**目錄功能，點擊此文字後會自動跳轉到那部分**
+
+- 舉例
+
+  - [wikipedia](https://www.wikipedia.org/)
+
+- 範例:
+
+```html
+<h2>Table of contents</h2>
+<div class="book-mark">
+  <a href="#first-paragrap">First paragraph</a>
+  <a href="#second-paragrap">Second paragraph</a>
+  <a href="#third-paragrap">Third paragraph</a>
+  <a href="#fourth-paragrap">Fourth paragraph</a>
+  <a href="#fifth-paragrap">Fifth paragraph</a>
+</div>
+
+<h1 id="first-paragrap">First paragraph</h1>
+<p>
+  Lorem ipsum dolor, sit amet consectetur adipisicing elit. Impedit eos nisi ea,
+  vero mollitia perferendis iste pariatur, magnam rem, delectus vitae itaque
+  minus quod non nesciunt molestias? Maxime sint, blanditiis adipisci incidunt
+  nam dicta ullam officia eius consequatur consequuntur, inventore ab ad quaerat
+  alias saepe corrupti ratione suscipit harum quam tenetur facere odio? Sapiente
+  aliquam maiores, perspiciatis excepturi repellat nulla nesciunt in est ad
+  recusandae maxime, voluptas sequi inventore, explicabo rem asperiores culpa
+  aliquid quae! Nobis labore sequi rem velit accusamus magni. Molestias
+  inventore libero maiores voluptatem autem fugit et amet fugiat non.
+  Repellendus architecto voluptatum sunt commodi, velit enim distinctio
+  asperiores optio, quam quae error ipsa porro nulla dolor est veniam excepturi
+  quos modi, vitae consectetur doloremque dicta blanditiis ullam. Dolor nisi
+  perspiciatis perferendis ad repellendus sequi illo rem totam quo suscipit,
+  illum ratione officia, natus consectetur alias error iure dolorem qui
+  cupiditate quasi! Minus at eius, exercitationem rerum nihil vero recusandae
+  perspiciatis esse dolorem omnis doloremque! Laborum architecto vitae non magni
+  impedit laudantium laboriosam quod, doloribus blanditiis suscipit natus quia
+  ea consequatur facere explicabo qui in sequi? Placeat consequuntur aspernatur
+  laborum unde accusamus praesentium, quisquam quam. Illo magni assumenda
+  officiis voluptatum voluptate, provident iste fugit aperiam voluptates
+  expedita.
+</p>
+<h1 id="second-paragrap">Second paragraph</h1>
+<p>
+  Lorem ipsum dolor, sit amet consectetur adipisicing elit. Impedit eos nisi ea,
+  vero mollitia perferendis iste pariatur, magnam rem, delectus vitae itaque
+  minus quod non nesciunt molestias? Maxime sint, blanditiis adipisci incidunt
+  nam dicta ullam officia eius consequatur consequuntur, inventore ab ad quaerat
+  alias saepe corrupti ratione suscipit harum quam tenetur facere odio? Sapiente
+  aliquam maiores, perspiciatis excepturi repellat nulla nesciunt in est ad
+  recusandae maxime, voluptas sequi inventore, explicabo rem asperiores culpa
+  aliquid quae! Nobis labore sequi rem velit accusamus magni. Molestias
+  inventore libero maiores voluptatem autem fugit et amet fugiat non.
+  Repellendus architecto voluptatum sunt commodi, velit enim distinctio
+  asperiores optio, quam quae error ipsa porro nulla dolor est veniam excepturi
+  quos modi, vitae consectetur doloremque dicta blanditiis ullam. Dolor nisi
+  perspiciatis perferendis ad repellendus sequi illo rem totam quo suscipit,
+  illum ratione officia, natus consectetur alias error iure dolorem qui
+  cupiditate quasi! Minus at eius, exercitationem rerum nihil vero recusandae
+  perspiciatis esse dolorem omnis doloremque! Laborum architecto vitae non magni
+  impedit laudantium laboriosam quod, doloribus blanditiis suscipit natus quia
+  ea consequatur facere explicabo qui in sequi? Placeat consequuntur aspernatur
+  laborum unde accusamus praesentium, quisquam quam. Illo magni assumenda
+  officiis voluptatum voluptate, provident iste fugit aperiam voluptates
+  expedita.
+</p>
+<h1 id="third-paragrap">Third paragraph</h1>
+<p>
+  Lorem ipsum dolor, sit amet consectetur adipisicing elit. Impedit eos nisi ea,
+  vero mollitia perferendis iste pariatur, magnam rem, delectus vitae itaque
+  minus quod non nesciunt molestias? Maxime sint, blanditiis adipisci incidunt
+  nam dicta ullam officia eius consequatur consequuntur, inventore ab ad quaerat
+  alias saepe corrupti ratione suscipit harum quam tenetur facere odio? Sapiente
+  aliquam maiores, perspiciatis excepturi repellat nulla nesciunt in est ad
+  recusandae maxime, voluptas sequi inventore, explicabo rem asperiores culpa
+  aliquid quae! Nobis labore sequi rem velit accusamus magni. Molestias
+  inventore libero maiores voluptatem autem fugit et amet fugiat non.
+  Repellendus architecto voluptatum sunt commodi, velit enim distinctio
+  asperiores optio, quam quae error ipsa porro nulla dolor est veniam excepturi
+  quos modi, vitae consectetur doloremque dicta blanditiis ullam. Dolor nisi
+  perspiciatis perferendis ad repellendus sequi illo rem totam quo suscipit,
+  illum ratione officia, natus consectetur alias error iure dolorem qui
+  cupiditate quasi! Minus at eius, exercitationem rerum nihil vero recusandae
+  perspiciatis esse dolorem omnis doloremque! Laborum architecto vitae non magni
+  impedit laudantium laboriosam quod, doloribus blanditiis suscipit natus quia
+  ea consequatur facere explicabo qui in sequi? Placeat consequuntur aspernatur
+  laborum unde accusamus praesentium, quisquam quam. Illo magni assumenda
+  officiis voluptatum voluptate, provident iste fugit aperiam voluptates
+  expedita.
+</p>
+<h1 id="fourth-paragrap">Fourth paragraph</h1>
+<p>
+  Lorem ipsum dolor, sit amet consectetur adipisicing elit. Impedit eos nisi ea,
+  vero mollitia perferendis iste pariatur, magnam rem, delectus vitae itaque
+  minus quod non nesciunt molestias? Maxime sint, blanditiis adipisci incidunt
+  nam dicta ullam officia eius consequatur consequuntur, inventore ab ad quaerat
+  alias saepe corrupti ratione suscipit harum quam tenetur facere odio? Sapiente
+  aliquam maiores, perspiciatis excepturi repellat nulla nesciunt in est ad
+  recusandae maxime, voluptas sequi inventore, explicabo rem asperiores culpa
+  aliquid quae! Nobis labore sequi rem velit accusamus magni. Molestias
+  inventore libero maiores voluptatem autem fugit et amet fugiat non.
+  Repellendus architecto voluptatum sunt commodi, velit enim distinctio
+  asperiores optio, quam quae error ipsa porro nulla dolor est veniam excepturi
+  quos modi, vitae consectetur doloremque dicta blanditiis ullam. Dolor nisi
+  perspiciatis perferendis ad repellendus sequi illo rem totam quo suscipit,
+  illum ratione officia, natus consectetur alias error iure dolorem qui
+  cupiditate quasi! Minus at eius, exercitationem rerum nihil vero recusandae
+  perspiciatis esse dolorem omnis doloremque! Laborum architecto vitae non magni
+  impedit laudantium laboriosam quod, doloribus blanditiis suscipit natus quia
+  ea consequatur facere explicabo qui in sequi? Placeat consequuntur aspernatur
+  laborum unde accusamus praesentium, quisquam quam. Illo magni assumenda
+  officiis voluptatum voluptate, provident iste fugit aperiam voluptates
+  expedita.
+</p>
+<h1 id="fifth-paragrap">Fifth paragraph</h1>
+<p>
+  Lorem ipsum dolor, sit amet consectetur adipisicing elit. Impedit eos nisi ea,
+  vero mollitia perferendis iste pariatur, magnam rem, delectus vitae itaque
+  minus quod non nesciunt molestias? Maxime sint, blanditiis adipisci incidunt
+  nam dicta ullam officia eius consequatur consequuntur, inventore ab ad quaerat
+  alias saepe corrupti ratione suscipit harum quam tenetur facere odio? Sapiente
+  aliquam maiores, perspiciatis excepturi repellat nulla nesciunt in est ad
+  recusandae maxime, voluptas sequi inventore, explicabo rem asperiores culpa
+  aliquid quae! Nobis labore sequi rem velit accusamus magni. Molestias
+  inventore libero maiores voluptatem autem fugit et amet fugiat non.
+  Repellendus architecto voluptatum sunt commodi, velit enim distinctio
+  asperiores optio, quam quae error ipsa porro nulla dolor est veniam excepturi
+  quos modi, vitae consectetur doloremque dicta blanditiis ullam. Dolor nisi
+  perspiciatis perferendis ad repellendus sequi illo rem totam quo suscipit,
+  illum ratione officia, natus consectetur alias error iure dolorem qui
+  cupiditate quasi! Minus at eius, exercitationem rerum nihil vero recusandae
+  perspiciatis esse dolorem omnis doloremque! Laborum architecto vitae non magni
+  impedit laudantium laboriosam quod, doloribus blanditiis suscipit natus quia
+  ea consequatur facere explicabo qui in sequi? Placeat consequuntur aspernatur
+  laborum unde accusamus praesentium, quisquam quam. Illo magni assumenda
+  officiis voluptatum voluptate, provident iste fugit aperiam voluptates
+  expedita.
+</p>
+```
+
+- 可讓目錄跳轉更加滑順
+
+```css
+html {
+  scroll-behavior: smooth;
+}
+```
+
+[完整範例](https://codepen.io/JoanHu/pen/XJWdBpq)
