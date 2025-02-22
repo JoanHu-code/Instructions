@@ -19,6 +19,7 @@
 - [第十五章 響應式網頁設計](#第十五章-響應式網頁設計)
 - [第十六章 Bootstrap](#第十六章-Bootstrap)
 - [第十七章 Local Font 設定](#第十七章-Local-Font-設定)
+- [第十八章 Sass](#第十八章-Sass)
 
 # 第一章 CSS 簡介
 
@@ -1298,5 +1299,130 @@ bootstrap cdn
 }
 * {
   font-family: "myFont", DFkai-sb, sans-self;
+}
+```
+
+# 第十八章 Sass
+
+**Sass(Syntactically Awesome Stylesheets):是一種將 CSS 視為程式語言的網頁開發技術。**
+
+Sass 的特點: 支援特定變數、函數、import 語法、nested 語法等等。
+
+優點: 使得網頁開發者可以快速地寫出高相容性、跨瀏覽器的 CSS 程式碼。
+
+**在文字編輯器當中寫的 SCSS 文件不能直接被網頁瀏覽器讀取，Sass 編譯器將 scss 文件編譯成 CSS 文件後，才能夠被 html 文件用來套用樣式。若 scss 文件有 bug，則無法成功編譯出 CSS 文件。每次更新 scss 文件後，都需要重新編譯出相對應的新 CSS 文件**
+
+[SASS 官網](https://sass-lang.com/)
+
+> 先下載 VS CODE 裡面的 SASS 編譯器套件 -> live Sass Compiler
+
+Sass 幾個常見且主要的功能包含:
+
+1. Nested Css(巢狀語法)
+
+```html
+<header>
+  <nav>
+    <ul>
+      <li><a href="#">首頁</a></li>
+    </ul>
+  </nav>
+</header>
+```
+
+```css
+header nav ul li a {
+  color: red;
+  text-decoration: none;
+}
+```
+
+```scss
+header {
+  nav {
+    ul {
+      display: flex;
+      flex-wrap: wrap;
+      li {
+        list-style-type: none;
+        a {
+          color: red;
+          text-decoration: none;
+        }
+      }
+    }
+  }
+}
+```
+
+2. 變數設定
+
+```scss
+$themeColor: red;
+header {
+  nav {
+    ul {
+      display: flex;
+      flex-wrap: wrap;
+      li {
+        list-style-type: none;
+        a {
+          color: $themeColor;
+          text-decoration: none;
+        }
+      }
+    }
+  }
+}
+```
+
+3. self ampersand(&)
+
+```css
+a {
+  color: blue;
+}
+
+a:hover {
+  color: yellow;
+}
+```
+
+```scss
+a {
+  color: blue;
+  &:hover {
+    color: yellow;
+  }
+}
+```
+
+4. import
+
+- 用處:
+
+  1.  程式碼很多時可以做分類
+  2.  利於重複利用
+
+- 命名方式:`_檔案名稱`
+
+  - `_header.scss`
+
+- 在要引入的`.scss`檔案裡加入
+
+```scss
+@import "./header";
+```
+
+5. mixin: 一種 function，method 的功能
+
+```scss
+@mixin flexbox($direction) {
+  display: flex;
+  flex-direction: $direction;
+}
+
+ul {
+  @include flexbox(row);
 }
 ```

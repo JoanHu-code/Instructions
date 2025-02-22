@@ -1,0 +1,18 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+header nav ul {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+header nav ul li {
+  list-style-type: none;
+}
+header nav ul li a {
+  color: green;
+  text-decoration: none;
+}/*# sourceMappingURL=style.css.map */
