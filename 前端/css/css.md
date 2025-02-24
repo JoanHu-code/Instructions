@@ -819,6 +819,13 @@ h1 {
 | inline-block | 不會換行 | 可以設定     | 可以設定                                 | 可以設定                            | 只有`<img>,<button>,<input>,<select>,<textarea>` |
 | flex item    | 不會換行 | 可以設定     | 可以設定                                 | 可以設定                            | 任何在 flex 之下的 element                       |
 
+| display-type | New Line      | Width, Height | Margin-Top/Bottom, Padding-Top/Bottom               | Margin-Left/Right, Padding-Left/Right | Examples                                              |
+| ------------ | ------------- | ------------- | --------------------------------------------------- | ------------------------------------- | ----------------------------------------------------- |
+| block        | Breaks line   | Can be set    | Can be set                                          | Can be set                            | `<h1>, <p>`, etc.                                     |
+| inline       | Stays in line | Cannot be set | Can be set, but does not push other inline elements | Can be set                            | `<a>, <span>`, etc.                                   |
+| inline-block | Stays in line | Can be set    | Can be set                                          | Can be set                            | Only `<img>, <button>, <input>, <select>, <textarea>` |
+| flex item    | Stays in line | Can be set    | Can be set                                          | Can be set                            | Any element inside a flex container                   |
+
 # 第十一章 position
 
 > position 屬性:設置元素在文檔中的定位方式。top、right、bottom 和 left 屬性確定定位元素的最終位置。可設定的值包含:
@@ -1111,7 +1118,7 @@ div.box {
 
 > 響應式網頁設計(Responsive Web Design)是一種網頁設計的技術，這種設計可使網站在不同的裝置(從桌面電腦顯示器、行動電話、平板或其他行動裝置)上瀏覽時，對應不同解析度皆有適合的呈現，減少使用者縮放、平移和捲動等操作行為。
 
-- 過去的錢端工程師需要針對各種裝置進行不同的設計，但目前主流的響應式網頁設計原則是:
+- 過去的前端工程師需要針對各種裝置進行不同的設計，但目前主流的響應式網頁設計原則是:
   - Flexbox 來自動排版，不需要再去對不同螢幕寬度做個別設定
   - 元素、圖片皆使用相對單位，如：rem、%、vh、vw 來調整大小，防止他們跑版。
   - 內容物要像水一樣，可以適應所有的容器
