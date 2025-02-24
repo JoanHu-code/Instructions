@@ -856,7 +856,7 @@ HTML 標籤的設計方式是採用物件導向的想法，物件包含兩個部
 ![snippet](../../img/html/03.png)
 ![snippet](../../img/html/04.png)
 
-# 第十四章 免費 icon 網站
+# 第十四章 icon 網站
 
 - [Font Awesome](https://fontawesome.com/) （需註冊下載）
 
