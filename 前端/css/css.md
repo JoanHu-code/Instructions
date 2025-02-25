@@ -867,6 +867,16 @@ h1 {
 > sticky 的範圍會到上一層的父元素，但 fixed 則是參考整個 body(viewport)
 > fixed 會在 normol flow 移除(找原先的位置會找不到)，但 sticky 還在原本的位置
 
+| Property    | Sticky                           | Fixed                          |
+| ----------- | -------------------------------- | ------------------------------ |
+| Reference   | Constrained by its parent        | References the entire viewport |
+| Normal Flow | Remains in normal flow initially | Removed from normal flow       |
+
+| 屬性        | Sticky                 | Fixed                |
+| ----------- | ---------------------- | -------------------- |
+| 參考點      | 受父層元素限制         | 參考整個 viewport    |
+| Normal Flow | 初始時仍在 normal flow | 完全移除 normal flow |
+
 ## stacking context
 
 Stacking Context 是 HTML 元素沿虛擬 Z 軸相對於用戶的 3D 概念化，假設用戶面向的網頁為 XY 平面，HTML 元素根據元素屬性和優先級順序佔據該空間。
