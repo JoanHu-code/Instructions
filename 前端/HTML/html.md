@@ -1103,3 +1103,5 @@ html {
 4. Ranking(排名): 根據用戶的搜尋，給出網站的排名
 
 ![SEO](../../img/html/seo.png)
+
+[Google robots.text](https://github.com/google/robotstxt)
