@@ -17,19 +17,29 @@
 2. 部屬靜態網頁
 
    - 網頁大致上分為兩種:
+
      - 靜態網頁(static website)
+
        - 是由 HTML、CSS 或 JavaScript 等語言寫成。我們只需要將這些文件放到網頁伺服器上面即可。
        - 每當有客戶端發出請求時，網頁伺服器只需要預備好的 HTML、CSS 或 JavaScript 文件原封不動地送給客戶端，像這樣的網頁屬於靜態網頁
        - 優點:伺服器回傳速度快
        - 缺點:無法連結資料庫，不能提供登入使用者功能，也無法為使用者客製化網頁內容
          ![靜態網頁](../img/dev/static_website.png)
-   - 動態網頁(dynamic website)
 
-     - 伺服器會確認目前的網頁使用者身分，透過後端網頁的伺服器的程式碼，去找出在資料庫內儲存的資料後，透過 template(模板) 生成相對應的不同網頁
-     - 例子:
-       - YouTube(每個人看到的影片都不同)
-     - 下張圖被稱為 MVC Model，分別代表 Model,View, and Controller。
-       ![動態網頁](../img/dev/dynamic_website.png)
+     - 動態網頁(dynamic website)
+
+       - 伺服器會確認目前的網頁使用者身分，透過後端網頁的伺服器的程式碼，去找出在資料庫內儲存的資料後，透過 template(模板) 生成相對應的不同網頁
+       - 例子:
+
+         - YouTube(每個人看到的影片都不同)
+
+       - 下張圖被稱為 MVC Model，分別代表 Model,View, and Controller。
+         ![動態網頁](../img/dev/dynamic_website.png)
+
+   - 選擇部屬靜態網頁的工具:
+     - 雲端有: Netlify Cloud,AWS(Amazon Web Services),GitHub,Microdoft Azure 等等。
+     - 若想要自己家中架設伺服器，則需要負擔電費、主機費、耗損費、噪音、散熱問題、Linux 系統安裝、SSL 設定等等
+     - [Netlify](https://www.netlify.com/)
 
 **總結**
 | |靜態網頁|動態網頁|
