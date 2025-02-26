@@ -1,7 +1,8 @@
 # 目錄
 
 - [第一章 JS 簡介](#第一章-JS簡介)
-- [第二章 常見 JavaScript 函數和 Lexical Structure](#第二章-常見-JavaScript-函數和-Lexical-Structure)
+- [第二章 變數與賦值](#第二章-變數與賦值)
+- [第三章 常見 JavaScript 函數和 Lexical Structure](#第三章-常見-JavaScript-函數和-Lexical-Structure)
 
 # 第一章 JS 簡介
 
@@ -23,7 +24,90 @@
 
 > 先讓瀏覽器可以加載 HTML、CSS，用戶無需等待 JavaScript 被解析完成，即可在網頁中看到某些內容，許多網頁使用者點進網站後，看到內容是空白，持續幾秒的話還是空白就會離開!若想留下更多的使用者，就先讓他們看見文字或圖片，JavaScript 的功能可以慢慢 load up!
 
-# 常見 JavaScript 函數和 Lexical Structure
+# 第二張 變數與賦值
+
+- 變數(variable)和賦值(assignment)是任何程式語言中的一些基本概念。
+
+  - 變數: 一個可以儲存值的容器，由於變數內部的值可以不斷改變，因此被稱為「變數」。
+
+  - 賦值: 在 JavaScript 當中`=`是賦值(assignment)的意思，要把右邊的數據放到等號左邊。
+
+  - 例:
+
+    ```js
+    x = 5;
+    x = x + 1;
+    ```
+
+> 經過執行後，x 的值會變成 6
+
+**語法糖(syntax sugar)支援將`x=x+1`更改為`x+=1`。在這 JavaScript 中極為常見。**
+
+> 在 javascript 中使用變數前需要先宣告變數(declare variable)。
+
+有三個宣告變數的方法:
+
+1. let: 變數的值會變動，只在第一個大括弧內有效
+
+```js
+for (let i = 0; i < 10; i++) {
+  // console.log(i);
+}
+console.log(i); //error: i is not defined
+```
+
+> i 只會在 for 迴圈被宣告，其他地方會產生錯誤
+
+2. const: 變數的值不會變動
+
+3. var: 與 let 的相同，但請勿使用 var，一旦宣告就對所有的 fun 都有效
+
+```js
+for (var i = 0; i < 10; i++) {
+  // console.log(i);
+}
+console.log(i); //10
+```
+
+> 此 i 對整個`.js` 都有效
+
+幾個需要特別注意的規則:
+
+1. 用 const 宣告的變數一定要賦予初始值(initializer)，let 則不需要，若 let 宣告了變數，但還沒有復職，則變數的值是 undefined。
+
+2. 用 const, let 宣告過的變數，不能重複宣告。(redeclaration is not allowd)。
+
+❌
+
+```js
+let x = 10;
+let x = 5;
+```
+
+✅
+
+```js
+let x = 10;
+x = 5;
+```
+
+❌
+
+```js
+const pi = 3.14;
+pi = 3.14;
+```
+
+3. const 不能做重複賦值。(reassignment is not allowed)
+
+|       | redeclaration | reassignment | initializer |
+| ----- | ------------- | ------------ | ----------- |
+| let   | ❌            | ✅           | ❌          |
+| const | ❌            | ❌           | ✅          |
+
+**JavaScript 引擎中有一個稱為 garbage collector 的後台程式。它監視所有物件並刪除那些變得無法訪問的物件**
+
+# 第三章 常見 JavaScript 函數和 Lexical Structure
 
 **JavaScript 函數**
 
@@ -83,7 +167,19 @@ window.alert(`${name}, Welcome to website!`);
 
 4. 在 JavaScript 內部的變數名稱需要由文字、underscore(\_)、dollar sign($)當作開頭(不能用數字開頭)
 
+❌
+
+```js
+let 02test = 10;
+```
+
 5. JavaScript 內部有關鍵字(reserved words,keywords)，例如: null,of,if,then,in,finally,for,while,break,continue,try,let,const,var 等等，不能當作變數名稱
+
+❌
+
+```js
+let const = 10;
+```
 
 6. JavaScript 使用 Unicode 字元集合，所以 String 內部可由任何 Unicode 文字組成。
 
