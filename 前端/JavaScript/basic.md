@@ -6,7 +6,7 @@
 - [第四章 資料類型 Data Type](#第四章-資料類型-Data-Type)
 - [第五章 JavaScript Operators](#第五章-JavaScript-Operators)
 - [第六章 if statement](#第六章-if-statement)
-- [第七章 Codeing Convention and Restrictions](#第七章-Codeing-Convention-and-Restrictions])
+- [第七章 Codeing Convention and Restrictions](#第七章-Codeing-Convention-and-Restrictions)
 
 # 第一章 JS 簡介
 

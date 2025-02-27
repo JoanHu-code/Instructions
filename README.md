@@ -18,6 +18,7 @@
     - [html](前端/HTML/html.md)
     - [範例](前端/HTML/範例)
   - [JavaScript](前端/JavaScript)
+    - [basic](前端/JavaScript/basic.md)
     - [beginner](前端/JavaScript/beginner.md)
     - [Intermediate](前端/JavaScript/Intermediate.md)
     - [vue3](前端/JavaScript/vue3.md)
