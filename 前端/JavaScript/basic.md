@@ -512,12 +512,6 @@ console.log(x + y); //+ is operator
     ```
 
   - logical operator: 兩個運算原野是任意資料型態，且運算結果為 Boolean 值。以下是 logical operator 的運算規則:
-    | `A` | `B` | `A && B` | `A || B` |
-    |--------|--------|---------|---------|
-    | true | true | true | true |
-    | true | false | false | true |
-    | false | true | false | true |
-    | false | false | false | false |
 
   - typeof operator(unary): `typeof`
   - negation operator (unary): `!`
