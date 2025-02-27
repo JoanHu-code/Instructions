@@ -218,10 +218,28 @@ let const = 10;
    ```
 
    - Number Methods:
+
      - JavaScript 是個物件導向(OOP)的程式語言，所以 JavaScript 當中的數字可被視為是物件。以下數字常見可用 methods:
+
        - toString(): return 一個數字的 String
+
+       ```js
+       let age = 27;
+       console.log(typeof age.toString()); // String
+       ```
+
+       ```js
+       let x = 10; // x is a number(x is an object)
+       console.log(x.toString); //to x, toString is a function or method
+       ```
+
        - toFixed(n): return 被轉換後的數字，到小數點後第 n 位數。
          - **注意!二進位置不能精確表示所有小數。這可能會導致意外結果，例如:`0.1+0.2 === 0.3`會 return false**
+         ```js
+         const pi = 3.1415926535;
+         console.log(pi.toFixed(2));
+         console.log(typeof pi.toFixed(2)); //String
+         ```
 
 2. BigInt: 任意長度的整數
 
@@ -261,6 +279,60 @@ let const = 10;
    console.log(n1 + n2 + name + n3 + n4); //50Johnson1015
    console.log("Joan\nHu");
    ```
+
+   - [String Attributes and Methods](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)
+
+     - JavaScript 中的 String 有可用的 attributes 以及 methods。常見的有:
+
+       - length: return String 的程度;length 是 attributes,在使用時不用加()
+
+       ```js
+       let str = "Joan";
+       let str2 = "Joan Hu";
+       let str3 = "";
+       console.log(str.length); // 4
+       console.log(str2.length); //7
+       console.log(str3); //0
+       ```
+
+       - `[n]`: return index(索引) 第 n 項的字。(index 從 0 開始計算)
+
+       ```js
+       let str = "Joan"; //length of str is 4
+       console.log(str[0]); //J
+       console.log(str[1]); //o
+       console.log(str[2]); //a
+       console.log(str[3]); //n
+       console.log(str[4]); //undefine
+
+       // to any string, if length of length is x, then the last index of string must be x-1
+       console.log(str[str.length - 1]); //n
+       ```
+
+       - `slice(indexStart [,indexEnd])`: 提取字符串的一部份並將其作為新 String 返回，而不修改原始字符串。indexStart 是 inclusive(包含此 indexStrat), indexEnd 是 optional(可填可不填，沒填就會抓到最後), exclusive(不包含 indexEnd)。
+
+       ```js
+       let str = "Joan"; // the index of 'o' is 1
+       console.log(str.slice(2)); //oan
+       console.log(str.slice(2, 3)); //oa
+       ```
+
+       - indexOf(substring): return substring 的 index 位置。若找不到 substring，則 return -1
+
+       ```js
+       let str = "Book Store";
+       console.log(str.indexOf("a")); //-1
+       console.log(str.indexOf("S")); //5
+       console.log(str.indexOf("tore")); //6
+       ```
+
+       - toUpperCase(): return 轉換為大寫的 String。此方法不會影響 String 本身
+       - toLowerCase(): return 轉換為小寫的 String。此方法不會影響 String 本身
+       - split(pattern): 接受一個 pattern 並通過搜尋將一個字符串分成一個有序的 array,然後 return 該 array。Pattern 可以是 regular expression。
+       - startsWith(s):確定 String 是否已指定字串 s 開頭，根據結果返回 true 或 false。
+       - endsWith(s):確定 String 是否已指定字串 s 結尾，根據結果返回 true 或 false。
+       - includes(str): return true 如果 String 內不包含 str
+       - charCodeAt(n): 返回一個介於 0 和 65535 之間的整數，表示給索引處 n 的 UTF-16code unit。
 
 4. Boolean: true 或 false 兩種值
 
