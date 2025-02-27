@@ -3,6 +3,7 @@
 - [第一章 JS 簡介](#第一章-JS簡介)
 - [第二章 變數與賦值](#第二章-變數與賦值)
 - [第三章 常見 JavaScript 函數和 Lexical Structure](#第三章-常見-JavaScript-函數和-Lexical-Structure)
+- [第四章 資料類型 Data Type](#第三章-資料類型-Data-Type)
 
 # 第一章 JS 簡介
 
@@ -184,3 +185,27 @@ let const = 10;
 6. JavaScript 使用 Unicode 字元集合，所以 String 內部可由任何 Unicode 文字組成。
 
 7. Semicolons(;)可用來分隔程式語言。Semicolons 的使用是 optional。
+
+# 第四章 資料類型 Data Type
+
+> JacaScript 中有 7 種基本數據類型。這 7 種基本數據類型被稱為 primitive data type。
+
+1. Number: 整數與帶小數點的數字
+
+   - JavaScript 數字格式允許我們精確地表示介於 -9,007,254,740.992(2^-53)和 9,007,254,740.992(2^53)之間的所有整數。
+   - 如果大於此整數值，則可能會丟失數字的精度
+   - 數字支援的運算符號包含加法、減法、乘法、除法、取餘數(remainder operator)、exponentiation poeration、`++`、`--`、`+=`、`-=`、`/=`、`*=`等等
+
+2. BigInt: 任意長度的整數
+
+3. String: 字符串
+
+4. Boolean: true 或 false 兩種值
+
+5. null: 用來代表某個故意不存在的值
+
+6. undefine: 未被賦值的變數，就是 undefined。
+
+7. symbol: unique identifer。
+
+> 除了這 7 種基本數據類型之外，JavaScript 的第八種類型叫做 Object，屬於 non-primitive data type。 JavaScript 中的 object 可能是 array、object 或是 function 等等。
