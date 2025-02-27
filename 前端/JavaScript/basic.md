@@ -196,9 +196,71 @@ let const = 10;
    - 如果大於此整數值，則可能會丟失數字的精度
    - 數字支援的運算符號包含加法、減法、乘法、除法、取餘數(remainder operator)、exponentiation poeration、`++`、`--`、`+=`、`-=`、`/=`、`*=`等等
 
+   ```js
+   let x = 10;
+   let y = 3;
+
+   console.log(x + y); //13
+   console.log(x - y); //7
+   console.log(x * y); //30
+   console.log(x / y); //3.333
+
+   console.log(x % y); //1
+   console.log(x ** y); //x^y 1000
+
+   //x = x + 1, x++ , x+=1
+   x++;
+   console.log(x); // 11
+   x--;
+   console.log(x); // 10
+   x /= 2;
+   console.log(x); //5
+   ```
+
+   - Number Methods:
+     - JavaScript 是個物件導向(OOP)的程式語言，所以 JavaScript 當中的數字可被視為是物件。以下數字常見可用 methods:
+       - toString(): return 一個數字的 String
+       - toFixed(n): return 被轉換後的數字，到小數點後第 n 位數。
+         - **注意!二進位置不能精確表示所有小數。這可能會導致意外結果，例如:`0.1+0.2 === 0.3`會 return false**
+
 2. BigInt: 任意長度的整數
 
 3. String: 字符串
+
+   - String 由字母或數字串接組成。
+   - 需使用單引號或雙引號。
+   - 兩個 String 之間的串接是由`+`來完成的。String 之間的串接被稱為 concatenation。
+   - String 與 String 之間不能做 `-`,`*`,`/`運算。若嘗試做此類運算，則會出現`NaN`,代表 Not a Number。(這是因為,JavaScript 還會是常是算出某個數字結果，但兩個 operand 的值都不是數字,無法算出一個數計結果,因此會出現`NaN`)
+   - String 與 Number 之間，若是做`+`運算則會變成 String 和 String 之間的 concatenation
+   - `\n`可以換行
+
+   ```js
+   let name = "Joan";
+   let sentence = "he's a good guy";
+   const first_name = "Joan";
+   const last_name = "Hu";
+
+   //+ is not addition,instead,+ is string concatenation
+   console.log(first_name + " " + last_name);
+   ```
+
+   ```js
+   // x data type is number, y data type is a String
+   let x = 10;
+   let y = "10";
+   console.log(x + x); //20
+   console.log(y + y); //1010
+   console.log(x + y); //1010
+
+   let n1 = 20;
+   let n2 = 30;
+   let name = "Johnson";
+   let n3 = 10;
+   let n4 = 15;
+   console.log(n1 + n2 + name); //50Johnson
+   console.log(n1 + n2 + name + n3 + n4); //50Johnson1015
+   console.log("Joan\nHu");
+   ```
 
 4. Boolean: true 或 false 兩種值
 
