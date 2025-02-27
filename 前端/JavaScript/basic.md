@@ -327,12 +327,74 @@ let const = 10;
        ```
 
        - toUpperCase(): return 轉換為大寫的 String。此方法不會影響 String 本身
+
+       ```js
+       let str = "Joan";
+       console.log(str.toUpperCase()); // JOAN
+       console.log(str); //Joan
+
+       //reassignment
+       str = str.toUpperCase();
+       console.log(str); //JOAN
+       ```
+
        - toLowerCase(): return 轉換為小寫的 String。此方法不會影響 String 本身
+
+       ```js
+       let str = "Joan";
+       console.log(str.toLowerCase()); // joan
+       console.log(str); //Joan
+
+       //reassignment
+       str = str.toLowerCase();
+       console.log(str); //joan
+       ```
+
        - split(pattern): 接受一個 pattern 並通過搜尋將一個字符串分成一個有序的 array,然後 return 該 array。Pattern 可以是 regular expression。
+
+       ```js
+       let sentence = "Today is a good day";
+       // "Today", "is" ,"a","good","day"
+
+       let result = sentence.split(" ");
+       cosnole.log(result); // ["Today", "is" ,"a","good","day"]
+       let result2 = sentence.split("o");
+       cosnole.log(result2); // ["T", "day is a g" ,"","d day"]
+       ```
+
        - startsWith(s):確定 String 是否已指定字串 s 開頭，根據結果返回 true 或 false。
+
+       ```js
+       let sentence = "Today is a good day";
+       console.log(sentence.startsWith("Today")); // true
+       console.log(sentence.startsWith("today")); //false
+       ```
+
        - endsWith(s):確定 String 是否已指定字串 s 結尾，根據結果返回 true 或 false。
+
+       ```js
+       let sentence = "Today is a good day";
+       console.log(sentence.endsWith("day")); // true
+       console.log(sentence.endsWith("today")); //false
+       ```
+
        - includes(str): return true 如果 String 內不包含 str
+
+       ```js
+       let sentence = "Today is a good day";
+       console.log(sentence.includes("day")); // true
+       console.log(sentence.includes("Joan")); // false
+       ```
+
        - charCodeAt(n): 返回一個介於 0 和 65535 之間的整數，表示給索引處 n 的 UTF-16code unit。
+
+       ```js
+       let sentence = "Today is a good day";
+       console.log(sentence.charCodeAt("0")); // 84 (UTF-16code unit of T)
+       console.log(sentence.charCodeAt("1")); // 111 (UTF-16code unit of o)
+       ```
+
+       [ASCII American Standard Code for Information Interchange](https://en.wikipedia.org/wiki/ASCII)
 
 4. Boolean: true 或 false 兩種值
 
