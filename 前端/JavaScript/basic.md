@@ -197,8 +197,6 @@ let const = 10;
    - 如果大於此整數值，則可能會丟失數字的精度
    - 數字支援的運算符號包含加法、減法、乘法、除法、取餘數(remainder operator)、exponentiation poeration、`++`、`--`、`+=`、`-=`、`/=`、`*=`等等
 
-   - JavaScript 中的 unary operator typeof 可以用來確認資料類型
-
    ```js
    let x = 10;
    let y = 3;
@@ -222,27 +220,31 @@ let const = 10;
 
    - Number Methods:
 
-     - JavaScript 是個物件導向(OOP)的程式語言，所以 JavaScript 當中的數字可被視為是物件。以下數字常見可用 methods:
+     - JavaScript 是個物件導向(OOP)的程式語言，所以 JavaScript 當中的數字可被視為是物件。
 
-       - toString(): return 一個數字的 String
+     - JavaScript 中的 unary operator typeof 可以用來確認資料類型
 
+     以下數字常見可用 methods:
+
+     - toString(): return 一個數字的 String
+
+     ```js
+     let age = 27;
+     console.log(typeof age.toString()); // String
+     ```
+
+     ```js
+     let x = 10; // x is a number(x is an object)
+     console.log(x.toString); //to x, toString is a function or method
+     ```
+
+     - toFixed(n): return 被轉換後的數字，到小數點後第 n 位數。
+       - **注意!二進位置不能精確表示所有小數。這可能會導致意外結果，例如:`0.1+0.2 === 0.3`會 return false**
        ```js
-       let age = 27;
-       console.log(typeof age.toString()); // String
+       const pi = 3.1415926535;
+       console.log(pi.toFixed(2));
+       console.log(typeof pi.toFixed(2)); //String
        ```
-
-       ```js
-       let x = 10; // x is a number(x is an object)
-       console.log(x.toString); //to x, toString is a function or method
-       ```
-
-       - toFixed(n): return 被轉換後的數字，到小數點後第 n 位數。
-         - **注意!二進位置不能精確表示所有小數。這可能會導致意外結果，例如:`0.1+0.2 === 0.3`會 return false**
-         ```js
-         const pi = 3.1415926535;
-         console.log(pi.toFixed(2));
-         console.log(typeof pi.toFixed(2)); //String
-         ```
 
 2. BigInt: 任意長度的整數
 
@@ -435,3 +437,100 @@ let const = 10;
 > 除了這 7 種基本數據類型之外，JavaScript 的第八種類型叫做 Object，屬於 non-primitive data type。 JavaScript 中的 object 可能是 array、object 或是 function 等等。
 
 # 第五章 JavaScript Operators
+
+```js
+let x = 3; //operand 運算元
+let y = 2; //operand 運算元
+console.log(x + y); //+ is operator
+```
+
+- 常見的運算符號有:
+
+  - assignment operator: `=`
+  - comparison operator: 運算元是兩個任意資料型態，且運算結果為 Boolean 值
+
+    - `==`: returns true if the operands are equal.
+
+    ```js
+    console.log(3 == 3); //true
+    console.log(3 == 5); // false
+    console.log(3 == "3"); //true
+    ```
+
+    - `!=`: returns true if the operands are not equal.
+
+    ```js
+    console.log(3 != 3); //false
+    console.log(3 != 5); // true
+    console.log(3 != "3"); //false
+    ```
+
+    - `===`: returns true if the operands are equal and of the same data type.
+
+    ```js
+    console.log(3 === 3); //true
+    console.log(3 === 5); // false
+    console.log(3 === "3"); //false
+    ```
+
+    - `!==`: returns true if the operands are of the same type but not equal, or are of different type.
+
+    ```js
+    console.log(3 !== 3); //false
+    console.log(3 !== 5); // true
+    console.log(3 !== "3"); //true
+    ```
+
+    - `>`: returns true if the left operand is greater than the right operand.
+
+    ```js
+    console.log(3 > 3); //false
+    console.log(3 > 2); // true
+    ```
+
+    - `>=`: returns true if the left operand is greater than or equal to the right operand.
+
+    ```js
+    console.log(3 >= 3); //true
+    console.log(3 > 2); // true
+    console.log(3 > 5); // false
+    ```
+
+    - `<`: returns true if the left operand is less than the right operand.
+
+    ```js
+    console.log(3 < 3); //false
+    console.log(3 < 5); // true
+    ```
+
+    - `<=`: returns true if the left operand is less than or equal to the right operand.
+
+    ```js
+    console.log(3 <= 3); //true
+    console.log(3 < 2); // false
+    console.log(3 < 5); // true
+    ```
+
+  - logical operator: 兩個運算原野是任意資料型態，且運算結果為 Boolean 值。以下是 logical operator 的運算規則:
+    | `A` | `B` | `A && B` | `A || B` |
+    |--------|--------|---------|---------|
+    | true | true | true | true |
+    | true | false | false | true |
+    | false | true | false | true |
+    | false | false | false | false |
+
+  - typeof operator(unary): `typeof`
+  - negation operator (unary): `!`
+  - increment operator(unary): `++`,`--`
+  - bitwise operator
+  - arithmetic operator:
+    - `+`: 兩數相加
+    - `-`: 兩數相減
+    - `*`: 兩數相乘
+    - `/`: 兩數相除
+    - `+=`: 單數加值
+    - `-=`: 單數減值
+    - `/=`: 單數除值
+    - `*=`: 單數乘值
+    - `**`: 次方
+    - `%`: 去餘數
