@@ -525,11 +525,99 @@ console.log(x + y); //+ is operator
 
     - `&&`: A,B are both then `A&&B` is true
     - `||`: A,or B is time, `A||B` is time.
+    - 我們可以把 comparison operator 運算出的結果，變成 Logical operator 的運算元，讓他們做 Logical operator
+
+    ```js
+    console.log(5 > 3 && 100 > 99); //true
+    console.log(3 == 6 && 100 > 99); //false
+    ```
 
   - typeof operator(unary): `typeof`
   - negation operator (unary): `!`
   - increment operator(unary): `++`,`--`
-  - bitwise operator
+  - bitwise operator: 將數字的 operand 視為 32 bits 的數字，並且對每個 bit 進行運算。
+
+    - `a&b`: 在兩個 operand 的對應都是 1 的位置返回一個 1。
+
+    ```js
+    let a = 10; //1010
+    let b = 9; //1001
+    console.log(a & b); //8  => 1000
+    ```
+
+    - `a|b`: 在兩個 operand 的對應都是 0 的位置返回一個 0
+
+    ```js
+    let a = 10; //1010
+    let b = 9; //1001
+    console.log(a | b); //11  => 1011
+    ```
+
+    - `a^b`: 在兩個 operand 的對應位相同的每個位置返回 0。(XOR 運算)
+
+    ```js
+    let a = 10; //1010
+    let b = 9; //1001
+    console.log(a ^ b); //3  => 0011
+    ```
+
+    - `~a`: 反轉 operand 的每個 bit。
+
+    ```js
+    let a = 10; //1010
+    let b = 9; //1001
+    console.log(~a); //5  => 0101
+    console.log(~b); //6  => 0110
+    ```
+
+    - `a<<b`: 將二進制表示中的 a 向左移動 b 位，丟棄任何被移出的 bits。
+
+    ```js
+    let a = 10; //1010
+    let b = 9; //1001
+    console.log(a << b); //5120  => 1010000000000
+    console.log(a << 1); //20 => 10100
+    ```
+
+    - `a>>b`: 將二進制表示中的 a 向右移動 b 位，丟棄任何被移出的 bits。
+
+    ```js
+    let a = 10; //1010
+    let b = 9; //1001
+    console.log(a >> b); //0  => 0
+    console.log(a << 1); //5 => 101
+    ```
+
+    - 何時會用到 Bitwise Operators?
+
+      1.  做編碼運算
+      2.  資料傳出，sockets programming ports
+      3.  資料加密、SHA 函數
+      4.  作業系統、CPU
+      5.  Finite State Machine
+      6.  Graphics,例如影像處理、人工智能
+
+    - 補充:
+
+      - 在十進位系統中，可用數字集合是:{0、1、2、3、4、5、6、7、8、9}，當我們屬到十後沒有數字可以用，因此我們會進位，也就是使用兩位數字，把 1 放在前面 0 在最後然後繼續數
+      - 在二進位系統中，可用的數字集合是 {0,1}，當我們要屬 2 時沒有得數，因此我們會進位，把 1 放在前面 0 放在後面
+
+      - 從 Decimal 到 Binary 映射可以顯示在一個表中:
+
+      | Binary | Decimal |
+      | ------ | ------- |
+      | 0      | 0       |
+      | 1      | 1       |
+      | 10     | 2       |
+      | 11     | 3       |
+      | 100    | 4       |
+      | 101    | 5       |
+      | 110    | 6       |
+      | 111    | 7       |
+      | 1000   | 8       |
+
+      - [轉換網址](https://www.rapidtables.com/convert/number/binary-to-decimal.html)
+
   - arithmetic operator:
     - `+`: 兩數相加
     - `-`: 兩數相減
