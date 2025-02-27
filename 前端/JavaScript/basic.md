@@ -3,7 +3,8 @@
 - [第一章 JS 簡介](#第一章-JS簡介)
 - [第二章 變數與賦值](#第二章-變數與賦值)
 - [第三章 常見 JavaScript 函數和 Lexical Structure](#第三章-常見-JavaScript-函數和-Lexical-Structure)
-- [第四章 資料類型 Data Type](#第三章-資料類型-Data-Type)
+- [第四章 資料類型 Data Type](#第四章-資料類型-Data-Type)
+- [第五章 JavaScript Operators](#第五章-JavaScript-Operators)
 
 # 第一章 JS 簡介
 
@@ -195,6 +196,8 @@ let const = 10;
    - JavaScript 數字格式允許我們精確地表示介於 -9,007,254,740.992(2^-53)和 9,007,254,740.992(2^53)之間的所有整數。
    - 如果大於此整數值，則可能會丟失數字的精度
    - 數字支援的運算符號包含加法、減法、乘法、除法、取餘數(remainder operator)、exponentiation poeration、`++`、`--`、`+=`、`-=`、`/=`、`*=`等等
+
+   - JavaScript 中的 unary operator typeof 可以用來確認資料類型
 
    ```js
    let x = 10;
@@ -398,10 +401,37 @@ let const = 10;
 
 4. Boolean: true 或 false 兩種值
 
+   - 在程式語言當中,我們很多情況需要一種資料類型來記錄 true,false 資料,例如 YouTube 資料庫紀錄使用者是否是 Premium 會員，就只需要使用 Boolean 即可。
+   - Unary operator 「!」 可以將 Boolean 的值反轉
+
+   ```js
+   let isPremium = true; //Boolean
+   console.log(isPremium); // true
+   console.log(!isPremium); // false
+
+   let isLogin = "true"; //String
+   ```
+
 5. null: 用來代表某個故意不存在的值
 
+   - 用來代表某個故意不存在的值
+
+   ```js
+   let x;
+   console.log(x); //undefine x is waiting assignment.
+
+   let y = null;
+   console.log(y); //null y has nothing inside.
+   ```
+
 6. undefine: 未被賦值的變數，就是 undefined。
+
+   - 已經宣告變數，卻沒有賦予 initializer 時，就會出現 undefined。
+
+   - undefined 也是 JavaScript 中的 functions 的預設 return value。
 
 7. symbol: unique identifer。
 
 > 除了這 7 種基本數據類型之外，JavaScript 的第八種類型叫做 Object，屬於 non-primitive data type。 JavaScript 中的 object 可能是 array、object 或是 function 等等。
+
+# 第五章 JavaScript Operators
