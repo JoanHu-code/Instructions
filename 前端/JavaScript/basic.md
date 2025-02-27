@@ -5,6 +5,7 @@
 - [第三章 常見 JavaScript 函數和 Lexical Structure](#第三章-常見-JavaScript-函數和-Lexical-Structure)
 - [第四章 資料類型 Data Type](#第四章-資料類型-Data-Type)
 - [第五章 JavaScript Operators](#第五章-JavaScript-Operators)
+- [第六章 if statement](#第五章-if-if)
 
 # 第一章 JS 簡介
 
@@ -629,3 +630,74 @@ console.log(x + y); //+ is operator
     - `*=`: 單數乘值
     - `**`: 次方
     - `%`: 取餘數
+
+# 第六章 if statement
+
+> if 語句是最簡單的決策語句。他用於決定是否執行某個語句或語句塊，即如果某個條件為真，則執行一個語句塊，否則不執行。If statement 的語法如下:
+
+**condition 通常為 Boolean**
+
+```pseudocode
+if(condition) statement1;
+
+if(condition){
+  statement1;
+}else{
+  statement2;
+}
+
+if(condition1){
+  statement1;
+}else if(condition2){
+  statement2;
+}
+...
+else{
+  statementN
+}
+```
+
+```js
+if (true) console.log("This is true."); //可省略括號
+if (5 > 3 && 6 < 10) console.log("This is true.");
+```
+
+```js
+if (5 > 3 && 6 > 10) {
+  console.log("This is true.");
+} else {
+  console.log("This is false.");
+}
+```
+
+```js
+let age = 12;
+if (age < 18) {
+  console.log("Children");
+} else if (age <= 18 && age > 65) {
+  console.log("Adult");
+} else if (age >= 65) {
+  console.log("Elderly");
+}
+```
+
+```js
+let age = Number(window.prompt("please enter your age")); //convert string to number
+if (age <= 12) {
+  window.alert("The price is NT$100.");
+} else if (age >= 12 && age < 65) {
+  window.alert("The price is NT$250.");
+} else if (age >= 65) {
+  window.alert("The price is NT$150.");
+} else {
+  window.alert("Please enter number!");
+}
+```
+
+> Truthy and Falsy Values
+
+- 在 JavaScript 中，每個值(Data Type)在 Boolean context 之下，都可以被視為 true 或是 false。
+- 常見的 Boolean context:
+  - if statment
+  - Logical Operators 運算
+- 在 Boolean context 之下，JavaScript 會自動幫每個值做 type coercion。
