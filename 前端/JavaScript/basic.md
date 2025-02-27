@@ -5,7 +5,8 @@
 - [第三章 常見 JavaScript 函數和 Lexical Structure](#第三章-常見-JavaScript-函數和-Lexical-Structure)
 - [第四章 資料類型 Data Type](#第四章-資料類型-Data-Type)
 - [第五章 JavaScript Operators](#第五章-JavaScript-Operators)
-- [第六章 if statement](#第五章-if-if)
+- [第六章 if statement](#第六章-if-statement)
+- [第七章 Codeing Convention and Restrictions](#第七章-Codeing-Convention-and-Restrictions])
 
 # 第一章 JS 簡介
 
@@ -525,7 +526,18 @@ console.log(x + y); //+ is operator
     ```
 
     - `&&`: A,B are both then `A&&B` is true
+      - If the left hand side is true, then it evaluates as the right hand side.
+      - If the left hand side is not true, then it evaluates as the left hand side.
+      ```js
+      console.log(3 && 5); //true
+      console.log(0 && -100); //0
+      ```
     - `||`: A,or B is time, `A||B` is time.
+      - If left hand side can be converted to true, returns left hand side;else, returns right hand side.
+      ```js
+      console.log(6 || 100); //6
+      console.log(NaN || 100); //100
+      ```
     - 我們可以把 comparison operator 運算出的結果，變成 Logical operator 的運算元，讓他們做 Logical operator
 
     ```js
@@ -700,4 +712,77 @@ if (age <= 12) {
 - 常見的 Boolean context:
   - if statment
   - Logical Operators 運算
+    - `&&`: A,B are both then `A&&B` is true
+      - If the left hand side is true, then it evaluates as the right hand side.
+      - If the left hand side is not true, then it evaluates as the left hand side.
+    ```js
+    console.log(3 && 5); //true
+    console.log(0 && -100); //0
+    ```
+    - `||`: A,or B is time, `A||B` is time.
+      - If left hand side can be converted to true, returns left hand side;else, returns right hand side.
+      ```js
+      console.log(6 || 100); //6
+      console.log(NaN || 100); //100
+      ```
 - 在 Boolean context 之下，JavaScript 會自動幫每個值做 type coercion。
+- 在 JavaScript 裡面所有 Falsy Values 為下面這幾項，其他都是 truthy value，包含[]empty array,{}empty object 等等:
+
+  - false
+  - 0,-0,0n(BitInt)
+  - "",'',``(所有的 empty string)
+  - null
+  - undefined
+  - NaN
+
+  ```js
+  let x = 0;
+  if (x) {
+    console.log("x is true");
+  } else {
+    console.log("x is false");
+  }
+  ```
+
+  ```js
+  let x = null;
+  if (x) {
+    console.log("x is true");
+  } else {
+    console.log("x is false");
+  }
+  ```
+
+  ```js
+  let x = "";
+  if (x) {
+    console.log("x is true");
+  } else {
+    console.log("x is false");
+  }
+  ```
+
+  ```js
+  let x;
+  if (x) {
+    console.log("x is true");
+  } else {
+    console.log("x is false");
+  }
+  ```
+
+# 第七章 Codeing Convention and Restrictions
+
+> JavaScript 中的 coding 習慣(Convention)是:
+
+1. 變數與函數的名稱，全部小寫，若名稱由兩個以上的單字組成，則使用 camelCase。(或也可使用 underline)
+2. Operators 周圍加上空白鍵
+3. 用分號結束一個簡單的 statement
+4. Constants 全部使用大寫。
+5. Class 由大寫字母開頭
+
+> JavaScript 中的 coding 限制(Restrictions)是:
+
+1. 變數、函數名稱
+2. 變數、函數名稱不包含 hyphen。Hyphen 已經預留給數字做減法運算
+3. 變數、函數名稱不可使用 reserved words。
