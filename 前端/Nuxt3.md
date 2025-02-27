@@ -121,7 +121,7 @@ export default defineNuxtConfig({
   components: {
     dirs: [
       {
-        path: '~/components/global',
+        path: "~/components/global",
         global: true,
       },
     ],
@@ -199,7 +199,7 @@ const { $hello } = useNuxtApp();
 <template>
   <div>
     <h1>
-      {{ $hello('Mike') }}
+      {{ $hello("Mike") }}
     </h1>
   </div>
 </template>
@@ -218,11 +218,11 @@ npm install dayjs --save
 2. 在 plugins/timeformat.js 的檔案裡
 
 ```js
-import dayjs from 'dayjs';
+import dayjs from "dayjs";
 export default defineNuxtPlugin((nuxtApp) => {
-  nuxtApp.vueApp.directive('timeformat', {
+  nuxtApp.vueApp.directive("timeformat", {
     mounted(el, binding) {
-      const time = dayjs(binding.value).format('YYYY年MM月DD日');
+      const time = dayjs(binding.value).format("YYYY年MM月DD日");
       el.innerText = time;
     },
   });
@@ -250,8 +250,8 @@ npm install v-calendar@next @popperjs/core
 2. 在 plugins/calendar.client.js 的檔案裡
 
 ```js
-import VCalendar from 'v-calendar';
-import 'v-calendar/style.css';
+import VCalendar from "v-calendar";
+import "v-calendar/style.css";
 export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.vueApp.use(VCalendar);
 });
@@ -285,19 +285,19 @@ const date = ref(new Date());
 ### useFetch
 
 ```js
-const { data } = await useFetch('https://api.nuxtjs.dev/mountains');
+const { data } = await useFetch("https://api.nuxtjs.dev/mountains");
 ```
 
 ### useAsyncData
 
 ```js
-const { data } = await useAsyncData('userInfo', () =>
-  $fetch('https://api.nuxtjs.dev/mountains')
+const { data } = await useAsyncData("userInfo", () =>
+  $fetch("https://api.nuxtjs.dev/mountains")
 );
 
 async function handleFormSubmit() {
-  const res = await $fetch('/api/submit', {
-    method: 'POST',
+  const res = await $fetch("/api/submit", {
+    method: "POST",
     body: {
       // My form data
     },
@@ -305,8 +305,8 @@ async function handleFormSubmit() {
 }
 
 const handleFormSubmit = async () => {
-  const res = await $fetch('/api/submit', {
-    method: 'POST',
+  const res = await $fetch("/api/submit", {
+    method: "POST",
     body: {
       // My form data
     },
@@ -331,8 +331,8 @@ const handleFormSubmit = async () => {
 
 ```vue
 <script setup>
-const { data, pending, error, refresh } = await useAsyncData('userInfo', () =>
-  $fetch('https://api.nuxtjs.dev/mountains')
+const { data, pending, error, refresh } = await useAsyncData("userInfo", () =>
+  $fetch("https://api.nuxtjs.dev/mountains")
 );
 </script>
 
@@ -393,6 +393,8 @@ const gotoAndPage = (path) => {
 
 **改完記得新增一個叫 https 的資料夾把 pem 和 key 放進去**
 
+[fake https folder](./Fake_ssl/)
+
 ## API 跨網域處理
 
 > 京站威秀 API 為例子
@@ -400,7 +402,7 @@ const gotoAndPage = (path) => {
 ```js
 onMounted(async () => {
   const response = await fetch(
-    'https://www.vscinemas.com.tw/VsWeb/api/GetLstDicCinema'
+    "https://www.vscinemas.com.tw/VsWeb/api/GetLstDicCinema"
   ).then((res) => res.json());
   console.log(response);
 });
@@ -413,8 +415,8 @@ export default defineNuxtConfig({
   vite: {
     server: {
       proxy: {
-        '/VsWeb/api': {
-          target: 'https://www.vscinemas.com.tw/',
+        "/VsWeb/api": {
+          target: "https://www.vscinemas.com.tw/",
           changeOrigin: true,
         },
       },
@@ -441,9 +443,9 @@ npm install pinia @pinia/nuxt
 
 ```js
 export default defineNuxtConfig({
-  modules: ['@pinia/nuxt'],
+  modules: ["@pinia/nuxt"],
   imports: {
-    dirs: ['stores'],
+    dirs: ["stores"],
   },
 });
 ```
@@ -451,9 +453,9 @@ export default defineNuxtConfig({
 **新增一個 stores 資料夾，裡面新增.js 檔案**
 
 ```js
-import { defineStore } from 'pinia';
+import { defineStore } from "pinia";
 
-export const useNewsStore = defineStore('news', () => {
+export const useNewsStore = defineStore("news", () => {
   const count = ref(0);
   const double = computed(() => count.value * 2);
   const addCount = () => {
@@ -495,17 +497,17 @@ npm install pinia @pinia/nuxt
 
 ```js
 export default defineNuxtConfig({
-  compatibilityDate: '2024-11-01',
+  compatibilityDate: "2024-11-01",
   devtools: { enabled: true },
-  modules: ['@pinia/nuxt'],
+  modules: ["@pinia/nuxt"],
   imports: {
-    dirs: ['stores'],
+    dirs: ["stores"],
   },
   vite: {
     server: {
       proxy: {
-        '/VsWeb/api': {
-          target: 'https://www.vscinemas.com.tw/',
+        "/VsWeb/api": {
+          target: "https://www.vscinemas.com.tw/",
           changeOrigin: true,
         },
       },

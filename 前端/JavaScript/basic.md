@@ -511,8 +511,21 @@ console.log(x + y); //+ is operator
     console.log(3 < 5); // true
     ```
 
-  - logical operator: 兩個運算原野是任意資料型態，且運算結果為 Boolean 值。以下是 logical operator 的運算規則:
+  - logical operator: 兩個運算元也是任意資料型態，且運算結果為 Boolean 值。以下是 logical operator 的運算規則:
     ![logical operator 的運算規則](../../img/javascript/09.png)
+
+    ```js
+    console.log(true && false); //false
+    console.log(true && true); //true
+    console.log(false && false); //true
+    console.log(true || false); //true
+    console.log(true || true); //true
+    console.log(false || false); //false
+    ```
+
+    - `&&`: A,B are both then `A&&B` is true
+    - `||`: A,or B is time, `A||B` is time.
+
   - typeof operator(unary): `typeof`
   - negation operator (unary): `!`
   - increment operator(unary): `++`,`--`
@@ -527,4 +540,4 @@ console.log(x + y); //+ is operator
     - `/=`: 單數除值
     - `*=`: 單數乘值
     - `**`: 次方
-    - `%`: 去餘數
+    - `%`: 取餘數
