@@ -7,6 +7,7 @@
 - [第五章 JavaScript Operators](#第五章-JavaScript-Operators)
 - [第六章 if statement](#第六章-if-statement)
 - [第七章 Codeing Convention and Restrictions](#第七章-Codeing-Convention-and-Restrictions)
+- [第八章 認識函數](#第八章-認識函數)
 
 # 第一章 JS 簡介
 
@@ -786,3 +787,49 @@ if (age <= 12) {
 1. 變數、函數名稱
 2. 變數、函數名稱不包含 hyphen。Hyphen 已經預留給數字做減法運算
 3. 變數、函數名稱不可使用 reserved words。
+
+# 第八章-認識函數
+
+> JavaScript 的函數類似於數學的函數
+
+```math
+f(x) = 3x+6
+```
+
+> `f` 這個字母是此函數的名稱，`x` 是此函數的參數(parameter)，然後 `3x+6` 是函數的輸出值
+
+> 函數應該只返回一個值(如果一個輸入導致兩個不同的輸出，那就不是一個函數)，函數可以多對一，但不能一對多
+
+> 在結帳時只能一個條碼對一個價格，也可以很多個條碼對同一個價格，但卻無法一個條碼對多種價格
+
+**在`f(x) = 3x+6`當中，x 稱作是 parameter。當使用 f(5)時，數字 5 被稱作是 argument**
+
+[desmos graphing](https://www.desmos.com/calculator)
+
+> 除了 JavaScript 內建的 function 之外`[alert(),prompt()]`，我們可以定義或客製化自己的 function。
+> Function 由一連串的程式碼組成，用來完成任務或是計算值。
+
+- 宣告(declare)一個 Function 的語法為:
+
+```
+function name([param[,param[,param]]]){
+  statement
+}
+```
+
+```js
+//declaration, definition
+function f() {
+  cnsole.log("This is my first function.");
+}
+// function exection, invoke a function,function invocation, call a function
+f();
+```
+
+```js
+function sayHi(name, age) {
+  console.log(`Hi, My name is ${name}`);
+  console.log(`I am ${age} years old.`);
+}
+sayHi("Joan", 35);
+```
