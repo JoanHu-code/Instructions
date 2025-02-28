@@ -869,6 +869,39 @@ let result = convertor(input);
 alert(`The converted temperature is ${result} °F`);
 ```
 
+**Function 的時間複雜度**
+
+> 在電腦科學中，演算法的時間複雜度(Time complexity)可以描述該演算法的執行時間。時間複雜度常用大 O 符號(Big O Notation)表述，不包括這個函式的低階項和首項係數。
+
+> 例如，如果一個演算法對於任何大小為`n`(必須比 n0 大)的輸入，它需要 5n^3+3n 的時間執行完畢，那麼它的漸進時間複雜度是 O(n^3)。
+
+    - 3n 為低階項所以不予領會，5n^3 的 5 為首項係數，所以也不理會，因此時間複雜度才會為 O(n^3)
+    - 若參數變為原本的十倍，那所需的時間就會變成原本的一千倍
+
+> 為了計算時間複雜度，我們通常會估計演算法的操作單元數量，每個單元執行的時間都是相同的。
+
+**時間複雜度基本概念為當參數變大時，執行這 function 的時間會如何增長**
+
+- 調用函數 f(x),f(10)需要的時間是 5 秒，f(50)需要時間是 125 秒，那 f(x)的時間複雜度就會是 O(n^2)，也就是說參數成長會導致函示成平方倍成長
+
+- 調用函數 g(x),g(10)需要的時間是 5 秒，g(50)需要的時間是 25 秒，那 g(x)時間複雜度會是 O(n)，也就是說參數成長會導致函數成線性成長
+
+- 調用函數 h(x),h(10)需要的時間為 5 秒，但 h(50)需要的時間也是 5 秒，則參數變大 5 被，但時間卻沒有變多，那麼就表述參數的成長和時間沒有關係，因此時間複雜度為 O(1)
+
+```
+y = 5n^3+3n
+```
+
+> y (縱軸)為執行時間，n (橫軸)為參數，上述式子會發現當 n 增加一點點時，y 所增加的幅度會非常多，可以從下圖中觀察到
+
+![時間複雜度](../../img/javascript/15.png)
+
+| n(parameter) | y(time) |
+| ------------ | ------- |
+| 1            | 8       |
+| 2            | 46      |
+| 3            | 144     |
+
 # 第九章 Array 陣列
 
 **在 JavaScript 中，array 並不是 primitive data type。當我們有需要將用途或性質相近的數據儲存在一起時，Array 即可派上用場。Array 具有以下核心特徵:**
@@ -966,3 +999,77 @@ let anotherArray = [null, false, "This is a string", 3.14159, undefined];
   ```
 
   ![reference data type](../../img/javascript/14.png)
+
+**Array Instance Properties: length**
+
+```js
+let friends = ["Grace", "Mike", "Spencer", "Esther", "Slade"];
+console.log(friends.length); //5 length is poperties, so it cannot add parentheses
+```
+
+常見的 Array Instance Methods:
+
+- push(element): 將一個或多個元素添加到陣列的末尾，並 return 陣列的新長度
+  - 時間複雜度為 O(1)，參數的多寡(array 的長度有多少)與執行的時間無關
+    - 若 arr1 的元素有 100 個，而 arr2 的元素有 1000000 個，他們同時執行 push()，所花的時間會一樣
+
+```js
+let friends = ["Grace", "Mike", "Spencer", "Esther", "Slade"];
+const returnValue = friends.push("Jared");
+console.log(friends); //["Grace", "Mike", "Spencer", "Esther", "Slade", "Jared"];
+console.log(returnValue); //6
+
+const returnValue2 = friends.push("Marry", "Joan");
+console.log(friends); //["Grace", "Mike", "Spencer", "Esther", "Slade", "Jared","Marry","Joan"];
+console.log(returnValue2); //8
+```
+
+[mdn](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/push)
+
+- pop(): 從陣列中刪除第一個元素並返回該元素
+  - 時間複雜度為 O(1)，參數(array 的長度有多少)的多寡與執行時間無關
+  - 若 arr1 的元素有 100 個，而 arr2 的元素有 1000000 個，他們同時執行 pop()，所花的時間會一樣
+
+```js
+let friends = ["Grace", "Mike", "Spencer", "Esther", "Slade"];
+const returnValue = friends.pop();
+console.log(friends); //["Grace", "Mike", "Spencer", "Esther"];
+console.log(returnValue); //Slade
+```
+
+- shift(): 從陣列中刪除第一個元素並返回刪除的元素
+  - 時間複雜度為 O(n)(array 的長度有多少)，參數的增加會導致執行時間呈現性增加，因為拿掉第一個元素後，要把剩餘的元素往前移動，所以才導致執行時間呈現性增加
+  - 若 arr1 的元素有 100 個，而 arr2 的元素有 1000000 個，他們同時執行 shift()，則 arr2 所花的時間會是 arr1 的 10000 倍
+
+```js
+let friends = ["Grace", "Mike", "Spencer", "Esther", "Slade"];
+const returnValue = friends.shift();
+console.log(friends); //["Mike", "Spencer", "Esther", "Slade"];
+console.log(returnValue); //Grace;
+```
+
+- unshift(element): 將一個或多個元素添加到陣列的開頭，並 return 陣列的長度
+  - 時間複雜度為 O(n)，參數的增加會導致執行時間呈現性增加，因為在增加第一個元素時，需要先把已存在的元素往後移動，所以才導致執行時間呈現性增加
+  - 若 arr1 的元素有 100 個，而 arr2 的元素有 1000000 個，他們同時執行 unshift(element)，則 arr2 所花的時間會是 arr1 的 10000 倍
+
+```js
+let friends = ["Grace", "Mike", "Spencer", "Esther", "Slade"];
+const returnValue = friends.unshift("Jared");
+console.log(friends); //["Jared", "Grace", "Mike", "Spencer", "Esther", "Slade"];
+console.log(returnValue); //6;
+
+const returnValue2 = friends.unshift("Marry", "Joan");
+console.log(friends); //["Marry","Joan", "Grace", "Mike", "Spencer", "Esther", "Slade", "Jared"];
+console.log(returnValue2); //8;
+```
+
+**當 Array 內部的元素有 Array 時，就被稱為是 array of arrays**
+
+```js
+let myArr = {
+  ["name","address","age"],
+  ["Mike","TWN",35],
+  ["Grace","USA",26]
+}
+console.log(myArr[1][0]);//Mike
+```
