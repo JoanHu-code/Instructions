@@ -29,8 +29,10 @@
 // console.log(friends); //["Grace", "Mike", "Spencer", "Esther", "Slade", "Jared","Marry","Joan"];
 // console.log(returnValue2); //8
 
-function HelloWorld() {
-    console.log("Hello world!");
-    console.log(this); // widow object
+let counter = 0;
+for (let i = 0; i < 100; i++) {
+  for (let j = 0; j < 500; j++) {
+    counter++;
   }
-  HelloWorld();
+}
+console.log(counter); //50000

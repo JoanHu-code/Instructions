@@ -11,6 +11,7 @@
 - [第九章 Array 陣列](#第九章-Array-陣列)
 - [第十章 Object 物件](#第十章-Object-物件)
 - [第十一章 Loop 迴圈](#第十一章-Loop-迴圈)
+- [第十二章 Nested Loop 巢狀迴圈](#第十一章-Nested-Loop-巢狀迴圈)
 
 # 第一章 JS 簡介
 
@@ -1183,8 +1184,6 @@ console.log(Array.isArray(arr));
 
 > 常見的迴圈有 for loop, do while loop, while loop 等等。
 
-**若把 return 關鍵字放到 loop 內部，則循環馬上會停止**
-
 - For Loop
 
   - For Loop 的語法(pseudocode)
@@ -1302,3 +1301,121 @@ console.log(i); //11
 | **Execution Flow** | 1. Execute "initialization" <br> 2. Check "condition"; if `true`, execute the code block, otherwise exit the loop <br> 3. Execute "update" <br> 4. Repeat from step 2 until the condition is `false` | 1. Check "condition"; if `true`, execute the code block, otherwise exit the loop <br> 2. After execution, go back to step 1 | 1. Execute the code block once <br> 2. Check "condition"; if `true`, continue execution, otherwise exit the loop |
 | **Features**       | Suitable for cases with a known number of iterations                                                                                                                                                 | May not execute at all                                                                                                      | **Always executes at least once**                                                                                |
 | **When to Use**    | When a loop needs to run a fixed number of times                                                                                                                                                     | When the number of iterations is uncertain and depends on a condition                                                       | When the loop must execute at least once before checking the condition                                           |
+
+**若把 return 關鍵字放到 loop 內部，則循環馬上會停止**
+
+```js
+function print100() {
+  for (let i = 1; i < 100; i++) {
+    console.log(i); //5 does not appear.
+    if (i == 5) {
+      return;
+    }
+    console.log(i); // 5 does appear.
+  }
+}
+
+print100();
+```
+
+# 第十二章 Nested Loop 巢狀迴圈
+
+> 巢狀迴圈是指在 loop 內部還有另一個 loop 的情況。內部迴圈以及外部迴圈可以是任何類型。例如: while loop 或 for loop。內部迴圈將在外部迴圈的每次迭代中，從頭到尾執行一次。
+
+```js
+for (let i = 0; i < 3; i++) {
+  for (let j = 10; j < 15; j++) {
+    console.log(i, j);
+  }
+}
+// i=0,j=10,11,12,13,14
+// i=1,j=10,11,12,13,14
+// i=2,j=10,11,12,13,14
+```
+
+```js
+let counter = 0;
+for (let i = 0; i < 100; i++) {
+  for (let j = 0; j < 500; j++) {
+    counter++;
+  }
+}
+console.log(counter); //100*500 50000
+```
+
+```js
+for (let i = 0; i < 100; i++) {
+  let counter = 0;
+  for (let j = 0; j < 500; j++) {
+    counter++;
+  }
+  console.log(counter); //500
+}
+```
+
+**Break、Continue 關鍵字**
+
+- Break 用於終止存在於它的迴圈。如果 break 語句存在於 nested loop 中，它只會中指那些包含 break 語句的 loop。若要中指 nested loop，則需要使用 return 關鍵字。
+
+```js
+for (let i = 0; i < 100; i++) {
+  if (i == 10) {
+    break;
+  }
+}
+// break works the same as return.
+```
+
+```js
+for (let i = 0; i < 100; i++) {
+  for (let j = 0; j < 100; j++) {
+    if (j == 3) {
+      break;
+    }
+  }
+}
+// i=0, j=1,2,3
+// i=1, j=1,2,3
+// ...
+// i=100, j=1,2,3
+```
+
+```js
+function exampleNestedReturn() {
+  for (let i = 0; i < 100; i++) {
+    for (let j = 0; j < 100; j++) {
+      if (j == 10) {
+        return;
+      }
+    }
+  }
+}
+exampleNestedReturn();
+// i=0, j=1,2,3
+```
+
+- Continue 與 Break 語句相反；它不是終止循環，而是強制執行循環的下一次迭代。在 Loop 中執行 continue 語句時，將跳過 continue 語句之後的循環內的代碼，開始循環下一次的迭代。
+
+```js
+for (let i = 0; i < 10; i++) {
+  console.log(i); //3 does appear.
+  if (i == 3) {
+    continue;
+  }
+  console.log(i); //3 does not appear.
+}
+```
+
+**表格整理**
+
+| **操作**     | **一般迴圈**                                                                               | **巢狀迴圈**                                                        | **是否需要放入 function 才能使用** |
+| ------------ | ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------- | ---------------------------------- |
+| **break**    | `break` 用來跳出當前迴圈。當條件符合時，會立即停止迴圈執行，並繼續執行函式中的其他程式碼。 | `break` 只會跳出當前的內層迴圈，不會影響外層迴圈的執行。            | 否                                 |
+| **return**   | `return` 會立即結束整個函式的執行，並可以返回指定值。                                      | `return` 會直接結束整個函式的執行，無論外層或內層迴圈是否完成。     | 是                                 |
+| **continue** | `continue` 不會終止迴圈，而是跳過當前迭代的剩餘程式碼，並開始下一次迴圈的執行。            | `continue` 只會跳過當前迴圈的剩餘程式碼，並繼續執行下一次內層迴圈。 | 否                                 |
+
+| **Action**   | **Regular Loop**                                                                                                                                               | **Nested Loop**                                                                                                                             | **Requires Function to Use** |
+| ------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------- |
+| **break**    | `break` is used to exit the current loop. When the condition is met, it immediately stops the loop and continues executing the remaining code in the function. | `break` only exits the current inner loop, without affecting the outer loop's execution.                                                    | No                           |
+| **return**   | `return` immediately ends the execution of the entire function and can return a specified value.                                                               | `return` directly ends the execution of the entire function, regardless of whether the outer or inner loops are finished.                   | Yes                          |
+| **continue** | `continue` does not terminate the loop but skips the remaining code in the current iteration and starts the next iteration of the loop.                        | `continue` only skips the remaining code in the current iteration of the inner loop and proceeds with the next iteration of the inner loop. | No                           |
