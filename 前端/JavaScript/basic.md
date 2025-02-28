@@ -927,6 +927,12 @@ let anotherArray = [null, false, "This is a string", 3.14159, undefined];
 
   ![primitive data type](../../img/javascript/12.png)
 
+  ```js
+  let x = 10;
+  let y = x;
+  console.log(x == y); //true
+  ```
+
 - reference data type: copy by reference
 
   - RAM(Random Access Memory)內存中 friends 的元素 和 anotherVariable 的元素指向的 address 是一樣的，所以值會被覆蓋。
@@ -952,3 +958,11 @@ let anotherArray = [null, false, "This is a string", 3.14159, undefined];
   ```
 
   ![reference data type](../../img/javascript/13.png)
+
+  ```js
+  let arr1 = [1, 2, 3];
+  let arr2 = arr1;
+  console.log(arr1 == arr2); //true
+  ```
+
+  ![reference data type](../../img/javascript/14.png)
