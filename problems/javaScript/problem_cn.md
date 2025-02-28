@@ -17,6 +17,7 @@
 例如:
 
 const friends = ["Harry", "Ron", "Snap", "Mike", "Grace"];
+
 會變成
 
 ["Grace", "Mike", "Snap","Ron","Harry"];
@@ -30,8 +31,11 @@ const friends = ["Harry", "Ron", "Snap", "Mike", "Grace"];
 在這個 coding 練習裡面，你要寫一個函式，他可以接受一個 parameter，參數是一個 array of numbers。這個函式要 return 一個值，也就是 Array 當中最大的數! 若是 input 是一個 empty array，則 return undefined。例如：
 
 findBiggest([15, 20, 22, 16, 7]); // return 22
+
 findBiggest([1, 2, 3, 4, 5, 999]); // return 999
+
 findBiggest([-11, 0, -3, -4, -5, -999]); // return 0
+
 findBiggest([]); // return undefined
 
 [解答](#第二題解答)
@@ -49,8 +53,11 @@ addUpTo(5) = 1 + 2 + 3 + 4+ 5 = 15
 addUpTo(100) = 1 + 2 + 3 + 4 + 5 + ....... + 100 = 5050
 
 addUpTo(5); // 15
+
 addUpTo(100); // 5050
+
 addUpTo(5000); // 12502500
+
 addUpTo(100000); // 5000050000
 
 [解答](#第三題解答)
