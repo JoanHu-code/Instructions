@@ -1058,6 +1058,28 @@ h1:hover {
   - fill-mode
   - play-state
 
+  | Property Name             | Default Value | Description                                                        |
+  | ------------------------- | ------------- | ------------------------------------------------------------------ |
+  | animation-name            | none          | No animation is applied                                            |
+  | animation-duration        | 0s            | The animation duration is 0 seconds (no animation)                 |
+  | animation-timing-function | ease          | Default easing function (starts slow, speeds up, then slows down)  |
+  | animation-delay           | 0s            | No delay, animation starts immediately                             |
+  | animation-iteration-count | 1             | The animation runs only once                                       |
+  | animation-direction       | normal        | The animation plays in a normal forward direction                  |
+  | animation-fill-mode       | none          | After the animation ends, the element returns to its initial state |
+  | animation-play-state      | running       | The animation is in a running state by default                     |
+
+  | 屬性名稱                  | 預設值  | 說明                                         |
+  | ------------------------- | ------- | -------------------------------------------- |
+  | animation-name            | none    | 沒有應用動畫                                 |
+  | animation-duration        | 0s      | 動畫持續時間為 0 秒（無動畫）                |
+  | animation-timing-function | ease    | 預設的緩動函數（開始慢，然後加速，再慢下來） |
+  | animation-delay           | 0s      | 無延遲，動畫立即開始                         |
+  | animation-iteration-count | 1       | 動畫只運行一次                               |
+  | animation-direction       | normal  | 動畫正常正向播放                             |
+  | animation-fill-mode       | none    | 動畫結束後，元素返回其初始狀態               |
+  | animation-play-state      | running | 預設動畫處於運行狀態                         |
+
 - 若有跳過設定，則會套用 CSS 的預設值。例如:animation:cross 1s 3s forwards。是指 keyframes 為 cross 的動畫，開頭到結束的時間為一秒，延遲三秒，fill-mode 為 forwards。其餘屬性皆保留為預設值。
 
 ```css
