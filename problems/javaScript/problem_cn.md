@@ -206,7 +206,33 @@ function printEvery3() {
 printEvery3();
 ```
 
-[04](../javaScript/04.js)
+[04_for](../javaScript/04_for.js)
+
+```js
+function printEvery3() {
+  let i = 1;
+  while (i < 88) {
+    console.log(i);
+    i += 3;
+  }
+}
+printEvery3();
+```
+
+[04_while](../javaScript/04_while.js)
+
+```js
+function printEvery3() {
+  let i = 1;
+  do {
+    console.log(i);
+    i += 3;
+  } while (i <= 88);
+}
+printEvery3();
+```
+
+[04_do_while](../javaScript/04_do_while.js)
 
 ---
 
