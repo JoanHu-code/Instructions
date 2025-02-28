@@ -10,7 +10,7 @@
 - [第八章 JavaScript Function](#第八章-JavaScript-Function)
 - [第九章 Array 陣列](#第九章-Array-陣列)
 - [第十章 Object 物件](#第十章-Object-物件)
-- [第十一章 Loop 迴圈](#第十章-Loop-迴圈)
+- [第十一章 Loop 迴圈](#第十一章-Loop-迴圈)
 
 # 第一章 JS 簡介
 
