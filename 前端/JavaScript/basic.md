@@ -8,10 +8,10 @@
 - [第六章 if statement](#第六章-if-statement)
 - [第七章 Codeing Convention and Restrictions](#第七章-Codeing-Convention-and-Restrictions)
 - [第八章 JavaScript Function](#第八章-JavaScript-Function)
-- [第九章 Array 陣列](#第九章-Array-陣列)
-- [第十章 Object 物件](#第十章-Object-物件)
-- [第十一章 Loop 迴圈](#第十一章-Loop-迴圈)
-- [第十二章 Nested Loop 巢狀迴圈](#第十一章-Nested-Loop-巢狀迴圈)
+- [第九章 Loop 迴圈](#第九章-Loop-迴圈)
+- [第十章 Nested Loop 巢狀迴圈](#第十章-Nested-Loop-巢狀迴圈)
+- [第十一章 Array 陣列](#第十一章-Array-陣列)
+- [第十二章 Object 物件](#第十二章-Object-物件)
 
 # 第一章 JS 簡介
 
@@ -907,7 +907,249 @@ y = 5n^3+3n
 
 > 每個瀏覽器的 JavaScript 引擎內部對於陣列的實現方法略有差異。對於不同大小的陣列，可能會採用其他更好的資料結構，例如 double-linked list, binary search tree(BST)等等，來增強表現
 
-# 第九章 Array 陣列
+# 第九章 Loop 迴圈
+
+> 迴圈提供一個快速又簡潔的方法來重複地做某件事情。有很多種不同種類的迴圈，不過他們本質上都是做一樣的事情: 把一件動作重複地做一定次數(也有可能做 0 次)。各式各樣的迴圈機制提供了不同的方法來定義該迴圈的起始與結束。有些不同的情況下使用其中一種迴圈會比使用別種容易許多。
+
+> 常見的迴圈有 for loop, do while loop, while loop 等等。
+
+- For Loop
+
+  - For Loop 的語法(pseudocode)
+
+  ```pseudocode
+  for(initialization; condition; final expression){
+    statement
+  }
+  ```
+
+  - Initialization: 是指在循環開始之前的計數器變量聲明
+
+  - Condition: 是每次循環迭帶之前要評估的表達式。如果此表達式的計算結果為真，則執行 statement。如果 condition 的計算結果為假，則執行退出循環並轉到 for loop 之後的第一條語句。
+
+  - Final expression: 是指在每次循環迭代結束時要執行的程式碼。一般用於更新或遞增計數器的變量。
+
+  ```js
+  for (let i = 0; i < 11; i++) {
+    console.log(i);
+  }
+  console.log("the for loop is finished.");
+  // i = 0, i < 11 is true, then print 0, and the value of i is updated to 1.
+  // i = 1, i < 11 is true, then print 1, and the value of i is updated to 2.
+  // ....
+  // i = 11, i < 11 is false, so the loop ends, and 'the for loop is finished.' is printed.
+  ```
+
+  **使用時機: 當我們已得知這件事情要做多少次的話，可以使用 for loop**
+
+- While Loop
+
+  - while 語句創建一個循環，只要測試條件評估為真，該循環就會執行指定的語句。
+
+  - 在 While Loop 執行語句之前評估條件。**若忘記增加計數器而導致 While Loop 無限循環，則有可能癱瘓電腦 CPU， 請務必千萬要小心!**
+
+  - While Loop 的語法(pseudocode)
+
+  ```pseudocode
+  while (condition){
+    statement
+  }
+  ```
+
+  - condition: data type 為 boolean，若為 true 則 statement 將會被執行
+
+  ```js
+  //This will be executed infinitely.
+  while (true) {
+    console.log("This programe is executed");
+  }
+  ```
+
+  ```js
+  let i = 0;
+  while (i < 10) {
+    console.log(i);
+    i++;
+  }
+  ```
+
+- Do While Loop
+
+  - 創建一個循環，該循環執行指定的 statement，直到測試條件評估為 false。
+  - Do While Loop 的特點在於，先執行語句後評估條件。
+
+  - Do While Loop 的語法(pseudocode)
+
+  ```pseudocode
+   do {
+    statement
+  } while (condition)
+  ```
+
+  ```js
+  let i = 0;
+  do {
+    console.log(i);
+    i++;
+  } while (i < 10);
+  ```
+
+**While Loop vs. Do While Loop**
+
+```js
+let i = 10;
+
+while (i < 10) {
+  console.log(i); // It will not be executed
+  i++;
+}
+console.log(i); //10
+
+do {
+  console.log(i); // It will  be executed
+  i++;
+} while (i < 10);
+
+console.log(i); //11
+```
+
+**使用時機: 當我們不知道這件事情要做多少次的話，可以使用 While Loop 和 Do While Loop**
+
+**統整表格:**
+
+|              | For Loop                                                                                                                                               | While Loop                                                                                 | Do While Loop                                                                      |
+| ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------- |
+| **語法**     | `for (初始化; 條件; 更新) { 程式碼 }`                                                                                                                  | `while (條件) { 程式碼 }`                                                                  | `do { 程式碼 } while (條件);`                                                      |
+| **執行流程** | 1. 執行「初始化」 <br> 2. 檢查「條件」，若為 `true` 則執行程式碼區塊，否則結束迴圈 <br> 3. 執行「更新」 <br> 4. 回到步驟 2，重複執行直到條件為 `false` | 1. 檢查「條件」，若為 `true` 則執行程式碼區塊，否則結束迴圈 <br> 2. 執行完畢後，回到步驟 1 | 1. 先執行一次程式碼區塊 <br> 2. 檢查「條件」，若為 `true` 則繼續執行，否則結束迴圈 |
+| **特色**     | 適合已知循環次數的情況                                                                                                                                 | 可能一次都不執行                                                                           | **至少執行一次**                                                                   |
+| **使用時機** | 當需要執行固定次數的迴圈時                                                                                                                             | 當條件不確定，須依據狀況決定是否繼續執行時                                                 | 當至少需要執行一次，然後依據條件決定是否繼續時                                     |
+
+|                    | For Loop                                                                                                                                                                                             | While Loop                                                                                                                  | Do While Loop                                                                                                    |
+| ------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
+| **Syntax**         | `for (initialization; condition; update) { code }`                                                                                                                                                   | `while (condition) { code }`                                                                                                | `do { code } while (condition);`                                                                                 |
+| **Execution Flow** | 1. Execute "initialization" <br> 2. Check "condition"; if `true`, execute the code block, otherwise exit the loop <br> 3. Execute "update" <br> 4. Repeat from step 2 until the condition is `false` | 1. Check "condition"; if `true`, execute the code block, otherwise exit the loop <br> 2. After execution, go back to step 1 | 1. Execute the code block once <br> 2. Check "condition"; if `true`, continue execution, otherwise exit the loop |
+| **Features**       | Suitable for cases with a known number of iterations                                                                                                                                                 | May not execute at all                                                                                                      | **Always executes at least once**                                                                                |
+| **When to Use**    | When a loop needs to run a fixed number of times                                                                                                                                                     | When the number of iterations is uncertain and depends on a condition                                                       | When the loop must execute at least once before checking the condition                                           |
+
+**若把 return 關鍵字放到 loop 內部，則循環馬上會停止**
+
+```js
+function print100() {
+  for (let i = 1; i < 100; i++) {
+    console.log(i); //5 does not appear.
+    if (i == 5) {
+      return;
+    }
+    console.log(i); // 5 does appear.
+  }
+}
+
+print100();
+```
+
+# 第十章 Nested Loop 巢狀迴圈
+
+> 巢狀迴圈是指在 loop 內部還有另一個 loop 的情況。內部迴圈以及外部迴圈可以是任何類型。例如: while loop 或 for loop。內部迴圈將在外部迴圈的每次迭代中，從頭到尾執行一次。
+
+```js
+for (let i = 0; i < 3; i++) {
+  for (let j = 10; j < 15; j++) {
+    console.log(i, j);
+  }
+}
+// i=0,j=10,11,12,13,14
+// i=1,j=10,11,12,13,14
+// i=2,j=10,11,12,13,14
+```
+
+```js
+let counter = 0;
+for (let i = 0; i < 100; i++) {
+  for (let j = 0; j < 500; j++) {
+    counter++;
+  }
+}
+console.log(counter); //100*500 50000
+```
+
+```js
+for (let i = 0; i < 100; i++) {
+  let counter = 0;
+  for (let j = 0; j < 500; j++) {
+    counter++;
+  }
+  console.log(counter); //500
+}
+```
+
+**Break、Continue 關鍵字**
+
+- Break 用於終止存在於它的迴圈。如果 break 語句存在於 nested loop 中，它只會中指那些包含 break 語句的 loop。若要中指 nested loop，則需要使用 return 關鍵字。
+
+```js
+for (let i = 0; i < 100; i++) {
+  if (i == 10) {
+    break;
+  }
+}
+// break works the same as return.
+```
+
+```js
+for (let i = 0; i < 100; i++) {
+  for (let j = 0; j < 100; j++) {
+    if (j == 3) {
+      break;
+    }
+  }
+}
+// i=0, j=1,2,3
+// i=1, j=1,2,3
+// ...
+// i=100, j=1,2,3
+```
+
+```js
+function exampleNestedReturn() {
+  for (let i = 0; i < 100; i++) {
+    for (let j = 0; j < 100; j++) {
+      if (j == 10) {
+        return;
+      }
+    }
+  }
+}
+exampleNestedReturn();
+// i=0, j=1,2,3
+```
+
+- Continue 與 Break 語句相反；它不是終止循環，而是強制執行循環的下一次迭代。在 Loop 中執行 continue 語句時，將跳過 continue 語句之後的循環內的代碼，開始循環下一次的迭代。
+
+```js
+for (let i = 0; i < 10; i++) {
+  console.log(i); //3 does appear.
+  if (i == 3) {
+    continue;
+  }
+  console.log(i); //3 does not appear.
+}
+```
+
+**表格整理**
+
+| **操作**     | **一般迴圈**                                                                               | **巢狀迴圈**                                                        | **是否需要放入 function 才能使用** |
+| ------------ | ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------- | ---------------------------------- |
+| **break**    | `break` 用來跳出當前迴圈。當條件符合時，會立即停止迴圈執行，並繼續執行函式中的其他程式碼。 | `break` 只會跳出當前的內層迴圈，不會影響外層迴圈的執行。            | 否                                 |
+| **return**   | `return` 會立即結束整個函式的執行，並可以返回指定值。                                      | `return` 會直接結束整個函式的執行，無論外層或內層迴圈是否完成。     | 是                                 |
+| **continue** | `continue` 不會終止迴圈，而是跳過當前迭代的剩餘程式碼，並開始下一次迴圈的執行。            | `continue` 只會跳過當前迴圈的剩餘程式碼，並繼續執行下一次內層迴圈。 | 否                                 |
+
+| **Action**   | **Regular Loop**                                                                                                                                               | **Nested Loop**                                                                                                                             | **Requires Function to Use** |
+| ------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------- |
+| **break**    | `break` is used to exit the current loop. When the condition is met, it immediately stops the loop and continues executing the remaining code in the function. | `break` only exits the current inner loop, without affecting the outer loop's execution.                                                    | No                           |
+| **return**   | `return` immediately ends the execution of the entire function and can return a specified value.                                                               | `return` directly ends the execution of the entire function, regardless of whether the outer or inner loops are finished.                   | Yes                          |
+| **continue** | `continue` does not terminate the loop but skips the remaining code in the current iteration and starts the next iteration of the loop.                        | `continue` only skips the remaining code in the current iteration of the inner loop and proceeds with the next iteration of the inner loop. | No                           |
+
+# 第十一章 Array 陣列
 
 **在 JavaScript 中，array 並不是 primitive data type。當我們有需要將用途或性質相近的數據儲存在一起時，Array 即可派上用場。Array 具有以下核心特徵:**
 
@@ -1079,7 +1321,7 @@ let myArr = {
 console.log(myArr[1][0]);//Mike
 ```
 
-# 第十章 Object 物件
+# 第十二章 Object 物件
 
 > 每個 javaScript 物件都有 properties 以及 method。屬於物件的 function 被稱為 method。物件的屬性與相對應的值是一種 key-value pair。獲取物件屬性的方式可以透過 dot notation 或是[]。JavaScript Object 是一種 hashtable。
 
@@ -1177,245 +1419,3 @@ console.log(Array.isArray(arr));
 | **Definition**     | Does not belong to any object (Object)                        | Belongs to an object as a function         |
 | **this Reference** | Refers to the `window` object (or `undefined` in strict mode) | Refers to the object that owns the method  |
 | **Call Method**    | Called directly, e.g., `func()`                               | Called via an object, e.g., `obj.method()` |
-
-# 第十一章 Loop 迴圈
-
-> 迴圈提供一個快速又簡潔的方法來重複地做某件事情。有很多種不同種類的迴圈，不過他們本質上都是做一樣的事情: 把一件動作重複地做一定次數(也有可能做 0 次)。各式各樣的迴圈機制提供了不同的方法來定義該迴圈的起始與結束。有些不同的情況下使用其中一種迴圈會比使用別種容易許多。
-
-> 常見的迴圈有 for loop, do while loop, while loop 等等。
-
-- For Loop
-
-  - For Loop 的語法(pseudocode)
-
-  ```pseudocode
-  for(initialization; condition; final expression){
-    statement
-  }
-  ```
-
-  - Initialization: 是指在循環開始之前的計數器變量聲明
-
-  - Condition: 是每次循環迭帶之前要評估的表達式。如果此表達式的計算結果為真，則執行 statement。如果 condition 的計算結果為假，則執行退出循環並轉到 for loop 之後的第一條語句。
-
-  - Final expression: 是指在每次循環迭代結束時要執行的程式碼。一般用於更新或遞增計數器的變量。
-
-  ```js
-  for (let i = 0; i < 11; i++) {
-    console.log(i);
-  }
-  console.log("the for loop is finished.");
-  // i = 0, i < 11 is true, then print 0, and the value of i is updated to 1.
-  // i = 1, i < 11 is true, then print 1, and the value of i is updated to 2.
-  // ....
-  // i = 11, i < 11 is false, so the loop ends, and 'the for loop is finished.' is printed.
-  ```
-
-  **使用時機: 當我們已得知這件事情要做多少次的話，可以使用 for loop**
-
-- While Loop
-
-  - while 語句創建一個循環，只要測試條件評估為真，該循環就會執行指定的語句。
-
-  - 在 While Loop 執行語句之前評估條件。**若忘記增加計數器而導致 While Loop 無限循環，則有可能癱瘓電腦 CPU， 請務必千萬要小心!**
-
-  - While Loop 的語法(pseudocode)
-
-  ```pseudocode
-  while (condition){
-    statement
-  }
-  ```
-
-  - condition: data type 為 boolean，若為 true 則 statement 將會被執行
-
-  ```js
-  //This will be executed infinitely.
-  while (true) {
-    console.log("This programe is executed");
-  }
-  ```
-
-  ```js
-  let i = 0;
-  while (i < 10) {
-    console.log(i);
-    i++;
-  }
-  ```
-
-- Do While Loop
-
-  - 創建一個循環，該循環執行指定的 statement，直到測試條件評估為 false。
-  - Do While Loop 的特點在於，先執行語句後評估條件。
-
-  - Do While Loop 的語法(pseudocode)
-
-  ```pseudocode
-   do {
-    statement
-  } while (condition)
-  ```
-
-  ```js
-  let i = 0;
-  do {
-    console.log(i);
-    i++;
-  } while (i < 10);
-  ```
-
-**While Loop vs. Do While Loop**
-
-```js
-let i = 10;
-
-while (i < 10) {
-  console.log(i); // It will not be executed
-  i++;
-}
-console.log(i); //10
-
-do {
-  console.log(i); // It will  be executed
-  i++;
-} while (i < 10);
-
-console.log(i); //11
-```
-
-**使用時機: 當我們不知道這件事情要做多少次的話，可以使用 While Loop 和 Do While Loop**
-
-**統整表格:**
-
-|              | For Loop                                                                                                                                               | While Loop                                                                                 | Do While Loop                                                                      |
-| ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------- |
-| **語法**     | `for (初始化; 條件; 更新) { 程式碼 }`                                                                                                                  | `while (條件) { 程式碼 }`                                                                  | `do { 程式碼 } while (條件);`                                                      |
-| **執行流程** | 1. 執行「初始化」 <br> 2. 檢查「條件」，若為 `true` 則執行程式碼區塊，否則結束迴圈 <br> 3. 執行「更新」 <br> 4. 回到步驟 2，重複執行直到條件為 `false` | 1. 檢查「條件」，若為 `true` 則執行程式碼區塊，否則結束迴圈 <br> 2. 執行完畢後，回到步驟 1 | 1. 先執行一次程式碼區塊 <br> 2. 檢查「條件」，若為 `true` 則繼續執行，否則結束迴圈 |
-| **特色**     | 適合已知循環次數的情況                                                                                                                                 | 可能一次都不執行                                                                           | **至少執行一次**                                                                   |
-| **使用時機** | 當需要執行固定次數的迴圈時                                                                                                                             | 當條件不確定，須依據狀況決定是否繼續執行時                                                 | 當至少需要執行一次，然後依據條件決定是否繼續時                                     |
-
-|                    | For Loop                                                                                                                                                                                             | While Loop                                                                                                                  | Do While Loop                                                                                                    |
-| ------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
-| **Syntax**         | `for (initialization; condition; update) { code }`                                                                                                                                                   | `while (condition) { code }`                                                                                                | `do { code } while (condition);`                                                                                 |
-| **Execution Flow** | 1. Execute "initialization" <br> 2. Check "condition"; if `true`, execute the code block, otherwise exit the loop <br> 3. Execute "update" <br> 4. Repeat from step 2 until the condition is `false` | 1. Check "condition"; if `true`, execute the code block, otherwise exit the loop <br> 2. After execution, go back to step 1 | 1. Execute the code block once <br> 2. Check "condition"; if `true`, continue execution, otherwise exit the loop |
-| **Features**       | Suitable for cases with a known number of iterations                                                                                                                                                 | May not execute at all                                                                                                      | **Always executes at least once**                                                                                |
-| **When to Use**    | When a loop needs to run a fixed number of times                                                                                                                                                     | When the number of iterations is uncertain and depends on a condition                                                       | When the loop must execute at least once before checking the condition                                           |
-
-**若把 return 關鍵字放到 loop 內部，則循環馬上會停止**
-
-```js
-function print100() {
-  for (let i = 1; i < 100; i++) {
-    console.log(i); //5 does not appear.
-    if (i == 5) {
-      return;
-    }
-    console.log(i); // 5 does appear.
-  }
-}
-
-print100();
-```
-
-# 第十二章 Nested Loop 巢狀迴圈
-
-> 巢狀迴圈是指在 loop 內部還有另一個 loop 的情況。內部迴圈以及外部迴圈可以是任何類型。例如: while loop 或 for loop。內部迴圈將在外部迴圈的每次迭代中，從頭到尾執行一次。
-
-```js
-for (let i = 0; i < 3; i++) {
-  for (let j = 10; j < 15; j++) {
-    console.log(i, j);
-  }
-}
-// i=0,j=10,11,12,13,14
-// i=1,j=10,11,12,13,14
-// i=2,j=10,11,12,13,14
-```
-
-```js
-let counter = 0;
-for (let i = 0; i < 100; i++) {
-  for (let j = 0; j < 500; j++) {
-    counter++;
-  }
-}
-console.log(counter); //100*500 50000
-```
-
-```js
-for (let i = 0; i < 100; i++) {
-  let counter = 0;
-  for (let j = 0; j < 500; j++) {
-    counter++;
-  }
-  console.log(counter); //500
-}
-```
-
-**Break、Continue 關鍵字**
-
-- Break 用於終止存在於它的迴圈。如果 break 語句存在於 nested loop 中，它只會中指那些包含 break 語句的 loop。若要中指 nested loop，則需要使用 return 關鍵字。
-
-```js
-for (let i = 0; i < 100; i++) {
-  if (i == 10) {
-    break;
-  }
-}
-// break works the same as return.
-```
-
-```js
-for (let i = 0; i < 100; i++) {
-  for (let j = 0; j < 100; j++) {
-    if (j == 3) {
-      break;
-    }
-  }
-}
-// i=0, j=1,2,3
-// i=1, j=1,2,3
-// ...
-// i=100, j=1,2,3
-```
-
-```js
-function exampleNestedReturn() {
-  for (let i = 0; i < 100; i++) {
-    for (let j = 0; j < 100; j++) {
-      if (j == 10) {
-        return;
-      }
-    }
-  }
-}
-exampleNestedReturn();
-// i=0, j=1,2,3
-```
-
-- Continue 與 Break 語句相反；它不是終止循環，而是強制執行循環的下一次迭代。在 Loop 中執行 continue 語句時，將跳過 continue 語句之後的循環內的代碼，開始循環下一次的迭代。
-
-```js
-for (let i = 0; i < 10; i++) {
-  console.log(i); //3 does appear.
-  if (i == 3) {
-    continue;
-  }
-  console.log(i); //3 does not appear.
-}
-```
-
-**表格整理**
-
-| **操作**     | **一般迴圈**                                                                               | **巢狀迴圈**                                                        | **是否需要放入 function 才能使用** |
-| ------------ | ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------- | ---------------------------------- |
-| **break**    | `break` 用來跳出當前迴圈。當條件符合時，會立即停止迴圈執行，並繼續執行函式中的其他程式碼。 | `break` 只會跳出當前的內層迴圈，不會影響外層迴圈的執行。            | 否                                 |
-| **return**   | `return` 會立即結束整個函式的執行，並可以返回指定值。                                      | `return` 會直接結束整個函式的執行，無論外層或內層迴圈是否完成。     | 是                                 |
-| **continue** | `continue` 不會終止迴圈，而是跳過當前迭代的剩餘程式碼，並開始下一次迴圈的執行。            | `continue` 只會跳過當前迴圈的剩餘程式碼，並繼續執行下一次內層迴圈。 | 否                                 |
-
-| **Action**   | **Regular Loop**                                                                                                                                               | **Nested Loop**                                                                                                                             | **Requires Function to Use** |
-| ------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------- |
-| **break**    | `break` is used to exit the current loop. When the condition is met, it immediately stops the loop and continues executing the remaining code in the function. | `break` only exits the current inner loop, without affecting the outer loop's execution.                                                    | No                           |
-| **return**   | `return` immediately ends the execution of the entire function and can return a specified value.                                                               | `return` directly ends the execution of the entire function, regardless of whether the outer or inner loops are finished.                   | Yes                          |
-| **continue** | `continue` does not terminate the loop but skips the remaining code in the current iteration and starts the next iteration of the loop.                        | `continue` only skips the remaining code in the current iteration of the inner loop and proceeds with the next iteration of the inner loop. | No                           |
