@@ -9,6 +9,8 @@
 - [第七章 Codeing Convention and Restrictions](#第七章-Codeing-Convention-and-Restrictions)
 - [第八章 JavaScript Function](#第八章-JavaScript-Function)
 - [第九章 Array 陣列](#第九章-Array-陣列)
+- [第十章 Object 物件](#第十章-Object-物件)
+- [第十一章 Loop 迴圈](#第十章-Loop-迴圈)
 
 # 第一章 JS 簡介
 
@@ -902,6 +904,8 @@ y = 5n^3+3n
 | 2            | 46      |
 | 3            | 144     |
 
+> 每個瀏覽器的 JavaScript 引擎內部對於陣列的實現方法略有差異。對於不同大小的陣列，可能會採用其他更好的資料結構，例如 double-linked list, binary search tree(BST)等等，來增強表現
+
 # 第九章 Array 陣列
 
 **在 JavaScript 中，array 並不是 primitive data type。當我們有需要將用途或性質相近的數據儲存在一起時，Array 即可派上用場。Array 具有以下核心特徵:**
@@ -1073,3 +1077,228 @@ let myArr = {
 }
 console.log(myArr[1][0]);//Mike
 ```
+
+# 第十章 Object 物件
+
+> 每個 javaScript 物件都有 properties 以及 method。屬於物件的 function 被稱為 method。物件的屬性與相對應的值是一種 key-value pair。獲取物件屬性的方式可以透過 dot notation 或是[]。JavaScript Object 是一種 hashtable。
+
+> hashtable 的時間複雜度為 O(1)
+
+```js
+let profile = {
+  firstName: "Joan",
+  lastName: "Hu",
+  age: 26,
+  isMarried: false,
+  spouse: null,
+
+  // method
+  sayHi() {
+    console.log(`${this.firstName} ${this.lastName} say Hi!`);
+  },
+
+  walk() {
+    console.log(`${profile["firstName"]} ${profile["lastName"]} is walking!`);
+  },
+
+  speak(words) {
+    console.log(`${profile.firstName} says ${words}`);
+  },
+};
+
+console.log(profile.firstName); //Joan
+console.log(profile["firstName"]); //Joan
+profile.sayHi();
+profile.walk();
+profile.speak("Hi");
+
+profile.firstName = "Willison";
+profile.lastName = "Lee";
+profile.sayHi();
+profile.walk();
+profile.speak("Hi");
+```
+
+> 在 method 中的 this 關鍵字指的是調用該方法的物件。若某個 function 沒有調用該 function 的物件，則 this 關鍵字則是指向 window 物件
+
+> 在 JavaScript 當中的 function、array 其實都是物件(Object)，都有自己的 method 和 property。Array 以及 Function 都是 special type of objects。
+
+```js
+let arr = [1, 2, 3, 4, 5];
+console.log(typeof arr); //object
+function HelloWorld() {
+  console.log("Hello world!");
+}
+console.log(typeof HelloWorld); //function
+console.log(typeof HelloWorld()); //請不要加括弧，加了等同於執行function，執行完沒有回傳東西所以會回undefine
+```
+
+> 如何檢查 dataType 是否是 array
+
+```js
+let arr = [1, 2, 3, 4, 5];
+console.log(Array.isArray(arr));
+```
+
+[更多資訊](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/isArray)
+
+**function 和 method 的區別**
+
+- function 並不屬於任何物件(Object)
+
+  ```js
+  function HelloWorld() {
+    console.log("Hello world!");
+    console.log(this); // widow object
+  }
+  HelloWorld();
+  ```
+
+  > `HellloWorld()`is a funciion.
+
+- Method 屬於物件裡的 function
+
+  ```js
+  let friends = ["Mike", "John"];
+  friends.pop();
+  ```
+
+  > `pop()`is a method.
+
+  | 類型          | function                                          | Method                          |
+  | ------------- | ------------------------------------------------- | ------------------------------- |
+  | **定義**      | 並不屬於任何物件 (Object)                         | 屬於物件裡的 function           |
+  | **this 指向** | 指向 `window` object (在嚴格模式下是 `undefined`) | 指向該方法所屬的物件            |
+  | **調用方式**  | 直接呼叫，如 `func()`                             | 透過物件呼叫，如 `obj.method()` |
+
+| Type               | Function                                                      | Method                                     |
+| ------------------ | ------------------------------------------------------------- | ------------------------------------------ |
+| **Definition**     | Does not belong to any object (Object)                        | Belongs to an object as a function         |
+| **this Reference** | Refers to the `window` object (or `undefined` in strict mode) | Refers to the object that owns the method  |
+| **Call Method**    | Called directly, e.g., `func()`                               | Called via an object, e.g., `obj.method()` |
+
+# 第十一章 Loop 迴圈
+
+> 迴圈提供一個快速又簡潔的方法來重複地做某件事情。有很多種不同種類的迴圈，不過他們本質上都是做一樣的事情: 把一件動作重複地做一定次數(也有可能做 0 次)。各式各樣的迴圈機制提供了不同的方法來定義該迴圈的起始與結束。有些不同的情況下使用其中一種迴圈會比使用別種容易許多。
+
+> 常見的迴圈有 for loop, do while loop, while loop 等等。
+
+**若把 return 關鍵字放到 loop 內部，則循環馬上會停止**
+
+- For Loop
+
+  - For Loop 的語法(pseudocode)
+
+  ```pseudocode
+  for(initialization; condition; final expression){
+    statement
+  }
+  ```
+
+  - Initialization: 是指在循環開始之前的計數器變量聲明
+
+  - Condition: 是每次循環迭帶之前要評估的表達式。如果此表達式的計算結果為真，則執行 statement。如果 condition 的計算結果為假，則執行退出循環並轉到 for loop 之後的第一條語句。
+
+  - Final expression: 是指在每次循環迭代結束時要執行的程式碼。一般用於更新或遞增計數器的變量。
+
+  ```js
+  for (let i = 0; i < 11; i++) {
+    console.log(i);
+  }
+  console.log("the for loop is finished.");
+  // i = 0, i < 11 is true, then print 0, and the value of i is updated to 1.
+  // i = 1, i < 11 is true, then print 1, and the value of i is updated to 2.
+  // ....
+  // i = 11, i < 11 is false, so the loop ends, and 'the for loop is finished.' is printed.
+  ```
+
+  **使用時機: 當我們已得知這件事情要做多少次的話，可以使用 for loop**
+
+- While Loop
+
+  - while 語句創建一個循環，只要測試條件評估為真，該循環就會執行指定的語句。
+
+  - 在 While Loop 執行語句之前評估條件。**若忘記增加計數器而導致 While Loop 無限循環，則有可能癱瘓電腦 CPU， 請務必千萬要小心!**
+
+  - While Loop 的語法(pseudocode)
+
+  ```pseudocode
+  while (condition){
+    statement
+  }
+  ```
+
+  - condition: data type 為 boolean，若為 true 則 statement 將會被執行
+
+  ```js
+  //This will be executed infinitely.
+  while (true) {
+    console.log("This programe is executed");
+  }
+  ```
+
+  ```js
+  let i = 0;
+  while (i < 10) {
+    console.log(i);
+    i++;
+  }
+  ```
+
+- Do While Loop
+
+  - 創建一個循環，該循環執行指定的 statement，直到測試條件評估為 false。
+  - Do While Loop 的特點在於，先執行語句後評估條件。
+
+  - Do While Loop 的語法(pseudocode)
+
+  ```pseudocode
+   do {
+    statement
+  } while (condition)
+  ```
+
+  ```js
+  let i = 0;
+  do {
+    console.log(i);
+    i++;
+  } while (i < 10);
+  ```
+
+**While Loop vs. Do While Loop**
+
+```js
+let i = 10;
+
+while (i < 10) {
+  console.log(i); // It will not be executed
+  i++;
+}
+console.log(i); //10
+
+do {
+  console.log(i); // It will  be executed
+  i++;
+} while (i < 10);
+
+console.log(i); //11
+```
+
+**使用時機: 當我們不知道這件事情要做多少次的話，可以使用 While Loop 和 Do While Loop**
+
+**統整表格:**
+
+|              | For Loop                                                                                                                                               | While Loop                                                                                 | Do While Loop                                                                      |
+| ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------- |
+| **語法**     | `for (初始化; 條件; 更新) { 程式碼 }`                                                                                                                  | `while (條件) { 程式碼 }`                                                                  | `do { 程式碼 } while (條件);`                                                      |
+| **執行流程** | 1. 執行「初始化」 <br> 2. 檢查「條件」，若為 `true` 則執行程式碼區塊，否則結束迴圈 <br> 3. 執行「更新」 <br> 4. 回到步驟 2，重複執行直到條件為 `false` | 1. 檢查「條件」，若為 `true` 則執行程式碼區塊，否則結束迴圈 <br> 2. 執行完畢後，回到步驟 1 | 1. 先執行一次程式碼區塊 <br> 2. 檢查「條件」，若為 `true` 則繼續執行，否則結束迴圈 |
+| **特色**     | 適合已知循環次數的情況                                                                                                                                 | 可能一次都不執行                                                                           | **至少執行一次**                                                                   |
+| **使用時機** | 當需要執行固定次數的迴圈時                                                                                                                             | 當條件不確定，須依據狀況決定是否繼續執行時                                                 | 當至少需要執行一次，然後依據條件決定是否繼續時                                     |
+
+|                    | For Loop                                                                                                                                                                                             | While Loop                                                                                                                  | Do While Loop                                                                                                    |
+| ------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
+| **Syntax**         | `for (initialization; condition; update) { code }`                                                                                                                                                   | `while (condition) { code }`                                                                                                | `do { code } while (condition);`                                                                                 |
+| **Execution Flow** | 1. Execute "initialization" <br> 2. Check "condition"; if `true`, execute the code block, otherwise exit the loop <br> 3. Execute "update" <br> 4. Repeat from step 2 until the condition is `false` | 1. Check "condition"; if `true`, execute the code block, otherwise exit the loop <br> 2. After execution, go back to step 1 | 1. Execute the code block once <br> 2. Check "condition"; if `true`, continue execution, otherwise exit the loop |
+| **Features**       | Suitable for cases with a known number of iterations                                                                                                                                                 | May not execute at all                                                                                                      | **Always executes at least once**                                                                                |
+| **When to Use**    | When a loop needs to run a fixed number of times                                                                                                                                                     | When the number of iterations is uncertain and depends on a condition                                                       | When the loop must execute at least once before checking the condition                                           |

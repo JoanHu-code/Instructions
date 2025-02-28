@@ -20,11 +20,17 @@
 //   }
 //   let input = prompt("Please enter the Celsius");
 //   console.log(convertor(input));
-let friends = ["Grace", "Mike", "Spencer", "Esther", "Slade"];
-const returnValue = friends.push("Jared");
-console.log(friends); //["Grace", "Mike", "Spencer", "Esther", "Slade", "Jared"];
-console.log(returnValue); //6
+// let friends = ["Grace", "Mike", "Spencer", "Esther", "Slade"];
+// const returnValue = friends.push("Jared");
+// console.log(friends); //["Grace", "Mike", "Spencer", "Esther", "Slade", "Jared"];
+// console.log(returnValue); //6
 
-const returnValue2 = friends.push("Marry", "Joan");
-console.log(friends); //["Grace", "Mike", "Spencer", "Esther", "Slade", "Jared","Marry","Joan"];
-console.log(returnValue2); //8
+// const returnValue2 = friends.push("Marry", "Joan");
+// console.log(friends); //["Grace", "Mike", "Spencer", "Esther", "Slade", "Jared","Marry","Joan"];
+// console.log(returnValue2); //8
+
+function HelloWorld() {
+    console.log("Hello world!");
+    console.log(this); // widow object
+  }
+  HelloWorld();
