@@ -29,4 +29,36 @@
 // console.log(friends); //["Grace", "Mike", "Spencer", "Esther", "Slade", "Jared","Marry","Joan"];
 // console.log(returnValue2); //8
 
-console.log(Math.sqrt(2));
+
+let answer = Math.floor(Math.random()*100);
+// 0 <= Math.random()<1
+// 0 <= Math.random()<100
+// 0 <= Math.random()<1
+// 0 <= Math.floor(Math.random())<100
+let min = 0;
+let max = 99;
+
+
+console.log(answer);
+while(true){
+    let userAnswer = Number(prompt(`Please guess a Number, the Number must between ${min} and ${max}`));
+    if(userAnswer<min || userAnswer>max){
+        alert(`Invalid guess, please retry to guess a new number`);
+        continue;
+    }else if(userAnswer !== answer){
+        if(userAnswer>answer){
+            max = userAnswer-1;
+        }else{
+            min = userAnswer+1;
+        }
+    }else{
+       alert(`Conguration! you win! The number is ${answer}`);
+       break;
+    }
+}
+
+
+
+
+
+
