@@ -12,6 +12,7 @@
 - [第十章 Nested Loop 巢狀迴圈](#第十章-Nested-Loop-巢狀迴圈)
 - [第十一章 Array 陣列](#第十一章-Array-陣列)
 - [第十二章 Object 物件](#第十二章-Object-物件)
+- [第十三章 Math Object](#第十三章-Math-Object)
 
 # 第一章 JS 簡介
 
@@ -1428,3 +1429,65 @@ console.log(Array.isArray(arr));
 | **Definition**     | Does not belong to any object (Object)                        | Belongs to an object as a function         |
 | **this Reference** | Refers to the `window` object (or `undefined` in strict mode) | Refers to the object that owns the method  |
 | **Call Method**    | Called directly, e.g., `func()`                               | Called via an object, e.g., `obj.method()` |
+
+# 第十三章 Math Object
+
+> Math 是一個 JavaScript 內建物件，它具有數學常數和函數的屬性和方法。
+
+- 若有學過 Java，則可以參考以下說明
+
+  - Math Class 沒有 constructor
+  - Math Class 所有 attributes 和 math 都是 static
+  - 常數 pi 稱為 Math.PI
+  - 正弦函數稱為 Math.sin(x)，其中 x 是參數
+
+- Math Object 中，常用的 static properties 包含: Math.PI, Math.E。
+  ```js
+  console.log(Math.PI); //3.141592653589793
+  console.log(Math.E); //2.718281828459045
+  ```
+- 常用的 static methods 包含:
+
+  - Math.pow(x,y): 平方
+
+    ```js
+    console.log(Math.pow(3, 2)); //9
+    ```
+
+  - Math.random(): 隨機給一個介於 0~1 之間的小樹`[0,1)`: 0 is inclusive, and 1 is exclusive.
+
+    ```js
+    console.log(Math.random());
+    ```
+
+    ```js
+    for (let i = 0; i < 5; i++) {
+      console.log(Math.random());
+    }
+    ```
+
+    **這是使用 pseudorandom 來做隨機，並不是真正隨機，所使用的演算法為 [Mersenne Twister](https://en.wikipedia.org/wiki/Mersenne_Twister)**
+
+  - Math.sqrt(x): 開根號
+
+    ```js
+    console.log(Math.sqrt(2)); //1.4142135623730951
+    ```
+
+  - Math.abs(): 絕對值
+
+    ```js
+    console.log(Math.abs(-2)); //2
+    ```
+
+  - Math.floor(): 無條件去位
+
+    ```js
+    console.log(Math.floor(9.999999)); //9
+    ```
+
+  - Math.ceil(): 無條件進位
+
+    ```js
+    console.log(Math.ceil(9.0000001)); //10
+    ```

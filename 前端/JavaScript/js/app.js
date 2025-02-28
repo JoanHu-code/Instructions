@@ -29,7 +29,4 @@
 // console.log(friends); //["Grace", "Mike", "Spencer", "Esther", "Slade", "Jared","Marry","Joan"];
 // console.log(returnValue2); //8
 
-let friends = ["Grace", "Mike", "Spencer", "Esther", "Slade"];
-for (let i = 0; i < friends.length; i++) {
-  console.log(`${friends[i]} is my friend.`);
-}
+console.log(Math.sqrt(2));
