@@ -7,7 +7,8 @@
 - [第五章 JavaScript Operators](#第五章-JavaScript-Operators)
 - [第六章 if statement](#第六章-if-statement)
 - [第七章 Codeing Convention and Restrictions](#第七章-Codeing-Convention-and-Restrictions)
-- [第八章 認識函數](#第八章-認識函數)
+- [第八章 JavaScript Function](#第八章-JavaScript-Function)
+- [第九章 Array 陣列](#第八章-Array-陣列)
 
 # 第一章 JS 簡介
 
@@ -788,7 +789,7 @@ if (age <= 12) {
 2. 變數、函數名稱不包含 hyphen。Hyphen 已經預留給數字做減法運算
 3. 變數、函數名稱不可使用 reserved words。
 
-# 第八章-認識函數
+# 第八章 JavaScript Function
 
 > JavaScript 的函數類似於數學的函數
 
@@ -832,4 +833,99 @@ function sayHi(name, age) {
   console.log(`I am ${age} years old.`);
 }
 sayHi("Joan", 35);
+```
+
+**return of function**
+
+- JavaScript Function 中，若沒有 return 語句的 function 將返回 undefined(這是 JavaScript 的 function 默認的 return value)。要返回默認值以外的的值，需要用到 return 語句
+
+- return 語句結束函式執行並指定要返回給函數調用者的值。任何放在 return 語句底下的程式碼都不會被執行
+
+- Function 執行、調用的英文是 function call、function execution 或是 function invocation
+
+**每個 JavaScript 還樹實際上都是一個物件。(代表每個 function 有 instance properties 以及 instance methods)**
+
+```js
+function circle1(r) {
+  console.log(r * r * 3.14); //314
+}
+console.log(circle1(10)); //undefine
+
+function circle(r) {
+  return r * r * 3.14;
+  console.log("finished"); // It will not be displayed
+}
+console.log(circle(10)); //314
+```
+
+> Celsius to Fahrenheit
+
+```js
+function convertor(c) {
+  return c * 1.8 + 32;
+}
+let input = Number(prompt("Please enter the temperature(°C)"));
+let result = convertor(input);
+alert(`The converted temperature is ${result} °F`);
+```
+
+# 第九章 Array 陣列
+
+**在 JavaScript 中，array 並不是 primitive data type。當我們有需要將用途或性質相近的數據儲存在一起時，Array 即可派上用場。Array 具有以下核心特徵:**
+
+1. JavaScript Array 是可調整大小的，並且可以包含不同資料類型的混合
+2. JavaScript Array 中的元素(The value of array)必須使用非負整數作為 index 來訪問
+3. JavaScript Array 的第一個元素的 index 為 0，第二個的 index 為 1，依此類推，最後一個元素在 Array 的長度減 1 的處。
+4. JavaScript Array 複製會複製 reference
+
+```js
+//Original;
+let friend1 = "Grace";
+let friend2 = "Mike";
+let friend3 = "Spencer";
+let friend4 = "Esther";
+let friend5 = "Slade";
+
+//Array
+let friends = ["Grace", "Mike", "Spencer", "Esther", "Slade"];
+//the value of array is called element
+console.log(friends[0]); //Grace
+
+friends[0] = "Michael";
+console.log(friends); //["Michael","Mike", "Spencer", "Esther", "Slade"]
+
+let anotherVariable = friends;
+anotherVariable[0] = "Michael";
+console.log("friends Array:");
+console.log(friends); //["Michael","Mike", "Spencer", "Esther", "Slade"]
+console.log("AnotherVariable Array:");
+console.log(anotherVariable); //["Michael","Mike", "Spencer", "Esther", "Slade"]
+
+let anotherArray = [null, false, "This is a string", 3.14159, undefined];
+```
+
+- primitive data type: copy by value
+
+  - RAM(Random Access Memory)內存中 deposit 和 anotherDeposit 指向的 address 是不同的，所以值並不會被覆蓋。
+    ![primitive data type](../../img/javascript/10.png)
+
+```js
+let deposit = 500;
+let anotherDeposit = deposit;
+anotherDeposit = 600;
+console.log("deposit is", deposit, "anotherDeposit is", anotherDeposit); //deposit is 500, anotherDeposit is 600
+```
+
+- reference data type: copy by reference
+  - RAM(Random Access Memory)內存中 friends 的元素 和 anotherVariable 的元素指向的 address 是一樣的，所以值會被覆蓋。
+    ![primitive data type](../../img/javascript/11.png)
+
+```js
+let friends = ["Grace", "Mike", "Spencer", "Esther", "Slade"];
+let anotherVariable = friends;
+anotherVariable[0] = "Michael";
+console.log("friends Array:");
+console.log(friends); //["Michael","Mike", "Spencer", "Esther", "Slade"]
+console.log("AnotherVariable Array:");
+console.log(anotherVariable); //["Michael","Mike", "Spencer", "Esther", "Slade"]
 ```
