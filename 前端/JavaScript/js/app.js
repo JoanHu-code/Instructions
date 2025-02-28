@@ -29,10 +29,7 @@
 // console.log(friends); //["Grace", "Mike", "Spencer", "Esther", "Slade", "Jared","Marry","Joan"];
 // console.log(returnValue2); //8
 
-let counter = 0;
-for (let i = 0; i < 100; i++) {
-  for (let j = 0; j < 500; j++) {
-    counter++;
-  }
+let friends = ["Grace", "Mike", "Spencer", "Esther", "Slade"];
+for (let i = 0; i < friends.length; i++) {
+  console.log(`${friends[i]} is my friend.`);
 }
-console.log(counter); //50000

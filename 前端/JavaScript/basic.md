@@ -1321,6 +1321,15 @@ let myArr = {
 console.log(myArr[1][0]);//Mike
 ```
 
+**For Loop 跑 Array**
+
+```js
+let friends = ["Grace", "Mike", "Spencer", "Esther", "Slade"];
+for (let i = 0; i < friends.length; i++) {
+  console.log(`${friends[i]} is my friend.`);
+}
+```
+
 # 第十二章 Object 物件
 
 > 每個 javaScript 物件都有 properties 以及 method。屬於物件的 function 被稱為 method。物件的屬性與相對應的值是一種 key-value pair。獲取物件屬性的方式可以透過 dot notation 或是[]。JavaScript Object 是一種 hashtable。
