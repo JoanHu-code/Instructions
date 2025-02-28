@@ -298,7 +298,22 @@ console.log(isUpperCase(""));
 console.log(isUpperCase("aBCD"));
 ```
 
-[06](../javaScript/06.js)
+[06_01](../javaScript/06_1.js)
+
+```js
+function isUpperCase(str) {
+  if (str.length <= 0) {
+    return false;
+  } else {
+    return str[0] == str[0].toUpperCase();
+  }
+}
+console.log(isUpperCase("ABCD"));
+console.log(isUpperCase(""));
+console.log(isUpperCase("aBCD"));
+```
+
+[06_02](../javaScript/06_2.js)
 
 ---
 
@@ -355,7 +370,52 @@ console.log(isAllUpperCase(""));
 console.log(isAllUpperCase("ABCDEFGHIJKLm"));
 ```
 
-[07](../javaScript/07.js)
+[07_01](../javaScript/07_01.js)
+
+```js
+function isAllUpperCase(str) {
+  if (str.length <= 0) {
+    return false;
+  } else {
+    let counter = 0;
+    while (counter < str.length) {
+      if (str[counter] == str[counter].toUpperCase()) {
+        counter++;
+      } else {
+        return false;
+      }
+    }
+    return true;
+  }
+}
+
+console.log(isAllUpperCase("ABCD"));
+console.log(isAllUpperCase(""));
+console.log(isAllUpperCase("ABCDEFGHIJKLm"));
+```
+
+[07_02](../javaScript/07_02.js)
+
+```js
+function isAllUpperCase(str) {
+  if (str.length <= 0) {
+    return false;
+  } else {
+    for (let i = 0; i < str.length; i++) {
+      if (str[i] != str[i].toUpperCase()) {
+        return false;
+      }
+    }
+    return true;
+  }
+}
+
+console.log(isAllUpperCase("ABCD"));
+console.log(isAllUpperCase(""));
+console.log(isAllUpperCase("ABCDEFGHIJKLm"));
+```
+
+[07_03](../javaScript/07_03.js)
 
 ---
 
