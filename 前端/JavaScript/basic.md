@@ -907,25 +907,48 @@ let anotherArray = [null, false, "This is a string", 3.14159, undefined];
 - primitive data type: copy by value
 
   - RAM(Random Access Memory)內存中 deposit 和 anotherDeposit 指向的 address 是不同的，所以值並不會被覆蓋。
-    ![primitive data type](../../img/javascript/10.png)
 
-```js
-let deposit = 500;
-let anotherDeposit = deposit;
-anotherDeposit = 600;
-console.log("deposit is", deposit, "anotherDeposit is", anotherDeposit); //deposit is 500, anotherDeposit is 600
-```
+  ```js
+  let deposit = 500;
+  let anotherDeposit = deposit;
+  anotherDeposit = 600;
+  console.log("deposit is", deposit, "anotherDeposit is", anotherDeposit); //deposit is 500, anotherDeposit is 600
+  ```
+
+  ![primitive data type](../../img/javascript/10.png)
+
+  - comparison operator: 比較所指向的值
+
+  ```js
+  let x = 10;
+  let y = 10;
+  console.log(x == y); //true
+  ```
+
+  ![primitive data type](../../img/javascript/12.png)
 
 - reference data type: copy by reference
-  - RAM(Random Access Memory)內存中 friends 的元素 和 anotherVariable 的元素指向的 address 是一樣的，所以值會被覆蓋。
-    ![primitive data type](../../img/javascript/11.png)
 
-```js
-let friends = ["Grace", "Mike", "Spencer", "Esther", "Slade"];
-let anotherVariable = friends;
-anotherVariable[0] = "Michael";
-console.log("friends Array:");
-console.log(friends); //["Michael","Mike", "Spencer", "Esther", "Slade"]
-console.log("AnotherVariable Array:");
-console.log(anotherVariable); //["Michael","Mike", "Spencer", "Esther", "Slade"]
-```
+  - RAM(Random Access Memory)內存中 friends 的元素 和 anotherVariable 的元素指向的 address 是一樣的，所以值會被覆蓋。
+
+  ```js
+  let friends = ["Grace", "Mike", "Spencer", "Esther", "Slade"];
+  let anotherVariable = friends;
+  anotherVariable[0] = "Michael";
+  console.log("friends Array:");
+  console.log(friends); //["Michael","Mike", "Spencer", "Esther", "Slade"]
+  console.log("AnotherVariable Array:");
+  console.log(anotherVariable); //["Michael","Mike", "Spencer", "Esther", "Slade"]
+  ```
+
+  ![reference data type](../../img/javascript/11.png)
+
+  - comparison operator: 比較所指向的記憶體的地址
+
+  ```js
+  let arr1 = [1, 2, 3];
+  let arr2 = [1, 2, 3];
+  console.log(arr1 == arr2); //false
+  ```
+
+  ![reference data type](../../img/javascript/13.png)
