@@ -8,7 +8,7 @@
 - [第六章 if statement](#第六章-if-statement)
 - [第七章 Codeing Convention and Restrictions](#第七章-Codeing-Convention-and-Restrictions)
 - [第八章 JavaScript Function](#第八章-JavaScript-Function)
-- [第九章 Array 陣列](#第八章-Array-陣列)
+- [第九章 Array 陣列](#第九章-Array-陣列)
 
 # 第一章 JS 簡介
 
