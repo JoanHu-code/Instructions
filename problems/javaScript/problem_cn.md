@@ -417,6 +417,22 @@ console.log(isAllUpperCase("ABCDEFGHIJKLm"));
 
 [07_03](../javaScript/07_03.js)
 
+```js
+function isAllUpperCase(str) {
+  if (str.length <= 0) {
+    return false;
+  } else {
+    return str == str.toUpperCase();
+  }
+}
+
+console.log(isAllUpperCase("ABCD"));
+console.log(isAllUpperCase(""));
+console.log(isAllUpperCase("ABCDEFGHIJKLm"));
+```
+
+[07_04](../javaScript/07_04.js)
+
 ---
 
 # 第八題解答
