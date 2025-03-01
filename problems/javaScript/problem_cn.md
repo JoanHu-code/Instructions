@@ -473,7 +473,9 @@ console.log(isSubsequence("AATTAA", "TCAATCAGGATCCGCTGA")); // false
 
 請證明，任何使用比較 array 元素大小來做排序的演算法，其最好的時間複雜度是：
 
-O(nlog_2n)
+```math
+O(n\log_2n)
+```
 
 [解答](#第二十九題解答)
 
