@@ -96,8 +96,6 @@ console.log(Wilson.spouse.Grace);
 
 # 第二章 Document Object
 
-![DOM](../img/javascript/18.png)
-
 - 在 Document Object Model 這棵樹上的每個點被稱之為節點(node)。節點分為三種:
 
   1. HTML 元素節點(稱為 element nodes or element objects)
