@@ -101,13 +101,24 @@ console.log(Wilson.spouse.Grace);
 - 在 Document Object Model 這棵樹上的每個點被稱之為節點(node)。節點分為三種:
 
   1. HTML 元素節點(稱為 element nodes or element objects)
+     - chidren : 回傳 HTMLCollection
+     - chidNodes: 回傳 NodeList
   2. 文字節點(text node)
+     - chidren : 回傳 HTMLCollection
+     - chidNodes: undefined
   3. 註解節點(comment node)
+     - chidren : 回傳 HTMLCollection
+     - chidNodes: undefined
 
 - DOM 提供 2 種節點集合: HTMLCollection 以及 NodeList
 
   - HTMLCollection:只包含 element nodes，上圖只有黃色的部分會被選到
+    - 屬於動態的(dynamic)
+    - [更多相關資訊](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCollection)
   - NodeList: 包含全部三種
+    - 屬於靜態的(static)
+    - [更多相關資訊](https://developer.mozilla.org/en-US/docs/Web/API/NodeList)
+  - 以上兩個東西都不是 Array，而是 array-like object(類似 array 的 object)，可以用 index 拿取到東西，也可以用 length 屬性，但無法使用 pop()等的 method
 
 - Document Object 常用的 methods 有:
 
@@ -201,3 +212,130 @@ console.log(Wilson.spouse.Grace);
       ![querySelector(selectors)](../img/DOM/06.png)
 
   - querySelectorAll(selectors): return 一個靜態(not live) NodeList，表示與指定選擇器匹配的元素列表
+
+    ```html
+    <p class="my-p">
+      Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aliquam,
+      delectus.
+    </p>
+    <p class="my-p">
+      Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aliquam,
+      delectus.
+    </p>
+    <p class="my-p">
+      Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aliquam,
+      delectus.
+    </p>
+    <p class="my-p">
+      Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aliquam,
+      delectus.
+    </p>
+    <a class="my-p" href="">this is an a tag</a>
+    ```
+
+    ```js
+    let found_elements = document.querySelectorAll(".my-p");
+    console.log(found_elements);
+    ```
+
+    ![querySelectorAll(selectors)](../img/DOM/07.png)
+
+    - 可用 css 語法來選擇元素
+
+      ```js
+      let found_elements = document.querySelectorAll("a.my-p");
+      console.log(found_elements);
+      ```
+
+      ![querySelector(selectors)](../img/DOM/08.png)
+
+# HTMLCollection vs. NodeList
+
+1. HTMLCollection(動態) vs. NodeList(靜態，使用 querySelectorAll)
+
+   ```html
+   <p class="my-p">
+     Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aliquam,
+     delectus.
+   </p>
+   <p class="my-p">
+     Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aliquam,
+     delectus.
+   </p>
+   ```
+
+   ```js
+   let myPs = document.getElementsByClassName("my-p");
+   let myPss = document.querySelectorAll(".my-p");
+   console.log("HTMLCollection: " + myPs.length); //2
+   console.log("NodeList: " + myPss.length); //2
+
+   let body = document.querySelector("body");
+   let p = document.createElement("p");
+   p.innerText = "This is a new p";
+   p.classList.add("my-p");
+   body.appendChild(p);
+   console.log("When DOM is changed!");
+   console.log("HTMLCollection: " + myPs.length); //3
+   console.log("NodeList: " + myPss.length); //2
+   ```
+
+![querySelector(selectors)](../img/DOM/09.png)
+
+2. 節點(Node)比較
+
+   ```html
+   <body>
+     <!--This is twwo p tag-->
+     <p class="my-p">
+       Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aliquam,
+       delectus.
+     </p>
+     <p class="my-p">
+       Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aliquam,
+       delectus.
+     </p>
+   </body>
+   ```
+
+   ```js
+   let body = document.querySelector("body");
+   console.log(body.childNodes); //NodeList
+   console.log(body.children); //Element Object
+   ```
+
+   ![querySelector(selectors)](../img/DOM/10.png)
+
+   > 從上圖可知: Element Objects 這種 node 可以同時使用 childNodes 以及 children 屬性。但其他兩種 Node 卻只有能夠使用 childrenNodes 屬性。若其他兩種 node 使用 children 屬性，只會看到 undefined。
+
+**表格比較**
+
+| Methods                           | Return Type                                                                                                          |
+| --------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| getElementById(id)                | Element object (single element, returns `null` if not found)                                                         |
+| getElementsByClassName(className) | HTMLCollection (contains only Element objects, dynamic, updates automatically when the DOM changes)                  |
+| querySelector(selector)           | Element object (first matching element, returns `null` if not found)                                                 |
+| querySelectorAll(selector)        | Static NodeList (can contain Element, Text, and Comment nodes, does not auto-update, but can be used with `forEach`) |
+
+| 方法                              | 回傳類型                                                                                        |
+| --------------------------------- | ----------------------------------------------------------------------------------------------- |
+| getElementById(id)                | Element 物件（單一元素，如果找不到則回傳 `null`）                                               |
+| getElementsByClassName(className) | HTMLCollection（內部只包含 Element 物件，動態更新，當 DOM 改變時，內容會自動更新）              |
+| querySelector(selector)           | Element 物件（符合條件的第一個元素，如果找不到則回傳 `null`）                                   |
+| querySelectorAll(selector)        | 靜態 NodeList（內部可包含 Element、Text、Comment 節點，不會自動更新，但可以直接使用 `forEach`） |
+
+|            | NodeList                                                     | HTMLCollection                                              |
+| ---------- | ------------------------------------------------------------ | ----------------------------------------------------------- |
+| Feature    | Array-like,but not array. No push,pop,shift,unshift methods. | Array-like,but not array.No push,pop,shift,unshift methods. |
+| Motion     | static                                                       | dynamic                                                     |
+| Elements   | Nodes                                                        | Element Object                                              |
+| Attributes | length,index                                                 | length,index                                                |
+| forEach    | Allowed                                                      | Not allowed                                                 |
+
+|           | NodeList                                                          | HTMLCollection                                                    |
+| --------- | ----------------------------------------------------------------- | ----------------------------------------------------------------- |
+| 特性      | 類陣列，但不是陣列。沒有 `push`、`pop`、`shift`、`unshift` 方法。 | 類陣列，但不是陣列。沒有 `push`、`pop`、`shift`、`unshift` 方法。 |
+| 變動性    | 靜態                                                              | 動態                                                              |
+| 元素      | Nodes                                                             | Element 件                                                        |
+| 屬性      | `length`、`index`                                                 | `length`、`index`                                                 |
+| `forEach` | 支援                                                              | 不支援                                                            |

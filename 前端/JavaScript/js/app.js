@@ -62,9 +62,29 @@
 // let myParagraphs = document.getElementsByClassName("my-p");
 // console.log(myParagraphs);
 
-let first_found = document.querySelector("a.my-p");
-console.log(first_found);
+// let first_found = document.querySelector("a.my-p");
+// console.log(first_found);
 
+// let found_elements = document.querySelectorAll("a.my-p");
+// console.log(found_elements);
+
+// let myPs = document.getElementsByClassName("my-p");
+// let myPss = document.querySelectorAll(".my-p");
+// console.log("HTMLCollection: " + myPs.length); //2
+// console.log("NodeList: " + myPss.length); //2
+
+// let body = document.querySelector("body");
+// let p = document.createElement("p");
+// p.innerText = "This is a new p";
+// p.classList.add("my-p");
+// body.appendChild(p);
+// console.log("When DOM is changed!");
+// console.log("HTMLCollection: " + myPs.length); //3
+// console.log("NodeList: " + myPss.length); //2
+let body = document.getElementById("body");
+console.log(body)
+console.log(body.childNodes); //NodeList
+console.log(body.children); //Element Object
 
 
 
