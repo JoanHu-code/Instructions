@@ -1169,7 +1169,7 @@ console.log(Wilson.spouse.Grace);
           });
           ```
 
-      - preventDefault(): 如果事件可以被取消，就取消事件(即取消事件的預設行為)，但不會影響事件的傳遞，事件仍會繼續傳遞
+      - preventDefault(): 如果事件可以被取消，就取消事件(即取消事件的預設行為)，但不會影響事件的傳遞(event bubbling)，事件仍會繼續傳遞
 
         ```html
         <form>
