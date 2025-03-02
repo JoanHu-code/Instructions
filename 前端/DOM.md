@@ -1136,36 +1136,38 @@ console.log(Wilson.spouse.Grace);
             });
             ```
 
-            - 在 event bubbling 發生時，event object 的 target 屬性在 child element 與 parent element 的 event handler 內會是一樣的。因此需要改成使用另一個屬性叫做 currentTarget
-              ```html
-                <div id="outer">
-                    <div id="middle">
-                        <button id="inner">Click me!</button>
-                    </div>
-                </div>
-              ```
-              ```js
-                const outerElement = document.getElementById("outer");
-                const middleElement = document.getElementById("middle");
-                const innerButton = document.getElementById("inner");
-                 outerElement.addEventListener("click", function (event) {
-                    console.log("Outer element clicked!");
-                    console.log("Event target:", event.target); //<button id="inner">Click me!</button
-                    console.log("Event current target:", event.currentTarget);
-                });
+        - 在 event bubbling 發生時，event object 的 target 屬性在 child element 與 parent element 的 event handler 內會是一樣的。因此需要改成使用另一個屬性叫做 currentTarget
 
-                middleElement.addEventListener("click", function (event) {
-                    console.log("Middle element clicked!");
-                    console.log("Event target:", event.target);//<button id="inner">Click me!</button
-                    console.log("Event current target:", event.currentTarget);
-                });
+          ```html
+          <div id="outer">
+            <div id="middle">
+              <button id="inner">Click me!</button>
+            </div>
+          </div>
+          ```
 
-                innerButton.addEventListener("click", function (event) {
-                    console.log("Inner button clicked!");
-                    console.log("Event target:", event.target);//<button id="inner">Click me!</button
-                    console.log("Event current target:", event.currentTarget);
-                });
-              ```
+          ```js
+          const outerElement = document.getElementById("outer");
+          const middleElement = document.getElementById("middle");
+          const innerButton = document.getElementById("inner");
+          outerElement.addEventListener("click", function (event) {
+            console.log("Outer element clicked!");
+            console.log("Event target:", event.target); //<button id="inner">Click me!</button
+            console.log("Event current target:", event.currentTarget);
+          });
+
+          middleElement.addEventListener("click", function (event) {
+            console.log("Middle element clicked!");
+            console.log("Event target:", event.target); //<button id="inner">Click me!</button
+            console.log("Event current target:", event.currentTarget);
+          });
+
+          innerButton.addEventListener("click", function (event) {
+            console.log("Inner button clicked!");
+            console.log("Event target:", event.target); //<button id="inner">Click me!</button
+            console.log("Event current target:", event.currentTarget);
+          });
+          ```
 
       - preventDefault(): 如果事件可以被取消，就取消事件(即取消事件的預設行為)，但不會影響事件的傳遞，事件仍會繼續傳遞
 
