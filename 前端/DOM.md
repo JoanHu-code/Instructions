@@ -90,6 +90,7 @@ console.log(Wilson.spouse.Grace);
 
   - window.localStorage: return 一個 local storage 物件
   - window.sessionStorage: return 一個 session storage 物件
+    [第九章 Local Storage and Session Storage](#第九章-Local-Storage-and-Session-Storage)
 
 - 總結:
 
@@ -1255,3 +1256,101 @@ console.log(Wilson.spouse.Grace);
         ```
 
 # 第九章 Local Storage and Session Storage
+
+- storage 是在瀏覽器中的一個儲存資料的地方(這個地方並不是資料庫)。在 Storage 內部儲存的資料都是 key-value pair，且不論是 key 還是 value，資料型態都必須是 String。如果不是 String，那麼資料會先被強制轉為 String 再儲存到 storage 內部
+
+- storage 有兩種
+
+  - LocalStorage: 儲存資料並沒走過期的時效，即使把瀏覽器關掉，電腦也關機，local storage 的資料依然會存放在瀏覽器裡面
+    - 綁定網址，每個網址有自己的 localStorage
+  - SessionStorage: 一旦用戶關閉瀏覽器，seesionStorage 所儲存的資料就會被銷毀
+
+- Local Storage 和 Session Storage 所使用的 methods 都是一樣的:
+
+  - setItem(key,value): 當傳遞一個 key 和 value 時，會將該 key-value pair 添加道給定的 Storage，或者如果該 key 的值已經存在，則更新該 key 的 value。
+
+    ```js
+    localStorage.setItem("name", "Joan");
+    ```
+
+    ![setItem](./img/idea/35.png)
+
+    ```js
+    sessionStorage.setItem("name", "Joan");
+    ```
+
+    ![setItem](./img/idea/36.png)
+
+  - getItem(key): 從給定的 Storage 中返回該 key 的 value 值。如果該 key 不存在，則返回 null
+
+    ```js
+    localStorage.setItem("name", "Joan");
+    localStorage.setItem("age", 26);
+    console.log(localStorage.getItem("name")); //Joan
+    console.log(localStorage.getItem("age")); //26
+    console.log(typeof localStorage.getItem("age")); //string
+    ```
+
+    ```js
+    sessionStorage.setItem("name", "Joan");
+    sessionStorage.setItem("age", 26);
+    console.log(sessionStorage.getItem("name")); //Joan
+    console.log(sessionStorage.getItem("age")); //26
+    console.log(typeof sessionStorage.getItem("age")); //string
+    ```
+
+  - removeItem(key): 從給定的 Storage 中刪除該 key-value pair(如果 key-value pair 存在的話)，不存在則無視這行指令，並不會報錯。
+
+    ```js
+    localStorage.removeItem("name");
+    ```
+
+    ```js
+    sessionStorage.removeItem("name");
+    ```
+
+  - clear(): 清除儲存在 Storage 中的所有 key-value pair(只清除當前網址，無法清除別人加的網址的 storage)。
+
+    ```js
+    localStorage.clear();
+    ```
+
+    ```js
+    sessionStorage.clear();
+    ```
+
+- 由於 Storage 只能儲存 String，我們若想要把 object,array 等等資料型態存放在 Storage 內部，需要用到 JSON Object。JSON 代表 JavaScript Object Notation，是一種資料交換格式。
+
+  - JSON Object 有兩個 method:
+
+    - JSON.stringify(value): 將 value 轉換為 JSON String。
+
+      ```js
+      localStorage.setItem("myArr", JSON.stringify([1, 2, 3, 4, 5, 6, 7, 8]));
+      ```
+
+    - JSON.parse(text): 解析 JSON String，製作出 JSON String 描述的 JavaScript 或值或 Object。
+
+      ```js
+      let arr = JSON.parse(localStorage.getItem("myArr"));
+      ```
+
+    - ❌
+
+      ```js
+      localStorage.setItem("myArr", [1, 2, 3, 4, 5, 6, 7, 8]);
+      let arr = localStorage.getItem("myArr");
+      arr.forEach((n) => {
+        console.log(n);
+      });
+      ```
+
+    - ✅
+
+      ```js
+      localStorage.setItem("myArr", JSON.stringify([1, 2, 3, 4, 5, 6, 7, 8]));
+      let arr = JSON.parse(localStorage.getItem("myArr"));
+      arr.forEach((n) => {
+        console.log(n);
+      });
+      ```

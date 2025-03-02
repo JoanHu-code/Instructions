@@ -98,12 +98,8 @@
 // console.log("After appendChild:");
 // console.log(body);
 
-let box1 = document.querySelector(".box1");
-let box2 = document.querySelector(".box2");
-box1.addEventListener("click", () => {
-  alert("box1 has been clciked!");
+localStorage.setItem("myArr", JSON.stringify([1, 2, 3, 4, 5, 6, 7, 8]));
+let arr = JSON.parse(localStorage.getItem("myArr"));
+arr.forEach((n) => {
+  console.log(n);
 });
-box2.addEventListener("click", (e) => {
-    e.preventDefault();
-    alert("box2 has been clciked!");
-  });
