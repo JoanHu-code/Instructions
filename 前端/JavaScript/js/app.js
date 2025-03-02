@@ -90,10 +90,13 @@
 //     return a + b;
 // }
 // console.log(addition(2,3));
-let body = document.querySelector("body");
-console.log("Before appendChild:");
-console.log(body);
-let myH1 = document.createElement("h1");
-body.appendChild(myH1);
-console.log("After appendChild:");
-console.log(body);
+// let body = document.querySelector("body");
+// console.log("Before appendChild:");
+// console.log(body);
+// let myH1 = document.createElement("h1");
+// body.appendChild(myH1);
+// console.log("After appendChild:");
+// console.log(body);
+
+let btn = document.querySelector("button");
+btn.style = "background-color: blue; color:white";

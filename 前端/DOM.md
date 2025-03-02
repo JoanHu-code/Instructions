@@ -114,11 +114,9 @@ console.log(Wilson.spouse.Grace);
 
 - DOM 提供 2 種節點集合: HTMLCollection 以及 NodeList
 
-  - HTMLCollection:只包含 element nodes，上圖只有黃色的部分會被選到
-    - 屬於動態的(dynamic)
+  - HTMLCollection
     - [更多相關資訊](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCollection)
-  - NodeList: 包含全部三種
-    - 屬於靜態的(static)
+  - NodeList
     - [更多相關資訊](https://developer.mozilla.org/en-US/docs/Web/API/NodeList)
   - 以上兩個東西都不是 Array，而是 array-like object(類似 array 的 object)，可以用 index 拿取到東西，也可以用 length 屬性，但無法使用 pop()等的 method
 
@@ -664,35 +662,6 @@ console.log(Wilson.spouse.Grace);
 
 - 在 DOM Tree 當中，每個 HTML 元素(可能)有自己獨特的 properties 和 methods。除了這些獨特的屬性外，所有 Element Objects 都必須具有此列表中的屬性和方法:
 
-  - querySelector(selector)
-
-    ```html
-    <button id="my-btn">click me!</button>
-    ```
-
-    ```js
-    let myBtn = document.querySelector("#my-btn");
-    console.log(myBtn);
-    ```
-
-  - querySelectAll(selector)
-
-    ```html
-    <p class="my-p">
-      Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aliquam,
-      delectus.
-    </p>
-    <p class="my-p">
-      Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aliquam,
-      delectus.
-    </p>
-    ```
-
-    ```js
-    let myPs = document.querySelectorAll(".my-p");
-    console.log(myPs);
-    ```
-
   - addEventListener(event,callbackFn)
 
     ```html
@@ -704,7 +673,25 @@ console.log(Wilson.spouse.Grace);
     myBtn.addEventListener("click", () => alert("click me!"));
     ```
 
-  - appendChild(element)須與 documnet.createElement()做搭配使用
+  - innerHTML
+
+    ```js
+    let body = document.querySelector("body");
+    body.innerHTML = "<h1>This is h1</h1>";
+    ```
+
+  - innerText
+
+    ```html
+    <h1></h1>
+    ```
+
+    ```js
+    let h1 = document.querySelector("h1");
+    h1.innertext = "This is h1";
+    ```
+
+  - appendChild(element)須與 documnet.createElement()(創建一個 element)做搭配使用
 
     ```js
     let body = document.querySelector("body");
@@ -716,12 +703,313 @@ console.log(Wilson.spouse.Grace);
 
     ![After](../img//DOM/14.png)
 
-  - children
-  - childNode
+  - children: return HTMLCollection
+
+    ```html
+    <body>
+      <div>
+        <p class="my-p">
+          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aliquam,
+          delectus.
+        </p>
+        <p class="my-p">
+          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aliquam,
+          delectus.
+        </p>
+      </div>
+    </body>
+    ```
+
+    ```js
+    let body = document.querySelector("body");
+    console.log(body.children);
+    ```
+
+    ![children](../img/DOM/15.png)
+
+    > 如何拿到下一層的 children:
+
+        ```js
+        let body = document.querySelector("body");
+        console.log(body.children[0].children);
+        ```
+        ![children](../img/DOM/16.png)
+
+  - childNodes: return NodeList
+
+    ```html
+    <body>
+      <div>
+        <p class="my-p">
+          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aliquam,
+          delectus.
+        </p>
+        <p class="my-p">
+          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aliquam,
+          delectus.
+        </p>
+      </div>
+    </body>
+    ```
+
+    ```js
+    let body = document.querySelector("body");
+    console.log(body.childNodes);
+    ```
+
+    ![childNodes](../img/DOM/17.png)
+
+    ```js
+    let body = document.querySelector("body");
+    console.log(body.childNodes[1].children);
+    ```
+
+    ![childNodes](../img/DOM/18.png)
+
+    ```js
+    let body = document.querySelector("body");
+    console.log(body.childNodes[1].childNodes);
+    ```
+
+    ![childNodes](../img/DOM/19.png)
+
   - parentElement
-  - classList(此物件可用 method 有 add(),remove(),toggle(),contains());
+
+    ```html
+    <body>
+      <div>
+        <p class="my-p">
+          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aliquam,
+          delectus.
+        </p>
+        <p class="my-p">
+          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aliquam,
+          delectus.
+        </p>
+      </div>
+    </body>
+    ```
+
+    ```js
+    let firstP = document.querySelector("p");
+    console.log(firstP.parentElement);
+    ```
+
+    ![childNodes](../img/DOM/20.png)
+
+    ```js
+    let firstP = document.querySelector("p");
+    console.log(firstP.parentElement.parentElement);
+    ```
+
+    ![childNodes](../img/DOM/21.png)
+
+  - classList，回傳為 objects，此物件可用 method 有 add(),remove(),toggle(),contains();
+
+    ```html
+    <body>
+      <div>
+        <p class="my-p">
+          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aliquam,
+          delectus.
+        </p>
+        <p class="my-p">
+          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aliquam,
+          delectus.
+        </p>
+      </div>
+    </body>
+    ```
+
+    ```js
+    let firstP = document.querySelector("p");
+    console.log(firstP.classList);
+    ```
+
+    ![classList](../img/DOM/22.png)
+
+    - add(): 增加
+
+      ```js
+      let firstP = document.querySelector("p");
+      firstP.classList.add("blue");
+      console.log(firstP);
+      console.log(firstP.classList);
+      ```
+
+      ![add()](../img/DOM/23.png)
+
+    - remove(): 移除
+
+      ```js
+      let firstP = document.querySelector("p");
+      firstP.classList.remove("my-p");
+      console.log(firstP);
+      console.log(firstP.classList);
+      ```
+
+      ![remove()](../img/DOM/24.png)
+
+    - toggle(): 如果有就移除，沒有就增加
+
+      ```js
+      let firstP = document.querySelector("p");
+      firstP.addEventListener("click", () => {
+        firstP.classList.toggle("my-p");
+        console.log(firstP);
+        console.log(firstP.classList);
+      });
+      ```
+
+      - 點擊第一次:
+
+      ![toggle()](../img/DOM/25.png)
+
+      - 點擊第二次:
+
+      ![toggle()](../img/DOM/26.png)
+
+    - contains(): return boolean，有無包含此屬性
+
+      ```js
+      let firstP = document.querySelector("p");
+      console.log(firstP.classList.contains("my-p")); //true
+      ```
+
   - getAttribute(attributeName)
-  - innerHTML
-  - innerText
-  - remove()
-  - style: 可以用來改變 element object 的 inline styling。因為 JS 中不允許使用 hypgen，因此，JS 中的 CSS 屬性都被改為 camelCase
+
+    ```html
+    <a title="Google" href="https://www.google.com">Google</a>
+    ```
+
+    ```js
+    let google = document.querySelector("a");
+    console.log(google.getAttribute("title")); //Google
+    console.log(google.getAttribute("href")); //https://www.google.com
+    ```
+
+  - querySelector(selector)
+
+    - Document Objects: 在整個 DOM Tree 裡面尋找
+
+      ```html
+      <button id="my-btn">click me!</button>
+      ```
+
+      ```js
+      let myBtn = document.querySelector("#my-btn");
+      console.log(myBtn);
+      ```
+
+    - Element Objects: 只會從此 tag 標籤下去找尋
+
+      ```html
+      <body>
+        <div>
+          <p class="my-p">
+            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aliquam,
+            delectus.
+          </p>
+          <p class="my-p">
+            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aliquam,
+            delectus.
+          </p>
+        </div>
+      </body>
+      ```
+
+      ```js
+      let div = document.querySelector("div");
+      console.log(div.querySelector("p"));
+      ```
+
+      ![querySelector](../img/DOM/27.png)
+
+  - querySelectAll(selector)
+
+    - Document Objects: 在整個 DOM Tree 裡面尋找
+
+      ```html
+      <p class="my-p">
+        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aliquam,
+        delectus.
+      </p>
+      <p class="my-p">
+        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aliquam,
+        delectus.
+      </p>
+      ```
+
+      ```js
+      let myPs = document.querySelectorAll(".my-p");
+      console.log(myPs);
+      ```
+
+    - Element Objects: 只會從此 tag 標籤下去找尋
+
+      ```html
+      <body>
+        <div>
+          <p class="my-p">
+            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aliquam,
+            delectus.
+          </p>
+          <p class="my-p">
+            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aliquam,
+            delectus.
+          </p>
+        </div>
+      </body>
+      ```
+
+      ```js
+      let div = document.querySelector("div");
+      console.log(div.querySelectorAll("p"));
+      ```
+
+      ![querySelectAll](../img/DOM/28.png)
+
+  - remove(): 移除此 Html tag
+
+    ```html
+    <body>
+      <button>delete h1 tag</button>
+      <h1>this is h1</h1>
+    </body>
+    ```
+
+    ```js
+    let body = document.querySelector("body");
+    let btn = document.querySelector("button");
+    let h1 = document.querySelector("h1");
+    console.log("Before:");
+    console.log(body);
+    btn.addEventListener("click", () => {
+      h1.remove();
+      console.log("After:");
+      console.log(body);
+    });
+    ```
+
+    ![remove](../img/DOM/29.png)
+
+  - style: 可以用來改變 element object 的 inline styling。因為 JS 中不允許使用 hyphen，因此，JS 中的 CSS 屬性都被改為 camelCase
+
+    ```html
+    <body>
+      <button>click me</button>
+    </body>
+    ```
+
+    ```js
+    let btn = document.querySelector("button");
+    btn.style.backgroundColor = "blue";
+    btn.style.color = "white";
+    ```
+
+    ```js
+    let btn = document.querySelector("button");
+    btn.style = "background-color: blue; color:white";
+    ```
+
+    ![style](../img/DOM/30.png)
