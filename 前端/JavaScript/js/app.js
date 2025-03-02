@@ -81,10 +81,19 @@
 // console.log("When DOM is changed!");
 // console.log("HTMLCollection: " + myPs.length); //3
 // console.log("NodeList: " + myPss.length); //2
-let body = document.getElementById("body");
-console.log(body)
-console.log(body.childNodes); //NodeList
-console.log(body.children); //Element Object
+// let body = document.getElementById("body");
+// console.log(body)
+// console.log(body.childNodes); //NodeList
+// console.log(body.children); //Element Object
 
-
-
+// let addition = function (a, b) {
+//     return a + b;
+// }
+// console.log(addition(2,3));
+let body = document.querySelector("body");
+console.log("Before appendChild:");
+console.log(body);
+let myH1 = document.createElement("h1");
+body.appendChild(myH1);
+console.log("After appendChild:");
+console.log(body);
