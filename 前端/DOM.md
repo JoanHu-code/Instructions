@@ -6,6 +6,9 @@
 - [第四章 Arrow Function Expression](#第四章-Arrow-Function-Expression)
 - [第五章 ForEach methods](#第五章-ForEach-methods)
 - [第六章 Element Objects](#第六章-Element-Objects)
+- [第七章 Inheritance](#第七章-Inheritance)
+- [第八章 JS Event](#第八章-JS-Event)
+- [第九章 Local Storage and Session Storage](#第九章-Local-Storage-and-Session-Storage)
 
 # 第一章 Document Object Model DOM 簡介
 
@@ -1013,3 +1016,240 @@ console.log(Wilson.spouse.Grace);
     ```
 
     ![style](../img/DOM/30.png)
+
+# 第七章 Inheritance
+
+- 在物件導向的程式語言當中，我們可以將 attributes 和 methods 從一個 class 繼承到另一個 class。用更簡單的方式來說，從一個物件繼承到另一個物件這個過程稱為 inheritance
+
+  1.  subclass(子類): 從另一個 class 繼承的 class。也被稱作 child class。
+  2.  superclass(父類): 繼承自的 class。也被稱作為 parent class。
+
+  ![Inheritance](../img/DOM/31.png)
+
+  - 使用 OOP 的好處:
+    1. 重複的東西不用一直寫，精簡 code，RAM 也可以下降，速度也會上升
+    2. 容易維護
+
+- 所有 HTML 元素都從「element object」繼承 attributes 和 methods。除了繼承來的屬性與方法，其中某些 HTML 元素有自己獨特的 attributes 和 methods。
+
+  ![Inheritance](../img/DOM/32.png)
+
+  ```html
+  <button>reset</button>
+  <form>
+    <label id="name">Name:</label>
+    <input for="name" type="text" />
+    <label id="age">Age:</label>
+    <input for="age" type="number" />
+  </form>
+  ```
+
+  ```js
+  let btn = document.querySelector("button");
+  btn.addEventListener("click", () => {
+    let form = document.querySelector("form");
+    form.reset();
+  });
+  ```
+
+# 第八章 JS Event
+
+- Event 表示了一個在 DOM 物件上所發生的事件。一個事件的發生通常是由使用者的操作行為所產生的(如:調整螢幕大小、點擊滑鼠按鈕或是敲打鍵盤)。當某個事件在某個元素上發生時，我們可以撰寫程式碼來讓元素做出相對應的回應
+
+- addEventListener()可以讓我們在 window object,document object 以及 element object 上面掛一個事件監聽器(Event Listener)。事件監聽器會不斷地等待特定事件的發生。當有特定事件發生時，事件監聽器就會執行被賦予的 function。
+
+- event bubbling:當一個事件發生在一個元素上時，它首先在其上運行 event handler，然後運行其 parent element 的 event handler，然後一直往上運行其他父層的 event handler。之所以稱作 event bubbling 是因為這個過程就像冒泡一樣，事件像水中的氣泡從內部元素向上通過 parent element 往上走
+
+  ```html
+  <button>click me</button>
+  ```
+
+  ```js
+  let btn = document.querySelector("button");
+  btn.addEventListener("click", (e) => {
+    console.log(e.target); // button element
+  });
+  ```
+
+  ![event bubbling](../img/DOM/34.png)
+
+- addEventListener(type,listener);
+
+  - type 是指事件的類型。例如:一個 button 可以掛著 click 這種事件的事件監聽器、window object 可以掛著 resize 這種事件監聽器
+  - listener 通常為一個一般的 function，或更常見的是一個 arrow function expression。當事件發生在 HTML Element 上面時，JavaScript 會自動執行 listener 這個 callback function。Callback function 被執行時，JavaScript 會在把 event object 當作 argument，放進 listener 內部去執行涵式。
+
+    ```html
+    <button>A Button</button>
+    ```
+
+    ```js
+    let btn = document.querySelector("button");
+    btn.addEventListener("click", (e) => {
+      console.log(e); //event object
+    });
+    ```
+
+  - JavaScript Event Object 的繼承關係如下:
+    ![JavaScript Event Object](../img/DOM/33.png)
+    [MDN](https://developer.mozilla.org/en-US/docs/Web/API/Event)
+
+    ```js
+    addEventListener("keydown", (e) => {
+      console.log(e); //event object
+    });
+    ```
+
+    **每個 event 的 objects 並不盡相同，要看他們各自繼承了什麼屬性和方法**
+
+    - 所有的 Event Object 中，最常用到的幾個屬性與方法:
+
+      - target: 指向最初觸發事件的 DOM
+
+            ```html
+            <div class="box1">
+              <div class="box2"></div>
+            </div>
+            ```
+
+            ```css
+            .box1 {
+              width: 300px;
+              height: 300px;
+              background-color: red;
+            }
+
+            .box2 {
+              width: 150px;
+              height: 150px;
+              background-color: blue;
+            }
+            ```
+
+            ```js
+            let box1 = document.querySelector(".box1");
+            let box2 = document.querySelector(".box2");
+            box1.addEventListener("click", () => {
+              alert("box1 has been clciked!");
+            });
+            box2.addEventListener("click", () => {
+              alert("box2 has been clciked!");
+            });
+            ```
+
+            - 在 event bubbling 發生時，event object 的 target 屬性在 child element 與 parent element 的 event handler 內會是一樣的。因此需要改成使用另一個屬性叫做 currentTarget
+              ```html
+                <div id="outer">
+                    <div id="middle">
+                        <button id="inner">Click me!</button>
+                    </div>
+                </div>
+              ```
+              ```js
+                const outerElement = document.getElementById("outer");
+                const middleElement = document.getElementById("middle");
+                const innerButton = document.getElementById("inner");
+                 outerElement.addEventListener("click", function (event) {
+                    console.log("Outer element clicked!");
+                    console.log("Event target:", event.target); //<button id="inner">Click me!</button
+                    console.log("Event current target:", event.currentTarget);
+                });
+
+                middleElement.addEventListener("click", function (event) {
+                    console.log("Middle element clicked!");
+                    console.log("Event target:", event.target);//<button id="inner">Click me!</button
+                    console.log("Event current target:", event.currentTarget);
+                });
+
+                innerButton.addEventListener("click", function (event) {
+                    console.log("Inner button clicked!");
+                    console.log("Event target:", event.target);//<button id="inner">Click me!</button
+                    console.log("Event current target:", event.currentTarget);
+                });
+              ```
+
+      - preventDefault(): 如果事件可以被取消，就取消事件(即取消事件的預設行為)，但不會影響事件的傳遞，事件仍會繼續傳遞
+
+        ```html
+        <form>
+          <label for="name">Name:</label>
+          <input id="name" type="text" />
+          <label for="age">Age:</label>
+          <input id="age" type="number" />
+          <button>submit</button>
+        </form>
+        ```
+
+        ```js
+        let form = document.querySelector("form");
+        form.addEventListener("submit", (e) => {
+          e.preventDefault(); // disable to submit
+        });
+        ```
+
+        ```html
+        <div class="box1">
+          <div class="box2"></div>
+        </div>
+        ```
+
+        ```css
+        .box1 {
+          width: 300px;
+          height: 300px;
+          background-color: red;
+        }
+
+        .box2 {
+          width: 150px;
+          height: 150px;
+          background-color: blue;
+        }
+        ```
+
+        ```js
+        let box1 = document.querySelector(".box1");
+        let box2 = document.querySelector(".box2");
+        box1.addEventListener("click", () => {
+          alert("box1 has been clciked!");
+        });
+        box2.addEventListener("click", (e) => {
+          e.preventDefault(); // it can not be stop event bubbling
+          alert("box2 has been clciked!");
+        });
+        ```
+
+      - stopPropagation(): 可防止在 event bubbling 進一步傳播當前事件。
+
+        ```html
+        <div class="box1">
+          <div class="box2"></div>
+        </div>
+        ```
+
+        ```css
+        .box1 {
+          width: 300px;
+          height: 300px;
+          background-color: red;
+        }
+
+        .box2 {
+          width: 150px;
+          height: 150px;
+          background-color: blue;
+        }
+        ```
+
+        ```js
+        let box1 = document.querySelector(".box1");
+        let box2 = document.querySelector(".box2");
+        box1.addEventListener("click", () => {
+          alert("box1 has been clciked!");
+        });
+        box2.addEventListener("click", (e) => {
+          e.stopPropagation();
+          alert("box2 has been clciked!");
+        });
+        ```
+
+# 第九章 Local Storage and Session Storage
