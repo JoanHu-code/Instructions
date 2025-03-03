@@ -46,3 +46,5 @@
 [Font Awesome](https://fontawesome.com/start)
 
 [Animation](https://storyset.com)
+
+[GSAP](https://gsap.com/)
