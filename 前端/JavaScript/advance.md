@@ -10,7 +10,7 @@
 - [Execution Cintext 執行環境](#Execution-Cintext-執行環境)
 - [Scope and Closure](#Scope-and-Closure)
 - [Call Stack and Recursion](#Call-Stack-and-Recursion)
-- [費波那契數](#費波那契數)
+- [費波那契數列](#費波那契數列)
 - [第十二章 Object 物件](#第十二章-Object-物件)
 - [第十三章 Math Object](#第十三章-Math-Object)
 
@@ -866,8 +866,8 @@ F(n) = \frac{\frac{1+\sqrt{5}}{2}^n - \frac{1-\sqrt{5}}{2}^n}{\sqrt{5}}
 
 其中：
 
-````math
+```math
 \frac{1+\sqrt{5}}{2}
 ```
+
 為黃金比例
-````
