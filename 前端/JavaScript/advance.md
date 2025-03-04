@@ -10,7 +10,7 @@
 - [Execution Cintext 執行環境](#Execution-Cintext-執行環境)
 - [Scope and Closure](#Scope-and-Closure)
 - [Call Stack and Recursion](#Call-Stack-and-Recursion)
-- [第十一章 Array 陣列](#第十一章-Array-陣列)
+- [費波那契數](#費波那契數)
 - [第十二章 Object 物件](#第十二章-Object-物件)
 - [第十三章 Math Object](#第十三章-Math-Object)
 
@@ -834,3 +834,36 @@ console.log(copyArr); //[2, 5, 7, 1, 4, 3, 8]
 > 遞迴演算法的設計上，與數學歸納法以及遞迴關係(recurrence relation)相似。我們需要定義一個 base case(基準情況)。Base case 的用途是為了避免遞迴演算法產生在 call stack 上無限迭加的情況
 
 ![recurrence](../../img/javascript/24.png)
+
+# 費波那契數列
+
+> 在數學上，費波那契數是以遞迴的方式來定義
+
+1. F(0) = 0
+2. F(1) = 1
+3. F(n)=F(n-1)+F(n-2) for all n>=2
+
+> 所以，費波那契數列的前幾項列出來會是:0,1,12,3,4,5,13,...
+
+```js
+function f(n) {
+  if (n == 0) {
+    return 0;
+  } else if (n == 1) {
+    return 1;
+  } else {
+    return f(n - 1) + f(n - 2);
+  }
+}
+console.log(f(10));
+```
+
+> 由離散數學的二階遞迴 closed-form 公式可以得出，費波那契數列第 n 項的值公式為:
+
+```math
+F(n) = \frac{\frac{1+\sqrt{5}}{2}^n - \frac{1-\sqrt{5}}{2}^n}{\sqrt{5}}
+```
+
+其中：
+
+- \(\varphi = \frac{1+\sqrt{5}}{2}\)（黃金比例）
