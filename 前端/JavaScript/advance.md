@@ -883,7 +883,7 @@ F(n) = \frac{\frac{1+\sqrt{5}}{2}^n - \frac{1-\sqrt{5}}{2}^n}{\sqrt{5}}
 所以當 n 不斷變大時，
 
 ```math
-\frac{1-\sqrt{5}}{2}^n}{\sqrt{5}}
+\frac{1-\sqrt{5}}{2}^n
 ```
 
 會逐漸消失，所以可以看出:
