@@ -7,7 +7,7 @@
 - [JavaScript String Comparison](#JavaScript-String-Comparison)
 - [JS 內建排序涵式](#JS-內建排序涵式)
 - [for of Loop 和 for in Loop](#for-of-Loop-和-for-in-Loop)
-- [第八章 JavaScript Function](#第八章-JavaScript-Function)
+- [Execution Cintext 執行環境](#Execution-Cintext-執行環境)
 - [第九章 Loop 迴圈](#第九章-Loop-迴圈)
 - [第十章 Nested Loop 巢狀迴圈](#第十章-Nested-Loop-巢狀迴圈)
 - [第十一章 Array 陣列](#第十一章-Array-陣列)
@@ -477,3 +477,137 @@ console.log(copyArr); //[2, 5, 7, 1, 4, 3, 8]
       console.log(myString[i]); // G r a c e
     }
     ```
+
+# Execution Cintext 執行環境
+
+> 當 JS 引擎值行程式碼(script)時，便會創建 execution contexts(執行環境)。
+
+- JavaScript 共會建立兩種值環境
+
+  1. 全域執行環境(Global Execution Context)
+  2. 涵式執行環境(Function Execution Context)
+
+- 每種 execution context 都包含兩個階段
+  1. 創造階段(creation phase)
+  2. 執行階段(execution phsae)
+
+## 全域執行環境
+
+> 當初次執行一份 JavaScript 程式碼時， JS 引勤會創造第一種 execution context，叫 Global Execution Context。在 Globel Execution Context 內部，
+
+- 會先進入 creation phase:
+
+  1. 創建 Global object。
+     - 例如: 瀏覽器中的 window object，或 Node.js 中的 global phase
+  2. 建立 scope。
+  3. 創建 this 關鍵字，並被綁定至 global object(指向 window)
+  4. 將 variables、class 和 function 分配至記憶體。(hoisting 步驟)
+
+- creation pharse 結束後，會進入 execution phase:
+
+  1. 逐行(line by line)執行程式碼
+  2. 遇到遞迴時，則使用 call stack 來排定工作順序
+
+- 例子:
+
+  ```js
+  let a = 3;
+  function area(s) {
+    return s * s;
+  }
+  let result = area(a);
+  console.log(result);
+  ```
+
+  - creation phase:
+
+    1. global object 製作完成(才可使用 window)
+
+    ```js
+    window.alert("Hello");
+    ```
+
+    2. 建立 scope。
+    3. 建立 this keywords (可使用 this)
+
+    ```js
+    console.log(this);
+    ```
+
+    4. let a，let result，function area(s){...}都拿到最上面
+
+  - execution phase:
+    1. a = 3;
+    2. result = 9;
+    3. console.log(result);
+
+  **從上述說明可知道 function 不管放在哪邊都不會受影響，因為 function 會在 creation phase 就被存入**
+
+## 函式執行環境
+
+> 每次的 function call，JS 引擎也都會創造一個 Function Execution Context。涵式執行環境與全域執行環境非常類似，一樣也有 creation phase 以及 execution phase，但差別在於，函式執行環境不創建 global object，而是創建 argument object。
+
+- Argument Object 包含了被放入此函式的 parameters 的數值參照值(a reference to all the parameters passed into the function)
+
+- 函式執行環境的 creation phase 是:
+  1. 創建 argument object
+  2. 建立 scope(依照 closure 這個準則)
+  3. 創建 this 關鍵字(指向 window 或指向 object)
+  4. 將 variables、class 和 function 分配至記憶體。(hoisting 步驟)
+- creating phase 結束後，會進入 execution phase:
+
+  1. 逐行(line by line)值行程式碼
+  2. 遇到遞迴時，使用 call stack 來排定工作順序
+
+- 例子:
+
+  ```js
+  let a = 3;
+  function area(s) {
+    return s * s;
+  }
+  let result = area(a);
+  console.log(result);
+  ```
+
+  - creation phase:
+
+    1. 創建 argument object(a: 3)
+    2. 建立 scope。
+    3. 建立 this keywords (可使用 this，這裡指向 window)
+    4. s undefined
+
+  - execution phase:
+    1. 迴傳 `3*3=9`
+
+![Execution Cintext 執行環境](../../img/javascript/20.png)
+
+## Hoisting
+
+> JavaScript Hoisting 是指 JS 引擎在執行代碼之前，將 function、variables 或 class 的 declaration 移動到其範圍頂部的過程
+
+> Hoisting 的優點之一是，它允許我們在 code 中，declare function 之前使用這個 function。**要小心，這個功能只對 function declaration**
+
+> Hoisting 也適用於 variables，因此我們可以在 declaration 和/或 initialization 之前在 code 中使用 variables。然而 JavaScript 只 hoist declaration，而不是 initialization!也就是說，`let x = 10;`這段程式碼，只有`let x`會被放到程式碼頂部。
+
+> Hoisting 發生時，對於使用 var 做 declaration 的 variable 會給定初始值 undefined。然而，對於使用 let,const 做 declaration 的 variable 並不會給任何初始值。
+
+    ```js
+    console.log(x); // undefined
+    var x;
+    ```
+    ![variable](../../img/javascript/22.png)
+
+    ```js
+    console.log(x); // ReferenceError: cannot access 'x' before initialization
+    let x;
+    ```
+    ![let](../../img/javascript/21.png)
+
+> let 可以 declare without initialization，且我們可以用 console.log()檢查 let 的變數值是 undefined，但這個 undefined 的 initialization 並不像 var 是發生在 creation phase 的 hoisting 階段發生的，而是在 execution phase 的階段。
+
+    ```js
+    let x;
+    console.log(x); // undefined
+    ```
+    ![variable](../../img/javascript/22.png)

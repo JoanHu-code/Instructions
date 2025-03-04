@@ -29,7 +29,6 @@
 // console.log(friends); //["Grace", "Mike", "Spencer", "Esther", "Slade", "Jared","Marry","Joan"];
 // console.log(returnValue2); //8
 
-
 // let answer = Math.floor(Math.random()*100);
 // // 0 <= Math.random()<1
 // // 0 <= Math.random()<100
@@ -37,7 +36,6 @@
 // // 0 <= Math.floor(Math.random())<100
 // let min = 0;
 // let max = 99;
-
 
 // console.log(answer);
 // while(true){
@@ -98,8 +96,5 @@
 // console.log("After appendChild:");
 // console.log(body);
 
-localStorage.setItem("myArr", JSON.stringify([1, 2, 3, 4, 5, 6, 7, 8]));
-let arr = JSON.parse(localStorage.getItem("myArr"));
-arr.forEach((n) => {
-  console.log(n);
-});
+console.log(x); // ReferenceError: cannot access 'x' before initialization
+var x;
