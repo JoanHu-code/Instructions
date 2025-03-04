@@ -14,6 +14,7 @@
 - [Constructor Function](#Constructor-Function)
   - [Inheritance and the Prototype Chain](#Inheritance-and-the-Prototype-Chain)
 - [Function Methods](#Function-Methods)
+- [Prototype Inheritance inConstructors](#Prototype-Inheritance-inConstructors)
 
 # JavaScript 引擎
 
@@ -1173,3 +1174,117 @@ console.log(arr1);
 
   console.log(profile.apply(Grace, ["USA", 160, 40]));
   ```
+
+# Prototype Inheritance inConstructors
+
+- 一個 constructor function A 可以透過兩個設定來繼承另一個 constructor function B 的 prototype 物件:
+
+  1.  在 constructor function A 的內部執行 B.call(this,arg1,...,argN)。我們可以透過這段程式碼直接將 B 所設定的屬性套給 A 做使用
+
+      ```js
+      function Person(name, age) {
+        this.name = name;
+        this.age = age;
+      }
+      Person.prototype.sayHi = function () {
+        console.log(this.name + "say Hi!");
+      };
+      function Student(name, age, major, grade) {
+        Person.call(this, name, age);
+        this.major = major;
+        this.grade = grade;
+      }
+      let joan = new Student("Joan Hu", 26, "Computer Seience", 3.5);
+      console.log(joan.name);
+      console.log(joan.major);
+      joan.sayHi(); //joan.sayHi is not a function;
+      ```
+
+      > 無法使用 `Person.prototype.sayHi`這個 function
+
+  2.  設定 A.prototype = Object.create(B.prototype)。Object.create()可以創建一個全新的物件。這樣一來，所有在 B.prototypr 內部的 attributes 和 methods 都可以套用給 A.prototype。所有 A.prototype 設定的額外 attributes 和 methods 都需要寫在 A.prototype = Object.create(B.prototypr)這行程式碼的下方。
+
+  - 不能寫 A.prototype = B.prototype 是因為，constructor.prototype 是 reference data type，如果寫:
+
+  ```
+  A.prototype = B.prototype;
+  A.prototype.add = function(){...}
+  ```
+
+  則 A,B 兩個 prototype 都指向記憶體的相同位置，且兩個 prototype 都有 add()這個 methods 了
+
+  - ❌
+
+    - 情況一: ` Student.prototype = Person.prototype;`: 會遍所有 person 都有 student 的 methods
+
+      ```js
+      function Person(name, age) {
+        this.name = name;
+        this.age = age;
+      }
+      Person.prototype.sayHi = function () {
+        console.log(this.name + "say Hi!");
+      };
+      function Student(name, age, major, grade) {
+        Person.call(this, name, age);
+        this.major = major;
+        this.grade = grade;
+      }
+      Student.prototype = Person.prototype;
+      Student.prototype.study = function () {
+        console.log(this.name + " is studying in " + this.major);
+      };
+      let joan = new Person("Joan Hu", 26);
+      joan.study(); // joan is studying in undefined
+      ```
+
+    - 情況二: 把 `Student.prototype.study = function () {console.log(this.name + " is studying in " + this.major);};` 放到 `Student.prototype = Object.create(Person.prototype);`上面: 屬性和方法會被 person 覆蓋掉，等於沒宣告
+
+      ```js
+      function Person(name, age) {
+        this.name = name;
+        this.age = age;
+      }
+      Person.prototype.sayHi = function () {
+        console.log(this.name + "say Hi!");
+      };
+      function Student(name, age, major, grade) {
+        Person.call(this, name, age);
+        this.major = major;
+        this.grade = grade;
+      }
+      Student.prototype.study = function () {
+        console.log(this.name + " is studying in " + this.major);
+      };
+      Student.prototype = Object.create(Person.prototype);
+
+      let joan = new Student("Joan Hu", 26, "Computer Seience", 3.5);
+      joan.sayHi();
+      joan.study(); // TypeError
+      ```
+
+  - ✅
+
+    ```js
+    function Person(name, age) {
+      this.name = name;
+      this.age = age;
+    }
+    Person.prototype.sayHi = function () {
+      console.log(this.name + "say Hi!");
+    };
+    function Student(name, age, major, grade) {
+      Person.call(this, name, age);
+      this.major = major;
+      this.grade = grade;
+    }
+    Student.prototype = Object.create(Person.prototype);
+    Student.prototype.study = function () {
+      console.log(this.name + " is studying in " + this.major);
+    };
+    let joan = new Student("Joan Hu", 26, "Computer Seience", 3.5);
+    console.log(joan.name);
+    console.log(joan.major);
+    joan.sayHi();
+    joan.study();
+    ```
