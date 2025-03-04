@@ -866,4 +866,8 @@ F(n) = \frac{\frac{1+\sqrt{5}}{2}^n - \frac{1-\sqrt{5}}{2}^n}{\sqrt{5}}
 
 其中：
 
-- \(\varphi = \frac{1+\sqrt{5}}{2}\)（黃金比例）
+````math
+\frac{1+\sqrt{5}}{2}
+```
+為黃金比例
+````
