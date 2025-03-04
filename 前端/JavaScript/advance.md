@@ -11,8 +11,9 @@
 - [Scope and Closure](#Scope-and-Closure)
 - [Call Stack and Recursion](#Call-Stack-and-Recursion)
 - [費波那契數列](#費波那契數列)
-- [第十二章 Object 物件](#第十二章-Object-物件)
-- [第十三章 Math Object](#第十三章-Math-Object)
+- [Constructor Function](#Constructor-Function)
+  - [Inheritance and the Prototype Chain](#Inheritance-and-the-Prototype-Chain)
+- [Function Methods](#Function-Methods)
 
 # JavaScript 引擎
 
@@ -893,3 +894,282 @@ F(n) = \frac{\frac{1+\sqrt{5}}{2}^n - \frac{1-\sqrt{5}}{2}^n}{\sqrt{5}}
 ```
 
 > 也就是說，費波那契數列在 n 不斷變大時，後一項與前一項的比例會逐漸趨近於黃金比例。我們可用程式碼驗證這個數值
+
+```js
+function f(n) {
+  if (n == 0) {
+    return 0;
+  } else if (n == 1) {
+    return 1;
+  } else {
+    return f(n - 1) + f(n - 2);
+  }
+}
+for (let i = 2; i < 15; i++) {
+  console.log(f(i + 1) / f(i));
+}
+```
+
+# Constructor Function
+
+> 在函式執行環境的 creation phase 當中，每隔 function 都有創見 this 關鍵字，這個步驟。this 關鍵字指的是正在執行當前 method 的 object。如果被調用的 function 是常規 function 而非 method，則關鍵字會指向 global object(因為 closure 會向外找 this 這個字，而在 global execution context 中可以找到，所以 this 才會指向 global object)
+
+    ```js
+    let joan = {
+      name: "Joan",
+      sayHi() {
+        console.log(this.name + " say Hi!");
+      },
+    };
+    joan.sayHi();
+    ```
+    ```js
+    function sayHi(){
+      console.log(this)
+    }
+    sayHi();
+    ```
+
+> **在 JavaScript 的語法中，若 function 被調用時使用了 new 關鍵字，則 function 會被當成 constructor function 來使用。**
+
+> Constructor function 中的 this 關鍵字指的是一個新製作的物件。此外，New 關鍵字可以分配額外的記憶體給 constructor function 所製作的物件。此物件會自動被 constructor function 給 return。
+
+- 整理(若有寫 new 的話):
+
+  1. 不是一般的 function 是 Constructor function
+  2. RAM 會預留空間給它
+  3. 會有`this`這個 keywords
+  4. 物件自動會被 return
+  5. 在 js 當中 Constructor function 大多都用大寫當作開頭
+
+  ```js
+  let joan = {
+    name: "Joan",
+    age: 25,
+    sayHi() {
+      console.log(this.name + " say Hi!");
+    },
+  };
+  let wilson = {
+    name: "Wilson",
+    age: 27,
+    sayHi() {
+      console.log(this.name + " say Hi!");
+    },
+  };
+  let mike = {
+    name: "mike",
+    age: 30,
+    sayHi() {
+      console.log(this.name + " say Hi!");
+    },
+  };
+  ```
+
+  - 可改成:
+
+    ```js
+    function Person(name, age) {
+      this.name = name;
+      this.age = age;
+      this.sayHi = function () {
+        console.log(this.name + " say Hi!");
+      };
+    }
+    let wilson = new Person("Wilson", 27);
+    let joan = new Person("Joan", 25);
+    let mike = new Person("mike", 25);
+    console.log(wilson.sayHi === mike.sayHi); //false
+    joan.sayHi();
+    ```
+
+> 透過使用 Constructor function，我們可以大量製造 attribute 與 methods 相似物件。
+
+> Constructor Function 製作出的每個物件，是獨立的，所以會單獨佔據記憶體的位置
+> ![Constructor Function](../../img/javascript/26.png)
+
+- Wilson.sayHi == Mike.sayHi 會 return false
+
+## Inheritance and the Prototype Chain
+
+> 在 JavaScript 中，每個物件都有一個 private attribute 叫做`__proto__`。
+
+> `__proto__`屬性存放的值是另一個物件。若物件 A 的`__proto__`屬性的值是設定成另一個物件 B，則物件 A 繼承了物件 B 的所有 attributes 以及 methods。
+
+    ```js
+    let joan = {
+      name: "Joan",
+      age: 25,
+      sayHi() {
+        console.log(this.name + " say Hi!");
+      },
+    };
+    let wilson = {
+      __proto__: joan,
+    };
+    console.log(wilson.name);
+    console.log(wilson.age);
+    wilson.sayHi();
+    ```
+
+> **每個 Constructor Function 都可以設定 prototype 屬性(prototype 屬性本質上來說，就是一個 empty object)。所有從 Constructor Function 製作出來的物件，其`__proto__`屬性都是自動指向 Constructor Function 的 prototype 屬性**
+
+    ```js
+    function Person(name, age) {
+      this.name = name;
+      this.age = age;
+      this.sayHi = function () {
+      console.log(this.name + " say Hi!");
+      };
+    }
+    console.log(Person.prototype)
+    ```
+
+> 例如:Constructor Function A 製作的物件 obj，如果檢查`obj.__proto__ == A.prototype`，可以看到 true。因為`obj.__proto__`和`A.prototype`都是 reference data type，所以 true 代表兩者指向同個記憶體位置
+
+    ```js
+    function Person(name, age) {
+      this.name = name;
+      this.age = age;
+      this.sayHi = function () {
+      console.log(this.name + " say Hi!");
+      };
+    }
+    let wilson = new Person("Wilson", 27); //wilson.__proto__ => Person.prototype
+    let joan = new Person("Joan", 25);//joan.__proto__ => Person.prototype
+    let mike = new Person("mike", 25);//mike.__proto__ => Person.prototype
+    console.log(wilson.__proto__ === Person.prototype ); // true;
+    console.log(joan.__proto__ === Person.prototype ); // true;
+    console.log(mike.__proto__ === Person.prototype ); // true;
+    ```
+
+> 因為所有從 constructor function 製作出來的物件，其`__proto__`屬性都是自動指向 constructor function 的 prototype 屬性，所以物件都會自動繼承所有在 constructor function 的 prototype 屬性內定義的 attributes and methods。像這樣子從 constructor function 的 portotype 屬性繼承 attributes and methods 的原理，就叫做「Prototype Inheritance」
+
+> 我們可以根據這個特性，來節省記憶體空間，若從 constructor function 製作出的每個物件都有相似的 methods，我們可以把 methods 全部移動到 constructor function 的 prototype 屬性內部，而不是在個別的物件中重複定義 methods。
+
+    ```js
+
+    function Person(name, age) {
+      this.name = name;
+      this.age = age;
+      this.sayHi = function () {
+      console.log(this.name + " say Hi!");
+      };
+    }
+    Person.prototype.type = "Human";
+    Person.prototype.walk = function () {
+    console.log(this.name + " is walking");
+    };
+    let wilson = new Person("Wilson", 27);
+    let joan = new Person("Joan", 25);
+    let mike = new Person("mike", 25);
+    wilson.walk();
+    console.log(wilson.walk === joan.walk); //true
+    console.log(wilson.sayHi === joan.sayHi); //fasle
+    ```
+
+![Prototype Inheritance](../../img/javascript/27.png)
+
+- 使用 constructor function 來做物件的好處在於:
+
+1. 程式碼容易撰寫且維護。大量物件可以透過 constructor function 來製作
+2. 節省記憶體空間。兩個物件若有可以共用 attributes 或 methods，但分開製作，則會分別占用記憶體內的不同位置。若使用 constructor function 來製作，則兩個物件繼承來的 attributes 以及 methods 都是指向記憶體的相同位置，所以可以達到節省記憶體的功效
+
+> JS 內建的資料類型都有繼承其他的 Prototype。例如,[1,2,3]這個 array(constructor function) 繼承了 Array Prototype，而 Array Prototype 又繼承自 Object Prototype。這種 Prototype 不斷往上連結的結果就叫 Prototype Chain。
+
+```js
+let arr1 = [1, 2, 3];
+//等同於下面這個
+let arr2 = new Array([1, 2, 3]);
+console.log(arr1);
+```
+
+![Prototype](../../img/javascript/28.png)
+
+- 為什麼 mdn 裡面會是寫`Array.prototype.push()`
+  [mdn](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/push)
+
+> JS 中的所有物件最後的 Prototype Chain 都會連到一個叫做"Object Prototype"的地方。Object Prototype 是 Prototype Chain 的終點。
+
+    ```js
+    console.log([1,2,3])
+    ```
+
+![Prototype](../../img/javascript/29.png)
+
+    - function is a special type of object
+
+        ```js
+        function hello() {
+          console.log("hello");
+        }
+        console.log(hello);
+        ```
+
+![Prototype](../../img/javascript/30.png)
+
+**從 Prototype inheritance 可以看出，所有的 function 都有繼承 Object Prototype。因此，function 也是 object 的一種**
+
+# Function Methods
+
+> 在 JavaScript 中，function 是一種特別的物件。
+
+- 在 Function.prototype 內有以下三個常用 methods
+
+  1. `function.bind(obj)`: 將 function 的 this 關鍵字綁定(bind)為 obj
+
+  ```js
+  let Grace = {
+    name: "Grace",
+    age: 26,
+  };
+  function getAge() {
+    return this.age;
+  }
+  let newFunction = getAge.bind(Grace);
+  console.log(newFunction());
+  ```
+
+  2. `function.call(obj,arg1,/*...,*/argN)`:使用給特定的 obj 當作 this 值來調用函數。`(obj,arg1,/*...,*/argN)`為 optional
+
+  ```js
+  let Grace = {
+    name: "Grace",
+    age: 26,
+  };
+  function profile(country, height, weight) {
+    return (
+      this.name +
+      " is form " +
+      country +
+      " ,height is " +
+      height +
+      ", and weight is " +
+      weight
+    );
+  }
+
+  console.log(profile.call(Grace, "USA", 160, 40));
+  ```
+
+  3. function.apply(obj.argsArray): 與 call 相同，但 arguments 是使用 arguments array
+
+  ```js
+  let Grace = {
+    name: "Grace",
+    age: 26,
+  };
+  function profile(country, height, weight) {
+    return (
+      this.name +
+      " is form " +
+      country +
+      " ,height is " +
+      height +
+      ", and weight is " +
+      weight
+    );
+  }
+
+  console.log(profile.apply(Grace, ["USA", 160, 40]));
+  ```
