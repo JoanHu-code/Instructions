@@ -764,5 +764,73 @@ console.log(copyArr); //[2, 5, 7, 1, 4, 3, 8]
 
 > 是 JS 引擎追蹤本身在調用多個函數的程式碼中位置的機制(資料結構的一種)。Call stack 可以幫助我們知道 JS 引擎當前正在運行什麼函式以及從該函數中調用了哪些函式等
 
+> Stack: 後進先出(Last-in-first-out LIFO)
+
 - 其機制為:
+
   1. 當執行函式 F1 時，JS 引擎將其添加到 call stack 中，然後開始執行該函式
+  2. 若該函式(f1)內部又調用其他函式 f2，則將函式 f2 添加到 call stack 中，然後開始執行該函式。
+  3. 當 f2 執行完畢後，js 引擎將其從 call stack 中取出，並且從 f1 停止的位置繼續執行
+  4. 如果 call stack 堆疊過高，高出記憶體分配給 call stack 的最大空間，則會導致「stack overflow」的問題。
+     **stack overflow**
+     ```js
+     function hello() {
+       console.log("hello...");
+       hello();
+     }
+     hello();
+     ```
+
+  ```js
+  function f1() {
+    console.log("start f1....");
+    f2();
+    console.log("end f1....");
+  }
+  function f2() {
+    console.log("start f2....");
+    console.log("end f2....");
+  }
+  f1();
+  ```
+
+  1. start f1....
+  2. start f2....
+  3. end f2....
+  4. end f1....
+
+## Recursion
+
+> 遞迴:在程式設計中，function 裡面又在執行自己的 function
+
+> 若沒有設計好就會發生 stack overflow
+
+    ```js
+    function hello() {
+      console.log("hello...");
+      hello();
+    }
+    hello();
+    ```
+
+> 在數學上，遞迴關係(recurrence relation)是一種定義數列的方式；數列的每一項目定義為前面項的函數。
+
+- 如:我們可以定義數列 S:
+
+  1. `A base case S(1) = 2`
+  2. `S(n) = 2*S(n-1) for n>=2`
+     > 以上面的規則可知，S 會是等比數列:2,4,8,16,32,...
+
+  ```js
+  function s(n) {
+    if (n >= 2) return 2 * s(n - 1);
+    return 2;
+  }
+  console.log(s(10));
+  ```
+
+> 程式語言中，遞迴演算法(recirsive algorithm)有相似的概念。當一個函式內部，執行自己這個函式，這種情況就是遞迴演算法。(因此，遞迴演算法絕對會產生 call stack)
+
+> 遞迴演算法的設計上，與數學歸納法以及遞迴關係(recurrence relation)相似。我們需要定義一個 base case(基準情況)。Base case 的用途是為了避免遞迴演算法產生在 call stack 上無限迭加的情況
+
+![recurrence](../../img/javascript/24.png)

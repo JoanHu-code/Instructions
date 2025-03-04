@@ -96,5 +96,11 @@
 // console.log("After appendChild:");
 // console.log(body);
 
-console.log(x); // ReferenceError: cannot access 'x' before initialization
-var x;
+// console.log(x); // ReferenceError: cannot access 'x' before initialization
+// var x;
+
+function s(n) {
+  if (n >= 2) return 2 * s(n - 1);
+  return 2;
+}
+console.log(s(10));

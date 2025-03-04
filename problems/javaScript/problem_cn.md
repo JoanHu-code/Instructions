@@ -595,6 +595,18 @@ console.log(endTime2 - startTime2);
 
 [03_3](../javaScript/03_3.js)
 
+```js
+function addUpTo(n) {
+  if (n == 1) return 1;
+  return n + addUpTo(n - 1);
+}
+console.log(addUpTo(5));
+console.log(addUpTo(100));
+console.log(addUpTo(5000));
+```
+
+[03_4](../javaScript/03_4.js)
+
 ---
 
 # 第四題解答
