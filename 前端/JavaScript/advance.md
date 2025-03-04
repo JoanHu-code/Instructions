@@ -596,13 +596,15 @@ console.log(copyArr); //[2, 5, 7, 1, 4, 3, 8]
     console.log(x); // undefined
     var x;
     ```
-    ![variable](../../img/javascript/22.png)
+
+![variable](../../img/javascript/22.png)
 
     ```js
     console.log(x); // ReferenceError: cannot access 'x' before initialization
     let x;
     ```
-    ![let](../../img/javascript/21.png)
+
+![let](../../img/javascript/21.png)
 
 > let 可以 declare without initialization，且我們可以用 console.log()檢查 let 的變數值是 undefined，但這個 undefined 的 initialization 並不像 var 是發生在 creation phase 的 hoisting 階段發生的，而是在 execution phase 的階段。
 
@@ -610,4 +612,5 @@ console.log(copyArr); //[2, 5, 7, 1, 4, 3, 8]
     let x;
     console.log(x); // undefined
     ```
-    ![variable](../../img/javascript/22.png)
+
+![variable](../../img/javascript/22.png)
