@@ -883,7 +883,7 @@ F(n) = \frac{\frac{1+\sqrt{5}}{2}^n - \frac{1-\sqrt{5}}{2}^n}{\sqrt{5}}
 所以當 n 不斷變大時，
 
 ```math
- - \frac{1-\sqrt{5}}{2}^n}{\sqrt{5}}
+ \frac{1-\sqrt{5}}{2}^n}{\sqrt{5}}
 ```
 
 會逐漸消失，所以可以看出:
@@ -891,3 +891,5 @@ F(n) = \frac{\frac{1+\sqrt{5}}{2}^n - \frac{1-\sqrt{5}}{2}^n}{\sqrt{5}}
 ```math
  \lim_{n \to \infty} \frac{F(n+1)}{F(n)} = \frac{1+\sqrt{5}}{2} \approx 1.618
 ```
+
+> 也就是說，費波那契數列在 n 不斷變大時，後一項與前一項的比例會逐漸趨近於黃金比例。我們可用程式碼驗證這個數值
