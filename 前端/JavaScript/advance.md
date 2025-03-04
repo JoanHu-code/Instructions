@@ -5,8 +5,8 @@
 - [Spread Syntax and Rest Parameters](#Spread-Syntax-and-Rest-Parameters)
 - [Primitive, Reference Data Types](#Primitive-Reference-Data-Types)
 - [JavaScript String Comparison](#JavaScript-String-Comparison)
-- [進階 Array Methods](#進階-Array-Methods)
-- [第七章 Codeing Convention and Restrictions](#第七章-Codeing-Convention-and-Restrictions)
+- [JS 內建排序涵式](#JS-內建排序涵式)
+- [for of Loop 和 for in Loop](#for-of-Loop-和-for-in-Loop)
 - [第八章 JavaScript Function](#第八章-JavaScript-Function)
 - [第九章 Loop 迴圈](#第九章-Loop-迴圈)
 - [第十章 Nested Loop 巢狀迴圈](#第十章-Nested-Loop-巢狀迴圈)
@@ -316,3 +316,164 @@ console.log("String performance" + timeDiff); //String performance 551.766799999
 | **Chaining**                | ✅ Can be chained with `.filter()`, `.reduce()`, etc.                       | ❌ Cannot be chained since it returns `undefined`                               |
 | **Modifies Original Array** | ❌ No                                                                       | ❌ No                                                                           |
 | **Use Case**                | When modifying array elements, such as changing values or extracting fields | When performing operations like `console.log()` or modifying external variables |
+
+# JS 內建排序涵式
+
+- 使用時機:
+  1. 自己寫: 當要客製化排序時，系統優化(資料結構)
+  2. 內建: 其他非客製化或優化的時候
+
+> 若想要把 array 內部的元素由小排到大，可使用 JS 內建排序 sort()方法。
+
+> sort()方法對數組的元素進行就地排序，也就是說，array 會被永久改變(注意:絕大多數的 js 內建 method 並不改變調用此 method 變數的值)，若希望保留未經過排序的 array，則需要先製作一個完整的複製品。
+
+```js
+let arr = [2, 5, 7, 1, 4, 3, 8];
+console.log(arr.sort()); //[1, 2, 3, 4, 5, 7, 8]
+console.log(arr); //[1, 2, 3, 4, 5, 7, 8]
+```
+
+```js
+let arr = [2, 5, 7, 1, 4, 3, 8];
+let copyArr = [...arr];
+arr.sort();
+console.log(arr); //[1, 2, 3, 4, 5, 7, 8]
+console.log(copyArr); //[2, 5, 7, 1, 4, 3, 8]
+```
+
+- 語法:
+
+  ```pseudocode
+  sort()
+  sort(compareFn)
+  ```
+
+  - compareFn 式定義排序順序的函數。如果省略，則將 array 元素按照 JavaScript 預設方式排序(從小到大排序)。若我們要自己提供 compareFn，則此 funcion 需要有兩個 parameter a,b，而 sort()會根據 compareFn 的 return value 來決定排序順序。
+
+  | `compareFn(a, b)` Return Value | Sort Order                                 |
+  | ------------------------------ | ------------------------------------------ |
+  | `a - b`                        | Ascending order (small → large)            |
+  | `b - a`                        | Descending order (large → small)           |
+  | `> 0`                          | Place `a` after `b` (swap `a` and `b`)     |
+  | `< 0`                          | Place `a` before `b` (keep `a` before `b`) |
+  | `=== 0`                        | Keep original order (may not be stable)    |
+
+  | `compareFn(a, b)` 回傳值 | 排序順序                                     |
+  | ------------------------ | -------------------------------------------- |
+  | `a - b`                  | 升序（從小到大）                             |
+  | `b - a`                  | 降序（從大到小）                             |
+  | `> 0`                    | 把 `a` 排在 `b` 之後（交換 `a` 和 `b`）      |
+  | `< 0`                    | 把 `a` 排在 `b` 之前（保持 `a` 在 `b` 之前） |
+  | `=== 0`                  | 保持原始順序（可能不穩定）                   |
+
+  ```js
+  let arr = [2, 5, 7, 1, 4, 3, 8];
+  arr.sort((a, b) => a - b);
+  console.log(arr); //[1, 2, 3, 4, 5, 7, 8]
+  ```
+
+  ```js
+  let arr = [2, 5, 7, 1, 4, 3, 8];
+  arr.sort((a, b) => b - a);
+  console.log(arr); //[8, 7, 5, 4, 3, 2, 1]
+  ```
+
+  ```js
+  let arr = ["Watermelon", "Apple", "Banana"];
+  arr.sort((a, b) => {
+    if (a.length > b.length) return 1;
+    return -1;
+  });
+  console.log(arr); //[ 'Apple', 'Banana', 'Watermelon' ]
+  ```
+
+  ```js
+  let arr = ["Watermelon", "Apple", "Banana"];
+  arr.sort((a, b) => {
+    if (a.length > b.length) return -1;
+    return -1;
+  });
+  console.log(arr); //[ 'Watermelon', 'Banana', 'Apple' ]
+  ```
+
+  ```js
+  let arr = ["Watermelon", "Apple", "Banana"];
+  arr.sort((a, b) => {
+    if (a.length > b.length) return 0;
+    return -1;
+  });
+  console.log(arr); //[ 'Apple', 'Banana', 'Watermelon' ]
+  ```
+
+  - 不放參數: array 當中的每個元素將先被轉換為 String，再以 Unicode 編碼位置進行比較來排序。在 Unicode 編碼位置較後面者，會被排序在較後方。
+    ```js
+    let arr = ["Watermelon", "Apple", "Banana"];
+    arr.sort();
+    console.log(arr); //[ 'Apple', 'Banana', 'Watermelon' ]
+    ```
+
+- 排序的時間和空間複雜度不能被保證，因為它取決於每個瀏覽器的 JS 引擎如何實現 sort()，但以下為幾個參考方向:
+  - V8 引擎: Quicksort or Insertion Sort(for smaller arays)，或使用 AVL Tree。
+  - Firefox: Merge sort
+  - Safari: Quicksort, Merge Sort, or Selection Sort(depending on the type of array)
+
+# for of Loop 和 for in Loop
+
+- `for...of Loop`創建一個迴圈，去循環可迭代對象(iterable)內的每個元素。可迭代對象包括: string、array、array-like object、TypedAray、Map、Set 和 user-defined 的 iterable。
+
+**注意: object 並不是 iterable**
+
+    - 語法:
+
+      ```pseudocode
+      for(variables of iterable){
+        statement;
+      }
+      ```
+
+      ```js
+      let arr = [10, 20, 30];
+      for (let n of arr) {
+        console.log(n); // 10 20 30
+      }
+      ```
+
+      ```js
+      let myString = "Grace";
+      for (let i of myString) {
+        console.log(i); // G r a c e
+      }
+      ```
+
+- `for...in Loop`創建一個迴圈，去循環一個 JS 物件中所有的可枚舉屬性(enumerable properties)。
+
+  - 對於 object 來說，enumerable properties 就是 keys。
+    ```js
+    let Joan = {
+      name: "Joan Hu",
+      age: 26,
+    };
+    for (let property in Joan) {
+      console.log(property); //name age
+      console.log(property[property]); //Joan Hu 26
+    }
+    ```
+  - 對於 array 來說，enumerable properties 就是 indices。
+
+    ```js
+    let arr = [1, 2, 3];
+    for (let i in arr) {
+      console.log(item); //0 1 2
+      console.log(arr[i]); //1 2 3
+    }
+    ```
+
+  - 對於 String 來說，enumerable properties 就是 indices。
+
+    ```js
+    let myString = "Grace";
+    for (let i in myString) {
+      console.log(i); // 0 1 2 3 4
+      console.log(myString[i]); // G r a c e
+    }
+    ```
