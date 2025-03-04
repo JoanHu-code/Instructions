@@ -8,8 +8,8 @@
 - [JS 內建排序涵式](#JS-內建排序涵式)
 - [for of Loop 和 for in Loop](#for-of-Loop-和-for-in-Loop)
 - [Execution Cintext 執行環境](#Execution-Cintext-執行環境)
-- [第九章 Loop 迴圈](#第九章-Loop-迴圈)
-- [第十章 Nested Loop 巢狀迴圈](#第十章-Nested-Loop-巢狀迴圈)
+- [Scope and Closure](#Scope-and-Closure)
+- [Call Stack and Recursion](#Call-Stack-and-Recursion)
 - [第十一章 Array 陣列](#第十一章-Array-陣列)
 - [第十二章 Object 物件](#第十二章-Object-物件)
 - [第十三章 Math Object](#第十三章-Math-Object)
@@ -614,3 +614,155 @@ console.log(copyArr); //[2, 5, 7, 1, 4, 3, 8]
     ```
 
 ![variable](../../img/javascript/22.png)
+
+# Scope and Closure
+
+## Scope
+
+> Scope 是指:在當前的 execution context 之中，變數的可訪問性(accessibility)為何?我們在 function A 所宣告的變數，在 function B 內部可以使用(訪問)嗎?
+
+- 例:
+
+  ```js
+  function fun1() {
+    let x = 10;
+    console.log(x);
+  }
+  function fun2() {
+    return x + 10;
+  }
+  ```
+
+  - fun2()可以訪問到 fun1 裡面的區域變數(local variable) x=10 嗎?❌
+
+  ```js
+  let x = 10;
+  function fun1() {
+    function fun2() {
+      return x + 10;
+    }
+  }
+  ```
+
+  - fun2()可以訪問到全域變數(global variable)x=10 嗎?✅
+
+- 了解 Scope 可以知道，每個變數在哪些區域或範圍是有意義的，或者是說，變數在哪些區域是可訪問或可使用的
+
+- 全域變數（Global Variable）：定義在函式外部，能夠在整個程式的任何地方存取。
+- 區域變數（Local Variable）：定義在函式內部，只能在該函式內部存取，函式外部無法使用。
+
+- JavaScript 的變數有以下幾種 Scope:
+
+  - 全域作用域(Global scope): The default scope for all code running in the script.
+  - 模組作用域(Module scope): The scope for code running in module mode.
+  - 函式作用域(Function scope): The scope is created with a function.
+
+    - 例子
+
+      ```js
+      function sayHi() {
+        console.log("hello");
+        // function declaration 也有function scope
+        function sayHi2() {
+          console.log(hello2);
+        }
+        sayHi2(); //✅
+      }
+      sayHi2(); //❌
+      ```
+
+  - 區塊作用域(Block scope): The scope created with a pair of curly braces(a block);(**用 let 或是 const 去宣告的變數屬於這個**)
+    - ✅: let 或是 const 有 Block scope
+      ```js
+      if (true) {
+        let x = 10;
+      }
+      console.log(x); //reference erroe;
+      ```
+      ```js
+      for (let i = 0; i < 20; i++) {}
+      console.log(i); //reference erroe;
+      ```
+    - ❌: var 沒有 Block scope
+      ```js
+      if (true) {
+        var x = 10;
+      }
+      console.log(x); //10
+      ```
+      ```js
+      var x = 100;
+      for (var x = 0; x < 10; x++) {}
+      console.log(x); //10
+      ```
+
+**因為 var 沒有 Block scope，可能會重複賦予值，因此現在在寫程式時盡量少用**
+
+## Closure
+
+> 在 function execution context 中，如果發現不在 function scope 內部的變數，JavaScript 將轉到其他地方查找。Closure(閉包)就是指這種將函數其周圍的狀態或語詞環境結合在一起的組合。在 JavaScript 中，每次 function execution context 都會在 creation phase 創建 closure。
+
+- Closure 的規則是:
+
+  1. 從 Argument Object 以及 Local variable 去尋找
+  2. 若從 1 找不到，則從記憶體被分配給函數的位置開始尋找
+  3. 若在目前的 execution context 找不到，就繼續往外層、往全域一層一層的去找
+
+- 例子:
+
+  ```js
+  let c = 100;
+  function add(a, b) {
+    let c = 5;
+    return a + b + c; //12
+  }
+  add(3, 4);
+  ```
+
+  ```js
+  let c = 100;
+  function add(a, b) {
+    return a + b + c; //107
+  }
+  add(3, 4);
+  ```
+
+  ```js
+  let myName = "Joan";
+
+  function sayHi() {
+    let myName = "John";
+    console.log(myName + " say Hi!"); // John say Hi!
+    sayHi2();
+  }
+  function sayHi2() {
+    console.log(myName + " say Hi!"); // Joan say Hi!
+  }
+
+  sayHi();
+  ```
+
+  ```js
+  let myName = "Joan";
+
+  function sayHi() {
+    let myName = "John";
+    console.log(myName + " say Hi!"); // John say Hi!
+    sayHi2();
+
+    function sayHi2() {
+      console.log(myName + " say Hi!"); // John say Hi!
+    }
+  }
+
+  sayHi();
+  ```
+
+# Call Stack and Recursion
+
+## Call Stack
+
+> 是 JS 引擎追蹤本身在調用多個函數的程式碼中位置的機制(資料結構的一種)。Call stack 可以幫助我們知道 JS 引擎當前正在運行什麼函式以及從該函數中調用了哪些函式等
+
+- 其機制為:
+  1. 當執行函式 F1 時，JS 引擎將其添加到 call stack 中，然後開始執行該函式
