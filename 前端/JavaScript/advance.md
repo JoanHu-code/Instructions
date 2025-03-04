@@ -871,3 +871,23 @@ F(n) = \frac{\frac{1+\sqrt{5}}{2}^n - \frac{1-\sqrt{5}}{2}^n}{\sqrt{5}}
 ```
 
 為黃金比例
+
+> 黃金比例是指: `a+b:a = a:b`
+
+![黃金比例](../../img/javascript/25.png)
+
+```math
+\frac{1-\sqrt{5}}{2} = -0.618
+```
+
+所以當 n 不斷變大時，
+
+```math
+ - \frac{1-\sqrt{5}}{2}^n}{\sqrt{5}}
+```
+
+會逐漸消失，所以可以看出:
+
+```math
+ \lim_{n \to \infty} \frac{F(n+1)}{F(n)} = \frac{1+\sqrt{5}}{2} \approx 1.618
+```
