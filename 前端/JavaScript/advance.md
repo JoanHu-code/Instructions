@@ -15,6 +15,8 @@
   - [Inheritance and the Prototype Chain](#Inheritance-and-the-Prototype-Chain)
 - [Function Methods](#Function-Methods)
 - [Prototype Inheritance inConstructors](#Prototype-Inheritance-inConstructors)
+- [Class](#Class)
+- [用 class 製作 circle 物件](#用-class-製作-circle-物件)
 
 # JavaScript 引擎
 
@@ -1288,3 +1290,189 @@ console.log(arr1);
     joan.sayHi();
     joan.study();
     ```
+
+# Class
+
+- 在 ECMAScript 2015 中引入的 JavaScript Class 語法，可以用來取代 constructor function。
+
+- **Class 語法是 JavaScript 基於現有的 prototype inheritance 的語法糖。**(Class 語法與 constructor function 語法可以完全互換)
+
+  - 原本的寫法:
+
+    ```js
+    function Student(name, age, major) {
+      this.name = name;
+      this.age = age;
+      this.major = major;
+    }
+    Student.prototype.sayHi = function () {
+      console.log(this.name + " say Hi!");
+    };
+    ```
+
+  - Class 的寫法:(Class 名稱大多都大寫)
+
+    ```js
+    class Student {
+      constructor(name, age, major) {
+        this.name = name;
+        this.age = age;
+        this.major = major;
+      }
+      sayHi() {
+        console.log(this.name + " say Hi!");
+      }
+    }
+    ```
+
+- 若一個 constructor 要繼承另一個 constructor 的 prototype 物件，則可使用 extends 關鍵字
+
+  - 原本的寫法:
+
+    ```js
+    function Person(name, age) {
+      this.name = name;
+      this.age = age;
+    }
+    Person.prototype.sayHi = function () {
+      console.log(this.name + " say Hi!");
+    };
+    function Student(name, age, major, grade) {
+      Person.call(this, name, age);
+      this.major = major;
+      this.grade = grade;
+    }
+    Student.prototype = Object.create(Person.prototype);
+    Student.prototype.study = function () {
+      console.log(this.name + " is studying in " + this.major);
+    };
+    let mike = new Student("Mike", 26, "Computer Science");
+    mike.sayHi();
+    mike.study();
+    ```
+
+  - Class 的寫法:(Class 名稱大多都大寫)
+
+    ```js
+    class Person {
+      constructor(name, age, major) {
+        this.name = name;
+        this.age = age;
+      }
+      sayHi() {
+        console.log(this.name + " say Hi!");
+      }
+    }
+    class Student extends Person {
+      constructor(name, age, major, grade) {
+        super(name, age);
+        this.major = major;
+        this.grade = grade;
+      }
+      study() {
+        console.log(this.name + " is studying in " + this.major);
+      }
+    }
+    let mike = new Student("Mike", 26, "Computer Science");
+    mike.sayHi();
+    mike.study();
+    ```
+
+- Static 關鍵字可以在 class 上定義 attribute 或 method。另外，我們可以透過 class 本身來訪問 static variable 或是執行 static method。
+
+- Static 關鍵字所設定的 attribute 和 method 屬於 class 本身，不屬於每個由 class 所製作出的物件。 (本質上來說，Static 關鍵字就是將 attribute 與 method 設定在 constructor function 這個物件上面，而不是在 constructor.prototype 這個 constructor function 的屬性上面)
+
+  - 原本的寫法:
+
+    ```js
+    function Student(name, age, major) {
+      this.name = name;
+      this.age = age;
+      this.major = major;
+    }
+    Student.number = 1234;
+    Student.sayHi = function () {
+      console.log("Say Hi!");
+    };
+    Student.prototype.sayHello = function () {
+      console.log(this.name + " say Hello!");
+    };
+    Student.sayHi();
+    let mike = new Student("Mike", 26, "化學");
+    mike.sayHello();
+    mike.sayHi(); //TypeError: mike.sayHi is not a function
+    ```
+
+  - Class 的寫法:
+
+    ```js
+    class Student {
+      static number = 1234; //static property
+
+      constructor(name, age, major) {
+        this.name = name; //instance property
+        this.age = age; //instance property
+        this.major = major; //instance property
+      }
+      //instance methods
+      sayHello() {
+        console.log(this.name + " say Hello!");
+      }
+
+      //static methods
+      static sayHi() {
+        console.log("Say Hi!");
+      }
+    }
+
+    Student.sayHi();
+    let mike = new Student("Mike", 26, "化學");
+    mike.sayHello();
+    mike.sayHi(); //TypeError: mike.sayHi is not a function
+    ```
+
+## Static Methods and Attributes in JS
+
+- JS 當中內建的 Class(or constructor function)有許多 static properties, static methods, instance properties, instance methods。
+- 例如:
+  - Array 的 Array.isArray()就是 Array Class 的 static method，可用來確認某個資料是不是 Array。(若我們用 typeof operator 確認 array 的資料類型，只能看到 object。因此，要確認某個變數是否為 array，必須使用 Array.isArray())
+  - Math Class 內部所有的 properties 以及 methods 都是 static，所以我們可以使用 Math.E、Math.PI、Math.floor()等等的功能
+
+# 用 class 製作 circle 物件
+
+```js
+class Circle {
+  static allCircle = [];
+
+  constructor(radius) {
+    this.radius = radius;
+    allCircle.push(this);
+  }
+  getArea() {
+    return Math.PI * this.radius * this.radius;
+  }
+  getPerimeter() {
+    return 2 * Math.PI * this.radius;
+  }
+
+  static getAreaFormula() {
+    return "pi*r*r";
+  }
+
+  static getAllCirclesAreaTotal() {
+    let total = 0;
+    allCircle.forEach((circle) => {
+      total += Math.PI * circle.radius * circle.radius;
+    });
+    return total;
+  }
+}
+let c1 = new Circle(10);
+let c2 = new Circle(5);
+let c3 = new Circle(3);
+console.log(c1.getArea()); //314.1592653589793
+console.log(c2.getArea()); //78.53981633974483
+console.log(c3.getArea()); //28.274333882308138
+console.log(Circle.getAreaFormula()); //pi*r*r
+console.log(Circle.getAllCirclesAreaTotal()); //420.9734155810323
+```
