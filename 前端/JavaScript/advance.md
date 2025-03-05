@@ -493,14 +493,14 @@ console.log(copyArr); //[2, 5, 7, 1, 4, 3, 8]
     }
     ```
 
-# Execution Cintext 執行環境
+# Execution Context 執行環境
 
 > 當 JS 引擎值行程式碼(script)時，便會創建 execution contexts(執行環境)。
 
-- JavaScript 共會建立兩種值環境
+- JavaScript 共會建立兩種執行環境
 
   1. 全域執行環境(Global Execution Context)
-  2. 涵式執行環境(Function Execution Context)
+  2. 函式執行環境(Function Execution Context)
 
 - 每種 execution context 都包含兩個階段
   1. 創造階段(creation phase)

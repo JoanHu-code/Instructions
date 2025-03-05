@@ -175,7 +175,7 @@ window.alert(`${name}, Welcome to website!`);
 
 3. JavaScript 的當行註解是`//`，多行則是`/**/`
 
-4. 在 JavaScript 內部的變數名稱需要由文字、underscore(\_)、dollar sign($)當作開頭(不能用數字開頭)
+4. 在 JavaScript 內部的變數名稱需要由文字、underscore(`_`)、dollar sign($)當作開頭(不能用數字開頭)
 
 ❌
 
