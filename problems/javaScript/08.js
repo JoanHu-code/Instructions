@@ -1,34 +1,23 @@
-class Circle {
-  static allCircles = [];
-
-  constructor(radius) {
-    this.radius = radius;
-    Circle.allCircles.push(this);
+class NotArrayError extends TypeError {
+  constructor(message) {
+    super(message);
   }
-  getArea() {
-    return Math.PI * this.radius * this.radius;
-  }
-  getPerimeter() {
-    return 2 * Math.PI * this.radius;
-  }
-
-  static getAreaFormula() {
-    return "pi*r*r";
-  }
-
-  static getAllCirclesAreaTotal() {
-    let total = 0;
-    Circle.allCircles.forEach((circle) => {
-      total += Math.PI * circle.radius * circle.radius;
-    });
-    return total;
+  printSolution() {
+    return "please check your parameter!";
   }
 }
-let c1 = new Circle(10);
-let c2 = new Circle(5);
-let c3 = new Circle(3);
-console.log(c1.getArea());
-console.log(c2.getArea());
-console.log(c3.getArea());
-console.log(Circle.getAreaFormula());
-console.log(Circle.getAllCirclesAreaTotal());
+function sumArray(arr) {
+  if (!Array.isArray(arr)) {
+    throw new NotArrayError("parameter is not array!!!");
+  }
+  let result = 0;
+  arr.forEach((element) => {
+    result += element;
+  });
+  return result;
+}
+try {
+  sumArray("Hello");
+} catch (e) {
+  console.log(e);
+}

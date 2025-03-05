@@ -99,5 +99,7 @@
 // console.log(x); // ReferenceError: cannot access 'x' before initialization
 // var x;
 
-function hello() {}
-console.log(hello);
+function multiply(a = 1, b = 1) {
+  return a * b;
+}
+console.log(multiply(5)); //5

@@ -17,6 +17,17 @@
 - [Prototype Inheritance inConstructors](#Prototype-Inheritance-inConstructors)
 - [Class](#Class)
 - [用 class 製作 circle 物件](#用-class-製作-circle-物件)
+- [Ternary Operator](#Ternary-Operator)
+- [Default Parameters](#Default-Parameters)
+- [backtick](#backtick)
+- [Strong Typing and Weak Typing](#Strong-Typing-and-Weak-Typing)
+- [Dynamic Typed and Static Typed](#Dynamic-Typed-and-Static-Typed)
+- [IIFE](#IIFE)
+- [destructuring assignment](#destructuring-assignment)
+- [Switch Statement](#Switch-Statement)
+- [instanceof operator](#instanceof-operator)
+- [錯誤處理](#錯誤處理)
+- [客製化錯誤處理](#客製化錯誤處理)
 
 # JavaScript 引擎
 
@@ -1476,3 +1487,467 @@ console.log(c3.getArea()); //28.274333882308138
 console.log(Circle.getAreaFormula()); //pi*r*r
 console.log(Circle.getAllCirclesAreaTotal()); //420.9734155810323
 ```
+
+# Ternary Operator
+
+- Ternary Operator 是 JavaScript 唯一用到三個運算元的運算子。在一個條件後面會跟著一個問號(?)，如果條件是 truthy，在冒號(:)前的表達式會被執行，如果條件是 falsy，在冒號後面的表達是會被執行，這個運算子常常被用來當作 if 的簡潔寫法。
+
+- 語法為
+
+  ```pseudocode
+  condition ? expressionIfTrue : expressionIfFalse
+  ```
+
+  - 原本寫法:
+
+    ```js
+    let age = 20;
+    let price;
+    if (age < 18) {
+      price = 50;
+    } else {
+      price = 150;
+    }
+    console.log(price);
+    ```
+
+    ```js
+    let age = 20;
+    let price;
+    if (age < 18) {
+      price = 50;
+    } else if (age < 60) {
+      price = 150;
+    } else {
+      price = 75;
+    }
+    console.log(price);
+    ```
+
+  - Ternary Operator:
+
+    ```js
+    let age = 20;
+    let price = age < 18 ? 50 : 150;
+    console.log(price);
+    ```
+
+    ```js
+    let age = 20;
+    let price = age < 18 ? 50 : age < 60 ? 150 : 75;
+    console.log(price);
+    ```
+
+# Default Parameters
+
+> 當調用了 function 但沒有給定足夠數量的 arguments 時，parameter 會被設定成 undefined。
+
+```js
+function multiply(a, b) {
+  console.log(a, b); //5 undefined
+  return a * b;
+}
+console.log(multiply(5)); //NaN
+```
+
+![Default Parameters](../../img/javascript/31.png)
+
+> 在 function 設定 Default Parameters 可以讓 function 有預設的初始化值
+
+- 如果沒有這功能的話:
+
+  ```js
+  function multiply(a, b) {
+    if (a == undefined) {
+      a = 1;
+    }
+    if (b == undefined) {
+      b = 1;
+    }
+    return a * b;
+  }
+  console.log(multiply(5)); //5
+  ```
+
+- 直接預設:
+
+  ```js
+  function multiply(a = 1, b = 1) {
+    return a * b;
+  }
+  console.log(multiply(5)); //5
+  ```
+
+# backtick
+
+``: 可以取代單引號和雙引號來製作 string
+
+- 原本寫法:
+
+  ```js
+  let age = 26;
+  let name = "Joan";
+  let profile = name + " is " + age + " years old.";
+  console.log(profile);
+  ```
+
+- backtic 寫法:
+  ```js
+  let age = 26;
+  let name = "Joan";
+  let profile = `${name} is ${age} years old.`;
+  console.log(profile);
+  ```
+
+# Strong Typing and Weak Typing
+
+- 強弱型別(Strong and weak typing)表示在電腦科學以及程式設計中，經常把程式語言的型別系統分為 strong typed 和 weakly typed 兩種。這兩個術語並沒有非常明確的定義，但主要用以描述程式語言對於混入不同資料類型別的值進行運算時的處理方式。
+
+- 大致上來說，Strong typing 意味著值的資料類型在有需要時，必須要被強制改成正確的類別。JavaScript 被認為是個"weakly typed"或"untyped"的程式語言
+
+# Dynamic Typed and Static Typed
+
+- Static Typed 語言通常是指，編譯器(compiler)會在編譯時檢查資料類型
+
+  - 在 Java 中，宣告變數時，若賦值與變數類型不同，則無法編譯。在修復問題之前，我們無法運行程式碼。
+  - 優點:
+    - 編譯器可以完成各種檢查，可在很早的階段就發現瑣碎的錯誤
+    - 執行速度更快，因為當編譯器知道正在使用的確切數據類型時，它可以生成優化的機器代碼(machine code)來運行程式。也因為程式碼的運行不需要一邊運行程式碼，一邊做檢查，所以 Static Typed 語言使用更少記憶體
+
+- daynamic Typed:在運行時才會檢查資料類型
+  - JavaScript 是 daynamic Typed
+
+# IIFE
+
+- IIFE(Immediately Invoked Function Expression)是一個 JavaScript 函數，它在定義後立即運行。IIFE 的語法為
+
+  ```pseudocode
+  (function(){
+    //...
+  })();
+  ```
+
+- 當我們在想要避免汙染 global naming space，或是想要立即執行某個匿名 function 時(例如在伺服器的程式碼內部)，就可以使用 IIFE。
+
+- 若程式碼只會用到一次:
+  ```js
+  function hello() {
+    console.log("hello");
+  }
+  hello(); //need to call function
+  ```
+- 使用 IIFE:不用在下面寫`hello()`也可執行 function，也可以使用相同的名稱
+
+  ```js
+  (function hello() {
+    console.log("hello");
+  })();
+  let hello = "hello!";
+  ```
+
+  > 因為名稱沒有意義，所以也可以省略
+
+  ```js
+  (function () {
+    console.log("hello");
+  })();
+  let hello = "hello!";
+  ```
+
+  > 換成箭頭涵式
+
+  ```js
+  (() => {
+    console.log("hello");
+  })();
+  let hello = "hello!";
+  ```
+
+# destructuring assignment
+
+> 是一種 JavaScript 語法，它可以將 array 中的值或 object 中的屬性 unpack 道不同的變數中。常見的語法為:
+
+```pseudocode
+const [a,b] = array;
+const [a,b,...rest] = array;
+const {a,b} = obj;
+```
+
+> 在伺服器的程式碼中，常常可以看到 destructuring assignment 的語法
+
+- 原本寫法
+
+  ```js
+  let arr = [1, 2, 3, 4, 5, 6, 7];
+  let a1 = arr[0];
+  let a2 = arr[1];
+  let a3 = arr[2];
+  let a4 = arr[3];
+  let a5 = arr[4];
+  let a6 = arr[5];
+  let a7 = arr[6];
+  cosnole.log(a1, a2, a3, a4, a5, a6, a7);
+  ```
+
+- destructuring assignment 寫法
+
+  ```js
+  let arr = [1, 2, 3, 4, 5, 6, 7];
+  let [a1, a2, a3, a4, a5, a6, a7] = arr;
+  cosnole.log(a1, a2, a3, a4, a5, a6, a7);
+  ```
+
+  ```js
+  let arr = [1, 2, 3, 4, 5, 6, 7];
+  let [a1, a2, ...everything] = arr;
+  cosnole.log(a1, a2, everything); // 1 2 [3,4,5,6,7]
+  ```
+
+  ```js
+  let Wilson = {
+    name: "Wilson Ren",
+    age: 26,
+    address: "Hawaii",
+    height: 179,
+    weight: 75,
+  };
+  let { name, age, address, height, weight } = Wilson;
+  console.log(name, age, address, height, weight);
+  ```
+
+# Switch Statement
+
+> Switch Statement 是 if statement 的另一種選項。兩者的功能性完全相同，但對於有非常多 else if 的 if statement 來說，改寫成 Switch Statement 可增加程式碼的可閱讀性(某些人這樣認為，看個人習慣與感覺)。
+
+> Switch Statement 會先獲得一個 expression，再將 expression 拿去跟一系列的 case 做比對。
+
+- `if else`的寫法
+
+  ```js
+  let day = prompt("Please enter what day of the week it is today.");
+  if (day == "Monday") {
+    alert("Today is Monday!");
+  } else if (day == "Tuesday") {
+    alert("Today is Tuesday!");
+  } else if (day == "Wednesday") {
+    alert("Today is Wednesday!");
+  } else if (day == "Thursday") {
+    alert("Today is Thursday!");
+  } else if (day == "Friday") {
+    alert("Today is Friday!");
+  } else if (day == "Saturday") {
+    alert("Today is Saturday!");
+  } else if (day == "Sunday") {
+    alert("Today is Sunday!");
+  } else {
+    alert("Cannot determin your day.");
+  }
+  ```
+
+- `switch statement`的寫法
+
+  ```js
+  let day = prompt("Please enter what day of the week it is today.");
+  switch (day) {
+    case "Monday":
+      alert("Today is Monday!");
+      break;
+    case "Tuesday":
+      alert("Today is Tuesday!");
+      break;
+    case "Wednesday":
+      alert("Today is Wednesday!");
+      break;
+    case "Thursday":
+      alert("Today is Thursday!");
+      break;
+    case "Friday":
+      alert("Today is Friday!");
+      break;
+    case "Saturday":
+      alert("Today is Saturday!");
+      break;
+    case "Sunday":
+      alert("Today is Sunday!");
+      break;
+    default:
+      alert("Cannot determin your day.");
+  }
+  ```
+
+> 在 Switch Statement 中，如果省略 break，則將繼續執行下一個 case，甚至執行到 default 子句，而不管該 case 的值是否匹配。這種情形被稱為「fall-through」
+
+- ❌:沒有寫 break 的範例，打`Monday`會一路掉掉到`default`
+
+```js
+let day = prompt("Please enter what day of the week it is today.");
+switch (day) {
+  case "Monday":
+    alert("Today is Monday!");
+  case "Tuesday":
+    alert("Today is Tuesday!");
+  case "Wednesday":
+    alert("Today is Wednesday!");
+  case "Thursday":
+    alert("Today is Thursday!");
+  case "Friday":
+    alert("Today is Friday!");
+  case "Saturday":
+    alert("Today is Saturday!");
+  case "Sunday":
+    alert("Today is Sunday!");
+  default:
+    alert("Cannot determin your day.");
+}
+```
+
+# instanceof operator
+
+> 判斷此物件是不是屬於另一個物件
+
+```js
+class Person {
+  constructor(name) {
+    this.name = name;
+  }
+}
+let mike = new Person("Mike");
+console.log(mike instanceof Person); //true
+```
+
+# 錯誤處理
+
+> 在 JS 當中，如果要執行一段可能出錯的程式碼，則可以將程式碼放入`try...catch...`語句當中。`try...catch...`語句常在後端腳本中使用，語法為:
+
+```pseudocode
+try{
+  tryStatements
+}catch(exceptionVar){
+  catchStatements
+}finally{
+  finallyStatements
+}
+```
+
+1. tryStatement: 要執行的語句
+2. catchStatement: 如果在 try 中引發異常，則執行語句
+3. exceptionVar(optional): 一個變數，用於保存 catch 當中已捕獲的錯誤
+4. finallyStayements: 在完成`try...catch...語句時`，一定會執行的語句。無論是否發生異常，finallyStatements 都會執行。
+
+- 可使用的語法為:
+  - `try...catch...`
+  - `try...finally...`
+  - `try...catch...finally...`
+
+> print 出 There is an error
+
+```js
+try {
+  whatever();
+} catch {
+  console.error("There is an error");
+}
+```
+
+> print 出 Hello world 不會 print 到 catch 裡的那一行
+
+```js
+try {
+  console.log("Hello world");
+} catch {
+  console.error("There is a error");
+}
+```
+
+> 在 JS 當中若有發生錯誤，錯誤本身會自動作成一個 object
+
+```js
+try {
+  whatever();
+} catch (e) {
+  if (e instanceof TypeError) {
+    console.error("TypeError");
+  } else if (e instanceof ReferenceError) {
+    console.error("ReferenceError");
+  } else {
+    console.error("OtherError");
+  }
+} finally {
+  console.log("Whether the error exists or not, it will be executed.");
+}
+```
+
+- 什麼時候會用到 `finally`
+  - 打開文件時: 不管有沒有錯誤 file 都要被關起來
+
+# 客製化錯誤處理
+
+- throw 在 js 裡面是關鍵字指丟出去的意思
+
+- 第一種作法
+
+  ```js
+  function sumArray(arr) {
+    if (!Array.isArray(arr)) {
+      throw "parameter is not array!!!";
+    }
+    let result = 0;
+    arr.forEach((element) => {
+      result += element;
+    });
+    return result;
+  }
+  try {
+    sumArray("Hello");
+  } catch (e) {
+    console.log(e);
+  }
+  ```
+
+- 第二種作法: 使用者可以看到更詳細的錯誤內容，也可以看見發生問題的行數
+
+  ```js
+  function sumArray(arr) {
+    if (!Array.isArray(arr)) {
+      throw new TypeError("parameter is not array!!!");
+    }
+    let result = 0;
+    arr.forEach((element) => {
+      result += element;
+    });
+    return result;
+  }
+  try {
+    sumArray("Hello");
+  } catch (e) {
+    console.log(e);
+  }
+  ```
+
+- 第三種作法:
+
+  ```js
+  class NotArrayError extends TypeError {
+    constructor(message) {
+      super(message);
+    }
+    printSolution() {
+      return "please check your parameter!";
+    }
+  }
+  function sumArray(arr) {
+    if (!Array.isArray(arr)) {
+      throw new NotArrayError("parameter is not array!!!");
+    }
+    let result = 0;
+    arr.forEach((element) => {
+      result += element;
+    });
+    return result;
+  }
+  try {
+    sumArray("Hello");
+  } catch (e) {
+    console.log(e);
+  }
+  ```
