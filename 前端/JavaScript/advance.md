@@ -1665,7 +1665,7 @@ console.log(multiply(5)); //NaN
 
 # destructuring assignment
 
-> 是一種 JavaScript 語法，它可以將 array 中的值或 object 中的屬性 unpack 道不同的變數中。常見的語法為:
+> 是一種 JavaScript 語法，它可以將 array 中的值或 object 中的屬性 unpack 到不同的變數中。常見的語法為:
 
 ```pseudocode
 const [a,b] = array;
