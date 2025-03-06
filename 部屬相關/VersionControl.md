@@ -149,7 +149,17 @@
 
 > 也可以按上下鍵來查詢之前輸入的指令
 
-# Git and GitHub
+> 進入編輯模式後:
+
+> 按 i 進入 插入模式（可以開始輸入文字）
+> 按 a 在游標後插入
+> 按 o 在下一行新增並進入插入模式
+> 按 Esc 進入普通模式
+> 輸入 :q 退出 (如果沒有更改)
+> 輸入 :q! 強制退出 (不保存)
+> 輸入 :wq 或 ZZ 保存並退出
+
+# Git
 
 > Git 本身是個在個人電腦上可以幫助開發者做版本控制的軟體。GitHub 是個網路平台，為使用 Git 軟體開發和版本控制提供託管服務。Git 與 GitHub 協作的流程如下:
 
@@ -159,6 +169,7 @@
 4. git add 的功能是將程式碼放到 staging area 上面。使用 git add 可以將即將被 commit 的文件讓 git 做追蹤
 5. 執行 git commit -m 把 staging area 上的文件做 commit。這些 code 的更動會被記錄到 Local Repository(.git 資料夾)內
 6. 用 git push 將 local repository 的所有內容都放到遠端伺服器(GitHub)
+7. 之後再使用 git pull 或 git clone 把 Remote Repository 的資料再拉到 Local Repository
 
 ![Git and GitHub](../img/versionControl/12.png)
 
@@ -192,21 +203,86 @@ Git 對 Local Repository 的檔案有 4 種主要狀態:
    ```
 
 3. unchanged: 檔案自上次 commit 以來未更改。如果我們修改檔案，檔案就變成:
+   ![unchanged](../img/versionControl/20.png)
 4. unstaged: modified，但還不是下一次 commit 的一部分。我們可以使用 git add 再次讓它變成 staged 狀態。
    ![unstaged](../img/versionControl/16.png)
 
-| Git Command                              | Description                                                       |
-| ---------------------------------------- | ----------------------------------------------------------------- |
-| `git init`                               | Initialize an empty git reposity                                  |
-| `git config --list`                      | Display all configuration settings.                               |
-| `git --version`                          | Display the current version of Git.                               |
-| `git config --global user.name "name"`   | Set username                                                      |
-| `git config --global user.email "email"` | Set email address                                                 |
-| `git status`                             | Displays the state of the working directory and the staging area. |
-| `git add <filename>`                     | Add files to staging area.                                        |
-| `git commit -m "commit message"`         | Commit all files on staging area.                                 |
-| `git rm --cached filename`               | Remove files from staging area.                                   |
+| Git Command                              | Description                                                                                                                                                                             |
+| ---------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `git init`                               | Initialize an empty git reposity                                                                                                                                                        |
+| `git config --list`                      | Display all configuration settings.                                                                                                                                                     |
+| `git --version`                          | Display the current version of Git.                                                                                                                                                     |
+| `git config --global user.name "name"`   | Set username                                                                                                                                                                            |
+| `git config --global user.email "email"` | Set email address                                                                                                                                                                       |
+| `git status`                             | Displays the state of the working directory and the staging area.                                                                                                                       |
+| `git add <filename>`                     | Add files to staging area.                                                                                                                                                              |
+| `git commit -m "commit message"`         | Commit all files on staging area.                                                                                                                                                       |
+| `git rm --cached filename`               | Remove files from staging area.                                                                                                                                                         |
+| `git log`                                | Review and read commit history                                                                                                                                                          |
+| `git branch branchName`                  | Create a new branch from current commit                                                                                                                                                 |
+| `git checkout branchName`                | Switch to another branch                                                                                                                                                                |
+| `git remote add origin gitSSH/gitHTTPs`  | Connect to a remote repository in gitSSH/gitHTTPs and name the connection origin                                                                                                        |
+| `git push -u origin master`              | Push the commits in the local branch named master to the remote named origin -u stands for upstream. When pushing for the first time, you will usually be required to log in to GitHub. |
+| `git push`                               | Once we set the -u flag, we can use `git push` command.                                                                                                                                 |
+| `git clone gitSSH/gitHTTPs`              | Get a working copy of the remote repository                                                                                                                                             |
+| `git pull gitSSH/gitHTTPs`               | Update that local copy with new commits form the remote repository                                                                                                                      |
+| `git remote set-url origin gitSSH`       | Set the remote connection named origin to a new remote repository                                                                                                                       |
+| `git remote remove origin`               | Remove a connection called origin.                                                                                                                                                      |
 
 ![git config --list](../img/versionControl/14.png)
 
 > 若要從 git config --list 出來按鍵盤`q`即可
+
+![git log](../img/versionControl/21.png)
+
+- 若不希望機密資料被上傳到 git，例如:`.env` 檔案，我們可以:
+
+  1. 新增一個.gitignore
+  2. 在此.gitignore 裡面新增不想被 git add 的檔案
+     ![.gitignore](../img/versionControl/22.png)
+     ![.gitignore](../img/versionControl/23.png)
+     ![.gitignore](../img/versionControl/24.png)
+  3. 之後再`git add`和`git commit -m ""`，把.gitignore add 上去就可以了
+
+- git branch
+  ![git branch](../img/versionControl/25.png)
+  ![git branch](../img/versionControl/26.png)
+
+**在 login 製作的東西沒有合併之前在 master 是看不到的**
+
+- git marge:
+  **確認換到要合併的分支(少東西的分支)**
+
+  - current branch: 目前在的 branch
+  - incoming branch: 要合併過來的分支
+    ![git branch](../img/versionControl/27.png)
+
+- git conflict:
+  ![git branch](../img/versionControl/28.png)
+  ![git branch](../img/versionControl/29.png)
+
+## GitHub
+
+1. 註冊一個 github 帳號
+
+2. 新建一個 repository
+
+![GitHub](../img/versionControl/30.png)
+
+3.  README.md 讓看到這專案的人更快上手(option)
+
+- `git remote add origin gitSSH/gitHTTPs`
+  - gitSSH
+    ![gitSSH](../img/versionControl/31.png)
+- `git push -u origin master`
+  ![git push -u origin master](../img/versionControl/32.png)
+- `git push`
+  ![git push](../img/versionControl/33.png)
+  ![git push](../img/versionControl/34.png)
+  ![git push](../img/versionControl/35.png)
+
+**之後的所有變更都需要打**
+
+- `git add .`
+- `git commit -m ""`
+- `git push`
