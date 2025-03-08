@@ -39,7 +39,13 @@
 
     - 例如，VirtualBox 是一種常見的虛擬化產品，用於建立此虛擬環境。它是免費的開源軟體，可讓開發人員和 IT 管理員快速部署作業系統。VirtualBox 可以安裝在 macOS、Linux 和 Windows 上。其他虛擬機器管理程式還包括 VMware vSphere 和 Microsoft Hyper-V。
 
-  - [安裝 VirtualBox](https://www.virtualbox.org/wiki/Downloads)
+    - [安裝 VirtualBox](https://www.virtualbox.org/wiki/Downloads)
+
+  - Ubuntu:每年四月和十月發新的版本
+    - Server
+    - Desktop
+    - Server 和 Desktop 區別在於是否有 GUI，Server 沒有圖形介面，只有命令提示字元(treminal)，Desktop 有介面可以操作
+    - [下載網址](https://ubuntu.com/download/desktop)
 
 # Linux Shell and Basic Commands
 
