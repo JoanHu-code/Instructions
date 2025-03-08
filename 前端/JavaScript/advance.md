@@ -1605,6 +1605,16 @@ console.log(multiply(5)); //NaN
 
 - 大致上來說，Strong typing 意味著值的資料類型在有需要時，必須要被強制改成正確的類別。JavaScript 被認為是個"weakly typed"或"untyped"的程式語言
 
+| 類型                    | 特性                                 | 範例語言                |
+| ----------------------- | ------------------------------------ | ----------------------- |
+| 強類型（Strong Typing） | 必須明確轉換資料型別，否則無法運行   | TypeScript、Java、C#    |
+| 弱類型（Weak Typing）   | 可隱式轉換型別，允許混合不同型別運算 | JavaScript、Python、PHP |
+
+| Type System   | Characteristics                               | Example Languages       |
+| ------------- | --------------------------------------------- | ----------------------- |
+| Strong Typing | Type conversions must be explicitly performed | TypeScript、Java、C#    |
+| Weak Typing   | Allows implicit type conversion               | JavaScript、Python、PHP |
+
 # Dynamic Typed and Static Typed
 
 - Static Typed 語言通常是指，編譯器(compiler)會在編譯時檢查資料類型
@@ -1616,6 +1626,16 @@ console.log(multiply(5)); //NaN
 
 - daynamic Typed:在運行時才會檢查資料類型
   - JavaScript 是 daynamic Typed
+
+| 類型                      | 特性                     | 範例語言                 |
+| ------------------------- | ------------------------ | ------------------------ |
+| 靜態類型(Static Typed)    | 變數在`編譯時`就已經確定 | Java、C++、Go            |
+| 動態類型（Dynamic Typed） | 變數在`運行時`才確定     | JavaScript、Python、Ruby |
+
+| Type System    | Characteristics                                 | Example Languages        |
+| -------------- | ----------------------------------------------- | ------------------------ |
+| Static Typing  | Variable types are determined at `compile time` | Java、C++、Go            |
+| Dynamic Typing | Variable types are determined at `runtime `     | JavaScript、Python、Ruby |
 
 # IIFE
 
