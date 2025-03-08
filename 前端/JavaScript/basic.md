@@ -110,10 +110,17 @@ pi = 3.14;
 
 3. const 不能做重複賦值。(reassignment is not allowed)
 
-|       | redeclaration | reassignment | initializer |
-| ----- | ------------- | ------------ | ----------- |
-| let   | ❌            | ✅           | ❌          |
-| const | ❌            | ❌           | ✅          |
+| 宣告方式 | 可重複宣告（Redeclaration） | 可重新賦值（Reassignment） | 是否需要初始值（Initializer） | 作用域（Scope）                            |
+| -------- | --------------------------- | -------------------------- | ----------------------------- | ------------------------------------------ |
+| let      | ❌ 不允許                   | ✅ 允許                    | ❌ 可省略                     | 區塊作用域（Block Scope）                  |
+| const    | ❌ 不允許                   | ❌ 不允許                  | ✅ 必須提供                   | 區塊作用域（Block Scope）                  |
+| var      | ✅ 允許                     | ✅ 允許                    | ❌ 可省略                     | 函式作用域（Function Scope）（不建議使用） |
+
+| Declaration Type | Redeclaration Allowed | Reassignment Allowed | Initializer Required | Scope                            |
+| ---------------- | --------------------- | -------------------- | -------------------- | -------------------------------- |
+| let              | ❌ No                 | ✅ Yes               | ❌ No                | Block Scope                      |
+| const            | ❌ No                 | ❌ No                | ✅ Yes               | Block Scope                      |
+| var              | ✅ Yes                | ✅ Yes               | ❌ No                | Function Scope (Not recommended) |
 
 **JavaScript 引擎中有一個稱為 garbage collector 的後台程式。它監視所有物件並刪除那些變得無法訪問的物件**
 
