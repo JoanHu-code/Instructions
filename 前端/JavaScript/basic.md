@@ -657,89 +657,89 @@ console.log(x + y); //+ is operator
     - `**`: 次方
     - `%`: 取餘數
 
-    ### 1️⃣ Assignment Operator
+    ### 1️⃣ 指派運算符
 
-| Operator | Description                   | Example      |
-| -------- | ----------------------------- | ------------ |
-| `=`      | Assigns a value to a variable | `let x = 5;` |
-
----
-
-### 2️⃣ Comparison Operators
-
-| Operator | Description                                                   | Example                                   |
-| -------- | ------------------------------------------------------------- | ----------------------------------------- |
-| `==`     | Returns `true` if operands are equal                          | `3 == 3` → `true`, `3 == 5` → `false`     |
-| `!=`     | Returns `true` if operands are not equal                      | `3 != 3` → `false`, `3 != 5` → `true`     |
-| `===`    | Returns `true` if operands are equal and of the same type     | `3 === 3` → `true`, `3 === "3"` → `false` |
-| `!==`    | Returns `true` if operands are of different type or not equal | `3 !== 3` → `false`, `3 !== "3"` → `true` |
-| `>`      | Returns `true` if the left operand is greater                 | `3 > 2` → `true`, `3 > 5` → `false`       |
-| `>=`     | Returns `true` if the left operand is greater or equal        | `3 >= 3` → `true`, `3 >= 5` → `false`     |
-| `<`      | Returns `true` if the left operand is less                    | `3 < 5` → `true`, `3 < 2` → `false`       |
-| `<=`     | Returns `true` if the left operand is less or equal           | `3 <= 5` → `true`, `3 <= 3` → `true`      |
+| 運算符 | 描述             | 範例       |
+| ------ | ---------------- | ---------- |
+| =      | 指派一個值給變數 | let x = 5; |
 
 ---
 
-### 3️⃣ Logical Operators
+### 2️⃣ 比較運算符
 
-| Operator | Description                                                                                                                    | Example                                            |
-| -------- | ------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------- | ------------------------------------------------------------ | -------- | --- | --------------------- | --- | -------------- |
-| `&&`     | **Logical AND** - Returns `true` if both operands are `true`.                                                                  | `true && true` → `true`, `true && false` → `false` |
-|          | ✅ If the left-hand side is `true`, it evaluates the right-hand side.                                                          | `5 && 10` → `10`                                   |
-|          | ✅ If the left-hand side is `false`, it evaluates and returns the left-hand side.                                              | `false && true` → `false`                          |
-| `        |                                                                                                                                | `                                                  | **Logical OR** - Returns `true` if either operand is `true`. | `true    |     | false`→`true`, `false |     | false`→`false` |
-|          | ✅ If the left-hand side can be converted to `true`, it returns the left-hand side; otherwise, it returns the right-hand side. | `5                                                 |                                                              | 0`→`5`   |
-|          |                                                                                                                                | `0                                                 |                                                              | 10`→`10` |
-
----
-
-### 4️⃣ Unary Operators
-
-| Operator | Description                              | Example                       |
-| -------- | ---------------------------------------- | ----------------------------- |
-| `typeof` | Checks the type of a variable or operand | `typeof "hello"` → `"string"` |
-| `!`      | Negates a Boolean value                  | `!true` → `false`             |
-| `++`     | Increments a number by 1                 | `x++` → `x + 1`               |
-| `--`     | Decrements a number by 1                 | `x--` → `x - 1`               |
+| 運算符 | 描述                                        | 範例                              |
+| ------ | ------------------------------------------- | --------------------------------- |
+| ==     | 如果運算元相等，則返回 true                 | 3 == 3 → true, 3 == 5 → false     |
+| !=     | 如果運算元不相等，則返回 true               | 3 != 3 → false, 3 != 5 → true     |
+| ===    | 如果運算元相等並且類型相同，則返回 true     | 3 === 3 → true, 3 === "3" → false |
+| !==    | 如果運算元類型不同或不相等，則返回 true     | 3 !== 3 → false, 3 !== "3" → true |
+| >      | 如果左邊的運算元大於右邊，則返回 true       | 3 > 2 → true, 3 > 5 → false       |
+| >=     | 如果左邊的運算元大於或等於右邊，則返回 true | 3 >= 3 → true, 3 >= 5 → false     |
+| <      | 如果左邊的運算元小於右邊，則返回 true       | 3 < 5 → true, 3 < 2 → false       |
+| <=     | 如果左邊的運算元小於或等於右邊，則返回 true | 3 <= 5 → true, 3 <= 3 → true      |
 
 ---
 
-### 5️⃣ Bitwise Operators
+### 3️⃣ 邏輯運算符
 
-| Operator | Description                                                                   | Example                                                  |
-| -------- | ----------------------------------------------------------------------------- | -------------------------------------------------------- | --- | ------- |
-| `&`      | **AND** - Returns `1` only if both corresponding bits are `1`.                | `10 & 9` → `8`                                           |
-| `        | `                                                                             | **OR** - Returns `1` if either corresponding bit is `1`. | `10 | 9`→`11` |
-| `^`      | **XOR** - Returns `1` if the corresponding bits are different (exclusive OR). | `10 ^ 9` → `3`                                           |
-| `~`      | **NOT** - Inverts each bit of the operand.                                    | `~10` → `5`                                              |
-| `<<`     | **Left Shift** - Shifts bits to the left by specified positions.              | `10 << 9` → `5120`                                       |
-| `>>`     | **Right Shift** - Shifts bits to the right by specified positions.            | `10 >> 1` → `5`                                          |
-
----
-
-### Supplement:
-
-| Description                                                                                               | Example               |
-| --------------------------------------------------------------------------------------------------------- | --------------------- |
-| In the decimal system, digits `{0, 1, 2, 3, 4, 5, 6, 7, 8, 9}` are used. When reaching 10, we carry over. | Example: `9 + 1 = 10` |
-| In the binary system, digits `{0, 1}` are used. When reaching 2, we carry over.                           | Example: `1 + 1 = 10` |
+| 運算符 | 描述                                                                   | 範例                                       |
+| ------ | ---------------------------------------------------------------------- | ------------------------------------------ | ------------------------------------------------- | ------- | --- | ------------------- | --- | ------------- |
+| &&     | **邏輯與** - 如果兩個運算元都為 true，則返回 true。                    | true && true → true, true && false → false |
+|        | ✅ 如果左邊為 true，則會評估右邊並返回其值。                           | 5 && 10 → 10                               |
+|        | ✅ 如果左邊為 false，則返回左邊的值。                                  | false && true → false                      |
+|        |                                                                        |                                            | **邏輯或** - 如果任一運算元為 true，則返回 true。 | true    |     | false → true, false |     | false → false |
+|        | ✅ 如果左邊的運算元可以轉換為 true，則返回左邊的值；否則返回右邊的值。 | 5                                          |                                                   | 0 → 5   |
+|        |                                                                        | 0                                          |                                                   | 10 → 10 |
 
 ---
 
-### Arithmetic Operators
+### 4️⃣ 一元運算符
 
-| Operator | Description                    | Example                |
-| -------- | ------------------------------ | ---------------------- |
-| `+`      | Adds two numbers               | `5 + 3` → `8`          |
-| `-`      | Subtracts two numbers          | `5 - 3` → `2`          |
-| `*`      | Multiplies two numbers         | `5 * 3` → `15`         |
-| `/`      | Divides two numbers            | `5 / 2` → `2.5`        |
-| `+=`     | Adds and assigns a value       | `x += 5` → `x = x + 5` |
-| `-=`     | Subtracts and assigns a value  | `x -= 3` → `x = x - 3` |
-| `/=`     | Divides and assigns a value    | `x /= 2` → `x = x / 2` |
-| `*=`     | Multiplies and assigns a value | `x *= 4` → `x = x * 4` |
-| `**`     | Exponentiation (power)         | `2 ** 3` → `8`         |
-| `%`      | Modulo (remainder)             | `5 % 2` → `1`          |
+| 運算符 | 描述                   | 範例                      |
+| ------ | ---------------------- | ------------------------- |
+| typeof | 檢查變數或運算元的類型 | typeof "hello" → "string" |
+| !      | 否定一個布林值         | !true → false             |
+| ++     | 將數字遞增 1           | x++ → x + 1               |
+| --     | 將數字遞減 1           | x-- → x - 1               |
+
+---
+
+### 5️⃣ 位元運算符
+
+| 運算符 | 描述                                                     | 範例                                          |
+| ------ | -------------------------------------------------------- | --------------------------------------------- | --- | ------ |
+| &      | **與** - 只有當兩個對應的位元都為 1 時，才返回 1。       | 10 & 9 → 8                                    |
+|        |                                                          | **或** - 只要對應的位元有一個為 1，就返回 1。 | 10  | 9 → 11 |
+| ^      | **異或** - 只有當對應的位元不同時，才返回 1 (排他性或)。 | 10 ^ 9 → 3                                    |
+| ~      | **非** - 反轉運算元的每一個位元。                        | ~10 → 5                                       |
+| <<     | **左移** - 將位元向左移動指定的位數。                    | 10 << 9 → 5120                                |
+| >>     | **右移** - 將位元向右移動指定的位數。                    | 10 >> 1 → 5                                   |
+
+---
+
+### 補充：
+
+| 描述                                                                              | 範例              |
+| --------------------------------------------------------------------------------- | ----------------- |
+| 在十進制系統中，使用數字 {0, 1, 2, 3, 4, 5, 6, 7, 8, 9}，當數字達到 10 時，進位。 | 範例： 9 + 1 = 10 |
+| 在二進制系統中，使用數字 {0, 1}，當數字達到 2 時，進位。                          | 範例： 1 + 1 = 10 |
+
+---
+
+### 算術運算符
+
+| 運算符 | 描述           | 範例               |
+| ------ | -------------- | ------------------ |
+| +      | 將兩個數字相加 | 5 + 3 → 8          |
+| -      | 將兩個數字相減 | 5 - 3 → 2          |
+| \*     | 將兩個數字相乘 | 5 \* 3 → 15        |
+| /      | 將兩個數字相除 | 5 / 2 → 2.5        |
+| +=     | 加法並賦值     | x += 5 → x = x + 5 |
+| -=     | 減法並賦值     | x -= 3 → x = x - 3 |
+| /=     | 除法並賦值     | x /= 2 → x = x / 2 |
+| \*=    | 乘法並賦值     | x _= 4 → x = x _ 4 |
+| \*\*   | 指數運算（冪） | 2 \*\* 3 → 8       |
+| %      | 取餘數（餘數） | 5 % 2 → 1          |
 
 # 第六章 if statement
 
