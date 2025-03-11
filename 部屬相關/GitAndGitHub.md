@@ -620,3 +620,5 @@ git diff --cached
 - Nobody should work on Master branch directly.
 - We work on our own branch, that branch could be a feature branch or a bugfix branch.
 - Always try to merge your own branch to master branch when you think your job is done.
+
+## Git Merge - Fast Forward
