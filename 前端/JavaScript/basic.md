@@ -1341,17 +1341,12 @@ console.log(returnValue2); //8;
 | `arr.shift()`                          | Removes the **first** element from an array and returns it.                            | O(n)            | `js let friends = ["Grace", "Mike", "Spencer", "Esther", "Slade"]; const returnValue = friends.shift(); console.log(friends); // ["Mike", "Spencer", "Esther", "Slade"] console.log(returnValue); // "Grace" `                      |
 | `arr.unshift(element1, element2, ...)` | Adds one or more elements to the **beginning** of an array and returns the new length. | O(n)            | `js let friends = ["Grace", "Mike", "Spencer", "Esther", "Slade"]; const returnValue = friends.unshift("Jared"); console.log(friends); // ["Jared", "Grace", "Mike", "Spencer", "Esther", "Slade"] console.log(returnValue); // 6 ` |
 
-
-# 陣列方法: pop(), push(), shift(), unshift()
-
-| 方法 | 描述 | 時間複雜度 | 範例 |
-|------|------|----------|------|
-| `arr.pop()` | 移除陣列的**最後一個**元素並返回該元素。 | O(1) | ```js let friends = ["Grace", "Mike", "Spencer", "Esther", "Slade"]; const returnValue = friends.pop(); console.log(friends); // ["Grace", "Mike", "Spencer", "Esther"] console.log(returnValue); // "Slade" ``` |
-| `arr.push(element1, element2, ...)` | 在陣列的**末尾**新增一個或多個元素，並返回新的陣列長度。 | O(1) | ```js let friends = ["Grace", "Mike", "Spencer", "Esther", "Slade"]; const returnValue = friends.push("Jared"); console.log(friends); // ["Grace", "Mike", "Spencer", "Esther", "Slade", "Jared"] console.log(returnValue); // 6 ``` |
-| `arr.shift()` | 移除陣列的**第一個**元素並返回該元素。 | O(n) | ```js let friends = ["Grace", "Mike", "Spencer", "Esther", "Slade"]; const returnValue = friends.shift(); console.log(friends); // ["Mike", "Spencer", "Esther", "Slade"] console.log(returnValue); // "Grace" ``` |
-| `arr.unshift(element1, element2, ...)` | 在陣列的**開頭**新增一個或多個元素，並返回新的陣列長度。 | O(n) | ```js let friends = ["Grace", "Mike", "Spencer", "Esther", "Slade"]; const returnValue = friends.unshift("Jared"); console.log(friends); // ["Jared", "Grace", "Mike", "Spencer", "Esther", "Slade"] console.log(returnValue); // 6 ``` |
-
-
+| 方法                                   | 描述                                                     | 時間複雜度 | 範例                                                                                                                                                                                                                                |
+| -------------------------------------- | -------------------------------------------------------- | ---------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `arr.pop()`                            | 移除陣列的**最後一個**元素並返回該元素。                 | O(1)       | `js let friends = ["Grace", "Mike", "Spencer", "Esther", "Slade"]; const returnValue = friends.pop(); console.log(friends); // ["Grace", "Mike", "Spencer", "Esther"] console.log(returnValue); // "Slade" `                        |
+| `arr.push(element1, element2, ...)`    | 在陣列的**末尾**新增一個或多個元素，並返回新的陣列長度。 | O(1)       | `js let friends = ["Grace", "Mike", "Spencer", "Esther", "Slade"]; const returnValue = friends.push("Jared"); console.log(friends); // ["Grace", "Mike", "Spencer", "Esther", "Slade", "Jared"] console.log(returnValue); // 6 `    |
+| `arr.shift()`                          | 移除陣列的**第一個**元素並返回該元素。                   | O(n)       | `js let friends = ["Grace", "Mike", "Spencer", "Esther", "Slade"]; const returnValue = friends.shift(); console.log(friends); // ["Mike", "Spencer", "Esther", "Slade"] console.log(returnValue); // "Grace" `                      |
+| `arr.unshift(element1, element2, ...)` | 在陣列的**開頭**新增一個或多個元素，並返回新的陣列長度。 | O(n)       | `js let friends = ["Grace", "Mike", "Spencer", "Esther", "Slade"]; const returnValue = friends.unshift("Jared"); console.log(friends); // ["Jared", "Grace", "Mike", "Spencer", "Esther", "Slade"] console.log(returnValue); // 6 ` |
 
 **當 Array 內部的元素有 Array 時，就被稱為是 array of arrays**
 
@@ -1471,6 +1466,75 @@ console.log(Array.isArray(arr));
 | **Definition**     | Does not belong to any object (Object)                        | Belongs to an object as a function         |
 | **this Reference** | Refers to the `window` object (or `undefined` in strict mode) | Refers to the object that owns the method  |
 | **Call Method**    | Called directly, e.g., `func()`                               | Called via an object, e.g., `obj.method()` |
+
+# ⭐ JavaScript Reference Data Types - Object
+
+## 🧐 What is an Object?
+
+| Feature        | Description                         |
+| -------------- | ----------------------------------- |
+| **Properties** | Key-value pairs that store data.    |
+| **Methods**    | Functions that belong to an object. |
+
+## 🔹 Ways to Access Object Properties
+
+| Notation             | Syntax               | Example                |
+| -------------------- | -------------------- | ---------------------- |
+| **Dot Notation**     | `object.property`    | `profile.firstName`    |
+| **Bracket Notation** | `object["property"]` | `profile["firstName"]` |
+
+## 🔹 JavaScript Objects as Hash Tables
+
+### 🧐 What is a Hash Table?
+
+| Feature           | Description                                    |
+| ----------------- | ---------------------------------------------- |
+| **Definition**    | A data structure that stores key-value pairs.  |
+| **Hash Function** | Computes an index to store values efficiently. |
+
+### 🔥 Key Features of a Hash Table
+
+| Feature                       | Description                                  |
+| ----------------------------- | -------------------------------------------- |
+| 🔹 **Fast Lookups (O(1))**    | Quick access for search, insert, and delete. |
+| 🔹 **Key-Value Pairs**        | Data is stored in pairs.                     |
+| 🔹 **Efficient Memory Usage** | A hash function maps data directly.          |
+| 🔹 **Collision Handling**     | Uses chaining or open addressing.            |
+
+### 🔧 How a Hash Table Works
+
+| Step          | Description                             |
+| ------------- | --------------------------------------- |
+| **Hashing**   | Converts a key into an index.           |
+| **Storage**   | Stores the value at the computed index. |
+| **Retrieval** | Uses the hash function to find values.  |
+
+## 🔹 `this` Keyword
+
+| Context               | `this` refers to                      |
+| --------------------- | ------------------------------------- |
+| **Inside a method**   | The object that calls the method.     |
+| **Inside a function** | The global `window` object (browser). |
+
+## 🔹 Difference Between Function and Method
+
+| Type         | Description                           |
+| ------------ | ------------------------------------- |
+| **Function** | Independent, not tied to an object.   |
+| **Method**   | A function that belongs to an object. |
+
+## ✅ Arrays and Functions Are Also Objects
+
+| Feature       | Description                              |
+| ------------- | ---------------------------------------- |
+| **Arrays**    | Have properties & methods like `.push()` |
+| **Functions** | Special objects with callable behavior.  |
+
+## 🧐 How to Check if a Variable is an Array?
+
+```js
+Array.isArray(variable);
+```
 
 # 第十三章 Math Object
 
