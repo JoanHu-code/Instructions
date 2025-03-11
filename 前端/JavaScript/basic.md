@@ -1334,6 +1334,25 @@ console.log(friends); //["Marry","Joan", "Grace", "Mike", "Spencer", "Esther", "
 console.log(returnValue2); //8;
 ```
 
+| Method                                 | Description                                                                            | Time Complexity | Example                                                                                                                                                                                                                             |
+| -------------------------------------- | -------------------------------------------------------------------------------------- | --------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `arr.pop()`                            | Removes the **last** element from an array and returns it.                             | O(1)            | `js let friends = ["Grace", "Mike", "Spencer", "Esther", "Slade"]; const returnValue = friends.pop(); console.log(friends); // ["Grace", "Mike", "Spencer", "Esther"] console.log(returnValue); // "Slade" `                        |
+| `arr.push(element1, element2, ...)`    | Adds one or more elements to the **end** of an array and returns the new length.       | O(1)            | `js let friends = ["Grace", "Mike", "Spencer", "Esther", "Slade"]; const returnValue = friends.push("Jared"); console.log(friends); // ["Grace", "Mike", "Spencer", "Esther", "Slade", "Jared"] console.log(returnValue); // 6 `    |
+| `arr.shift()`                          | Removes the **first** element from an array and returns it.                            | O(n)            | `js let friends = ["Grace", "Mike", "Spencer", "Esther", "Slade"]; const returnValue = friends.shift(); console.log(friends); // ["Mike", "Spencer", "Esther", "Slade"] console.log(returnValue); // "Grace" `                      |
+| `arr.unshift(element1, element2, ...)` | Adds one or more elements to the **beginning** of an array and returns the new length. | O(n)            | `js let friends = ["Grace", "Mike", "Spencer", "Esther", "Slade"]; const returnValue = friends.unshift("Jared"); console.log(friends); // ["Jared", "Grace", "Mike", "Spencer", "Esther", "Slade"] console.log(returnValue); // 6 ` |
+
+
+# 陣列方法: pop(), push(), shift(), unshift()
+
+| 方法 | 描述 | 時間複雜度 | 範例 |
+|------|------|----------|------|
+| `arr.pop()` | 移除陣列的**最後一個**元素並返回該元素。 | O(1) | ```js let friends = ["Grace", "Mike", "Spencer", "Esther", "Slade"]; const returnValue = friends.pop(); console.log(friends); // ["Grace", "Mike", "Spencer", "Esther"] console.log(returnValue); // "Slade" ``` |
+| `arr.push(element1, element2, ...)` | 在陣列的**末尾**新增一個或多個元素，並返回新的陣列長度。 | O(1) | ```js let friends = ["Grace", "Mike", "Spencer", "Esther", "Slade"]; const returnValue = friends.push("Jared"); console.log(friends); // ["Grace", "Mike", "Spencer", "Esther", "Slade", "Jared"] console.log(returnValue); // 6 ``` |
+| `arr.shift()` | 移除陣列的**第一個**元素並返回該元素。 | O(n) | ```js let friends = ["Grace", "Mike", "Spencer", "Esther", "Slade"]; const returnValue = friends.shift(); console.log(friends); // ["Mike", "Spencer", "Esther", "Slade"] console.log(returnValue); // "Grace" ``` |
+| `arr.unshift(element1, element2, ...)` | 在陣列的**開頭**新增一個或多個元素，並返回新的陣列長度。 | O(n) | ```js let friends = ["Grace", "Mike", "Spencer", "Esther", "Slade"]; const returnValue = friends.unshift("Jared"); console.log(friends); // ["Jared", "Grace", "Mike", "Spencer", "Esther", "Slade"] console.log(returnValue); // 6 ``` |
+
+
+
 **當 Array 內部的元素有 Array 時，就被稱為是 array of arrays**
 
 ```js
