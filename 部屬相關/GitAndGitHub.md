@@ -5,6 +5,9 @@
 - [mac 系統環境準備](#mac-系統環境準備)
 - [Git 基本原理介紹](#Git-基本原理介紹)
 - [Git 分支和 HEAD](#Git-分支和-HEAD)
+- [Git diff](#Git-diff)
+- [Git checkout 和 git restore](#Git-checkout-和-git-restore)
+- [Git branch 和 git merge](#Git-branch-和-git-merge)
 
 # Git 介紹
 
@@ -545,14 +548,75 @@ mkdir git-test
       ![git branch](../img/git/64.png)
     - 若刪除後，那在此分支上建立還沒合併的檔案是不會被刪除的
       ![git branch](../img/git/65.png)
+  - git checkout -b `<branch_name>`: checkout a branch, will create that branch if it doesn't exist.
+    ![git branch](../img/git/75.png)
+  - git switch -c `<branch_name>` : checkout a branch, will create that branch if it doesn't exist
+    ![git branch](../img/git/76.png)
+  - git branch -m `<old_name>` `<new_name>`: rename branch with new name
+    ![git branch](../img/git/77.png)
 
 - 新增新的 commit 的操作
   ![git branch](../img/git/61.png)
 
 - **在 git 裡面所做的操作，例如分支的刪除，指是刪除了指向某個特定 commit 的指針而已，本身文件並沒有被刪除，因此如果不小心誤刪了，指要找回原本的 commit 即可復原**
+
   - 要如何找到誤刪的分支呢？
     - 可以去 object 檔案，用`git cat-file -p <SHA1>`一個個去查看（很笨的方法）
     - 使用`git reflog`查看之前的操作，包括之前刪除的分支
       ![git branch](../img/git/72.png)
       ![git branch](../img/git/73.png)
       ![git branch](../img/git/74.png)
+
+- 分支的刪除，到底刪除了什麼？
+  - 刪除了`.git/refs/heads/`裡面的分支名稱檔案
+  - 刪除了`.git/logs/refs/heads`裡面的分支名稱檔案
+
+# Git diff
+
+> 可看文檔差別
+
+- 比對 Working directory 和 Staging Area(index)的不同
+
+  ```shell
+  git diff
+  ```
+
+  - 如何對比區別？
+
+    - 對比 index(索引) blob object，來看是否有區別
+      ![git branch](../img/git/78.png)
+
+    - 9001211: Staging Area（Index）中 dev.txt 的版本
+    - 199284c:屬於在本地（Working directory）中 dev.txt 的版本
+    - `-`: 代表 Staging Area(index)
+    - `+`: 代表 Working directory
+    - `@@ -1 +1,3 @@`: 顯示 Staging Area(index)）版本的第一行，在 Working directory 版本的第一行後面數三行內容
+      ![git branch](../img/git/79.png)
+
+- 比對當前 Staging Area(index)和存放庫(repository)的不同
+
+```shell
+git diff --cached
+```
+
+![git branch](../img/git/80.png)
+
+- 9001211 Staging Area（Index）中 dev.txt 的版本
+- 199284c HEAD（Repository 中最新 Commit）的版本
+- `-`: 代表 Staging Area(index)
+- `+`: 代表 HEAD（Repository 中最新 Commit）的版本
+- `@@ -1 +1,3 @@`: 顯示 Staging Area(index)）版本的第一行，在 HEAD（Repository 中最新 Commit）版本的第一行後面數三行內容
+  ![git branch](../img/git/79.png)
+
+# Git checkout 和 git restore
+
+- git restore: 可以回溯到檔案未改的階段
+  ![git branch](../img/git/81.png)
+- git checkout: 也可以回溯到檔案未改的階段
+  ![git branch](../img/git/82.png)
+
+# Git branch 和 git merge
+
+- Nobody should work on Master branch directly.
+- We work on our own branch, that branch could be a feature branch or a bugfix branch.
+- Always try to merge your own branch to master branch when you think your job is done.
