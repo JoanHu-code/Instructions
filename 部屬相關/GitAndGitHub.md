@@ -285,7 +285,7 @@ mkdir git-test
           ```shell
           git cat-file -s "前六位數(包含最一開始資料夾)"
           ```
-          ![add file](../img/git/25.png)
+          ![add file](../img/git/22.png)
 
       - 哈希演算法: 將任意長度的輸入（通常稱為消息或數據）通過雜湊算法轉換為固定長度的輸出（稱為雜湊值或哈希值）。這個過程是不可逆的，即無法從哈希值還原原始輸入。
         - [MD5 128bit](https://passwordsgenerator.net/md5-hash-generator) - 不安全已被破解(驗證文件完整性)
