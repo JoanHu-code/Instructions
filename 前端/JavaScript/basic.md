@@ -645,6 +645,7 @@ console.log(x + y); //+ is operator
       - [轉換網址](https://www.rapidtables.com/convert/number/binary-to-decimal.html)
 
   - arithmetic operator:
+
     - `+`: 兩數相加
     - `-`: 兩數相減
     - `*`: 兩數相乘
@@ -655,6 +656,21 @@ console.log(x + y); //+ is operator
     - `*=`: 單數乘值
     - `**`: 次方
     - `%`: 取餘數
+
+### 算術運算符
+
+| 運算符 | 描述           | 範例                   |
+| ------ | -------------- | ---------------------- |
+| `+`    | 將兩個數字相加 | `5 + 3` → `8`          |
+| `-`    | 將兩個數字相減 | `5 - 3` → `2`          |
+| `*`    | 將兩個數字相乘 | `5 * 3` → `15`         |
+| `/`    | 將兩個數字相除 | `5 / 2` → `2.5`        |
+| `+=`   | 加法並賦值     | `x += 5` → `x = x + 5` |
+| `-=`   | 減法並賦值     | `x -= 3` → `x = x - 3` |
+| `/=`   | 除法並賦值     | `x /= 2` → `x = x / 2` |
+| `*=`   | 乘法並賦值     | `x *= 4` → `x = x * 4` |
+| `**`   | 指數運算（冪） | `2 ** 3` → `8`         |
+| `%`    | 取餘數（餘數） | `5 % 2` → `1`          |
 
 # 第六章 if statement
 
@@ -1245,7 +1261,7 @@ let anotherArray = [null, false, "This is a string", 3.14159, undefined];
   console.log(arr1 == arr2); //false
   ```
 
-  ![reference data type](../../img/javascript/13.png)
+  ![comparison operator](../../img/javascript/13.png)
 
   ```js
   let arr1 = [1, 2, 3];
