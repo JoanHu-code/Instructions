@@ -622,3 +622,57 @@ git diff --cached
 - Always try to merge your own branch to master branch when you think your job is done.
 
 ## Git Merge - Fast Forward
+
+1. 切換到被合併的分支
+
+```shell
+git checkout <margerdBranch>
+```
+
+2. 之後打以下指令就可以把，branchName 給合併進來
+
+```shell
+git merge <branchName>
+```
+
+![git branch](../img/git/87.png)
+![git branch](../img/git/86.png)
+
+- 例如我們要把 dev 的分支給合併到 master 裡面
+
+1. 先切換到 master 分支
+
+```shell
+git checkout master
+```
+
+2. 輸入指令，把 dev 分支合併進來
+
+```shell
+git merge dev
+```
+
+![git branch](../img/git/85.png)
+
+3. 結果: 會在`.git`裡面新增加一個較 ORIG_HEAD 的檔案，他會保留 master 合併前所指向的 commit，以防我們 merge 錯誤還可以回溯
+
+### Fast Forward 條件:
+
+1. 目標分支沒有新的提交：目標分支（例如 master）的提交紀錄完全沒有被其他提交改動過，並且源分支（例如 feature）的提交可以被視為目標分支的延伸。
+2. 源分支是目標分支的祖先：這表示在進行合併時，源分支的所有提交歷史可以直接“覆蓋”目標分支，不需要進行合併處理。
+
+## Git Merge - 3 way merge
+
+3 way merge: 當要 merge 的分支的 commit 不是指向前一個分支時，就需要用到 3 way merge
+![git branch](../img/git/88.png)
+![git branch](../img/git/91.png)
+
+- 如果在這種情況下直接使用`git merge <branch>`指令，會發現多新增了一個 commit， dev 沒有變化，但 master 卻跑到了新產出的 commit 上
+
+![git branch](../img/git/89.png)
+
+![git branch](../img/git/90.png)
+
+- 新產生的 commit 有兩個 parent tree， 其中一個是 dev 目前的 commit，而另一個是 master 之前的 commit
+
+- 若同時修改兩個 parent tree 裡的相同文件，會產生衝突，這時就需要人工介入去解決此衝突
