@@ -364,7 +364,120 @@ mkdir git-test
       - ![git index](../img/git/39.png)
 
 - Git 的文件狀態:
+
   1. Untracked: 在 Working directory 新創建一個文件時(當前不在 Staging Area(index)裡面)，使用 git add 可以讓狀態變成 Staged
   2. Modified: 文件已是 staged 狀態(在 Staging Area(index)裡)，但卻在 Working directory 裡面進行修改，導致 Staging Area(index)和 Working directory 裡的文件不同步，需要重新使用 git add 可以讓狀態再變成 Staged
-  3. Unmodified:讓程式碼用 git commit 指令，從 Staging Area(index)同步到 resporsity
+  3. Staged: orking directory 和 resporsity 之間的狀態
+  4. Unmodified:讓程式碼用 git commit 指令，從 Staging Area(index)同步到 resporsity
      ![狀態](../img/git/42.png)
+
+  - 逆向推回 untracked 狀態:
+
+    1. rm: 把文件從 Staging Area(index)裡面刪除
+
+    - 從 Staged 變成 Untracked
+
+      ```shell
+      git rm --cached hello.txt
+      ```
+
+      - ![狀態](../img/git/44.png)
+
+      之後還是要用`git restore`指令，把 Working directory，只動 Staging Area(index)變成同步
+
+    2. 如果 Modified 或 Untracked 已經變成 Staged，但想反悔的話，有兩種方法
+
+       - 去修改 Working directory 的文件，把他變成跟修改前的一樣，在重新推上去
+       - 不去動 Working directory，只動 Staging Area(index) 的指向，把它只回上一個 blob object，那就會回到之前的狀態，而在 Working directory 也保留了之前的修改
+
+         ```shell
+         git restore --staged hello.txt
+         ```
+
+       - 上面因為在 Working directory 保留了之前的修改，因此可以用下列指令來讓 Working directory 和 Staging Area(index)進行同步
+
+         ```shell
+         git restore  hello.txt
+         ```
+
+         - ![狀態](../img/git/43.png)
+         - ![狀態](../img/git/45.png)
+
+- Git 的 log 查看提交歷史
+
+  - 查看所有 commit 的歷史: 由新到舊顯示
+
+    ```shell
+    git log
+    ```
+
+    ![git log](../img/git/46.png)
+
+  - 每個 commit 通過一行去顯示
+
+    ```shell
+    git log --oneline
+    ```
+
+    ![git log](../img/git/47.png)
+
+  - 限制 log 顯示的數量，例如想看最近兩次
+
+    ```shell
+    git log -2
+    ```
+
+    ![git log](../img/git/48.png)
+
+    ```shell
+    git log --oneline -2
+    ```
+
+  - 看指定時間
+
+    ```shell
+    git log --after='2025-03-10'
+    ```
+
+    > 包含輸入的日期
+
+    ![git log](../img/git/49.png)
+
+    ```shell
+    git log --before='2025-03-10'
+    ```
+
+    > 不包含輸入的日期
+
+  - 按照作者進行總結
+
+    ```shell
+    git shortlog
+    ```
+
+    ![git log](../img/git/50.png)
+
+  - 顯示更多內容
+
+    ```shell
+    git log --stat
+    ```
+
+    ![git log](../img/git/51.png)
+
+  - 更多使用指令
+
+    ```shell
+    git help
+    ```
+
+## 總結
+
+- Git Basic Commands:
+  - git init: initialize an emoty git reposity
+  - git status: show the working tree status
+  - git add: add file contents to the index
+  - git rm: remove files from the working tree and from the index
+  - git restore: restire working tree files
+  - git commit: records the changes to repository
+  - git log: show commit logs
