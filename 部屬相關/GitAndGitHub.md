@@ -506,3 +506,32 @@ mkdir git-test
       ![git init](../img/git/53.png)
   - 實作  
      ![git init](../img/git/54.png)
+- Git Branch
+
+  - git branch: list and branches we have
+    - `*`: 為當前在的分支
+      ![git branch](../img/git/55.png)
+  - git branch `<branch_name>`: create a branch with branch_name, if there already have branch with the name you want to create, it will return error.
+    ![git branch](../img/git/56.png)
+    ![git branch](../img/git/57.png)
+
+    > dev 碰巧也是指向相同的 commit 所以才會顯示出來
+
+    - dev 到底存在哪裡呢？它會存在`.git/refs/heads/`裡面
+      ![git branch](../img/git/58.png)
+    - 目前在 master 分支
+      ![git branch](../img/git/59.png)
+
+  - git checkout: change the current active branch
+    ![git branch](../img/git/60.png)
+  - git branch -D `<branch_name>`: delete branch, cannot delete current active branch or branch not existing
+    ![git branch](../img/git/62.png)
+    - `-d`或`--delete`: 非強制刪除，若沒合併會報錯
+      ![git branch](../img/git/63.png)
+    - `-D`: 強制刪除，不會報任何的錯誤，會強制刪除
+      ![git branch](../img/git/64.png)
+    - 若刪除後，那在此分支上建立還沒合併的檔案是不會被刪除的
+      ![git branch](../img/git/65.png)
+
+- 新增新的 commit 的操作
+  ![git branch](../img/git/61.png)
