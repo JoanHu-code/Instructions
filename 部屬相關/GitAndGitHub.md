@@ -524,6 +524,19 @@ mkdir git-test
 
   - git checkout: change the current active branch
     ![git branch](../img/git/60.png)
+    - git checkout 不只可以切換分支，也可以切換到特定的 commit，這種切換叫做 detached HEAD
+      ```shell
+      git checkout <SHA1>
+      ```
+      ![git branch](../img/git/66.png)
+      ![git branch](../img/git/67.png)
+      ![git branch](../img/git/68.png)
+      - 如果在非分支的 commit 進行修改，要保存的話有兩個方法
+        - 用`git switch -c <new-branch-name>`來創立新的分支並再做任何的修改與 commit
+          ![git branch](../img/git/70.png)
+          ![git branch](../img/git/71.png)
+        - 用`git checkout -b <new-branch-name>`來建立新的分支後再做任何的修改與 commit
+          ![git branch](../img/git/69.png)
   - git branch -D `<branch_name>`: delete branch, cannot delete current active branch or branch not existing
     ![git branch](../img/git/62.png)
     - `-d`或`--delete`: 非強制刪除，若沒合併會報錯
@@ -535,3 +548,11 @@ mkdir git-test
 
 - 新增新的 commit 的操作
   ![git branch](../img/git/61.png)
+
+- **在 git 裡面所做的操作，例如分支的刪除，指是刪除了指向某個特定 commit 的指針而已，本身文件並沒有被刪除，因此如果不小心誤刪了，指要找回原本的 commit 即可復原**
+  - 要如何找到誤刪的分支呢？
+    - 可以去 object 檔案，用`git cat-file -p <SHA1>`一個個去查看（很笨的方法）
+    - 使用`git reflog`查看之前的操作，包括之前刪除的分支
+      ![git branch](../img/git/72.png)
+      ![git branch](../img/git/73.png)
+      ![git branch](../img/git/74.png)
