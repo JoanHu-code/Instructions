@@ -4,6 +4,7 @@
 - [win10 系統環境準備](#win10-系統環境準備)
 - [mac 系統環境準備](#mac-系統環境準備)
 - [Git 基本原理介紹](#Git-基本原理介紹)
+- [Git 分支和 HEAD](#Git-分支和-HEAD)
 
 # Git 介紹
 
@@ -481,3 +482,27 @@ mkdir git-test
   - git restore: restire working tree files
   - git commit: records the changes to repository
   - git log: show commit logs
+- Git Low Level Commands
+  - git cat-file `<SHA1>`
+    - `-t`: git object type
+    - `-s`: git object size
+    - `-p`: git object content
+  - git ls-files
+    - `-s`: show staged content' mode bits, object name and stage number in the output
+
+# Git 分支和 HEAD
+
+- 到底什麼是分支?
+  - 分支是一個有名字的指針，會指向特定的 commit(Branches are named pointers to commits)
+    ![git init](../img/git/52.png)
+  - 因為 commit 是一串亂碼，由 SHA1 產生不好記，所以才特定幫他們取了名字，而這名字就是分支，分支必須永遠指向最新的 commit 這樣會產生兩個問題：
+    - 需要有地方存儲分支當前指向哪個 commit
+    - 有不同的分支就需要有切換分支的功能，在切換之前需要先標示當前在哪個分支
+- Master branch and HEAD
+  - Master 是一個預設分支，會自動在 git init 後生成(Master is a branch, the canonical mainline branch by default)
+  - HEAD 是一個特別的指針(HEAD is a special pointer)，他有兩個功能
+    - 永遠指向最新的 commit (Always point to the latest commit)
+    - 顯示當前所在的分支名稱 (Related with current active branch)
+      ![git init](../img/git/53.png)
+  - 實作  
+     ![git init](../img/git/54.png)
