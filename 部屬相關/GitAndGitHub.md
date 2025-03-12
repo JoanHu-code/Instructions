@@ -527,19 +527,20 @@ mkdir git-test
 
   - git checkout: change the current active branch
     ![git branch](../img/git/60.png)
+
     - git checkout 不只可以切換分支，也可以切換到特定的 commit，這種切換叫做 detached HEAD
-      ```shell
-      git checkout <SHA1>
-      ```
-      ![git branch](../img/git/66.png)
-      ![git branch](../img/git/67.png)
-      ![git branch](../img/git/68.png)
-      - 如果在非分支的 commit 進行修改，要保存的話有兩個方法
-        - 用`git switch -c <new-branch-name>`來創立新的分支並再做任何的修改與 commit
-          ![git branch](../img/git/70.png)
-          ![git branch](../img/git/71.png)
-        - 用`git checkout -b <new-branch-name>`來建立新的分支後再做任何的修改與 commit
-          ![git branch](../img/git/69.png)
+
+    ![git branch](../img/git/66.png)
+    ![git branch](../img/git/67.png)
+    ![git branch](../img/git/68.png)
+
+    - 如果在非分支的 commit 進行修改，要保存的話有兩個方法
+      - 用`git switch -c <new-branch-name>`來創立新的分支並再做任何的修改與 commit
+        ![git branch](../img/git/70.png)
+        ![git branch](../img/git/71.png)
+      - 用`git checkout -b <new-branch-name>`來建立新的分支後再做任何的修改與 commit
+        ![git branch](../img/git/69.png)
+
   - git branch -D `<branch_name>`: delete branch, cannot delete current active branch or branch not existing
     ![git branch](../img/git/62.png)
     - `-d`或`--delete`: 非強制刪除，若沒合併會報錯
@@ -577,21 +578,21 @@ mkdir git-test
 
 - 比對 Working directory 和 Staging Area(index)的不同
 
-  ```shell
-  git diff
-  ```
+```shell
+git diff
+```
 
-  - 如何對比區別？
+- 如何對比區別？
 
-    - 對比 index(索引) blob object，來看是否有區別
-      ![git branch](../img/git/78.png)
+  - 對比 index(索引) blob object，來看是否有區別
+    ![git branch](../img/git/78.png)
 
-    - 9001211: Staging Area（Index）中 dev.txt 的版本
-    - 199284c:屬於在本地（Working directory）中 dev.txt 的版本
-    - `-`: 代表 Staging Area(index)
-    - `+`: 代表 Working directory
-    - `@@ -1 +1,3 @@`: 顯示 Staging Area(index)）版本的第一行，在 Working directory 版本的第一行後面數三行內容
-      ![git branch](../img/git/79.png)
+  - 9001211: Staging Area（Index）中 dev.txt 的版本
+  - 199284c:屬於在本地（Working directory）中 dev.txt 的版本
+  - `-`: 代表 Staging Area(index)
+  - `+`: 代表 Working directory
+  - `@@ -1 +1,3 @@`: 顯示 Staging Area(index)）版本的第一行，在 Working directory 版本的第一行後面數三行內容
+    ![git branch](../img/git/79.png)
 
 - 比對當前 Staging Area(index)和存放庫(repository)的不同
 
@@ -676,3 +677,35 @@ git merge dev
 - 新產生的 commit 有兩個 parent tree， 其中一個是 dev 目前的 commit，而另一個是 master 之前的 commit
 
 - 若同時修改兩個 parent tree 裡的相同文件，會產生衝突，這時就需要人工介入去解決此衝突
+
+## 3 way merge with conflict
+
+![git branch](../img/git/92.png)
+![git branch](../img/git/93.png)
+![git branch](../img/git/94.png)
+![git branch](../img/git/95.png)
+
+> 發生衝突後，索引存了三個文件，此索引為版本，現在有三個版本
+
+![git branch](../img/git/96.png)
+
+- 修改衝突的方法有以下三種
+  - 進去文檔裡面修改衝突
+  - 通過 vscode 去修改衝突
+    - Accept Current Changes
+    - Accept Incoming Changes
+    - Accept Both Changes
+    - Compare Changes
+      ![git branch](../img/git/97.png)
+- 若選擇 Accept Both Changes 後，按存檔，就會發現衝突已解決
+  ![git branch](../img/git/98.png)
+- 之後要 commit 的時候不需要加文字說明，因為之前已經加過了，所以直接打
+
+```shell
+git commit
+```
+
+- 打完後就會進入到編輯器裡面
+  ![git branch](../img/git/99.png)
+- 同意的話按`:wq`保存退出
+  ![git branch](../img/git/100.png)
