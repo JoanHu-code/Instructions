@@ -662,7 +662,9 @@ git merge dev
 1. 目標分支沒有新的提交：目標分支（例如 master）的提交紀錄完全沒有被其他提交改動過，並且源分支（例如 feature）的提交可以被視為目標分支的延伸。
 2. 源分支是目標分支的祖先：這表示在進行合併時，源分支的所有提交歷史可以直接“覆蓋”目標分支，不需要進行合併處理。
 
-## Git Merge - 3 way merge
+![git branch](../img/git/102.png)
+
+### Git Merge - 3 way merge
 
 3 way merge: 當要 merge 的分支的 commit 不是指向前一個分支時，就需要用到 3 way merge
 ![git branch](../img/git/88.png)
@@ -678,7 +680,7 @@ git merge dev
 
 - 若同時修改兩個 parent tree 裡的相同文件，會產生衝突，這時就需要人工介入去解決此衝突
 
-## 3 way merge with conflict
+#### 3 way merge with conflict
 
 ![git branch](../img/git/92.png)
 ![git branch](../img/git/93.png)
@@ -709,3 +711,37 @@ git commit
   ![git branch](../img/git/99.png)
 - 同意的話按`:wq`保存退出
   ![git branch](../img/git/100.png)
+  ![git branch](../img/git/101.png)
+
+#### 整理
+
+| Attribute           | Fast Forward Merge    | 3-Way Merge                           |
+| ------------------- | --------------------- | ------------------------------------- |
+| **Merge Type**      | Linear merge          | Fork and merge                        |
+| **Branch History**  | Hidden branch changes | Visible branch changes                |
+| **Characteristics** | Clearer history       | Easier to understand branch structure |
+
+### Git Merge - rebase
+
+rebase : 當已經產生 3 way merge 時，但又不想讓樹狀圖呈現分支，就會使用`rebase`來進行合併
+
+合併邏輯: 先讓分支指向最新的 master 所指向的 commit，而分支的 SHA1 值會被重寫，讓使其滿足 Fast Forward 條件，之後就可以進行合併
+
+**在執行 rebase 時也可能會發生衝突，所以也需要解決衝突的問題**
+
+- 產生的問題
+
+1. 會修改原先 commit 的 SHA1 值，如果原本的 commit 已經 push 到 gitHub(遠端存放庫)，若運行完 rebase 後再去進行 push 的話會出錯
+2. 若分支在進行 rebase 之前已經 push 到 github(遠端存放庫)，而這分支被別人拉下來，他在本地進行工作，但自己這邊卻進行了 rebase，並且強制 push 到遠端存放庫，這樣會對別的開發者產生不好的影響
+
+**適用於這分支指有自己在用的時候，就可以強制 push，若有別人在使用不建議使用 rebase**
+
+**一般 rebase 並不會使用在 master 分支上面！！**
+![git branch](../img/git/103.png)
+![git branch](../img/git/104.png)
+
+> rebase 過去後會發現最新的一筆生成時間比第二筆還早
+
+> 這時 bugfix 分支和 master 分支已經在一條線上，因此在進行 merge 時，就會採用 Fast Forward 方式進行合併
+
+![git branch](../img/git/105.png)
