@@ -8,6 +8,7 @@
 - [Git diff](#Git-diff)
 - [Git checkout 和 git restore](#Git-checkout-和-git-restore)
 - [Git branch 和 git merge](#Git-branch-和-git-merge)
+- [Git remote](#Git-remote)
 
 # Git 介紹
 
@@ -745,3 +746,87 @@ rebase : 當已經產生 3 way merge 時，但又不想讓樹狀圖呈現分支�
 > 這時 bugfix 分支和 master 分支已經在一條線上，因此在進行 merge 時，就會採用 Fast Forward 方式進行合併
 
 ![git branch](../img/git/105.png)
+
+# Git remote
+
+- 為什麼需要 git remote?
+- 因為我們需要多人協作，如果不需要多人其實用本地的即可
+
+![git branch](../img/git/106.png)
+
+|           | local repository | remote repository |
+| --------- | ---------------- | ----------------- |
+| tree      | ✅yes            | ❌no              |
+| .git file | ✅yes            | ✅yes             |
+
+- 程式碼託管服務
+  - Bitbucket
+  - GitHub
+  - GitLab
+
+## GitHub: 是通過 Git 進行版本控制的程式代碼託管平台
+
+- 若本地已經有存放庫，那要如何 push 到 rmote 存放庫裡呢?
+
+1. 在 GitHunb 裡面創建一個新的存放庫
+
+2. 選擇是使用 https 還是 ssh，要使用 ssh 的話需要先把 ssh key 給配置好，沒有的話就使用 https
+
+3. 設定遠端存放庫
+
+```shell
+git rmote add origin <your-rmote-reposity-url>
+```
+
+![git branch](../img/git/107.png)
+
+4. 把本地的存放庫資料提交到遠端存放庫
+
+```shell
+git push -u origin <your-rmote-reposity-branch>
+```
+
+![git branch](../img/git/108.png)
+
+- 解釋:
+
+  - 查看我們.git/object 有多少個，這裡顯示有 20 個
+  - 幫我們把 object 的文件做壓縮，並且推到我們的遠端存放庫
+  - 同時他也幫我們新建一個分支叫做 master
+
+  ![git branch](../img/git/109.png)
+  ![git branch](../img/git/110.png)
+
+  > 在本地的`.git`資料夾裡面，多新增了四個資料夾和兩個檔案
+
+  - logs:
+    - remote(資料夾)
+    - origin(資料夾)
+    - master(文件)
+  - refs:
+
+    - remote(資料夾)
+    - origin(資料夾)
+    - master(文件)
+
+    ![git branch](../img/git/111.png)
+
+    > 本地和遠端指向同一個 commit
+
+5. 此時去 gitHub 上面刷新當前的遠端存放庫頁面，即可看到 push 上去的資料
+
+6. 若之後在本地修改的話，需要和遠端同步，此時只需要用下面指令即可
+
+```shell
+git push origin <your-rmote-reposity-branch>
+```
+
+![git branch](../img/git/112.png)
+![git branch](../img/git/113.png)
+![git branch](../img/git/114.png)
+
+**注意:只有第一次的時候需要加`-u`之後 push 都不用加**
+
+**GitHub 的默認分支從 2020 年開始從 master 改成了 main，但 git 依舊是 master**
+
+> 可以去 GitHub->Setting->Repository 改掉
