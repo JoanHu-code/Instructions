@@ -166,7 +166,7 @@ mkdir git-test
   git config --l
   ```
 
-- 如何在本地初始化第一個存放庫(repository)
+- 如何在本機初始化第一個存放庫(repository)
 
   1. 建立新的資料夾
 
@@ -192,7 +192,7 @@ mkdir git-test
 
   - 文件說明
 
-    - config: 裡面有基礎配置，跟剛剛配置不同處在於，一個是 global(全域)配置 另一個只對本地當前資料夾有效；若本地配置和 global 配置有衝突，會優先選擇本地的配置
+    - config: 裡面有基礎配置，跟剛剛配置不同處在於，一個是 global(全域)配置 另一個只對本機當前資料夾有效；若本機配置和 global 配置有衝突，會優先選擇本機的配置
 
       - 查看文件內部
 
@@ -210,7 +210,7 @@ mkdir git-test
 
         ![git init](../img/git/15.png)
 
-      - 所以也可以改本地的配置，輸入和 global 不一樣的名稱
+      - 所以也可以改本機的配置，輸入和 global 不一樣的名稱
 
         ```shell
         git config user.name "your name"
@@ -589,7 +589,7 @@ git diff
     ![git branch](../img/git/78.png)
 
   - 9001211: Staging Area（Index）中 dev.txt 的版本
-  - 199284c:屬於在本地（Working directory）中 dev.txt 的版本
+  - 199284c:屬於在本機（Working directory）中 dev.txt 的版本
   - `-`: 代表 Staging Area(index)
   - `+`: 代表 Working directory
   - `@@ -1 +1,3 @@`: 顯示 Staging Area(index)）版本的第一行，在 Working directory 版本的第一行後面數三行內容
@@ -733,7 +733,7 @@ rebase : 當已經產生 3 way merge 時，但又不想讓樹狀圖呈現分支�
 - 產生的問題
 
 1. 會修改原先 commit 的 SHA1 值，如果原本的 commit 已經 push 到 gitHub(遠端存放庫)，若運行完 rebase 後再去進行 push 的話會出錯
-2. 若分支在進行 rebase 之前已經 push 到 github(遠端存放庫)，而這分支被別人拉下來，他在本地進行工作，但自己這邊卻進行了 rebase，並且強制 push 到遠端存放庫，這樣會對別的開發者產生不好的影響
+2. 若分支在進行 rebase 之前已經 push 到 github(遠端存放庫)，而這分支被別人拉下來，他在本機進行工作，但自己這邊卻進行了 rebase，並且強制 push 到遠端存放庫，這樣會對別的開發者產生不好的影響
 
 **適用於這分支指有自己在用的時候，就可以強制 push，若有別人在使用不建議使用 rebase**
 
@@ -750,7 +750,7 @@ rebase : 當已經產生 3 way merge 時，但又不想讓樹狀圖呈現分支�
 # Git remote
 
 - 為什麼需要 git remote?
-- 因為我們需要多人協作，如果不需要多人其實用本地的即可
+- 因為我們需要多人協作，如果不需要多人其實用本機的即可
 
 ![git branch](../img/git/106.png)
 
@@ -766,7 +766,9 @@ rebase : 當已經產生 3 way merge 時，但又不想讓樹狀圖呈現分支�
 
 ## GitHub: 是通過 Git 進行版本控制的程式代碼託管平台
 
-- 若本地已經有存放庫，那要如何 push 到 rmote 存放庫裡呢?
+### push
+
+- 若本機已經有存放庫，那要如何 push 到 rmote 存放庫裡呢?
 
 1. 在 GitHunb 裡面創建一個新的存放庫
 
@@ -780,7 +782,7 @@ git rmote add origin <your-rmote-reposity-url>
 
 ![git branch](../img/git/107.png)
 
-4. 把本地的存放庫資料提交到遠端存放庫
+4. 把本機的存放庫資料提交到遠端存放庫
 
 ```shell
 git push -u origin <your-rmote-reposity-branch>
@@ -797,7 +799,7 @@ git push -u origin <your-rmote-reposity-branch>
   ![git branch](../img/git/109.png)
   ![git branch](../img/git/110.png)
 
-  > 在本地的`.git`資料夾裡面，多新增了四個資料夾和兩個檔案
+  > 在本機的`.git`資料夾裡面，多新增了四個資料夾和兩個檔案
 
   - logs:
     - remote(資料夾)
@@ -811,11 +813,11 @@ git push -u origin <your-rmote-reposity-branch>
 
     ![git branch](../img/git/111.png)
 
-    > 本地和遠端指向同一個 commit
+    > 本機和遠端指向同一個 commit
 
 5. 此時去 gitHub 上面刷新當前的遠端存放庫頁面，即可看到 push 上去的資料
 
-6. 若之後在本地修改的話，需要和遠端同步，此時只需要用下面指令即可
+6. 若之後在本機修改的話，需要和遠端同步，此時只需要用下面指令即可
 
 ```shell
 git push origin <your-rmote-reposity-branch>
@@ -830,3 +832,27 @@ git push origin <your-rmote-reposity-branch>
 **GitHub 的默認分支從 2020 年開始從 master 改成了 main，但 git 依舊是 master**
 
 > 可以去 GitHub->Setting->Repository 改掉
+
+### clone
+
+> 如何從遠端存放庫 clone 到本機電腦
+
+1. 要先擁有遠端存放庫的 url
+
+2. 打下面指令
+
+```shell
+git clone <remote-repository-url>
+```
+
+![git branch](../img/git/115.png)
+
+> 也可以重新命名新的存放資料夾的名稱
+
+```shell
+git clone <remote-repository-url> <folderName>
+```
+
+![git branch](../img/git/116.png)
+
+**只要有 url 就可以 clone 所有存在 GitHub 的檔案**
