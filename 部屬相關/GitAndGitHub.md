@@ -9,6 +9,7 @@
 - [Git checkout 和 git restore](#Git-checkout-和-git-restore)
 - [Git branch 和 git merge](#Git-branch-和-git-merge)
 - [Git remote](#Git-remote)
+- [Git Local and Git Remote](#Git-Local-and-Git-Remote)
 
 # Git 介紹
 
@@ -166,7 +167,7 @@ mkdir git-test
   git config --l
   ```
 
-- 如何在本機初始化第一個存放庫(repository)
+- 如何在本地初始化第一個存放庫(repository)
 
   1. 建立新的資料夾
 
@@ -192,7 +193,7 @@ mkdir git-test
 
   - 文件說明
 
-    - config: 裡面有基礎配置，跟剛剛配置不同處在於，一個是 global(全域)配置 另一個只對本機當前資料夾有效；若本機配置和 global 配置有衝突，會優先選擇本機的配置
+    - config: 裡面有基礎配置，跟剛剛配置不同處在於，一個是 global(全域)配置 另一個只對本地當前資料夾有效；若本地配置和 global 配置有衝突，會優先選擇本地的配置
 
       - 查看文件內部
 
@@ -210,7 +211,7 @@ mkdir git-test
 
         ![git init](../img/git/15.png)
 
-      - 所以也可以改本機的配置，輸入和 global 不一樣的名稱
+      - 所以也可以改本地的配置，輸入和 global 不一樣的名稱
 
         ```shell
         git config user.name "your name"
@@ -589,7 +590,7 @@ git diff
     ![git branch](../img/git/78.png)
 
   - 9001211: Staging Area（Index）中 dev.txt 的版本
-  - 199284c:屬於在本機（Working directory）中 dev.txt 的版本
+  - 199284c:屬於在本地（Working directory）中 dev.txt 的版本
   - `-`: 代表 Staging Area(index)
   - `+`: 代表 Working directory
   - `@@ -1 +1,3 @@`: 顯示 Staging Area(index)）版本的第一行，在 Working directory 版本的第一行後面數三行內容
@@ -733,7 +734,7 @@ rebase : 當已經產生 3 way merge 時，但又不想讓樹狀圖呈現分支�
 - 產生的問題
 
 1. 會修改原先 commit 的 SHA1 值，如果原本的 commit 已經 push 到 gitHub(遠端存放庫)，若運行完 rebase 後再去進行 push 的話會出錯
-2. 若分支在進行 rebase 之前已經 push 到 github(遠端存放庫)，而這分支被別人拉下來，他在本機進行工作，但自己這邊卻進行了 rebase，並且強制 push 到遠端存放庫，這樣會對別的開發者產生不好的影響
+2. 若分支在進行 rebase 之前已經 push 到 github(遠端存放庫)，而這分支被別人拉下來，他在本地進行工作，但自己這邊卻進行了 rebase，並且強制 push 到遠端存放庫，這樣會對別的開發者產生不好的影響
 
 **適用於這分支指有自己在用的時候，就可以強制 push，若有別人在使用不建議使用 rebase**
 
@@ -750,7 +751,7 @@ rebase : 當已經產生 3 way merge 時，但又不想讓樹狀圖呈現分支�
 # Git remote
 
 - 為什麼需要 git remote?
-- 因為我們需要多人協作，如果不需要多人其實用本機的即可
+- 因為我們需要多人協作，如果不需要多人其實用本地的即可
 
 ![git branch](../img/git/106.png)
 
@@ -768,7 +769,7 @@ rebase : 當已經產生 3 way merge 時，但又不想讓樹狀圖呈現分支�
 
 ### push
 
-- 若本機已經有存放庫，那要如何 push 到 rmote 存放庫裡呢?
+- 若本地已經有存放庫，那要如何 push 到 rmote 存放庫裡呢?
 
 1. 在 GitHunb 裡面創建一個新的存放庫
 
@@ -782,7 +783,7 @@ git rmote add origin <your-rmote-reposity-url>
 
 ![git branch](../img/git/107.png)
 
-4. 把本機的存放庫資料提交到遠端存放庫
+4. 把本地的存放庫資料提交到遠端存放庫
 
 ```shell
 git push -u origin <your-rmote-reposity-branch>
@@ -799,7 +800,7 @@ git push -u origin <your-rmote-reposity-branch>
   ![git branch](../img/git/109.png)
   ![git branch](../img/git/110.png)
 
-  > 在本機的`.git`資料夾裡面，多新增了四個資料夾和兩個檔案
+  > 在本地的`.git`資料夾裡面，多新增了四個資料夾和兩個檔案
 
   - logs:
     - remote(資料夾)
@@ -813,11 +814,11 @@ git push -u origin <your-rmote-reposity-branch>
 
     ![git branch](../img/git/111.png)
 
-    > 本機和遠端指向同一個 commit
+    > 本地和遠端指向同一個 commit
 
 5. 此時去 gitHub 上面刷新當前的遠端存放庫頁面，即可看到 push 上去的資料
 
-6. 若之後在本機修改的話，需要和遠端同步，此時只需要用下面指令即可
+6. 若之後在本地修改的話，需要和遠端同步，此時只需要用下面指令即可
 
 ```shell
 git push origin <your-rmote-reposity-branch>
@@ -835,7 +836,7 @@ git push origin <your-rmote-reposity-branch>
 
 ### clone
 
-> 如何從遠端存放庫 clone 到本機電腦
+> 如何從遠端存放庫 clone 到本地電腦
 
 1. 要先擁有遠端存放庫的 url
 
@@ -856,3 +857,86 @@ git clone <remote-repository-url> <folderName>
 ![git branch](../img/git/116.png)
 
 **只要有 url 就可以 clone 所有存在 GitHub 的檔案**
+
+# Git Local and Git Remote
+
+- Git remote commands
+  - `git clone <repository URL>`: clone a remote repository to local disk
+  - `git push origin <branch_name>`: push local branch `<branch_name>` to remote branch dev, if `dev` branch does not exist remotely, it would be created.(`--delete` to delete a remote branch)
+  - `git branch -a`: list all branches both local and remote
+  - `git fetch`: download objects and refs from remote repository
+  - `git pull`: fetch from remote and integrate with local branch.
+  - `git push origin <tag_name>`: push local tag to github
+  - `git push origin --delete <tag_name>`: to delete github tag
+
+## Origin
+
+![git branch](../img/git/117.png)
+
+> Origin 為 Remote Repository 默認名稱
+
+一個 Local Repositiory 可以關聯很多個 Remote Repository，默認只關於一個，這個 Remote Repository 就叫 origin
+
+- 有兩種方式可以讓 remote Repository 和 Local Repositiory 建立起關聯
+
+  - 使用 clone，把 remote Repository clone 到 Local Repositiory
+  - 使用`git remote add orgin <remote Repository URL>`
+
+- 查看遠端存放庫的名稱
+
+```shell
+git remote
+```
+
+![git remote](../img/git/118.png)
+
+- 查看更多有關遠端存放庫的資訊
+
+```shell
+git remote -v
+```
+
+- fetch: 把遠端存放庫的東西拉取到本地
+- push: 把本地的東西 push 到遠端存放庫
+
+![git remote](../img/git/119.png)
+
+![git remote](../img/git/120.png)
+
+![git remote](../img/git/121.png)
+
+- 我們多了一個 remotes 的資料夾，裡面可以有多個 remote，現在只有一個預設 origin，裡面的 HEAD 是一個指針，指向目前的 commit
+
+### 如何修改 Remote Repository 的默認名稱
+
+1. 先在本地刪除想要改名的 Remote Repository
+
+```shell
+git remote remove <Remote-Repository-name>
+```
+
+![git remote](../img/git/122.png)
+
+> 之前 remotes 裡面有個叫 origin 的資料夾不見了
+
+```shell
+git remote add <your-setting-name> <remote Repository URL>
+```
+
+![git remote](../img/git/123.png)
+![git remote](../img/git/124.png)
+
+> 目前只是添加存放庫，並沒有跟遠端存放庫有任何關連，所以 Remotes 資料夾裡面還沒有任何的東西
+> 所以需要新增或修改東西，然後在推上去
+
+![git remote](../img/git/125.png)
+
+```shell
+git push <your-setting-name> <branch-name>
+```
+
+![git remote](../img/git/126.png)
+
+> 可以看到 Remotes 裡面就出現了一個我們新建立的 Remote Repository 的名稱
+
+![git remote](../img/git/127.png)
