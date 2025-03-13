@@ -1100,6 +1100,42 @@ git merge origin/master
 
 ![git remote](../img/git/157.png)
 
-# Git fetch and Git pull
+# Git fetch and Git
 
-![Git fetch and Git pull](../img/git/158.png)
+- fast forword
+
+  ![Git fetch and Git pull](../img/git/158.png)
+
+  1. Someone pushed a new commit to github
+
+  ![Git fetch and Git pull](../img/git/159.png)
+
+  2. Use git fetch to sync remote master
+
+  ![Git fetch and Git pull](../img/git/160.png)
+
+  3. git merge origin/master
+
+  ![Git fetch and Git pull](../img/git/161.png)
+
+  **Step 2 and 3 can be done through just one command: `git pull`**
+
+- 3 way merge
+
+  ![Git fetch and Git pull](../img/git/162.png)
+
+  1. Someone pushed a new commit to github
+
+  ![Git fetch and Git pull](../img/git/163.png)
+
+  2. Create a new commit on local msater
+
+  ![Git fetch and Git pull](../img/git/164.png)
+
+  3. git fetch
+
+  ![Git fetch and Git pull](../img/git/165.png)
+
+  4. git merge origin/master
+
+  ![Git fetch and Git pull](../img/git/166.png)
