@@ -1139,3 +1139,48 @@ git merge origin/master
   4. git merge origin/master
 
   ![Git fetch and Git pull](../img/git/166.png)
+
+  5. git push to remote origin/master
+
+  ![Git fetch and Git pull](../img/git/167.png)
+
+  **Step 3 and 4 can be done through just one command: `git pull`**
+
+  ## 發生衝突的情況
+
+  ![Git fetch and Git pull](../img/git/168.png)
+  ![Git fetch and Git pull](../img/git/169.png)
+
+  - 再人工介入去修改後，再 commit
+
+  ![Git fetch and Git pull](../img/git/170.png)
+
+## 什麼是 FETCH_HEAD
+
+- 若 object 檔案太多可以使用下面指令進行壓縮
+
+```shell
+git gc
+```
+
+- 壓縮完後再用`tree .git /f`查看
+
+- 再遠端存放庫新增一個分支後透過`git fetch`指令拉取下來會產生一個 FETCH_HEAD 的文件
+
+  ![Git fetch and Git pull](../img/git/171.png)
+
+- FETCH_HEAD 裡面包含 remote 遠端分支的資訊，其中兩個都是屬於 commit 類型文件，一個是 master 目前指向最新的 commit，另一個則是 dev
+
+  ![Git fetch and Git pull](../img/git/172.png)
+
+- 我們在本地創建 dev 分支，並且切換到 dev 分支去做`git fetch`，此時 FETCH_HEAD 就會有變化
+  ![Git fetch and Git pull](../img/git/173.png)
+  ![Git fetch and Git pull](../img/git/174.png)
+
+![Git fetch and Git pull](../img/git/175.png)
+
+### 總結
+
+- FETCH HEAD 的第一行，是我們本地分支所對應的遠程分支，如果不執行`git fetch`，那麼 FETCH HEAD 裡的文件就不會變動，如果切換不同分支而去做`git fetch`的話，此所在的分支就會是第一個呈現
+
+- FETCH HEAD 有什麼用？實際上是去讓 git pull 做使用的
