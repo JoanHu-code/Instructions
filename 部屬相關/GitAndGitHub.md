@@ -10,6 +10,7 @@
 - [Git branch 和 git merge](#Git-branch-和-git-merge)
 - [Git remote](#Git-remote)
 - [Git Local and Git Remote](#Git-Local-and-Git-Remote)
+- [Git fetch and Git pull](#Git-fetch-and-Git-pull)
 
 # Git 介紹
 
@@ -940,3 +941,165 @@ git push <your-setting-name> <branch-name>
 > 可以看到 Remotes 裡面就出現了一個我們新建立的 Remote Repository 的名稱
 
 ![git remote](../img/git/127.png)
+
+### 如何修改遠端存放庫的默認分支
+
+1. 登入 GitHub，並且進入當前需要修改的 repository 裡
+
+2. 需先創立一個新的分支
+
+![git remote](../img/git/128.png)
+
+![git remote](../img/git/129.png)
+
+3. Settings -> General -> Default branch
+
+![git remote](../img/git/130.png)
+![git remote](../img/git/131.png)
+![git remote](../img/git/132.png)
+![git remote](../img/git/133.png)
+
+![git remote](../img/git/134.png)
+
+> 本地分支只有 dev 沒有 master
+
+```shell
+git branch
+```
+
+> 此指令僅限於查看本地分支，並不會顯示遠端存放庫的分支，要查看遠端存放庫的分支，必須使用
+
+```shell
+git branch -a
+```
+
+![git remote](../img/git/135.png)
+
+> 只想查看遠端分支：
+
+```shell
+git branch -r
+```
+
+![git remote](../img/git/139.png)
+
+- 這會產生以下兩個問題
+
+1. 遠端存放庫分支和本地分支如何同步?
+
+2. 本地倉庫的程式碼和遠程倉庫的程式碼該如何進行同步?
+
+###　遠端存放庫分支和本地分支如何同步?
+
+> 使用`tree .git /f`查看會發現，怎麼沒有顯示 master 呢？
+
+![git remote](../img/git/136.png)
+
+> 原因是因為他被壓縮打包在了　.git/packed-refs 裡面
+
+![git remote](../img/git/137.png)
+![git remote](../img/git/138.png)
+
+> 上面顯示的 origin/master，是儲存在本地的，因此有可能不是最新的，所以需要同步，同步可以通過:
+
+```shell
+git fetch
+```
+
+> 先檢查本地的遠端存放庫分支的情況，並且對於每個分支進行代碼的同步
+
+> 檢查遠端存放庫和本地分支的關聯情況
+
+```shell
+git remote show <rmote-repository-name>
+```
+
+![git remote](../img/git/140.png)
+
+> tracked: 關聯的
+
+####　實作
+
+1. 在 GitHub 上面修改文件並且 commit 後，要如何和本地同步？
+
+![git remote](../img/git/141.png)
+![git remote](../img/git/142.png)
+
+> 可以發現本地的 master 並沒有被同步
+
+![git remote](../img/git/143.png)
+
+> 通過`git fetch`的命令去同步
+
+![git remote](../img/git/144.png)
+![git remote](../img/git/145.png)
+
+> 可以得知做了 fetch 之後，packed-refs 並沒有改變，但 refs/remotes/origin/master 已經同步了
+
+![git remote](../img/git/146.png)
+
+> 用 git log 查看會發現已經看不到 remote 的部分，因為 remote 分支已經超前了我們本地的分支
+
+2. 在遠端存放庫（GitHub）新建分支後，要如何和本地同步？
+
+> 先查看遠端存放庫分支的情況
+
+```shell
+git remote show origin
+```
+
+![git remote](../img/git/147.png)
+![git remote](../img/git/148.png)
+![git remote](../img/git/149.png)
+![git remote](../img/git/150.png)
+
+3. 在遠端存放庫（GitHub）刪除分支後，要如何和本地同步？
+
+![git remote](../img/git/151.png)
+
+**git fetch 並不會幫我們把本地分支做刪除去同步遠端分支**
+
+![git remote](../img/git/152.png)
+
+> 有兩個方法可以同步
+
+1. 使用他上面推薦的指令
+
+```shell
+git remote prune
+```
+
+2. 或者在`git fetch`後面新增參數
+
+```shell
+git fetch --prune
+```
+
+![git remote](../img/git/153.png)
+![git remote](../img/git/154.png)
+![git remote](../img/git/155.png)
+
+> 分支已經同步
+
+- 查看本地和遠端分支還有另一個指令
+
+```shell
+git branch -vv
+```
+
+![git remote](../img/git/156.png)
+
+> 上圖顯示目前本地的 master 分支是落後於遠端的 master 分支，並且顯示落後一個內容
+
+```shell
+git merge origin/master
+```
+
+> 透過 merge 指令去做合併
+> 合併完後就同步了
+
+![git remote](../img/git/157.png)
+
+# Git fetch and Git pull
+
+![Git fetch and Git pull](../img/git/158.png)
