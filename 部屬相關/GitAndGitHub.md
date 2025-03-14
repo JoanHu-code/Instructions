@@ -11,6 +11,8 @@
 - [Git remote](#Git-remote)
 - [Git Local and Git Remote](#Git-Local-and-Git-Remote)
 - [Git fetch and Git pull](#Git-fetch-and-Git-pull)
+- [Git pull 詳細解說](#Git-pull-詳細解說)
+- [帶衝突 conflict 的 git pull 演示](#帶衝突-conflict-的-git-pull-演示)
 
 # Git 介紹
 
@@ -1184,3 +1186,83 @@ git gc
 - FETCH HEAD 的第一行，是我們本地分支所對應的遠程分支，如果不執行`git fetch`，那麼 FETCH HEAD 裡的文件就不會變動，如果切換不同分支而去做`git fetch`的話，此所在的分支就會是第一個呈現
 
 - FETCH HEAD 有什麼用？實際上是去讓 git pull 做使用的
+
+# Git pull 詳細解說
+
+- 查看更多有關 git fetch 的內容
+
+```shell
+git fetch -v
+```
+
+![Git fetch and Git pull](../img/git/176.png)
+
+- 查看是否跟遠端同步
+
+```shell
+git branch -vv
+```
+
+![Git fetch and Git pull](../img/git/177.png)
+
+## 實際操作
+
+1. 在 dev 分支上些改文件
+
+2. 使用`git pull -v`，把遠端的文件拉到本地並且合併
+
+![Git fetch and Git pull](../img/git/178.png)
+
+3. 如果拉錯了可以通過 ORIG_HEAD 做 reset
+
+![Git fetch and Git pull](../img/git/179.png)
+
+```shell
+git reset --hard ORIG_HEAD
+```
+
+> 打上面這指令可以回到還未 merge 之前的狀態
+
+4. 若想繼續合併也可以手動 merge
+
+![Git fetch and Git pull](../img/git/180.png)
+
+# 帶衝突 conflict 的 git pull 演示
+
+1. 先在本地修改文件，並且 add 和 commit 到 staging store
+
+![Git fetch and Git pull](../img/git/181.png)
+
+2. 修改遠端存放庫的文件，要跟本地修改的文件一樣，但輸入不同的東西
+
+3. 進行`git pull`製造衝突
+
+![Git fetch and Git pull](../img/git/182.png)
+
+4. 進到 vscode 選擇解決衝突的辦法
+
+![Git fetch and Git pull](../img/git/183.png)
+
+5. 在本地去 add 和 commit
+
+```shell
+git commit -a
+```
+
+> 會自動把 merge 給寫出來，之後輸入`:wq`保存退出即可
+
+![Git fetch and Git pull](../img/git/184.png)
+
+- 此時本地的 commit 超前了遠端 commit 兩次
+  - 第一次: 在本地修改
+  - 第二次: 合併衝突
+
+![Git fetch and Git pull](../img/git/185.png)
+
+6. 讓遠端和本地同步
+
+```shell
+git push origin dev
+```
+
+![Git fetch and Git pull](../img/git/186.png)
