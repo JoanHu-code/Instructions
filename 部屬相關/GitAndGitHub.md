@@ -15,6 +15,7 @@
 - [帶衝突 conflict 的 git pull 演示](#帶衝突-conflict-的-git-pull-演示)
 - [git push](#git-push)
 - [git remote 總結](#git-remote-總結)
+- [補充](#補充)
 
 # Git 介紹
 
@@ -1364,3 +1365,41 @@ git push origin -d <your branch>
   - Sync remote branches
     - `git fetch`: downloand objects and refs from remote repository `--prune` Before fetching, remove any remote-tracking references that no longer exist on the remoote
     - `git pull`: fetch and merge origin to local tracking branch.
+
+# 補充
+
+```shell
+git show-ref
+```
+
+> 可以打印出來本地存放庫所有 reference 指針所指向的雜湊值
+
+![Git fetch and Git pull](../img/git/197.png)
+
+**執行此指令可以先執行`git fetch`確保遠端和本地分支是同步的!!**
+
+> 此指令也可以選擇特定分支來才看
+
+```shell
+git show-ref <branch-name>
+```
+
+![Git fetch and Git pull](../img/git/198.png)
+
+## 遠端作者和本地作者的差別
+
+![Git fetch and Git pull](../img/git/199.png)
+
+> 本地作者為一開始的配置，可以打以下指令來查看
+
+```shell
+git config -l
+```
+
+> 使用 `cat .git/config`可以查看設置
+
+![Git fetch and Git pull](../img/git/200.png)
+
+> 可以設置單個專案的 username 和 useremail，設置後就會優先使用，若不存在就會選取全局配置來使用
+
+![Git fetch and Git pull](../img/git/201.png)
