@@ -14,6 +14,7 @@
 - [Git pull 詳細解說](#Git-pull-詳細解說)
 - [帶衝突 conflict 的 git pull 演示](#帶衝突-conflict-的-git-pull-演示)
 - [git push](#git-push)
+- [git remote 總結](#git-remote-總結)
 
 # Git 介紹
 
@@ -1327,3 +1328,37 @@ git push origin -d <your branch>
 **之後若有改動的話只要打`git push`即可**
 
 ![Git fetch and Git pull](../img/git/195.png)
+
+## 刪除分支
+
+1. 先刪除遠端分支
+
+```shell
+git push origin -d <your branch>
+```
+
+2. 再刪除本地分支
+
+![Git fetch and Git pull](../img/git/196.png)
+
+# git remote 總結
+
+- `git remote add/remove <name> <url>`: add/remove a remote,default name is origin
+- `git remote`: get remote name,origin be default, `-v`(--verbose) display more information like remote URL
+- `git remote show origin`: show remote origin tracking information, need connect to internet
+- `git remote prune origin`: delete local origin branch whitch does not existing in remote
+
+- Branch Creation:
+- Github web page
+- `git push -u origin <branch_name>`: push local branch `<branch_name>` to remote branch dev, if `<branch_name>` branch does not exist remotely, it would be created.
+- Branch Deletion
+  - Github ewb page
+  - `git branch -d <branch_name>`: delete local branch
+  - `git push origin -d <branch_name>`: delete remote branch
+- List all local and Remote Branch
+  - `git branch -a`: list all branches both local and remote
+  - `git branch -r`: list all remote origin branches
+  - `git branch -vv`: list all local branches tracking information
+- Sync remote branches
+  - `git fetch`: downloand objects and refs from remote repository `--prune` Before fetching, remove any remote-tracking references that no longer exist on the remoote
+  - `git pull`: fetch and merge origin to local tracking branch.
