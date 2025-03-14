@@ -13,6 +13,7 @@
 - [Git fetch and Git pull](#Git-fetch-and-Git-pull)
 - [Git pull 詳細解說](#Git-pull-詳細解說)
 - [帶衝突 conflict 的 git pull 演示](#帶衝突-conflict-的-git-pull-演示)
+- [git push](#git-push)
 
 # Git 介紹
 
@@ -1266,3 +1267,63 @@ git push origin dev
 ```
 
 ![Git fetch and Git pull](../img/git/186.png)
+
+# git push
+
+**目的:**
+
+1. 可以把本地分支推送到遠端存放庫，若此分支不存在在遠端存放庫那就會去創建分支
+
+1.1. 在本地創建一個新的分支
+
+![Git fetch and Git pull](../img/git/188.png)
+
+1.2 在本地創建新的文件，做提交
+
+![Git fetch and Git pull](../img/git/189.png)
+
+1.3 透過 git push 推送到 github
+
+**注意: 如果直接打`git push`是不行的!!因為這個分支目前跟遠端並沒有任何的關聯**
+
+![Git fetch and Git pull](../img/git/190.png)
+
+**需要打指定的 branch**
+
+```shell
+git push origin <your new branch>
+```
+
+![Git fetch and Git pull](../img/git/191.png)
+
+![Git fetch and Git pull](../img/git/192.png)
+
+> 此時這新的分支已經被推上去了，但會有一個問題，本地跟遠端的這個同名分支並沒有任何的關聯(tracked)
+
+![Git fetch and Git pull](../img/git/193.png)
+
+**因此在 push 的時候，若還未關聯應該要使用**
+
+```shell
+git push --set-upstream origin <your new branch>
+```
+
+或是
+
+```shell
+git push --u origin <your new branch>
+```
+
+**`-u`為`-upstream`的簡寫**
+
+> 刪除遠端存放庫的分支
+
+```shell
+git push origin -d <your branch>
+```
+
+![Git fetch and Git pull](../img/git/194.png)
+
+**之後若有改動的話只要打`git push`即可**
+
+![Git fetch and Git pull](../img/git/195.png)
