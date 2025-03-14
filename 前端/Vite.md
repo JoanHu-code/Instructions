@@ -216,10 +216,11 @@ const svgClass = computed(() =>
 
 ## Router 自動生成
 
-**1. 先下載 vite-plugin-svg-icons**
+**1. 先下載 vite-plugin-pages 和 vite-plugin-vue-meta-layouts**
 
 ```shell
-npm i -D vite-plugin-pages vite-plugin-vue-layouts
+npm i vite-plugin-pages -D
+npm i vite-plugin-vue-meta-layouts -D
 ```
 
 **2. 在 vite.config.js 檔案裡設定**
@@ -227,7 +228,7 @@ npm i -D vite-plugin-pages vite-plugin-vue-layouts
 ```shell
 
 import Pages from 'vite-plugin-pages'
-import Layouts from 'vite-plugin-vue-layouts';
+import Layouts from 'vite-plugin-vue-meta-layouts'
 
 
 export default defineConfig({
@@ -243,7 +244,7 @@ export default defineConfig({
 
 ```shell
 import { createRouter, createWebHistory } from 'vue-router';
-import { setupLayouts } from 'virtual:generated-layouts';
+import { setupLayouts } from 'virtual:meta-layouts'
 import generatedRoutes from 'virtual:generated-pages';
 
 const routes = setupLayouts(generatedRoutes);
@@ -487,12 +488,13 @@ export const useCounterStore = defineStore('counter', () => {
 
 ```shell
 npm install
-npm i -S vue-router vue-i18n
+npm i -S vue-router
 npm i -S vue-i18n
 npm i -D unplugin-auto-import
 npm i -D unplugin-vue-components
 npm i -D vite-plugin-svg-icons
-npm i -D vite-plugin-pages vite-plugin-vue-layouts
+npm i -D vite-plugin-vue-meta-layouts
+npm i -D vite-plugin-pages
 npm install pinia -S
 ```
 
@@ -528,7 +530,7 @@ import vue from '@vitejs/plugin-vue';
 import AutoImport from 'unplugin-auto-import/vite';
 import Components from 'unplugin-vue-components/vite';
 import Pages from 'vite-plugin-pages';
-import Layouts from 'vite-plugin-vue-layouts';
+import Layouts from 'vite-plugin-vue-meta-layouts';
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -558,7 +560,22 @@ export default defineConfig({
   },
 });
 
+```
 
+**router/index.js**
+
+```js
+import { createRouter, createWebHistory } from "vue-router";
+import { setupLayouts } from "virtual:meta-layouts";
+import generatedRoutes from "virtual:generated-pages";
+
+const routes = setupLayouts(generatedRoutes);
+const router = createRouter({
+  history: createWebHistory(),
+  routes,
+});
+
+export default router;
 ```
 
 **src 架構圖**
