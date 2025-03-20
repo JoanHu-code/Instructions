@@ -16,6 +16,7 @@
 - [git push](#git-push)
 - [git remote 總結](#git-remote-總結)
 - [補充](#補充)
+- [pull request](#pull-request)
 
 # Git 介紹
 
@@ -1403,3 +1404,18 @@ git config -l
 > 可以設置單個專案的 username 和 useremail，設置後就會優先使用，若不存在就會選取全局配置來使用
 
 ![Git fetch and Git pull](../img/git/201.png)
+
+# pull request
+
+> `pull request` 是在 github 裡面的概念，相同的概念在 gitLab 裡面稱為`merge request`
+
+1. 什麼是`pull request`?
+
+> Can you push code to a repository which does not to a repository whitch does not belong to you on GitHub?
+> NO!並沒有權限修改別人的程式碼
+
+- 但如果你修改別人的東西話
+  - 會先複製(fork)這份程式碼到你個人的存放庫裡，會顯示是從哪個存放庫 fork 過來的，fork 過來時會幫你取一個同樣名字的項目，之後修改完再用`pull request` 拉到你 fork 的個人遠端存放庫裡
+
+2. 如何創建`pull request`?
+3. `pull request`可以進行那些操作?
