@@ -17,6 +17,8 @@
 - [git remote 總結](#git-remote-總結)
 - [補充](#補充)
 - [pull request](#pull-request)
+- [git SSH Key](#git-SSH-Key)
+- [git Tags](#git-Tags)
 
 # Git 介紹
 
@@ -1477,3 +1479,91 @@ git config -l
     ![pull request](../img/git/223.png)
     ![pull request](../img/git/224.png)
     ![pull request](../img/git/225.png)
+
+# git SSH Key
+
+## 什麼是 SSH Key
+
+> ssh: 用來連接遠端電腦或存放庫
+
+> ssh key: 再連接遠端電腦或存放庫時，可以無需需入密碼，用 ssh key 驗證即可
+
+- 優點: 提高安全性，並且可以快速連接不需要需入密碼
+
+![pull request](../img/git/226.png)
+
+```shell
+ssh-keygen
+```
+
+> 產生 public/private ed25519 key pair
+
+![pull request](../img/git/227.png)
+
+```shell
+ssh-copy-id -i id_ed25519.pub <remote-name>
+```
+
+> 添加 ssh key 到服務器上面
+
+## github SSH Key 驗證
+
+> 新增剛剛所產生的公鑰匙到 github 裡面
+
+![pull request](../img/git/228.png)
+![pull request](../img/git/229.png)
+![pull request](../img/git/230.png)
+![pull request](../img/git/231.png)
+
+> 更改`.git/config`裡面的 url，並且執行 push
+
+![pull request](../img/git/232.png)
+![pull request](../img/git/233.png)
+
+> 可以使用 ssh clone 下來本地
+
+![pull request](../img/git/234.png)
+
+## github SSH ksy 注意事項
+
+> 不同的平台應該要使用不同的 ssh key，這樣其中一個的私鑰被洩漏出去才不會影響到另一個
+
+```shell
+ssh-keygen -C "your email"
+```
+
+![pull request](../img/git/235.png)
+![pull request](../img/git/236.png)
+
+![pull request](../img/git/237.png)
+![pull request](../img/git/238.png)
+
+> 更改 ssh 預設，在`.ssh`目錄下新增一個 config 文件，裡面增加以下指令
+
+```shell
+Host github.com
+IdentifyFile C:\Users\joan\.ssh\github
+User Joan
+
+Host gitlab-demon.com
+IdentifyFile C:\Users\joan\.ssh\gitlab
+User xiaozhe
+```
+
+![pull request](../img/git/239.png)
+
+# git Tags
+
+- `Branches` are named pointers to commits(reds)
+- `HEAD` is a special pointer
+  - Related with current active branch
+  - Always point to the latest commit
+- `Tagging` is generally used to **capture a point in history** that is used for a marked version release(i.e. v1.0.1).A tag is like a branch that doesn't change. Unlike branches, tags, after being created, have no further history of commits.
+
+![git Tags](../img/git/240.png)
+
+**tag vs. branch**
+
+tag: 是一個靜態的指針，並不會改變，如果要發不同的版本需創建不同的 tag，每個 tag 所指向的都是固定不變
+
+branch: 永遠指向最新的 commit
