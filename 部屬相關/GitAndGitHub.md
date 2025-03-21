@@ -1461,9 +1461,16 @@ git config -l
 - Sync with upstream
 
   - Configure a remote for a fork
+
     - `git remote add upstream <url>`
     - `git remote -v`: to list current remote
-  - Sybcing a fork - `git fetch upstream` - `git merge upstream/master` - `git push origin master` - 前兩個`git fetch upstream`和`git merge upstream/master`可以只打`git pull upstrem master`
+
+  - Syncing a fork
+
+    - `git fetch upstream`
+    - `git merge upstream/master`
+    - `git push origin master`
+    - 前兩個`git fetch upstream`和`git merge upstream/master`可以只打`git pull upstrem master`
 
     ![pull request](../img/git/221.png)
     ![pull request](../img/git/222.png)
