@@ -21,6 +21,7 @@
 - [git Tags](#git-Tags)
   - [版本號命名方法](#版本號命名方法)
   - [Tag Operation](#Tag-Operation)
+- [git Hook](#git-Hook)
 
 # Git 介紹
 
@@ -1674,3 +1675,89 @@ git tag -a v1.0.0 e11cf6e -m "version 1.0.0"
 
 ![git Tags](../img/git/259.png)
 ![git Tags](../img/git/260.png)
+
+# git Hook
+
+> 在觸發 git 的操作之前和之後可以增加 hook 來去做特定的事情
+
+> 可以做一些檢查，檢查不通過就不允許 push
+
+![git Hook](../img/git/262.png)
+
+> 藍色是操作執行完後去執行，而紅色和黃色是在進行操作前執行，所以有可能會阻止我們操作，其中紅色是不能跳過，黃色可以跳過
+
+## pre -commit hook
+
+> 把後面的.sample 拿掉就可以用了
+
+![git Hook](../img/git/263.png)
+![git Hook](../img/git/264.png)
+
+> 若在 commit 的時候，文件名出現非 ASCII 的文件名字，那就會回傳 1 並且退出，並且不會執行`git commit`
+
+![git Hook](../img/git/265.png)
+
+> 1 代表錯誤，若改為 0 則即使錯誤也會執行下去
+
+![git Hook](../img/git/266.png)
+![git Hook](../img/git/267.png)
+
+## 忽略 hook 強制執行 commit
+
+```shell
+git commit -m "your comment" --no-verify
+```
+
+## pre-commit 工具
+
+[pre-commit](https://pre-commit.com/)
+
+```shell
+pip install pre-commit
+```
+
+![git Hook](../img/git/268.png)
+
+![git Hook](../img/git/269.png)
+
+> 檢查版本號
+
+```shell
+pre-commit --version
+```
+
+> 在.git/hook 裡面創建 pre-commit
+
+```shell
+pre-commit --install
+```
+
+![git Hook](../img/git/270.png)
+
+> 檢查全部檔案
+
+```shell
+pre-commit run --all-file
+```
+
+![git Hook](../img/git/271.png)
+
+> 檢查單一類型檔案
+
+```shell
+pre-commit run --all-file check-<name-id>
+```
+
+![git Hook](../img/git/272.png)
+
+> 發生錯誤時的狀態(import 一個沒有使用到的東西)
+
+![git Hook](../img/git/273.png)
+
+> 執行 git commit 的結果
+
+![git Hook](../img/git/274.png)
+
+> 修改錯誤後的結果
+
+![git Hook](../img/git/275.png)
