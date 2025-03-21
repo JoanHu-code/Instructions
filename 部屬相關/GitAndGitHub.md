@@ -1415,7 +1415,58 @@ git config -l
 > NO!並沒有權限修改別人的程式碼
 
 - 但如果你修改別人的東西話
+
   - 會先複製(fork)這份程式碼到你個人的存放庫裡，會顯示是從哪個存放庫 fork 過來的，fork 過來時會幫你取一個同樣名字的項目，之後修改完再用`pull request` 拉到你 fork 的個人遠端存放庫裡
 
+    ![pull request](../img/git/202.png)
+
+    ![pull request](../img/git/203.png)
+
+  - 創建完之後用 `git clone`指令，先 clone 到本地再推上去
+
+    ![pull request](../img/git/204.png)
+    ![pull request](../img/git/205.png)
+    ![pull request](../img/git/206.png)
+
 2. 如何創建`pull request`?
+   ![pull request](../img/git/208.png)
+   ![pull request](../img/git/209.png)
+   ![pull request](../img/git/210.png)
+
+   - 管理員多了 merge 的選項
+     ![pull request](../img/git/211.png)
+
+![pull request](../img/git/212.png)
+![pull request](../img/git/213.png)
+![pull request](../img/git/214.png)
+
+> merge 完後，會發現管理員比 fork 的用戶還要多一個 merge 的分支，他們是不同步的
+
+- fork 的用戶
+  ![pull request](../img/git/215.png)
+  ![pull request](../img/git/216.png)
+
+- 管理員
+  ![pull request](../img/git/217.png)
+  ![pull request](../img/git/218.png)
+
 3. `pull request`可以進行那些操作?
+
+![pull request](../img/git/219.png)
+
+> upstream: 沒有權限對此存放庫 push，須通過 pull request 給管理人員，希望他們同意我們修改程式碼
+
+- 但有可能會遇到不同步的問題，因此我們需要讓本地存放庫，和 upstream 存放庫同步
+
+- Sync with upstream
+
+  - Configure a remote for a fork
+    - `git remote add upstream <url>`
+    - `git remote -v`: to list current remote
+  - Sybcing a fork - `git fetch upstream` - `git merge upstream/master` - `git push origin master` - 前兩個`git fetch upstream`和`git merge upstream/master`可以只打`git pull upstrem master`
+
+    ![pull request](../img/git/221.png)
+    ![pull request](../img/git/222.png)
+    ![pull request](../img/git/223.png)
+    ![pull request](../img/git/224.png)
+    ![pull request](../img/git/225.png)
