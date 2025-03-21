@@ -19,6 +19,8 @@
 - [pull request](#pull-request)
 - [git SSH Key](#git-SSH-Key)
 - [git Tags](#git-Tags)
+  - [版本號命名方法](#版本號命名方法)
+  - [Tag Operation](#Tag-Operation)
 
 # Git 介紹
 
@@ -1567,3 +1569,86 @@ User xiaozhe
 tag: 是一個靜態的指針，並不會改變，如果要發不同的版本需創建不同的 tag，每個 tag 所指向的都是固定不變
 
 branch: 永遠指向最新的 commit
+
+## 版本號命名方法
+
+> [目前最流行的命名方法](https://semver.org)
+
+- 有三個數字，每個數字都會用`.`分開
+  - 第一個數字: 主版本號，當軟體有重大改變時才改
+    (MAJOR version when you make incompatible API changes)
+  - 第二個數字: 小版本號，改動一些小功能時才改變
+    (MINOR version when you add functionality in a backward compatible manner)
+  - 第三個數字: 補釘功能，用來修復 bug
+    (PATCH version when you make backward compatible bug fixes
+    Additional labels for pre-release and build metadata are available as extensions to the MAJOR.MINOR.PATCH format.)
+
+## Tag Operation
+
+- Create tag
+  - `git tag <tag name>`: create a **Lightweight tag**
+    - (i.e. git tag v1.0)
+  - `git tag -a <tag name> -m <tag message>`: create **annotated tag** that have all the associated meta-data(like email,data,etc).
+    - (i.e. git tag -a v1.0 -m "version 1.0")
+  - `git tag -a <tag name> <commit SHA1 value>`: create annotated tag for an older commit
+    - (i.e. git tag -a v1.0 236e1ef5d7556aa6789f7f42f421736271be7b82)
+- List tags
+  - `git tag`
+- Delete tags
+  - `git tag -d <tag name>`
+  - (i.e. `git tag -d v1.0`)
+
+**tag 有兩種類型，一個為`Lightweight tag`，另一個為`annotated tag`**
+
+> Lightweight tag
+
+```shell
+git tag <tag name>
+```
+
+![Lightweight tag](../img/git/241.png)
+![Lightweight tag](../img/git/242.png)
+![Lightweight tag](../img/git/243.png)
+![Lightweight tag](../img/git/244.png)
+
+> annotated tag(會新增一個類型為`tag`的 object)
+
+```shell
+git tag -a <tag name> -m <tag message>
+```
+
+![annotated tag](../img/git/245.png)
+![annotated tag](../img/git/246.png)
+![annotated tag](../img/git/247.png)
+
+**刪除 tag 後 object 並不會被刪除**
+
+> 新增 tag 在指定的 commit
+
+```shell
+git tag -a v1.0.0 e11cf6e -m "version 1.0.0"
+```
+
+> 會新增一個類型為 tag 的 object
+
+![annotated tag](../img/git/248.png)
+
+**整理**
+
+![annotated tag](../img/git/249.png)
+
+## 在 github 上創建和刪除 tag
+
+> 創建 tag
+
+![git Tags](../img/git/251.png)
+![git Tags](../img/git/252.png)
+![git Tags](../img/git/253.png)
+![git Tags](../img/git/254.png)
+![git Tags](../img/git/255.png)
+
+> 刪除 tag
+
+**要先刪除 release 才能刪除 tag**
+![git Tags](../img/git/256.png)
+![git Tags](../img/git/257.png)
