@@ -1652,3 +1652,25 @@ git tag -a v1.0.0 e11cf6e -m "version 1.0.0"
 **要先刪除 release 才能刪除 tag**
 ![git Tags](../img/git/256.png)
 ![git Tags](../img/git/257.png)
+
+## 本地 tag 和遠端 tag 的同步
+
+- push tag(本地同步到遠端)
+  - `git push origin <tag name>`: push tag to remote
+    - (i.e. git push origin v1.0)
+  - `git push --tags`: push multiple tags simultaneously
+- sync tags from remote (遠端同步到本地)
+  - `git fetch`
+  - ![git Tags](../img/git/261.png)
+- Delete tags:
+  - `git tag -d <tag name>`
+    - (i.e. git tag -d v1.0)
+  - `git push --delete origin <tag name>`: delete remote git tag
+
+![git Tags](../img/git/258.png)
+
+> v1.0.0 為 Lightweight tag 而 v1.0.1 為 annotated tag
+> Lightweight tag 指向最新的 commit，但 annotated tag 是指向新創見的一個叫 tag 的 commit 因此即使是同意時間 push tag 上去的，他們的時間也會不同
+
+![git Tags](../img/git/259.png)
+![git Tags](../img/git/260.png)
