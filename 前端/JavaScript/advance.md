@@ -946,7 +946,7 @@ for (let i = 2; i < 15; i++) {
 
 # Constructor Function
 
-> 在函式執行環境的 creation phase 當中，每隔 function 都有創見 this 關鍵字，這個步驟。this 關鍵字指的是正在執行當前 method 的 object。如果被調用的 function 是常規 function 而非 method，則關鍵字會指向 global object(因為 closure 會向外找 this 這個字，而在 global execution context 中可以找到，所以 this 才會指向 global object)
+> 在函式執行環境的 creation phase 當中，每個 function 都有創見 this 關鍵字，這個步驟。this 關鍵字指的是正在執行當前 method 的 object。如果被調用的 function 是常規 function 而非 method，則關鍵字會指向 global object(因為 closure 會向外找 this 這個字，而在 global execution context 中可以找到，所以 this 才會指向 global object)
 
     ```js
     let joan = {

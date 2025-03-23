@@ -870,7 +870,7 @@ sayHi("Joan", 35);
 
 - Function 執行、調用的英文是 function call、function execution 或是 function invocation
 
-**每個 JavaScript 還樹實際上都是一個物件。(代表每個 function 有 instance properties 以及 instance methods)**
+**每個 JavaScript 函數實際上都是一個物件。(代表每個 function 有 instance properties 以及 instance methods)**
 
 ```js
 function circle1(r) {
