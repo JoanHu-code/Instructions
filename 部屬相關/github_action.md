@@ -4,6 +4,7 @@
   - [Github Action 是什麼?](#Github-Action-是什麼)
   - [The components of GitHub Action](#The-components-of-GitHub-Action)
   - [創建第一個 github workflow](#創建第一個-github-workflow)
+  - [GitHub hosted runners](#GitHub-hosted-runner)
 
 # Github Action 簡介
 
@@ -149,3 +150,50 @@ jobs:
 
 - github workflow 會自行幫我們加上額外兩個 stpes，一個是`set up job`，另一個是`Complete job`
   [create github-workflow](../img/github/14.png)
+
+## [GitHub hosted runners](https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners)
+
+- Runners are the machines that execute jobs in a GitHub Actions workflow
+
+```shell
+name: CI
+
+# Controls when the workflow will run
+on: workflow_dispatch
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a job called "build_on_linux"
+  build_on_linux:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Runs a single command using the runners shell
+      - name: Run a one-line script
+        run: echo Hello, world!
+
+      # Runs a set of commands using the runners shell
+      - name: Run a multi-line script
+        run: |
+          echo Add other actions to build,
+          echo test, and deploy your project.
+
+  # This workflow contains a job called "build_on_windows"
+  build_on_windows:
+    # The type of runner that the job will run on
+    runs-on: windows-latest
+
+    steps:
+      - name: Run a multi-line script on Windows
+        run: |
+          echo "Hello, GitHub Actions"
+          powershell -Command "Get-Date"
+
+```
+
+![CI/CD](../img/github/18.png)
+![CI/CD](../img/github/15.png)
+![CI/CD](../img/github/16.png)
+![CI/CD](../img/github/17.png)
