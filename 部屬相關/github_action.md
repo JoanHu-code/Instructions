@@ -3,6 +3,7 @@
 - [Github Action 簡介](#Github-Action-簡介)
   - [Github Action 是什麼?](#Github-Action-是什麼)
   - [The components of GitHub Action](#The-components-of-GitHub-Action)
+  - [創建第一個 github workflow](#創建第一個-github-workflow)
 
 # Github Action 簡介
 
@@ -23,3 +24,128 @@
   - 持續交付/部署 (Continuous Delivery/Deployment)：這是在持續整合的基礎上更進一步。不僅每次推送程式碼時應用程式會自動建置和測試，還會持續部署 (deploy) 應用程式，使變更更快速地上線。
 
 ![CI/CD](../img/github/01.png)
+
+## The components of GitHub Action
+
+- You can configure a GitHub Actions `workflow` to be triggered when an `event` occurs in your repository, such as a pull request being opened or an issue being created. Your workflow cintains one or more `jobs` which can run in sequential order or in parallel. Each job will run inside its own virtual machine `runner`, or inside a container, and has one or more `steps` that either run a script that you define or run an `action`, which is a reusable extension that can simplify your workflow.
+
+- [官方網址](https://docs.github.com/en/actions/learn-github-actions/understanding-github-actions#the-components-of-github-actions)
+
+- 有什麼事件可以觸發 CI，CI 主要是做`build`和`test`?
+
+![CI/CD](../img/github/02.png)
+
+## 創建第一個 github workflow
+
+- 透過`yml文件`進行定義
+
+`.github/workflows/demo.yml`
+
+```yml
+name: my first workflow
+
+# Controls when the workflow will run
+on: workflow_dispatch #Allows you to run this workflow manually from the Actions tab
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a signle job called "build"
+  build:
+    # The type of runner that the job will run on
+    run-on: ubuntu-latest
+
+    #Steps represent a sequence of tasks that will be wxwcuted as part of the job
+    steps:
+      # Runs a set of commands using the runner shell
+      - name: Run a multi-line script
+        run: |
+          echo "hello github actions"
+          date
+```
+
+- `name: my first workflow`: 定義 github workflow 的名字
+- `on`: github workflow 裡面的關鍵字，如何去觸發(trigger)事件
+
+  - workflow_dispatch: 手動觸發事件
+
+- `job`: 在 github workflow 裡面可以定義很多個 job
+
+- `build`: 這個 job 的名字，代表這個 job 具體在做什麼事情，可以自行設定
+
+- `runs-on`: 指定運行在什麼環境上
+
+- `steps`:具體要執行哪些步驟
+
+  - `name`: 每個 step 有自己的名字，代表具體要做的事情
+  - `run`: 透過`run`這關鍵字，後面放入腳本(script)去執行
+  - `|`: 代表 script 有多行命定不只一行的意思
+
+- 創建 github-action
+
+  - 步驟 1: 在 Github 裡面創建一個新的 repository
+    - 建議勾選`Add a README file`，讓其初始化，沒有也可以自己下指令初始化
+    - ![create github-workflow](../img/github/03.png)
+  - 步驟 2: 有兩個辦法可以新建 Github Action
+
+    - 第一個辦法:在此 repository 裡面新建一個`.yml`的檔案，路徑為`.github/workflows/[fileName].yml`，把腳本複製貼上到下面
+      - ![create github-workflow](../img/github/04.png)
+    - 第二個辦法: 點擊上面的`actions`
+
+      - ![create github-workflow](../img/github/05.png)
+
+      - 點擊`configure`
+
+        - ![create github-workflow](../img/github/06.png)
+
+      - 會直接幫我們創建腳本
+
+        - ![create github-workflow](../img/github/07.png)
+
+      - 修改檔案名稱為`demo`，修改腳本成下面那樣，改完後就可以按 commit change
+
+```yml
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+# Controls when the workflow will run
+on: workflow_dispatch
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Runs a single command using the runners shell
+      - name: Run a one-line script
+        run: echo Hello, world!
+
+      # Runs a set of commands using the runners shell
+      - name: Run a multi-line script
+        run: |
+          echo Add other actions to build,
+          echo test, and deploy your project.
+```
+
+![create github-workflow](../img/github/08.png)
+
+- 點擊 Actions 後點擊`CI`，會看到只有 0 次的執行
+  ![create github-workflow](../img/github/09.png)
+  ![create github-workflow](../img/github/10.png)
+
+- 點擊 Run workflow，並且選擇分支，選擇完後就可以按 Run workflow
+  ![create github-workflow](../img/github/11.png)
+
+- 等待執行完畢後點開 CI
+
+  ![create github-workflow](../img/github/12.png)
+
+- 點開 Build，可以看到執行的 step
+  ![create github-workflow](../img/github/13.png)
+
+- github workflow 會自行幫我們加上額外兩個 stpes，一個是`set up job`，另一個是`Complete job`
+  [create github-workflow](../img/github/14.png)
