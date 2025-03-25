@@ -7,6 +7,10 @@
   - [GitHub hosted runners](#GitHub-hosted-runner)
   - [Jobs-的串行和並行](#Jobs-的串行和並行)
   - [使用 Action](#使用-Action)
+- [Workflow Events](#Workflow-Events)
+  - [多個 Events Trigger](#多個-Events-Trigger)
+  - [Event Activity Types and Filters](#Event-Activity-Types-and-Filters)
+  - [pull request event](#pull-request-event)
 
 # Github Action 簡介
 
@@ -218,6 +222,8 @@ jobs:
 
 ![CI/CD](../img/github/23.png)
 
+### checkout
+
 ```yml
 name: pytest
 on: workflow_dispatch
@@ -236,6 +242,9 @@ jobs:
         run: pytest
 ```
 
+![CI/CD](../img/github/24.png)
+![CI/CD](../img/github/25.png)
+
 > 使用 github action 後，改成
 
 ```yml
@@ -246,6 +255,179 @@ jobs:
   pytest:
     runs-on: ubuntu-latest
     steps:
+      - name: checkout code
+        uses: actions/checkout@v4
+      - name: install pytest
+        run: pip install pytest
+      - name: run pytest
+        run: pytest
+```
+
+![CI/CD](../img/github/26.png)
+
+> 若不加`ref`這個參數的話，默認為 default 分支
+
+> 在 checkout 執行前後，查看當前文件目錄
+
+```yml
+name: pytest
+on: workflow_dispatch
+
+jobs:
+  pytest:
+    runs-on: ubuntu-latest
+    steps:
+      - name: pre - checkout
+        run: |
+          pwd
+          ls -lh
+      - name: checkout code
+        uses: actions/checkout@v4
+      - name: after - checkout
+        run: |
+          pwd
+          ls -lh
+      - name: install pytest
+        run: pip install pytest
+      - name: run pytest
+        run: pytest
+```
+
+![CI/CD](../img/github/27.png)
+
+### Contexts
+
+> 執行過程中可能會預先使用到的配置(環境)
+
+[官網](https://docs.github.com/en/actions/writing-workflows/choosing-what-your-workflow-does/accessing-contextual-information-about-workflow-runs)
+
+- 可以用 `${{contexts}}` 去執行
+
+例如:
+
+```yml
+name: pytest
+on: workflow_dispatch
+
+jobs:
+  pytest:
+    runs-on: ubuntu-latest
+    steps:
+      - name: print github action contexts
+        run: echo ${{ github.repositoryUrl }}
+      - name: checkout code
+        uses: actions/checkout@v4
+      - name: install pytest
+        run: pip install pytest
+      - name: run pytest
+        run: pytest
+```
+
+![CI/CD](../img/github/28.png)
+
+# Workflow Events
+
+- Available Events
+
+  - [官網](https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows)
+
+  - Repository related
+    - push
+    - pull_request
+  - Others
+    - workflow_dispatch: 手動觸發
+    - schedule: 預約時間觸發
+
+## 多個 Events Trigger
+
+`用[]包裹Trigger的方法，以及用逗號隔開即可`
+
+```yml
+name: pytest
+on: [push, workflow_dispatch]
+
+jobs:
+  pytest:
+    runs-on: ubuntu-latest
+    steps:
+      - name: print github action contexts
+        run: echo ${{ github.repositoryUrl }}
+      - name: checkout code
+        uses: actions/checkout@v4
+      - name: install pytest
+        run: pip install pytest
+      - name: run pytest
+        run: pytest
+```
+
+![CI/CD](../img/github/29.png)
+![CI/CD](../img/github/30.png)
+
+**只要有新的 commit，這 push 就會被觸發，不管是在哪個分支上**
+
+## Event Activity Types and Filters
+
+- activity Types
+
+```yml
+on:
+  pull_request:
+    types: [opened, reopened]
+```
+
+- Filters
+
+```yml
+on:
+  pull_request:
+    types:
+      - opened
+    branches:
+      - `releases/**`
+```
+
+> 要指定 branch
+
+```yml
+name: pytest
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  pytest:
+    runs-on: ubuntu-latest
+    steps:
+      - name: print github action contexts
+        run: echo ${{ github.repositoryUrl }}
+      - name: checkout code
+        uses: actions/checkout@v4
+      - name: install pytest
+        run: pip install pytest
+      - name: run pytest
+        run: pytest
+```
+
+## pull request event
+
+```yml
+name: pytest
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+  pull_request:
+    type: [opened]
+
+jobs:
+  pytest:
+    runs-on: ubuntu-latest
+    steps:
+      - name: print github action contexts
+        run: echo ${{ github.repositoryUrl }}
       - name: checkout code
         uses: actions/checkout@v4
       - name: install pytest
