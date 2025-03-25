@@ -340,7 +340,7 @@ export const useCountStore = defineStore('counter', () => {
 ```vue
 <script setup>
 import {storeToRefs} from "pinia";
-import { useCountStore } from '@/stores/counter.js;
+import { useCountStore } from "@/stores/counter.js";
 const countStore = useCountStore();
 const {counter} = storeToRefs(countStore)
 const { addCount,doubleCount } = countStore;
@@ -364,7 +364,7 @@ const doubleClick = ()=>{
 
 ```shell
 import {storeToRefs} from "pinia";
-import { useCountStore } from '@/stores/counter.js;
+import { useCountStore } from "@/stores/counter.js";
 
 const countStore = useCountStore();
 const {valueName} = storeToRefs(countStore);
