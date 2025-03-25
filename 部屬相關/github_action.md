@@ -5,6 +5,8 @@
   - [The components of GitHub Action](#The-components-of-GitHub-Action)
   - [創建第一個 github workflow](#創建第一個-github-workflow)
   - [GitHub hosted runners](#GitHub-hosted-runner)
+  - [Jobs-的串行和並行](#Jobs-的串行和並行)
+  - [使用 Action](#使用-Action)
 
 # Github Action 簡介
 
@@ -197,3 +199,57 @@ jobs:
 ![CI/CD](../img/github/15.png)
 ![CI/CD](../img/github/16.png)
 ![CI/CD](../img/github/17.png)
+
+## Jobs-的串行和並行
+
+- 默認行況下 Jobs 是並行的狀態，各自之間並沒有關係，之所以有時間差是因為會放在柱列裡面等待後執行
+
+![CI/CD](../img/github/19.png)
+![CI/CD](../img/github/20.png)
+
+- 並行，會有關連，例如前面失敗後面就執行不了
+
+![CI/CD](../img/github/21.png)
+![CI/CD](../img/github/22.png)
+
+## 使用 Action
+
+[github marketplace](https://github.com/marketplace?type=actions)
+
+![CI/CD](../img/github/23.png)
+
+```yml
+name: pytest
+on: workflow_dispatch
+
+jobs:
+  pytest:
+    runs-on: ubuntu-latest
+    steps:
+      - name: clone repository
+        run: |
+          git clone https://github.com/renew-key/python-demo
+          cd python-demo
+      - name: install pytest
+        run: pip install pytest
+      - name: run pytest
+        run: pytest
+```
+
+> 使用 github action 後，改成
+
+```yml
+name: pytest
+on: workflow_dispatch
+
+jobs:
+  pytest:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v4
+      - name: install pytest
+        run: pip install pytest
+      - name: run pytest
+        run: pytest
+```
