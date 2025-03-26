@@ -11,6 +11,8 @@
   - [多個 Events Trigger](#多個-Events-Trigger)
   - [Event Activity Types and Filters](#Event-Activity-Types-and-Filters)
   - [pull request event](#pull-request-event)
+  - [Schedule Events](#Schedule-Events)
+  - [Cancel and skip workflows](#Cancel-and-skip-workflows)
 
 # Github Action 簡介
 
@@ -420,7 +422,7 @@ on:
       - main
   workflow_dispatch:
   pull_request:
-    type: [opened]
+    types: [opened]
 
 jobs:
   pytest:
@@ -435,3 +437,83 @@ jobs:
       - name: run pytest
         run: pytest
 ```
+
+> 如果有人 open 一個 pull request 那麼 workflow 就會被觸發
+
+![CI/CD](../img/github/31.png)
+
+![CI/CD](../img/github/32.png)
+
+![CI/CD](../img/github/33.png)
+
+> 作為初次用戶第一次去 pull request 需要同意(approval and run)才能運行 github workflow
+
+> 避免同一人創建很多 github 帳號去做攻擊，浪費資源
+
+![CI/CD](../img/github/34.png)
+![CI/CD](../img/github/35.png)
+
+> 當 pull request 的使用者變成貢獻者(contributor)後，再去做 pull request 就不需要再(approval and run)，workflow 會自動觸發
+
+## Schedule Events
+
+```yml
+on:
+  schedule:
+    - cron: "15 4,5 * * *" # <=== Change this value
+```
+
+[crontab](https://crontab.guru/)
+
+![CI/CD](../img/github/38.png)
+
+> 第一個數字是分鐘、第二個是小時、第三個是天、第四個是月、最後一個是星期
+
+![CI/CD](../img/github/36.png)
+![CI/CD](../img/github/37.png)
+
+```yml
+name: pytest
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+  pull_request:
+    types: [opened]
+  schedule:
+    - cron: "*/5 * * * *"
+
+jobs:
+  pytest:
+    runs-on: ubuntu-latest
+    steps:
+      - name: print github action contexts
+        run: echo ${{ github.repositoryUrl }}
+      - name: checkout code
+        uses: actions/checkout@v4
+      - name: install pytest
+        run: pip install pytest
+      - name: run pytest
+        run: pytest
+```
+
+> 可以一次性設定不同時間
+
+[參考文檔](https://docs.github.com/en/actions/writing-workflows/choosing-when-your-workflow-runs/events-that-trigger-workflows#schedule)
+
+## Cancel and skip workflows
+
+- Cancel
+
+![CI/CD](../img/github/39.png)
+
+- skip
+
+  - [官方文件](https://docs.github.com/en/actions/managing-workflow-runs-and-deployments/managing-workflow-runs/skipping-workflow-runs)
+
+- 在 commit message 後面加上[skip ci]
+
+![CI/CD](../img/github/39.png)
+
+這樣 workflow 就不會在 push 的時候被觸發
