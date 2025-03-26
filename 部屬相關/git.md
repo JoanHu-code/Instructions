@@ -320,6 +320,12 @@ mkdir git-test
         2. 檔案內容
         3. 檔案大小
 
+windows 可以用
+
+```shell
+Get-FileHash .\hello.txt
+```
+
 - Working directory and Staging Area(index)
 
   - 由上述可知，object 裡的文件只存儲文件內容、文件類型和文件大小，那文件名去哪裡了呢?

@@ -13,6 +13,8 @@
   - [pull request event](#pull-request-event)
   - [Schedule Events](#Schedule-Events)
   - [Cancel and skip workflows](#Cancel-and-skip-workflows)
+  - [upload job artifacts](upload-job-artifacts)
+  - [download job artifacts](download-job-artifacts)
 
 # Github Action 簡介
 
@@ -159,7 +161,7 @@ jobs:
 - github workflow 會自行幫我們加上額外兩個 stpes，一個是`set up job`，另一個是`Complete job`
   [create github-workflow](../img/github/14.png)
 
-## [GitHub hosted runners](https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners)
+## [GitHub hosted runners](https://docs.github.com/en/actions/using-github-hosted-runners/using-github-hosted-runners/about-github-hosted-runners)
 
 - Runners are the machines that execute jobs in a GitHub Actions workflow
 
@@ -514,6 +516,270 @@ jobs:
 
 - 在 commit message 後面加上[skip ci]
 
-![CI/CD](../img/github/39.png)
+![CI/CD](../img/github/40.png)
 
 這樣 workflow 就不會在 push 的時候被觸發
+
+## [upload job artifacts](https://github.com/marketplace/actions/upload-a-build-artifact)
+
+- 若我們在 workflow 產生.exe 文件時，當 workflow 結束後就會把這文件銷毀調，於是我們必須先把這.exe 文件上傳到一個地方，這樣就可以下載，這時就須用到 `job artifacts`
+
+```yml
+uses: actions/upload-artifact@v4
+  with:
+    # Name of the artifact to upload.
+    # Optional. Default is 'artifact'
+    name:
+
+    # A file, directory or wildcard pattern that describes what to upload
+    # Required.
+    path:
+
+    # The desired behavior if no files are found using the provided path.
+    # Available Options:
+    #   warn: Output a warning but do not fail the action
+    #   error: Fail the action with an error message
+    #   ignore: Do not output any war
+```
+
+```yml
+name: pytest
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+  pull_request:
+    types: [opened]
+
+jobs:
+  pysha256:
+    runs-on: windows-latest
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v4
+      - name: install pyinstaller
+        run: pip install pyinstaller
+      - name: build exe
+        run: pyinstaller .\sha256.py -F
+      - name: upload exe file
+        uses: uses: actions/upload-artifact@v4
+        with:
+          name: sha256-windows-exe
+          path: dist/sha256.exe
+```
+
+![CI/CD](../img/github/41.png)
+
+## [download job artifacts](https://github.com/marketplace/actions/download-a-build-artifact)
+
+```yml
+uses: actions/download-artifact@v4
+  with:
+    # Name of the artifact to download.
+    # If unspecified, all artifacts for the run are downloaded.
+    # Optional.
+    name:
+
+    # Destination path. Supports basic tilde expansion.
+    # Optional. Default is $GITHUB_WORKSPACE
+    path:
+
+    # A glob pattern to the artifacts that should be downloaded.
+    # Ignored if name is specified.
+    # Optional.
+```
+
+```yml
+name: job-artifact
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+  pull_request:
+    types: [opened]
+
+jobs:
+  build-on-windows:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Install PyInstaller
+        run: pip install pyinstaller
+
+      - name: Build EXE
+        run: pyinstaller sha256.py -F
+
+      - name: Upload EXE File
+        uses: actions/upload-artifact@v4
+        with:
+          name: sha256-windows
+          path: dist/sha256.exe
+
+  build-on-linux:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Install PyInstaller
+        run: pip install pyinstaller
+
+      - name: Build Executable
+        run: pyinstaller sha256.py -F
+
+      - name: Upload Executable File
+        uses: actions/upload-artifact@v4
+        with:
+          name: sha256-linux
+          path: dist/sha256
+
+  build-on-mac:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Install PyInstaller
+        run: pip install pyinstaller
+
+      - name: Build Executable
+        run: pyinstaller sha256.py -F
+
+      - name: Upload Executable File
+        uses: actions/upload-artifact@v4
+        with:
+          name: sha256-mac
+          path: dist/sha256
+
+  test-build-windows:
+    runs-on: windows-latest
+    needs: build-on-windows
+    steps:
+      - name: Download Executable File
+        uses: actions/download-artifact@v4
+        with:
+          name: sha256-windows
+
+      - name: Test Executable File
+        run: |
+          ls
+          .\sha256.exe .\sha256.exe
+```
+
+![CI/CD](../img/github/42.png)
+
+```yml
+name: job-artifact
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+  pull_request:
+    types: [opened]
+
+jobs:
+  build-on-windows:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Install PyInstaller
+        run: pip install pyinstaller
+
+      - name: Build EXE
+        run: pyinstaller sha256.py -F
+
+      - name: Upload EXE File
+        uses: actions/upload-artifact@v4
+        with:
+          name: sha256-windows
+          path: dist/sha256.exe
+
+  build-on-linux:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Install PyInstaller
+        run: pip install pyinstaller
+
+      - name: Build Executable
+        run: pyinstaller sha256.py -F
+
+      - name: Upload Executable File
+        uses: actions/upload-artifact@v4
+        with:
+          name: sha256-linux
+          path: dist/sha256
+
+  build-on-mac:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Install PyInstaller
+        run: pip install pyinstaller
+
+      - name: Build Executable
+        run: pyinstaller sha256.py -F
+
+      - name: Upload Executable File
+        uses: actions/upload-artifact@v4
+        with:
+          name: sha256-mac
+          path: dist/sha256
+
+  test-build-windows:
+    runs-on: windows-latest
+    needs: build-on-windows
+    steps:
+      - name: Download Executable File
+        uses: actions/download-artifact@v4
+        with:
+          name: sha256-windows
+
+      - name: Test Executable File
+        run: |
+          ls
+          .\sha256.exe .\sha256.exe
+
+  test-build-linux:
+    runs-on: ubuntu-latest
+    needs: build-on-linux
+    steps:
+      - name: Download Executable File
+        uses: actions/download-artifact@v4
+        with:
+          name: sha256-linux
+
+      - name: Test Executable File
+        run: |
+          ls
+          chmod +x sha256
+          ./sha256 sha256
+
+  test-build-mac:
+    runs-on: macos-latest
+    needs: build-on-mac
+    steps:
+      - name: Download Executable File
+        uses: actions/download-artifact@v4
+        with:
+          name: sha256-mac
+
+      - name: Test Executable File
+        run: |
+          ls
+          chmod +x sha256
+          ./sha256 sha256
+```
+
+![CI/CD](../img/github/43.png)
