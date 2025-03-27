@@ -21,6 +21,9 @@
   - [Repository Secrets](#Repository-Secrets)
   - [Repository Variables](#Repository-Variables)
   - [What is Environment?](#What-is-Environment)
+- [Controlling Workflow](#Controlling-Workflow)
+  - [job 的依賴關係](job-的依賴關係)
+  - [job 狀態檢查](job-狀態檢查)
 
 # Github Action 簡介
 
@@ -1084,3 +1087,147 @@ jobs:
 
 ![CI/CD](../img/github/69.png)
 ![CI/CD](../img/github/70.png)
+
+# Controlling Workflow
+
+> workflow 內部對於 jobs 和 steps 的控制
+
+![CI/CD](../img/github/72.png)
+
+> 透過 events 去觸發 workflow，workflow 會有一個或多個 Jobs，每個 Jobs 會在特定的 runner 之間運行，每個 Jobs 在預設的時候是相互獨立的，因此會同時執行。Jobs 裡面會有一個會多個 steps 需要去執行，多個 steps 是按照順序執行，若 steps 裡面有某一個 step 出錯，默認情況下後面的 steps 會停止運行
+
+```yml
+name: demo
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - "master"
+
+jobs:
+  test-code:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v4
+      - name: install requirements
+        run: pip install -r requirements.txt
+      - name: run py test
+        run: pytest --cov-report html:htmlcov --cov-report term --cov=project tests
+      - name: upload test reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-report
+          path: htmlcov/
+
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v4
+      - name: deploy code
+        run: echo "deploy........."
+```
+
+![CI/CD](../img/github/75.png)
+
+- Jobs
+  - 循環: Martix
+  - 判斷: if
+- Steps
+  - 循環: Martix
+  - 判斷: if
+
+## job 的依賴關係
+
+> 在 jobs 裡面加入`needs: job_name`， 這樣就須等待 needs 裡的 job 做完才能做此 job 的工作
+
+```yml
+name: demo
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - "master"
+
+jobs:
+  test-code:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v4
+      - name: install requirements
+        run: pip install -r requirements.txt
+      - name: run py test
+        run: pytest --cov-report html:htmlcov --cov-report term --cov=project tests
+      - name: upload test reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-report
+          path: htmlcov/
+
+  deploy:
+    needs: test-code
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v4
+      - name: deploy code
+        run: echo "deploy........."
+```
+
+![CI/CD](../img/github/73.png)
+![CI/CD](../img/github/74.png)
+
+> 若 test-code 失敗了，則 deploy 就不會運行
+
+![CI/CD](../img/github/76.png)
+
+> 也可以依賴多個 jobs，用`[]`的形式，例如:`needs: [test-code, build]`
+
+## job 狀態檢查
+
+> 若想要有順序(依賴)關係，但又不想要一旦依賴關係失敗後就做不了時，該怎麼辦?
+
+> 可以增加`if`來做判斷
+
+> 加入`if: ${{ always() }}`
+
+[官網](https://docs.github.com/en/actions/writing-workflows/choosing-what-your-workflow-does/evaluate-expressions-in-workflows-and-actions#status-check-functions)
+
+```yml
+name: demo
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - "master"
+
+jobs:
+  test-code:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v4
+      - name: install requirements
+        run: pip install -r requirements.txt
+      - name: run py test
+        run: pytest --cov-report html:htmlcov --cov-report term --cov=project tests
+      - name: upload test reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-report
+          path: htmlcov/
+
+  deploy:
+    needs: test-code
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v4
+      - name: deploy code
+        run: echo "deploy........."
+```
+
+![CI/CD](../img/github/77.png)
