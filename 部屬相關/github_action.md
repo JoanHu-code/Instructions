@@ -13,8 +13,11 @@
   - [pull request event](#pull-request-event)
   - [Schedule Events](#Schedule-Events)
   - [Cancel and skip workflows](#Cancel-and-skip-workflows)
-  - [upload job artifacts](upload-job-artifacts)
+  - [upload job artifacts](#upload-job-artifacts)
   - [download job artifacts](download-job-artifacts)
+- [Environment Variables and Secrets](#Environment-Variables-and-Secrets)
+  - [GitHub Action Default Environment Variables](#GitHub-Action-Default-Environment-Variables)
+  - [Using contexts to access environment variable values](#Using-contexts-to-access-environment-variable-values)
 
 # Github Action 簡介
 
@@ -783,3 +786,115 @@ jobs:
 ```
 
 ![CI/CD](../img/github/43.png)
+
+# Environment-Variables-and-Secrets
+
+## GitHub Action Default Environment Variables
+
+[官網資料](https://docs.github.com/en/actions/writing-workflows/choosing-what-your-workflow-does/store-information-in-variables#default-environment-variables)
+
+1. 如何在 GitHub workflow 去設置環境變數，和私密文件?
+2. 設置的環境變數如何讀取?
+
+- 查看預設的環境變數
+
+```yml
+name: workflow_env
+on:
+  workflow_dispatch:
+
+jobs:
+  build-in-env:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v4
+      - name: check default env
+        run: env
+```
+
+- 打印出預設的環境變數
+
+```yml
+name: workflow_env
+on:
+  workflow_dispatch:
+
+jobs:
+  build-in-env:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v4
+      - name: check default env
+        run: env
+      - name: print env
+        run: echo $GITHUB_REPOSITORY
+```
+
+![CI/CD](../img/github/44.png)
+
+- 引用`env.py`
+
+```python
+import os
+
+repo = os.environ.get("GITHUB_REPOSITORY")
+print(f"repository = {repo}")
+```
+
+```yml
+name: workflow_env
+on:
+  workflow_dispatch:
+
+jobs:
+  build-in-env:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v4
+      - name: check default env
+        run: env
+      - name: print env
+        run: echo $GITHUB_REPOSITORY
+      - name: test with python
+        run: python env.py
+```
+
+![CI/CD](../img/github/45.png)
+
+## Using contexts to access environment variable values
+
+> 自己創建環境變數去使用
+> 環境變數會有 scoped 的限制，例如在其中一個 step 設置環境變數，那此環境變數就只能在當前的 step 去使用，反之若在 workflow 設置環境變數，那整個 workflow 都可以使用
+
+[官網](https://docs.github.com/en/actions/writing-workflows/choosing-what-your-workflow-does/store-information-in-variables#using-contexts-to-access-variable-values)
+
+```yml
+name: workflow_env
+on: workflow_dispatch
+
+env:
+  DAY_OF_WEEK: Monday
+
+jobs:
+  test-scope-env:
+    runs-on: ubuntu-latest
+    steps:
+      - name: print env
+        run: echo "$Greeting $First_Name. Today is $DAY_OF_WEEK!"
+
+  greeting-job:
+    runs-on: ubuntu-latest
+    env:
+      Greeting: Hello
+    steps:
+      - name: "Say Hello Mona it's Monday"
+        run: echo "$Greeting $First_Name. Today is $DAY_OF_WEEK!"
+        env:
+          First_Name: Mona
+```
+
+![CI/CD](../img/github/46.png)
+![CI/CD](../img/github/47.png)
