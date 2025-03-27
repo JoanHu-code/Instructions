@@ -988,6 +988,14 @@ jobs:
 ![CI/CD](../img/github/54.png)
 ![CI/CD](../img/github/55.png)
 
+```python
+import os
+password = os.environ.get("DB_P")
+print(f"password = {password}")
+username = os.environ.get("DB_U")
+print(f"repository = {username}")
+```
+
 ```yml
 name: workflow_secrets
 on:
@@ -1007,6 +1015,8 @@ jobs:
         run: echo "u=${{ env.DB_U }}"
       - name: check env p
         run: echo "p=${{ env.DB_P }}"
+      - name: test with python
+        run: python secret.py
 ```
 
 ![CI/CD](../img/github/56.png)
