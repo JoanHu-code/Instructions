@@ -18,6 +18,8 @@
 - [Environment Variables and Secrets](#Environment-Variables-and-Secrets)
   - [GitHub Action Default Environment Variables](#GitHub-Action-Default-Environment-Variables)
   - [Using contexts to access environment variable values](#Using-contexts-to-access-environment-variable-values)
+  - [Repository Secrets](#Repository-Secrets)
+  - [Repository Variables](#Repository-Variables)
 
 # Github Action 簡介
 
@@ -898,3 +900,113 @@ jobs:
 
 ![CI/CD](../img/github/46.png)
 ![CI/CD](../img/github/47.png)
+
+## Repository Secrets
+
+> 如果有些環境變數涉及需要保密的部分，可以創建 Secrets and variable
+
+> Setting > Setting and variable > Action
+
+![CI/CD](../img/github/48.png)
+
+> 點擊 New repository secret
+
+![CI/CD](../img/github/49.png)
+![CI/CD](../img/github/50.png)
+
+> 輸入之後就無法查看，但可以修改
+
+- 如何在 github workflow 裡面使用呢?
+
+```yml
+name: workflow_secrets
+on:
+  workflow_dispatch:
+
+env:
+  DB_U: test
+  DB_P: ${{ secrets.DB_PASSWORD }}
+
+jobs:
+  test-secrets:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v4
+      - name: check env u
+        run: echo "u=${{ env.DB_U }}"
+      - name: check env p
+        run: echo "p=${{ env.DB_P }}"
+```
+
+![CI/CD](../img/github/51.png)
+
+- 測試是否能通過外不去擷取到 secret 資訊
+
+```python
+import os
+password = os.environ.get("DB_P")
+print(f"password = {password}")
+```
+
+```yml
+name: workflow_secrets
+on:
+  workflow_dispatch:
+
+env:
+  DB_U: test
+  DB_P: ${{ secrets.DB_PASSWORD }}
+
+jobs:
+  test-secrets:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v4
+      - name: check env u
+        run: echo "u=${{ env.DB_U }}"
+      - name: check env p
+        run: echo "p=${{ env.DB_P }}"
+      - name: test with python
+        run: python secret.py
+```
+
+![CI/CD](../img/github/52.png)
+
+## Repository Variables
+
+> 上次的 secrets 為啥不直接在 steps 裡面使用 `${{ secrets.DB_PASSWORD }}` 呢? 反而要先設置環境變數，把他賦值給`DB_P`再使用?
+
+> 因為若把它命名為環境變數的話，其他檔案也可以讀取
+
+> 密碼設置一定要夠複雜，因為 github 會把跟密碼相關的字一併隱藏，若不複雜可能會被猜出來
+
+> 也可以在 GITHUB 上面設置環境變數
+
+![CI/CD](../img/github/53.png)
+![CI/CD](../img/github/54.png)
+![CI/CD](../img/github/55.png)
+
+```yml
+name: workflow_secrets
+on:
+  workflow_dispatch:
+
+env:
+  DB_U: ${{ vars.DB_USERNAME }}
+  DB_P: ${{ secrets.DB_PASSWORD }}
+
+jobs:
+  test-secrets:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v4
+      - name: check env u
+        run: echo "u=${{ env.DB_U }}"
+      - name: check env p
+        run: echo "p=${{ env.DB_P }}"
+```
+
+![CI/CD](../img/github/56.png)
