@@ -20,6 +20,7 @@
   - [Using contexts to access environment variable values](#Using-contexts-to-access-environment-variable-values)
   - [Repository Secrets](#Repository-Secrets)
   - [Repository Variables](#Repository-Variables)
+  - [What is Environment?](#What-is-Environment)
 
 # Github Action 簡介
 
@@ -1020,3 +1021,66 @@ jobs:
 ```
 
 ![CI/CD](../img/github/56.png)
+
+## What is Environment?
+
+> 若想要在不同的 job 和 workflows 想使用不同的變數和 secrets 該如何做?
+
+1. 在獨有的 job 和 workflows 宣告 env，這樣環境變數就會有 scoped 的限制
+
+2. 使用 Github 上的 Environment
+
+- Environment: 代表的是代碼的執行環境，例如:測試環境、正式環境...等
+
+![CI/CD](../img/github/57.png)
+![CI/CD](../img/github/58.png)
+![CI/CD](../img/github/59.png)
+![CI/CD](../img/github/60.png)
+![CI/CD](../img/github/61.png)
+![CI/CD](../img/github/62.png)
+![CI/CD](../img/github/63.png)
+![CI/CD](../img/github/64.png)
+![CI/CD](../img/github/65.png)
+
+```yml
+name: workflow_secrets
+on:
+  workflow_dispatch:
+
+jobs:
+  dev-environment:
+    environment: dev
+    env:
+      DB_U: ${{ vars.DB_USERNAME }}
+      DB_P: ${{ secrets.DB_PASSWORD }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v4
+      - name: check env u
+        run: echo "u=${{ env.DB_U }}"
+      - name: check env p
+        run: echo "p=${{ env.DB_P }}"
+  prod-environment:
+    environment: prod
+    env:
+      DB_U: ${{ vars.DB_USERNAME }}
+      DB_P: ${{ secrets.DB_PASSWORD }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v4
+      - name: check env u
+        run: echo "u=${{ env.DB_U }}"
+      - name: check env p
+        run: echo "p=${{ env.DB_P }}"
+```
+
+![CI/CD](../img/github/66.png)
+![CI/CD](../img/github/67.png)
+![CI/CD](../img/github/68.png)
+
+> 可以選擇有哪些分支可以使用此環境
+
+![CI/CD](../img/github/69.png)
+![CI/CD](../img/github/70.png)
