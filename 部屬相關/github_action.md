@@ -24,6 +24,10 @@
 - [Controlling Workflow](#Controlling-Workflow)
   - [job 的依賴關係](job-的依賴關係)
   - [job 狀態檢查](job-狀態檢查)
+  - [Step 狀態檢查](Step-狀態檢查)
+  - [Matrix 的使用](Matrix-的使用)
+- [在容器中運行 workflow](在容器中運行-workflow)
+- [創建自己的 actions](創建自己的-actions)
 
 # Github Action 簡介
 
@@ -1230,4 +1234,336 @@ jobs:
         run: echo "deploy........."
 ```
 
+> 也有其他的可以使用
+
+- `if: ${{ always() }}`: 不管依賴的 jobs 發生什麼事情都會執行
+- `if: ${{ success() }}`: 依賴的 jobs 執行成功後才會執行
+- `if: ${{ failure() }}`: 依賴的 jobs 執行失敗後才會執行
+- `if: ${{ cancelled() }}`: 依賴的 jobs 執行被取消後才會執行
+
 ![CI/CD](../img/github/77.png)
+
+## Step 狀態檢查
+
+- 預設 steps，只要前面一步錯誤後面就不會執行
+
+![CI/CD](../img/github/78.png)
+
+```yml
+name: demo
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - "master"
+
+jobs:
+  test-code:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v4
+      - name: install requirements
+        run: pip install -r requirements.txt
+      - name: run py test
+        run: pytest --cov-report html:htmlcov --cov-report term --cov=project tests
+      - name: upload test reports
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-report
+          path: htmlcov/
+
+  deploy:
+    needs: test-code
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v4
+      - name: deploy code
+        run: echo "deploy........."
+```
+
+- 只要前面的 steps 錯誤後面繼續執行
+
+![CI/CD](../img/github/79.png)
+
+- 如果只想要 `run py test`這個 step 出錯才滿足` if: ${{ failure() }}`，`不想要`install requirements` 或其他步驟也滿足時，該怎麼辦?
+
+  - 給 step 設置 id，根據 id 回傳的結果來去判斷
+
+```yml
+name: demo
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - "master"
+
+jobs:
+  test-code:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v4
+      - name: install requirements
+        run: pip install -r requirements.txt
+      - name: run py test
+        id: run-py-test
+        run: pytest --cov-report html:htmlcov --cov-report term --cov=project tests
+      - name: upload test reports
+        if: failure() && steps.run-py-test.outcome == 'failure'
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-report
+          path: htmlcov/
+
+  deploy:
+    needs: test-code
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v4
+      - name: deploy code
+        run: echo "deploy........."
+```
+
+![CI/CD](../img/github/80.png)
+![CI/CD](../img/github/81.png)
+
+[官網](https://docs.github.com/en/actions/writing-workflows/choosing-what-your-workflow-does/accessing-contextual-information-about-workflow-runs#job-context)
+
+## Matrix 的使用
+
+[官網](https://docs.github.com/en/actions/writing-workflows/choosing-what-your-workflow-does/running-variations-of-jobs-in-a-workflow)
+
+[setup python](https://github.com/marketplace/actions/setup-python)
+
+```yml
+name: demo
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - "master"
+
+jobs:
+  test-code:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.8"
+      - name: install requirements
+        run: pip install -r requirements.txt
+      - name: run py test
+        id: run-py-test
+        run: pytest --cov-report html:htmlcov --cov-report term --cov=project tests
+      - name: upload test reports
+        if: failure() && steps.run-py-test.outcome == 'failure'
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-report
+          path: htmlcov/
+
+  deploy:
+    needs: test-code
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v4
+      - name: deploy code
+        run: echo "deploy........."
+```
+
+- 原本的版本:
+
+![CI/CD](../img/github/82.png)
+
+- 改過的版本
+
+![CI/CD](../img/github/83.png)
+
+**測試不同的環境**
+
+- 最笨的寫法
+
+```yml
+name: demo
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - "master"
+
+jobs:
+  test-code:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v4
+
+      - name: setup py 3.8
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.8"
+
+      - name: install requirements py 3.8
+        run: pip install -r requirements.txt
+
+      - name: run py test py 3.8
+        id: run-py38-test
+        run: pytest --cov-report html:htmlcov --cov-report term --cov=project tests
+
+      - name: upload test reports py 3.8
+        if: failure() && steps.run-py38-test.outcome == 'failure'
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-report
+          path: htmlcov/
+
+      - name: setup py 3.9
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.9"
+      - name: install requirements py 3.9
+        run: pip install -r requirements.txt
+
+      - name: run py test py 3.9
+        id: run-py39-test
+        run: pytest --cov-report html:htmlcov --cov-report term --cov=project tests
+
+      - name: upload test reports py 3.9
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-report
+          path: htmlcov/
+
+  deploy:
+    needs: test-code
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v4
+      - name: deploy code
+        run: echo "deploy........."
+```
+
+- 使用 Matrix
+
+```yml
+name: demo
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - "master"
+
+jobs:
+  test-code:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        version: ["3.8", "3.9", "3.10"]
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v4
+
+      - name: setup py
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.version }}
+
+      - name: install requirements
+        run: pip install -r requirements.txt
+
+      - name: run py test
+        id: run-py-test
+        run: pytest --cov-report html:htmlcov --cov-report term --cov=project tests
+
+      - name: upload test reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-report
+          path: htmlcov/
+
+  deploy:
+    needs: test-code
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v4
+      - name: deploy code
+        run: echo "deploy........."
+```
+
+![CI/CD](../img/github/84.png)
+
+> 若發生錯誤執行 `upload test reports`時，因為`fileName`必須為唯一值，不然會起衝突，因此可把`test-report`改成`test-report-${{matrix.version}}`
+
+![CI/CD](../img/github/85.png)
+
+- 若還要測是別的環境該如何做?
+
+```yml
+name: demo
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - "master"
+
+jobs:
+  test-code:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-22.04, ubuntu-20.04]
+        version: ["3.8", "3.9", "3.10"]
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v4
+
+      - name: setup py
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.version }}
+
+      - name: install requirements
+        run: pip install -r requirements.txt
+
+      - name: run py test
+        id: run-py-test
+        run: pytest --cov-report html:htmlcov --cov-report term --cov=project tests
+
+      - name: upload test reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-report-${{matrix.os}}-${{matrix.version}}
+          path: htmlcov/
+
+  deploy:
+    needs: test-code
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v4
+      - name: deploy code
+        run: echo "deploy........."
+```
+
+> matrix 的順序是有關係的
+
+> 把`test-report-${{matrix.version}}`改成`test-report-${{matrix.os}}-${{matrix.version}}`
+
+![CI/CD](../img/github/86.png)
+
+# 在容器中運行 workflow
