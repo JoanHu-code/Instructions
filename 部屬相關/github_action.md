@@ -1567,3 +1567,7 @@ jobs:
 ![CI/CD](../img/github/86.png)
 
 # 在容器中運行 workflow
+
+- 為何需要放進容器裡做運行?
+
+- 因為 githib workflow 雖然給了我們很多 runners(linux、windows、os)，可以根據我們的需求去挑選，但裡面安裝的程式我們是無法控制的，但如果是用容器的話，那我們就可以自行去選擇運行的程式和版本
