@@ -6,6 +6,7 @@
 - [Nodejs Modules](#Nodejs-Modules)
   - [內建 Module](#內建-Module)
   - [Self-Made Module](#Self-Made-Module)
+  - [第三方製作的Module](#第三方製作的-Module)
   
 
 # 靜態網頁和動態網頁
@@ -287,6 +288,123 @@ COOKIES: session_id = adsfklasdklfjaslkd
 <BLANK LINE>
 ```
 
+#### 製作網頁伺服器
+
+```js
+const http = require("http");
+
+//request object, response object
+const server = http.createServer((req,res)=>{
+  res.write("Welcome to my website!")
+  res.end();
+}); //callback function with 2 parameters
+
+server.listen(3000,()=>{
+  console.log("The serve is running on port 3000")
+})
+```
+![製作網頁伺服器](../img/nodejs/10.png)
+
+- 解決編碼問題，在header上做修改
+
+```js
+const http = require("http");
+
+//request object, response object
+const server = http.createServer((req,res)=>{
+  res.writeHead(200,{"content-Type":"text/html; charset=utf-8"})
+  res.write("Welcome to my website!")
+  res.write("歡迎來到我的網頁")
+  res.end();
+}); //callback function with 2 parameters
+
+server.listen(3000,()=>{
+  console.log("The serve is running on port 3000")
+})
+```
+![製作網頁伺服器](../img/nodejs/11.png)
+
+- `req.url`: 可以知道目前在哪個網址
+```js
+const http = require("http");
+
+//request object, response object
+const server = http.createServer((req,res)=>{
+ console.log(req.url)
+}); //callback function with 2 parameters
+
+server.listen(3000,()=>{
+  console.log("The serve is running on port 3000")
+})
+```
+
+![Self-Made Module](../img/nodejs/13.png)
+![Self-Made Module](../img/nodejs/12.png)
+
+![Self-Made Module](../img/nodejs/14.png)
+![Self-Made Module](../img/nodejs/15.png)
+
+
+```js
+const http = require("http");
+
+//request object, response object
+const server = http.createServer((req,res)=>{
+  if(req.url == '/'){
+    res.write("Welcome to my website!")    
+  }else if(req.url == '/about'){
+    res.write("This is about page!")
+  }else{
+     res.write("404")
+  }
+  res.end()
+}); //callback function with 2 parameters
+
+server.listen(3000,()=>{
+  console.log("The serve is running on port 3000")
+})
+```
+
+![Self-Made Module](../img/nodejs/16.png)
+![Self-Made Module](../img/nodejs/17.png)
+![Self-Made Module](../img/nodejs/18.png)
+
+- 送`.html`頁面
+
+```js
+const http = require("http");
+const fs = require("fs");
+//request object, response object
+const server = http.createServer((req,res)=>{
+  if(req.url == '/'){
+    res.write("Welcome to my website!")  
+    res.end()  
+  }else if(req.url == '/about'){
+    res.write("This is about page!")
+    res.end()
+  }else if(req.url == '/myFile'){
+     fs.readFile("myFile.html",(e,data)=>{
+      if(e){
+        console.log(e)
+        res.write("fail!")
+      }else{
+        res.write(data)
+      }
+        res.end()
+     })
+  }else{
+     res.write("404")
+  }
+
+}); //callback function with 2 parameters
+
+server.listen(3000,()=>{
+  console.log("The serve is running on port 3000")
+})
+```
+
+![Self-Made Module](../img/nodejs/19.png)
+
 ## Self-Made Module
 
 - Self-Made Module
@@ -367,3 +485,70 @@ myModule.callApp();
 
 ![exports](../img/nodejs/05.png)
 ![exports](../img/nodejs/06.png)
+
+## 第三方製作的Module
+
+- npm
+  - 定義：是Node Package Manager,是Node.js預設的套件管理系統。npm會隨者Node.js自動安裝。透過npm，我們可以在CLI(Command-Line Interface)下指令，命令電腦從網路上下載別的開發者發布到網路上的node packages。Module是指具有一些功能的單個JavaScript文件。Package是一個資料夾，其中包含一個或多個modules。
+  - 若我們希望目前的work directory可以使用npm來下載別的開發者發佈到網路上的node packages，並且管理這些packages， 需要先做指令：
+
+
+```shell
+npm init
+```　 
+
+> 所有的npm管理的packages可以在package.json的文件中找到名稱以及版本。
+
+![npm](../img/nodejs/20.png)
+![npm](../img/nodejs/21.png)
+
+[官方網站](https://www.npmjs.com/)
+
+> 指令的語法
+
+```shell
+npm install <package>
+```
+
+
+
+> 若要安裝特定版本的package，指令的語法是：
+
+```shell
+npm install <package>@<version>
+```
+
+![npm](../img/nodejs/24.png)
+
+![npm](../img/nodejs/22.png)
+![npm](../img/nodejs/23.png)
+
+```shell
+npm install cowsay
+```
+
+```js
+const cowsay = require("cowsay");
+
+console.log(cowsay.say({
+    text : "I'm a moooodule",
+    e : "oO",
+    T : "U "
+}));
+
+// or cowsay.think()
+```
+
+> 以上的npm安裝語法，都只會將package安裝在work directory中，名為`node_modules`的資料夾中。若使用
+
+```shell
+npm insatll -g<package>
+```
+> 則可以將package放到作業系統內部。這代表，我們可以在任何的work directory內部使用這個package
+
+![npm](../img/nodejs/25.png)
+![npm](../img/nodejs/26.png)
+
+> 關於-g在電腦用globally安裝dependencies的方式，上支影片忘記補充，用-g安裝的package，其二進制的文件會被放入電腦的PATH 環境變量中 (也就是作業系統知道的某個地方)。因此，這種package可以在shell被直接使用，在Windows的CMD當中，或是Mac的terminal當中，都可以直接透過shell使用套件。
+
+> 當然，如果是資料夾內用需要用require()所取得的package，則一定要在本地透過npm install <package>的指令安裝。只有像nodemon這種透過shell執行的package適合使用-g做全域安裝。
