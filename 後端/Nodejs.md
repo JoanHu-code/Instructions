@@ -4,6 +4,9 @@
 - [後端網頁開發工具](#後端網頁開發工具)
 - [Module Wrapper](#Module-Wrapper)
 - [Nodejs Modules](#Nodejs-Modules)
+  - [內建 Module](#內建-Module)
+  - [Self-Made Module](#Self-Made-Module)
+  
 
 # 靜態網頁和動態網頁
 
@@ -139,6 +142,153 @@ Node.js 的modules分成三種:
 2. 我們自己製作的modules。
 3. 網路上第三方製作的modules，可以透過npm(node package manager)下載來使用
 
+## 內建 Module
+
+### fs(file system)
+
+```js
+const fs = require("fs");
+fs.writeFile("myFile.txt","test",(e)=>{
+  if(e) throw e;
+  console.log("finished!");
+})
+```
+
+```js
+const fs = require("fs");
+fs.readFile("myFile.txt","utf-8",(e,data)=>{
+  if(e) throw e;
+  console.log(data);
+})
+```
+
+### http module
+- http module creates web servers
+
+#### 前提基礎認識:
+
+- IP位址
+  - (IP Address，全稱:`Internet Protocol Address`):又稱為網際網路協定位址，是網際協定中用於標識傳送或接收資料裝置的一串數字(相當於每個在網路上的電腦地址)
+  - 常見的IP位址分別為IPv4與IPv6兩大類，IP位址由一串數字組成。IPv4為32位元長，通常書寫時以四組十進位數字組成，並以點分隔，如:`172.16.254.1`;IPv6為128位元長，通常書寫時以八組十六進位數字組成，以冒號分割，如:`2001:db8:0:1234:0:576:8:1`
+  - IPv4中的每8個digit都會被轉換為0到255之間的整數；因此，IPv4通常是`168.1.7.0`而不是`10101000.00000001.00000111.00000000`。用前者更容易讓人記憶。
+  - 根據IPv4地址的格式，全世界有多少個不同的設備可以同時上網?
+  - 32 bits可以製作出2^32個不同的IP地址。2^32 = 4294967296，約43億。但是，這是世界上大約有72億人，且每個人可能擁有超過一個與網路連接的設備，所以用IPv4地址的格式可能會有一天不夠用。
+  - 因此，IPv6於1990年代引入；IPv6使用128位元，將確保地球上的每一個人、裝置、每一塊岩石和沙子都能夠擁有一個IPv6地址
+
+- DNS(Domain Name System)
+  - 是網際網路的一項服務。它作為將域名(Domain Name)和IP位址相互對應的一個分散式資料庫，能夠使人更方便地存取網際網路。DNS旨在讓人們記住域名，而不是無意義的數字。例如，記住www.youtube.com比記住168.112.0.12更容易的多。
+
+**例子**
+
+![DNS](../img/nodejs/07.png)
+
+- Port: 伺服器中的port式網路通訊連接時，邏輯上的端點(endpoint)，用於在伺服器和客戶端之間交換訊息。每個port被分配一個為一的數字來單獨識別它們。
+  - 例子: port就像一間公司有好幾個部門，要處理事情必須找對部門(窗口)，才有辦法處理
+
+- 一些最常用的端口以及其相關的網路協議是:
+![DNS](../img/nodejs/08.png)
+![DNS](../img/nodejs/09.png)
+
+- 例如，若Google伺服器是https://www.google.com，我們希望發出HTTPs Request，則可以對者`https://www.google.com:443`發出請求，即可連線到Google伺服器上處理HTTPs請求的port。因為沒有必要顯示，所以網址後面的:443通常在網頁瀏覽器是看不到的
+
+- 另一方面，Google伺服器有著24小時不停止運作的腳本語言，在處理任何來字port 443的請求，腳本的Pseudocode如下:
+
+- 處理FTP請求
+
+```Pseudocode
+app.listen(20,()=>{//return a file to client})
+```
+
+- 處理SMTP請求
+
+```Pseudocode
+app.listen(25,()=>{//return an email to client})
+```
+
+- 處理HTTPs請求
+
+```Pseudocode
+app.listen(25,()=>{//return a webpage to client})
+```
+
+- `localhost:3000`
+  - 在電腦網路中，localhost(意味「本地主機」，指「這台電腦」)是給迴路網絡接口(loopback)的一個標準主機名，相對應的IP位址為127.0.0.1 (IPv4)。在DNS中，localhost這個domain name會被換成127.0.0.1。
+  - 我們可以在自己的電腦上面架設並且運行伺服器。當我們要使用同一台電腦連結在自己的電腦上面伺服器時，可以透過寄送請求到localhost，就可以連到自己的電腦上，這就是迴路網絡接口(loopback)
+  - 通常我們在本機上的網頁伺服器，都是使用port 3000或是8080(但基本上可以設定任何1000~9999內的數字)
+
+#### HTTP Request and Response
+
+- HTTP Request以及Response的基本規定格式如下:
+ - Request-Line for HTTP Request, Status-Line for HTTP Response
+ - Header: encoding、length
+ - An empty line indicating the end of the header fields
+ - Optionally a message section
+
+> 在HTTP中定義了client和server，要請求時可以有四種請求
+
+1. GET Request
+2. POST Request
+3. PUT Request
+4. DELETE Request
+
+- 一個基礎的GET Request
+```http
+GET /index.html HTTP/1.1
+HOST: Joanhu.note.edu
+<BLANK LINE>
+```
+> GET: HTTP verb
+> host: header
+
+- 一個基礎的Response會是:
+```http
+HTTP/1.1 200 OK
+Content-Length: 1555
+Content-Type: text/html; charset=ISO-8859-1
+
+<!DOCYTYPE html>
+<html>
+<body>
+...
+```
+
+> 200: status code
+
+- 如果網頁交出表格資料，請使用GET request 的話:
+```http
+GET /index.html?name=Joan&age=24 HTTP/1.1
+HOST: Joanhu.note.edu
+<BLANK LINE>
+```
+- Post Request 內部有表格資料的話
+```http
+POST /index.html HTTP/1.1
+HOST: Joanhu.note.edu
+Content-Type: application/x-www-form-urlencoded; 
+Content-Length: 33
+
+username=Joan@password=alongpassword
+```
+- 帶有cookie設定的response:
+```http
+HTTP/1.1 200 OK
+CONTENT-LENGTH: 200
+CONTENT-TYPE: text/html
+SET-COOKIES: session_id = adsfklasdklfjaslkd;asdawdawdwad;awdawdwdawdawd
+
+<!DOCTYPE html>
+```
+
+- 帶有cookie設定的request:
+```http
+Get /index.html HTTP/1.1
+HOST: Joanhu.note.edu
+COOKIES: session_id = adsfklasdklfjaslkd
+<BLANK LINE>
+```
+
+## Self-Made Module
+
 - Self-Made Module
   - 在Module Wrapper中提供的變數:
     - module變數是個物件，此物件包含此文件的內部訊息，包含id，path，exports，parant，filename等等資訊。
@@ -193,3 +343,27 @@ app2.evening();
 ![exports](../img/nodejs/04.png)
 
 **Folder**
+
+- `app1.js`
+```js
+function callApp() {
+  app2.morning();
+  app3.afternoon();
+  app2.evening();
+}
+exports.callApp =callApp
+```
+- `index.js`
+```js
+let app1 = require("./app1")
+
+exports.callApp =app1.callApp;
+```
+-`myfile.js`
+```js
+let myModule = require("./myModule")
+myModule.callApp();
+```
+
+![exports](../img/nodejs/05.png)
+![exports](../img/nodejs/06.png)
