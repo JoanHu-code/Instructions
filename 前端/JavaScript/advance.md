@@ -1208,7 +1208,7 @@ console.log(arr1);
   console.log(profile.apply(Grace, ["USA", 160, 40]));
   ```
 
-# Prototype Inheritance inConstructors
+# Prototype Inheritance in Constructors
 
 - 一個 constructor function A 可以透過兩個設定來繼承另一個 constructor function B 的 prototype 物件:
 
