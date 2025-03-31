@@ -3,6 +3,7 @@
 - [靜態網頁和動態網頁](#靜態網頁和動態網頁)
 - [後端網頁開發工具](#後端網頁開發工具)
 - [Module Wrapper](#Module-Wrapper)
+- [Nodejs Modules](#Nodejs-Modules)
 
 # 靜態網頁和動態網頁
 
@@ -128,3 +129,67 @@ console.log(__filename); //d:\USERS\Desktop\Example\app1.js
 ```shell
 node .\app1.js
 ```
+
+# Nodejs Modules
+
+Node.js 的modules分成三種:
+
+1. Node.js內建的modules，可以直接拿來使用
+[官方網站](https://nodejs.org/docs/latest/api/)
+2. 我們自己製作的modules。
+3. 網路上第三方製作的modules，可以透過npm(node package manager)下載來使用
+
+- Self-Made Module
+  - 在Module Wrapper中提供的變數:
+    - module變數是個物件，此物件包含此文件的內部訊息，包含id，path，exports，parant，filename等等資訊。
+    - exports是module物件的屬性，本身是個empty object。
+    - require 是一個function，可以讀取一個JavaScript文件，執行該文件，然後return這個文件的exports objext。若讀取的是一個資料夾，則讀取該資料夾內的index.js文件，執行該文件，然後return這個文件的exports object。
+
+**module變數**
+
+```js
+console.log(module)
+```
+
+![Self-Made Module](../img/nodejs/03.png)
+
+**exports**
+
+- `app2.js`
+
+```js
+function morning(){
+  console.log("Good Morning!")
+}
+function evening(){
+  console.log("Good Evening!")
+}
+module.exports.morning = morning;
+exports.evening = evening;
+```
+
+- `app3.js`
+
+```js
+function afternoon(){
+  console.log("Good Afternoon!")
+}
+
+exports.afternoon = afternoon;
+```
+
+**require**
+
+- `app1.js`
+
+```js
+let app2 = require("./app2")
+let app3 = require("./app3")
+app2.morning();
+app3.afternoon();
+app2.evening();
+```
+
+![exports](../img/nodejs/04.png)
+
+**Folder**
