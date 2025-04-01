@@ -280,6 +280,8 @@ app.use((req,res)=>{
   return res.status(404).send("<h1>404 Not Found</h1>");
 })
 
+// 有無return在於是否還需要執行下面的程式碼，不要執行就加return，要就不加
+
 // it's our server, one param is port, another is callback
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
@@ -646,3 +648,28 @@ app.listen(port, () => {
 |403 Forbidden|用戶端並無訪問權限，例如未被授權，所以伺服器拒絕給予回應。不同於401，伺服器端知道用戶端的身分。|
 |404 Not Found|伺服器找不到請求的資源。因為在網路上他很常出現，這回應碼也許最為人所悉。|
 |500 Internal Server Error|伺服器端發生未知或無法處理的錯誤。|
+
+![expressjs](../img/expressjs/23.png)
+
+
+```js
+const express = require("express");
+const app = express();
+const port = 3000;
+
+app.get("/",(req,res)=>{
+  res.sendFile(__dirname+"/index.html")
+})
+
+app.use((req,res)=>{
+ res.status(404).send("<h1>404 Not Found</h1>");
+})
+
+app.listen(port, () => {
+  console.log(`Example app listening on port ${port}`)
+})
+```
+
+![expressjs](../img/expressjs/24.png)
+
+> 有無return在於是否還需要執行下面的程式碼，不要執行就加return，要就不加
