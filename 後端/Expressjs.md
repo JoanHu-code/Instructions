@@ -102,6 +102,8 @@ app2();
 - 例如，在Google上搜尋panda，網址會變成:
 `https://www.google.com/search?q=panda&oq=panda&...VxFfTLxBVJ6AP1cRX0y&sourceid=chrome&ie=UTF-8`
 
+![expressjs](../img/expressjs/25.png)
+
 - 其他常見的request methods是:
 
 1. PUT: 用於修改資源的方法，客戶端發送更新整個資源的數據。
