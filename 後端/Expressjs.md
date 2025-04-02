@@ -142,12 +142,13 @@ app2();
 - Response Object常用的methods有:
 
 |Methods| Description|
-|res.send(body)|傳送出HTTP Response。Body可以是String,object,array,boolean等等。|
-|res.sendFile(path)|將位於path的文件傳送出去。|
-|res.json(body)|發送JSON response。此method會先使用JSON.stringify()將body轉換為JSON String後，再發送一個response給客戶端|
-|res.redirect(path)|伺服器通過發送狀態為302的HTTP response要求客戶端到path。客戶端會重新發送一個HTTP GET request到path。|
-|res.render(view[,locals])|將view模板透過locals的文字後，將view發送到客戶端。|
-|res.status()|設定HTTP Response的status code。|
+|--------|-----------|
+|`res.send(body)`|傳送出HTTP Response。Body可以是String,object,array,boolean等等。|
+|`res.sendFile(path)`|將位於path的文件傳送出去。|
+|`res.json(body)`|發送JSON response。此method會先使用JSON.stringify()將body轉換為JSON String後，再發送一個response給客戶端|
+|`res.redirect(path)`|伺服器通過發送狀態為302的HTTP response要求客戶端到path。客戶端會重新發送一個HTTP GET request到path。|
+|`res.render(view[,locals])`)|將view模板套用locals的文字後，將view發送到客戶端。|
+|`res.status()`|設定HTTP Response的status code。|
 
 
 - res.send(body)
@@ -293,6 +294,10 @@ app.listen(port, () => {
 ![expressjs](../img/expressjs/10.png)
 
 > 要記住這個錯誤設置是不能放在最上面的，放在最上面反而會找不到下面的網頁，所以需要把錯誤配置配到最下面才行
+
+- `res.render(view[,locals])`: `[,locals]`是optional，為可加可不加
+
+[解說可看EJS](./EJS.md#EJS-基本介紹)
 
 ## Request object的常用屬性為:
 
