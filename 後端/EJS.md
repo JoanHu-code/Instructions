@@ -4,6 +4,8 @@
 - [EJS 語法](#EJS-語法)
 - [EJS 應用示範](#EJS-應用示範)
 - [MVC 模式](#MVC-模式)
+- [MVP 模式](#MVP-模式)
+- [MVVM 模式](#MVVM-模式)
 
 # EJS 基本介紹
 
@@ -443,3 +445,112 @@ th,td{
 ```
 
 ![EJS](../img/EJS/14.png)
+
+# MVC 模式
+
+- MVC模式(Model-View-Controller)是軟體工程中的一種design pattern(軟體架構模式)，把軟體系統分為三個基本部分:模型(Model)、視圖(View)和控制器(Controller)。
+
+- MVC模式的目的是實現一種動態的設計程式，使後續對程式的修改和擴充簡化，並且使程式某一部份的重複利用成為可能。除此之外，此模式透過對複雜度的簡化，使程式結構更加直覺。軟體系統透過對自身基本部分分離同時也賦予了各個基本部分應有的功能。
+
+- 現在的網頁開發框架，例如Java Spring、ASP.NET、Ruby on Rails、Django、Laravel等等，都是使用相當標準的MVC design pattern。
+
+**Model、View、Controller的分工如下:**
+
+- 模型(Model): 封裝與應用程式邏輯相關的資料以及對資料的處理方法「Model」有對資料直接存取的權利，例如對資料庫的存取
+ - Mongoose
+
+- 視圖(View): 將資料有目的的顯示出來
+ - EJS
+
+- 控制器(Controller): 用於控制應用程式的流程，處理事件並做出回應。「事件」包括使用者的行為和Model上的改變
+  - app.js
+  - express router
+
+![EJS](../img/EJS/15.png)
+![EJS](../img/EJS/16.png)
+
+- 優點:
+
+1. 重複使用已寫好的程式碼: model, view,controller各司其職，不同的view可以使用同一個model連結資料庫，產出不同的頁面，增加開發效率
+
+2. 容易維護的程式碼:由於MVC彼此獨立，因此，將現有的project擴大或是修改都可以不破壞現有架構
+
+3. 團隊分工合作: view、model、controller可由不同專業的人分工處理。例如:view郊遊前端工程師美化處理、model、controller則是由後端或資料庫人員負責
+
+- 缺點：
+
+1. 不適合小型，中等規模的應用程序，花費大量時間將 MVC 應用到規模並不是很大的應用程序通常會得不償失。
+2. 視圖與控制器間過於緊密連接，視圖與控制器是相互分離，但卻是聯繫緊密的部件，視圖沒有控制器的存在，其應用是很有限的，反之亦然，這樣就妨礙了他們的獨立重用。
+
+3. 視圖對模型數據的低效率訪問，依據模型操作接口的不同，視圖可能需要多次調用才能獲得足夠的顯示數據。對未變化數據的不必要的頻繁訪問，也將損害操作性能。
+
+- 例子: 顧客來到餐廳用點餐機點餐(controller)，點餐機把餐點的資料等送到廚房讓廚師料理(model)，料理完後再透過服務生端出來給使用者(view)
+
+# MVP
+
+- MVP模式(Model-View-Presenter)是由 MVC 演變而來，不過將 Controller 改名爲 Presenter，同時改變了通信方向。
+
+- 模式和MVC幾乎完全相同差別在 MVP 中 View 並不直接與 Model 交互，它們之間的通信是通過 Presenter (MVC 中的 Controller) 來進行的
+
+- 特點:
+1. M、V、P 之間雙向通信。
+
+2. View 與 Model 不通信，都通過 Presenter 傳遞。Presenter 完全把 Model 和 View 進行了分離，主要的程序邏輯在 Presenter 裏實現。
+
+3. View 非常薄，不部署任何業務邏輯，稱爲” 被動視圖”（Passive View），即沒有任何主動性，而 Presenter 非常厚，所有邏輯都部署在那裏。
+
+4. Presenter 與具體的 View 是沒有直接關聯的，而是通過定義好的接口進行交互，從而使得在變更 View 時候可以保持 Presenter 的不變，這樣就可以重用。不僅如此，還可以編寫測試用的 View，模擬用戶的各種操作，從而實現對 Presenter 的測試–從而不需要使用自動化的測試工具。
+
+- 優點:
+
+1. 模型與視圖完全分離，我們可以修改視圖而不影響模型；
+
+2. 可以更高效地使用模型，因爲所有的交互都發生在一個地方 — — Presenter 內部；
+
+3. 我們可以將一個 Presenter 用於多個視圖，而不需要改變 Presenter 的邏輯。這個特性非常的有用，因爲視圖的變化總是比模型的變化頻繁；
+
+4. 如果我們把邏輯放在 Presenter 中，那麼我們就可以脫離用戶接口來測試這些邏輯（單元測試）。
+
+MVP 缺點：視圖和 Presenter 的交互會過於頻繁，使得他們的聯繫過於緊密。也就是說，一旦視圖變更了，presenter 也要變更。
+
+
+![EJS](../img/EJS/17.png)
+
+- 例子: 顧客來到餐廳用點餐機點餐(Presenter)，點餐機把餐點的資料等送到廚房讓廚師料理(model)，料理完後的料理會送到點餐機出口，服務生要從點餐機出口拿料理給顧客(view)
+
+# MVVM
+
+- MVVM模式(Model View ViewModel)這個模式提供對 View 和 View Model 的雙向數據綁定。這使得 View Model 的狀態改變可以自動傳遞給 View。典型的情況是，View Model 通過使用 obsever 模式（觀察者模式）來將 View Model 的變化通知給 model。
+
+- 模式和MVC幾乎完全相同差別在 MVP 中 View 並不直接與 Model 交互，它們之間的通信是通過 Presenter (MVC 中的 Controller) 來進行的
+
+**Model、View、View Model的分工如下:**
+
+- 模型(Model): 封裝與應用程式邏輯相關的資料以及對資料的處理方法「Model」有對資料直接存取的權利，例如對資料庫的存取
+
+- 視圖(View): 將資料有目的的顯示出來
+
+- 視圖模型(View Model): 用於控制應用程式的流程，處理事件並做出回應。「事件」包括使用者的行為和Model上的改變
+
+![EJS](../img/EJS/18.png)
+
+MVVM 模式關鍵點：
+
+1. 用戶和 View 交互。
+2. View 和 ViewModel 是多對一關係。意味着一個 ViewModel 只映射多個 View。
+
+3. View 持有 ViewModel 的引用，但是 ViewModel 沒有任何 View 的信息。
+
+4. View 和 ViewModel 之間有雙向數據綁定關係。
+
+MVVM 優點：
+
+1. 視圖（View）可以獨立於 Model 變化和修改，一個 ViewModel 可以綁定到不同的”View” 上，當 View 變化的時候 Model 可以不變，當 Model 變化的時候 View 也可以不變。
+
+2. 可重用性，可以把一些視圖邏輯放在一個 ViewModel 裏面，讓很多 view 重用這段視圖邏輯。
+
+3. 獨立開發，開發人員可以專注於業務邏輯和數據的開發（ViewModel），設計人員可以專注於頁面設計，使用 Expression Blend 可以很容易設計界面並生成 xml 代碼。
+
+4. 可測試，界面向來是比較難於測試的，而現在測試可以針對 ViewModel 來寫。
+
+- 例子: 顧客來到餐廳用點餐機點餐(ViewModel)，點餐機把餐點的資料等送到廚房讓廚師料理(model)，料理完後就會送回點餐機出口，移送到點餐機出口時顧客的桌上就會瞬間出現料理
