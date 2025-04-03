@@ -534,7 +534,8 @@ console.log(Wilson.spouse.Grace);
 
         ```js
         let convertor = (c) => {
-        return c * 1.8 + 32;
+         const f =  c * 1.8 + 32
+         return f;
         };
         console.log(convertor(32));
         ```
