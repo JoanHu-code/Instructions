@@ -22,8 +22,8 @@
   - [PRIMARY KEY 介紹](#PRIMARY-KEY-介紹)  
   - [UNIQUE 字段](#UNIQUE-字段)
   - [練習](#練習)
-- [基本的增刪查改](#基本的增刪查改)    
-　- [本章介紹](#本章介紹) 
+- [基本的增刪查改](#基本的增刪查改)
+  - [本章介紹](#本章介紹)
   - [學習使用sql文件](#學習使用sql文件) 
   - [資料準備](#資料準備) 
   - [SELECT 語句](#SELECT-語句)
@@ -31,7 +31,14 @@
   - [UPDATE 語句](#UPDATE-語句)
   - [DELETE 語句](#DELETE-語句)
   - [CRUD 練習](#CRUD-練習)
-
+- [SQL 字符串相關處理方法](#SQL-字符串相關處理方法)
+  - [本章介紹](#本章介紹)
+  - [資料準備](#資料準備)
+  - [字串拼接 CONCAT](#字串拼接-CONCAT)
+  - [子字串 SUBSTRING](#子字串-SUBSTRING)
+  - [REPLACE REVERSE CHARLENGTH](#REPLACE-REVERSE-CHARLENGTH)
+  - [大小寫轉換](#大小寫轉換)
+  - [字串處裡練習](#字串處裡練習)
 　
 # 介紹SQL
 
@@ -941,7 +948,7 @@ SELECT * FROM movie WHERE NOT country="USA";
 4. filter out Peter Jackson's or Christopher Nolan's movie
 
 ```sql
-SELECT * FROM movie WHERE director_name="Peter Jackson" or director_name="Christopher Nolan";
+SELECT * FROM movie WHERE director_name="Peter Jackson" OR director_name="Christopher Nolan";
 ```
 ![範例](../img/mySQL/61.png)
 
@@ -965,3 +972,20 @@ DELETE FROM movie WHERE imdb_score<6;
 DELETE FROM movie WHERE title_year=2006;
 ```
 ![範例](../img/mySQL/64.png)
+
+# SQL 字符串相關處理方法
+
+## 本章介紹
+
+- 字串"拼接"
+- 字串"剪輯"
+- 字串"反轉"
+- 字串"長度"
+- 字串"大小寫"
+
+## 資料準備
+## 字串拼接 CONCAT
+## 子字串 SUBSTRING
+## REPLACE REVERSE CHARLENGTH
+## 大小寫轉換
+## 字串處裡練習
