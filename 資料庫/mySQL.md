@@ -589,12 +589,166 @@ CREATE TABLE employee (
 
 ![範例](../img/mySQL/40.png)
 ![範例](../img/mySQL/41.png)
-![範例](../img/mySQL/43.png)
+![範例](../img/mySQL/42.png)
 
+```SQL
+CREATE TABLE test(
+  id INT NOT NULL AUTO_INCREMENT,
+  first_name VARCHAR(20) NOT NULL,
+  last_name VARCHAR(20) NOT NULL,
+  PRIMARY KEY (id)
+);
+
+INSERT INTO test (first_name, last_name) VALUES
+('Robin','Jackman'),
+('Taylor','Edward'),
+('Vivian','Dickens'),
+('Harry','Clifford'),
+('Elize','Clifford'),
+('Nancy','Newman'),
+('Melinda','Clifford');
+```
 
 ## 資料準備
+
+```sql
+CREATE TABLE employee(
+  id INT NOT NULL AUTO_INCREMENT,
+  first_name VARCHAR(100) NOT NULL,
+  last_name VARCHAR(100) NOT NULL,
+  title VARCHAR(100) DEFAULT NULL,
+  salary DOUBLE DEFAULT NULL,
+  hired_date DATE NOT NULL,
+  notes TEXT,
+  PRIMARY KEY (id)
+);
+
+INSERT INTO employee (first_name, last_name, title, salary, hired_date) VALUES
+('Robin','Jackman','Software Engineer', 5500, '2001-10-21'),
+('Taylor','Edware','Software Architect', 7200, '2001-09-21'),
+('Vivian','Dickens','Database Administrator', 6000, '2012-08-29'),
+('Harry','Clifford','Database Administrator', 6800, '2015-12-10'),
+('Eliza','Clifford','Software Engineer', 4750, '1998-10-19'),
+('Nancy','Newman','Software Engineer', 5100, '2007-01-23'),
+('Melinda','Clifford','Project Manager', 8500, '2013-10-29'),
+('Jack','Chan','Test Engineer', 6500, '2018-09-07'),
+('Harley','Gilbert','Software Architect', 8000, '2000-07-17');
+```
+![範例](../img/mySQL/43.png)
+![範例](../img/mySQL/44.png)
+
 ## SELECT 語句
+
+- table裡的全部資料
+
+```sql
+SELECT * FROM <TABLE_NAME>;
+```
+
+```sql
+select * from employee;
+```
+
+![範例](../img/mySQL/45.png)
+
+- 指定column
+
+```sql
+SELECT column1_name,column2_name FROM <TABLE_NAME>;
+```
+
+```sql
+select first_name ,salary from employee;
+```
+
+![範例](../img/mySQL/46.png)
+
+- column如果太長，可以另外取名
+
+```sql
+SELECT colum1_name as colN, column2_name as col2N FROM <TABLE_NAME>;
+```
+
+```sql
+select first_name as fname,last_name as lname from employee;
+```
+
+![範例](../img/mySQL/47.png)
+
 ## WHERE 語句
+
+> 可增加搜尋條件
+
+```sql
+SELECT * from employee WHERE condition;
+```
+
+```sql
+SELECT * from employee WHERE title="Database Administrator";
+```
+![範例](../img/mySQL/48.png)
+
+> 多個條件可以用`and`，`or`來做連接
+
+**and**
+
+```sql
+SELECT * from employee WHERE condition1 and condition2;
+```
+
+```sql
+SELECT * from employee WHERE title="Database Administrator" and salary=6000;
+```
+
+![範例](../img/mySQL/49.png)
+
+**or**
+
+```sql
+SELECT * from employee WHERE condition1 or condition2;
+```
+
+```sql
+SELECT * from employee WHERE title="Software Architect" or salary=6000;
+```
+
+![範例](../img/mySQL/50.png)
+
+> 可以使用`NOT`
+
+**NOT**
+
+```sql
+SELECT * from employee WHERE NOT condition1 or condition2;
+```
+
+```sql
+SELECT * from employee WHERE NOT title="Software Architect";
+```
+
+![範例](../img/mySQL/51.png)
+
 ## UPDATE 語句
+
+```SQL
+UPDATE <TABLE_NAME> SET column_name = value where condition ;
+```
+
+```SQL
+UPDATE employee set salary=10000 where title="Software Architect";
+```
+![範例](../img/mySQL/52.png)
+![範例](../img/mySQL/53.png)
+
+> 同時改多個值
+
+```sql
+UPDATE <TABLE_NAME> SET column1_name = value, column2_name = value where condition ;
+```
+```SQL
+UPDATE employee set salary=20000,notes="update" where title="Software Architect";
+```
+![範例](../img/mySQL/54.png)
+
 ## DELETE 語句
 ## CRUD 練習
