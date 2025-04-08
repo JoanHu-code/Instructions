@@ -986,8 +986,148 @@ DELETE FROM movie WHERE title_year=2006;
 ## 資料準備
 ![範例](../img/mySQL/67.png)
 ![範例](../img/mySQL/68.png)
+
 ## 字串拼接 CONCAT
+
+```sql
+select first_name, last_name from employee;
+```
+> 這樣會打印出兩個column，那如果我想直接拿到全名該怎麼做?
+
+- The MYSQL CONCAT function takes one or more string arguments and concatenates them into a single string. The CONCAT function requires a minimum of one parameter otherwise it raises an error
+
+- CONCAT("A","B") = "AB"
+
+```SQL
+SELECT CONCAT("A","B");
+```
+![CONCAT](../img/mySQL/69.png)
+
+```SQL
+SELECT CONCAT(first_name, last_name) from employee;
+```
+![CONCAT](../img/mySQL/70.png)
+
+> 讓他更美觀一點
+
+```SQL
+SELECT CONCAT(first_name, "," ,last_name) as FullName from employee;
+```
+![CONCAT](../img/mySQL/71.png)
+
+**範例**
+
+```SQL
+SELECT CONCAT(first_name, "," ,last_name," is a ",title) as Sentence from employee;
+```
+![CONCAT](../img/mySQL/72.png)
+
+**CONCAT_WS:第一個參數可以放要分割的東西，後面參數則是放合併的參數**
+
+```SQL
+SELECT CONCAT_WS(",",first_name,last_name) as FullName from employee;
+```
+![CONCAT](../img/mySQL/73.png)
+
+```SQL
+SELECT CONCAT_WS(",",first_name,last_name,title) as FullName from employee;
+```
+![CONCAT](../img/mySQL/74.png)
+
 ## 子字串 SUBSTRING
+
+> 取index為0~3的字母
+
+```SQL
+SELECT SUBSTRING("Hello World",1,4);
+```
+![SUBSTRING](../img/mySQL/75.png)
+
+> 取index從7開始到結束的字母
+
+```SQL
+SELECT SUBSTRING("Hello World",7);
+```
+![SUBSTRING](../img/mySQL/76.png)
+
+> 從後面數來的3個字母到最後
+
+```SQL
+SELECT SUBSTRING("Hello World",-3);
+```
+![SUBSTRING](../img/mySQL/77.png)
+
+**範例**
+
+```sql
+SELECT SUBSTRING(title,1,5) from employee;
+```
+![SUBSTRING](../img/mySQL/78.png)
+
+> `SUBSTRING`可以簡寫成`SUBSTR`
+
+```sql
+SELECT SUBSTR(title,1,5) from employee;
+```
+![SUBSTRING](../img/mySQL/79.png)
+
+
+```sql
+SELECT CONCAT_WS(" ",first_name,last_name,"was hired on",SUBSTR(hire_date,1,4)) as information from employee;
+```
+![SUBSTRING](../img/mySQL/80.png)
+
+
 ## REPLACE REVERSE CHARLENGTH
+
+> 替代指定的字串
+
+```sql
+SELECT REPLACE("Hello World", "World","MySQL");
+```
+![SUBSTRING](../img/mySQL/81.png)
+
+
+> 反轉字串
+
+```SQL
+SELECT REVERSE("Hello World");
+```
+![SUBSTRING](../img/mySQL/82.png)
+
+> 顯示字串長度
+
+```SQL
+SELECT CHAR_LENGTH("Hello World");
+```
+![SUBSTRING](../img/mySQL/83.png)
+
+**範例**
+
+```sql
+SELECT REPLACE(title, "Software","Hardware") from employee;
+```
+![SUBSTRING](../img/mySQL/84.png)
+
 ## 大小寫轉換
+
+> 轉換成大寫
+
+```sql
+SELECT UPPER("Hello MySQL");
+```
+![SUBSTRING](../img/mySQL/85.png)
+
+```sql
+SELECT LOWER("Hello MySQL");
+```
+![SUBSTRING](../img/mySQL/86.png)
+
+**範例**
+
+```sql
+SELECT UPPER(first_name) as first_name, UPPER(last_name) as last_name from employee;
+```
+![SUBSTRING](../img/mySQL/87.png)
+
 ## 字串處裡練習
