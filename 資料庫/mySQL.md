@@ -1207,7 +1207,99 @@ SELECT CONCAT(SUBSTR(title,1,8),"...")as short_title, director_name from movie;
 ![範例](../img/mySQL/95.png)
 
 ## ORDER BY
+
+```sql
+SELECT * from employee ORDER BY salary;
+```
+![範例](../img/mySQL/96.png)
+
+> 默認排序順序是從低到高
+
+**降序**
+```sql
+SELECT * from employee ORDER BY salary DESC;
+```
+![範例](../img/mySQL/97.png)
+
+> 除了一般的數字外，DATA和STRING也可以排序
+```sql
+SELECT * from employee ORDER BY title;
+```
+![範例](../img/mySQL/98.png)
+
+```sql
+SELECT * from employee ORDER BY hired_date;
+```
+![範例](../img/mySQL/99.png)
+
+> 若有指定column可以簡寫成數字排序
+
+- 照salary排序
+
+```sql
+SELECT first_name, last_name, salary from employee ORDER BY 3;
+```
+![範例](../img/mySQL/100.png)
+
+- 照last_name排序
+
+```sql
+SELECT first_name, last_name, salary from employee ORDER BY 2;
+```
+![範例](../img/mySQL/101.png)
+
+> 也可以照沒有指定的欄位排序
+
+```sql
+SELECT first_name, last_name, salary from employee ORDER BY id;
+```
+![範例](../img/mySQL/102.png)
+
+> 也可以選擇兩個column進行排序
+
+- 先按照`last_name`進行排序，若有相同的`last_name`再按照`first_name`做排序
+
+```sql
+SELECT first_name, last_name, salary from employee ORDER BY 2,1;
+```
+![範例](../img/mySQL/103.png)
+
 ## LIMIT
+
+> 返回前五條記錄
+
+```sql
+SELECT * FROM employee limit 5;
+```
+![範例](../img/mySQL/104.png)
+
+```sql
+SELECT * FROM employee ORDER BY salary limit 3;
+```
+![範例](../img/mySQL/105.png)
+
+```sql
+SELECT * FROM employee ORDER BY salary DESC limit 3;
+```
+![範例](../img/mySQL/106.png)
+
+> 可以指定範圍
+
+- 從index為2開始數四個(2~5) 
+
+```sql
+SELECT * FROM employee ORDER BY salary DESC limit  2,4;
+```
+![範例](../img/mySQL/107.png)
+
+- 若不想要指定結束，要怎麼做?可以在後面放很大的數字
+
+[官網](https://dev.mysql.com/doc/refman/8.4/en/select.html)
+
+```SQL
+SELECT * FROM tbl LIMIT 95,18446744073709551615;
+```
+
 ## LIKE
 ## 大小寫匹配問題
 ## 練習
