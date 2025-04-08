@@ -47,6 +47,16 @@
   - [LIKE](#LIKE)
   - [大小寫匹配問題](#大小寫匹配問題)
   - [練習](#練習)
+- [資料的聚合處理](#資料的聚合處理)
+  - [本章介紹](#本章介紹)
+  - [資料準備](#資料準備)
+  - [COUNT](#COUNT)
+  - [DISTINCT](#DISCINCT)
+  - [GROUP BY](#GROUP-BY)
+  - [MAX MIN](#MAX-MIN)
+  - [SUM AVG](#SUM-AVG)
+  - [HAVING](#HAVING)
+  - [練習](#練習)
 　
 # 介紹SQL
 
@@ -1419,3 +1429,141 @@ SELECT title,title_year,director_name from movie ORDER BY title;
 SELECT title,title_year,imdb_score from movie WHERE director_name="Christopher Nolan" ORDER BY imdb_score DESC LIMIT 1;
 ```
 ![範例](../img/mySQL/122.png)
+
+# 資料的聚合處理
+
+## 本章介紹
+
+- Group and aggregation 
+
+![聚合](../img/mySQL/123.png)
+
+## 資料準備
+
+> 使用movie和employee的資料
+
+## COUNT
+
+> 可對篩選的結果做統計
+
+```sql
+select count(*) from employee;
+```
+
+![COUNT](../img/mySQL/124.png)
+
+```sql
+select count(*) from employee WHERE title="Software Engineer";
+```
+
+![COUNT](../img/mySQL/125.png)
+
+## DISTINCT
+
+```sql
+SELECT DISTINCT title FROM employee;
+```
+
+![DISTINCT](../img/mySQL/126.png)
+
+```sql
+SELECT COUNT(DISTINCT title) FROM employee;
+```
+
+![DISTINCT](../img/mySQL/127.png)
+
+## GROUP BY
+
+> 按照title去分組
+
+```SQL
+SELECT title FROM employee group by title;
+```
+![GROUP BY](../img/mySQL/128.png)
+
+```SQL
+SELECT title, count(first_name) from employee group by title;
+```
+![GROUP BY](../img/mySQL/129.png)
+
+```SQL
+SELECT last_name from employee group by last_name;
+```
+![GROUP BY](../img/mySQL/130.png)
+
+```SQL
+SELECT last_name from employee group by last_name,first_name;
+```
+![GROUP BY](../img/mySQL/131.png)
+
+## MAX MIN
+
+```sql
+SELECT MAX(salary) FROM employee;
+```
+![MAX](../img/mySQL/132.png)
+
+```sql
+SELECT * FROM employee ORDER BY salary DESC LIMIT 1;
+```
+![MAX](../img/mySQL/133.png)
+
+> 打印出每一種title的最高salary
+
+```sql
+SELECT title, max(salary) FROM employee group by title;
+```
+![MAX](../img/mySQL/134.png)
+
+> 打印出每一種title的最低salary
+
+```sql
+SELECT title, MIN(salary) FROM employee group by title;
+```
+![MIN](../img/mySQL/135.png)
+
+> 也可以使用在日期上
+
+```sql
+SELECT MIN(hire_date),MAX(hire_date) FROM employee;
+```
+![MIN](../img/mySQL/140.png)
+
+> 也可以使用在字串上
+
+```sql
+SELECT MIN(first_name),MAX(first_name) FROM employee;
+```
+![MIN](../img/mySQL/141.png)
+
+## SUM AVG
+
+```sql
+SELECT sum(salary) FROM employee;
+```
+![SUM](../img/mySQL/136.png)
+
+```sql
+SELECT sum(salary),AVG(salary) FROM employee;
+```
+![AVG](../img/mySQL/137.png)
+
+❌方法跟column名稱連用
+
+```sql
+SELECT sum(salary),AVG(salary),title FROM employee;
+```
+![AVG](../img/mySQL/138.png)
+
+> 算出每個title的最小值、最大值、總和和平均值
+
+```sql
+SELECT title, min(salary),max(salary),avg(salary),sum(salary) from employee GROUP by title;
+```
+![AVG](../img/mySQL/139.png)
+
+
+
+## HAVING
+![HAVING](../img/mySQL/142.png)
+## 練習
