@@ -984,6 +984,8 @@ DELETE FROM movie WHERE title_year=2006;
 - 字串"大小寫"
 
 ## 資料準備
+![範例](../img/mySQL/67.png)
+![範例](../img/mySQL/68.png)
 ## 字串拼接 CONCAT
 ## 子字串 SUBSTRING
 ## REPLACE REVERSE CHARLENGTH
