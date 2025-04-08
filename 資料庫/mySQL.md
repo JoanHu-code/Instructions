@@ -1565,5 +1565,60 @@ SELECT title, min(salary),max(salary),avg(salary),sum(salary) from employee GROU
 
 
 ## HAVING
+
+- where指過濾原始資料，無法對聚合以後的結果進行過濾
+
+```sql
+SELECT title, count(*) FROM employee WHERE title="Database Administrator" group by title;
+```
+
 ![HAVING](../img/mySQL/142.png)
+
+> 如何對group by的結果進行filter
+
+- 需要使用HAVING
+
+```sql
+SELECT title, count(*) FROM employee group by title HAVING title="Database Administrator";
+```
+
+![HAVING](../img/mySQL/143.png)
+
+> group by之前用where，group by之後用HAVING
+
 ## 練習
+
+1. Christopher Nolan導演拍過幾部電影?
+
+```sql
+SELECT COUNT(*) from movie where director_name="Christopher Nolan";
+```
+![練習](../img/mySQL/144.png)
+
+2. Tom Hardy出演過幾部電影?
+
+```sql
+SELECT COUNT(*) from movie where actor_1_name="Tom Hardy" or actor_2_name="Tom Hardy";
+```
+![練習](../img/mySQL/145.png)
+
+3. 一共有多少導演?
+
+```sql
+SELECT COUNT(DISTINCT director_name) FROM movie;
+```
+![練習](../img/mySQL/146.png)
+
+4. Top5 拍電影最多的導演
+
+```sql
+SELECT COUNT(title),director_name FROM movie GROUP BY director_name ORDER BY COUNT(title) DESC LIMIT 5;
+```
+![練習](../img/mySQL/147.png)
+
+4. Top5 歷史票房最高的導演
+
+```sql
+SELECT SUM(gross),director_name FROM movie GROUP BY director_name ORDER BY SUM(gross) DESC LIMIT 5;
+```
+![練習](../img/mySQL/148.png)
