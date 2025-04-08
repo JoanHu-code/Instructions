@@ -1616,7 +1616,7 @@ SELECT COUNT(title),director_name FROM movie GROUP BY director_name ORDER BY COU
 ```
 ![練習](../img/mySQL/147.png)
 
-4. Top5 歷史票房最高的導演
+5. Top5 歷史票房最高的導演
 
 ```sql
 SELECT SUM(gross),director_name FROM movie GROUP BY director_name ORDER BY SUM(gross) DESC LIMIT 5;
