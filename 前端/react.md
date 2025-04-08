@@ -60,4 +60,4 @@ npx create-react-app <project-name>
   - public folder: 內部放置靜態文件，例如:index.html、JavaScript文件、圖片、favicon.ico和其他檔案等等
     - public資料夾內部的index.html文ˋ建非常重要。用React所製作的Single Page Application當所使用的單一頁面就是這個index.html文件。
   - src folder: 是React應用程序的核心資料夾，包含Components、index.js、App.js等等文件功能
-    - index.js文件的功能是將最主要的   
+    - index.js文件的功能是將最主要的React Component渲染到在index.html當中id為root的標籤。   
