@@ -1301,5 +1301,121 @@ SELECT * FROM tbl LIMIT 95,18446744073709551615;
 ```
 
 ## LIKE
+
+> 模糊搜尋，`%`代表任意字符
+
+- 搜尋`last_name`是以`C`開頭的
+
+```SQL
+SELECT * FROM employee where last_name like "C%";
+```
+![範例](../img/mySQL/108.png)
+
+- 搜尋`last_name`是以`Cl`開頭的
+
+```SQL
+SELECT * FROM employee where last_name like "Cl%";
+```
+![範例](../img/mySQL/109.png)
+
+- 搜尋`last_name`包含`i`的資料
+
+```SQL
+SELECT * FROM employee where last_name like "%i%";
+```
+![範例](../img/mySQL/110.png)
+
+- 搜尋`last_name`以`n`結尾的資料
+
+```SQL
+SELECT * FROM employee where last_name like "%n";
+```
+![範例](../img/mySQL/111.png)
+
+> 若知道長度，那可以用`-`做篩選
+
+- 搜尋`last_name`為四個字，以`an`結尾
+
+```sql
+SELECT * FROM employee where last_name like "__an";
+```
+
+![範例](../img/mySQL/112.png)
+
+- 搜尋`last_name`為四個字
+
+```sql
+SELECT * FROM employee where last_name like "____";
+```
+![範例](../img/mySQL/113.png)
+
+> 若原本的字串裡面存在`%`和`_`時該怎麼辦?
+
+```sql
+INSERT INTO employee(first_name, last_name, title, salary, hired_date) VALUES("a%bb","c_dd","Test",10000,"2018-10-10");
+```
+![範例](../img/mySQL/114.png)
+
+> 此時可以用`\`做轉譯
+
+```sql
+SELECT * FROM employee where first_name like "%\%%";
+```
+![範例](../img/mySQL/115.png)
+
+```sql
+SELECT * FROM employee where last_name like "%\_%";
+```
+![範例](../img/mySQL/116.png)
+
+
 ## 大小寫匹配問題
+
+> 不論大寫或小寫都可以被匹配到
+
+```sql
+SELECT * FROM employee where first_name="robin";
+```
+
+```sql
+SELECT * FROM employee where first_name="Robin";
+```
+
+![範例](../img/mySQL/117.png)
+
 ## 練習
+
+1. 找出所有電影名字含有`dark`的影片，打印出片名，導演、上映時間
+
+```sql
+SELECT title,director_name,title_year from movie where title like "%dark%";
+```
+![範例](../img/mySQL/118.png)
+
+2. 找出票房最高的十部影片，打印出片名、上映時間、導演、票房、主演1和2
+
+```sql
+SELECT title,title_year,director_name,gross,actor_1_name,actor_2_name from movie ORDER BY gross DESC LIMIT 10;
+```
+![範例](../img/mySQL/119.png)
+
+3. 找到`Peter Jackson票房最高`的電影，打印出片名，上映時間，票房，IMDB評分
+
+```sql
+SELECT title,title_year,gross,imdb_score from movie WHERE director_name="Peter Jackson" ORDER BY gross DESC LIMIT 1;
+```
+![範例](../img/mySQL/120.png)
+
+4. 對片名按照字母順序排序，打印出片名、上映時間、導演
+
+```sql
+SELECT title,title_year,director_name from movie ORDER BY title;
+```
+![範例](../img/mySQL/121.png)
+
+5. 找到Christopher Nolan所有影片中IMDB評分最高的電影，打印出片名，上映時間，IMDB評分
+
+```sql
+SELECT title,title_year,imdb_score from movie WHERE director_name="Christopher Nolan" ORDER BY imdb_score DESC LIMIT 1;
+```
+![範例](../img/mySQL/122.png)
