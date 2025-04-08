@@ -39,6 +39,14 @@
   - [REPLACE REVERSE CHARLENGTH](#REPLACE-REVERSE-CHARLENGTH)
   - [大小寫轉換](#大小寫轉換)
   - [字串處裡練習](#字串處裡練習)
+- [SELECT 結果的進一步處理](#SELECT-結果的進一步處理)
+  - [本章介紹](#本章介紹)
+  - [資料準備](#資料準備)
+  - [ORDER BY](#ORDER-BY)
+  - [LIMIT](#LIMIT)
+  - [LIKE](#LIKE)
+  - [大小寫匹配問題](#大小寫匹配問題)
+  - [練習](#練習)
 　
 # 介紹SQL
 
@@ -1131,3 +1139,75 @@ SELECT UPPER(first_name) as first_name, UPPER(last_name) as last_name from emplo
 ![SUBSTRING](../img/mySQL/87.png)
 
 ## 字串處裡練習
+
+1. 複習
+
+```sql
+SELECT REPLACE(CONCAT("H"," ","E"," ","L"," ","L"," ","O")," ","-") AS Title;
+```
+
+| Title|
+|------|
+|H-E-L-L-O|
+
+![SUBSTRING](../img/mySQL/88.png)
+
+2. CONCAT練習
+
+```SQL
+SELECT CONCAT(director_name,"->",imdb_score) as "director_name->imdb_score" from movie;
+```
+```SQL
+SELECT CONCAT_WS("->",director_name,imdb_score) as "director_name->imdb_score" from movie;
+```
+
+![SUBSTRING](../img/mySQL/89.png)
+
+3. REVERSE練習
+
+```SQL
+SELECT country,REVERSE(country) as "yrtnuoc" from movie;
+```
+
+![SUBSTRING](../img/mySQL/90.png)
+
+4. CONCAT練習
+
+```SQL
+SELECT CONCAT_WS(" ",title,"was released in",title_year) as "title" from movie;
+```
+
+![SUBSTRING](../img/mySQL/91.png)
+
+5. CHAR_LENGTH練習
+
+```SQL
+SELECT title, CHAR_LENGTH(title) as character_count from movie;
+```
+
+![SUBSTRING](../img/mySQL/92.png)
+
+5. CONCAT和SUBSTR練習
+
+```SQL
+SELECT CONCAT(SUBSTR(title,1,8),"...")as short_title, director_name from movie;
+```
+![SUBSTRING](../img/mySQL/93.png)
+
+# SELECT 結果的進一步處理
+
+## 本章介紹
+
+1. 如何對SELECT返回的資料按某種規則進行排序?
+2. 如何限制SELECT返回資料的數量?
+3. 如何進行SELECT結果的模糊搜索?
+
+## 資料準備
+![範例](../img/mySQL/94.png)
+![範例](../img/mySQL/95.png)
+
+## ORDER BY
+## LIMIT
+## LIKE
+## 大小寫匹配問題
+## 練習
