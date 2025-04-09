@@ -1092,8 +1092,9 @@ console.log(Wilson.spouse.Grace);
     ```
 
   - JavaScript Event Object 的繼承關係如下:
-    ![JavaScript Event Object](../img/DOM/33.png)
-    [MDN](https://developer.mozilla.org/en-US/docs/Web/API/Event)
+
+![JavaScript Event Object](../img/DOM/33.png)
+[MDN](https://developer.mozilla.org/en-US/docs/Web/API/Event)
 
     ```js
     addEventListener("keydown", (e) => {
@@ -1107,154 +1108,154 @@ console.log(Wilson.spouse.Grace);
 
       - target: 指向最初觸發事件的 DOM
 
-            ```html
-            <div class="box1">
-              <div class="box2"></div>
-            </div>
-            ```
+```html
+<div class="box1">
+  <div class="box2"></div>
+</div>
+```
 
-            ```css
-            .box1 {
-              width: 300px;
-              height: 300px;
-              background-color: red;
-            }
+```css
+.box1 {
+  width: 300px;
+  height: 300px;
+  background-color: red;
+}
 
-            .box2 {
-              width: 150px;
-              height: 150px;
-              background-color: blue;
-            }
-            ```
+.box2 {
+  width: 150px;
+  height: 150px;
+  background-color: blue;
+}
+```
 
-            ```js
-            let box1 = document.querySelector(".box1");
-            let box2 = document.querySelector(".box2");
-            box1.addEventListener("click", () => {
-              alert("box1 has been clciked!");
-            });
-            box2.addEventListener("click", () => {
-              alert("box2 has been clciked!");
-            });
-            ```
+```js
+let box1 = document.querySelector(".box1");
+let box2 = document.querySelector(".box2");
+box1.addEventListener("click", () => {
+  alert("box1 has been clciked!");
+});
+box2.addEventListener("click", () => {
+  alert("box2 has been clciked!");
+});
+```
 
         - 在 event bubbling 發生時，event object 的 target 屬性在 child element 與 parent element 的 event handler 內會是一樣的。因此需要改成使用另一個屬性叫做 currentTarget
 
-          ```html
-          <div id="outer">
-            <div id="middle">
-              <button id="inner">Click me!</button>
-            </div>
-          </div>
-          ```
+```html
+<div id="outer">
+  <div id="middle">
+    <button id="inner">Click me!</button>
+  </div>
+</div>
+```
 
-          ```js
-          const outerElement = document.getElementById("outer");
-          const middleElement = document.getElementById("middle");
-          const innerButton = document.getElementById("inner");
-          outerElement.addEventListener("click", function (event) {
-            console.log("Outer element clicked!");
-            console.log("Event target:", event.target); //<button id="inner">Click me!</button
-            console.log("Event current target:", event.currentTarget);
-          });
+```js
+const outerElement = document.getElementById("outer");
+const middleElement = document.getElementById("middle");
+const innerButton = document.getElementById("inner");
+outerElement.addEventListener("click", function (event) {
+  console.log("Outer element clicked!");
+  console.log("Event target:", event.target); //<button id="inner">Click me!</button
+  console.log("Event current target:", event.currentTarget);
+});
 
-          middleElement.addEventListener("click", function (event) {
-            console.log("Middle element clicked!");
-            console.log("Event target:", event.target); //<button id="inner">Click me!</button
-            console.log("Event current target:", event.currentTarget);
-          });
+middleElement.addEventListener("click", function (event) {
+  console.log("Middle element clicked!");
+  console.log("Event target:", event.target); //<button id="inner">Click me!</button
+  console.log("Event current target:", event.currentTarget);
+});
 
-          innerButton.addEventListener("click", function (event) {
-            console.log("Inner button clicked!");
-            console.log("Event target:", event.target); //<button id="inner">Click me!</button
-            console.log("Event current target:", event.currentTarget);
-          });
-          ```
+innerButton.addEventListener("click", function (event) {
+  console.log("Inner button clicked!");
+  console.log("Event target:", event.target); //<button id="inner">Click me!</button
+  console.log("Event current target:", event.currentTarget);
+});
+```
 
       - preventDefault(): 如果事件可以被取消，就取消事件(即取消事件的預設行為)，但不會影響事件的傳遞(event bubbling)，事件仍會繼續傳遞
 
-        ```html
-        <form>
-          <label for="name">Name:</label>
-          <input id="name" type="text" />
-          <label for="age">Age:</label>
-          <input id="age" type="number" />
-          <button>submit</button>
-        </form>
-        ```
+```html
+<form>
+  <label for="name">Name:</label>
+  <input id="name" type="text" />
+  <label for="age">Age:</label>
+  <input id="age" type="number" />
+  <button>submit</button>
+</form>
+```
 
-        ```js
-        let form = document.querySelector("form");
-        form.addEventListener("submit", (e) => {
-          e.preventDefault(); // disable to submit
-        });
-        ```
+```js
+let form = document.querySelector("form");
+form.addEventListener("submit", (e) => {
+  e.preventDefault(); // disable to submit
+});
+```
 
-        ```html
-        <div class="box1">
-          <div class="box2"></div>
-        </div>
-        ```
+```html
+<div class="box1">
+  <div class="box2"></div>
+</div>
+```
 
-        ```css
-        .box1 {
-          width: 300px;
-          height: 300px;
-          background-color: red;
-        }
+```css
+.box1 {
+  width: 300px;
+  height: 300px;
+  background-color: red;
+}
 
-        .box2 {
-          width: 150px;
-          height: 150px;
-          background-color: blue;
-        }
-        ```
+.box2 {
+  width: 150px;
+  height: 150px;
+  background-color: blue;
+}
+```
 
-        ```js
-        let box1 = document.querySelector(".box1");
-        let box2 = document.querySelector(".box2");
-        box1.addEventListener("click", () => {
-          alert("box1 has been clciked!");
-        });
-        box2.addEventListener("click", (e) => {
-          e.preventDefault(); // it can not be stop event bubbling
-          alert("box2 has been clciked!");
-        });
-        ```
+```js
+let box1 = document.querySelector(".box1");
+let box2 = document.querySelector(".box2");
+box1.addEventListener("click", () => {
+  alert("box1 has been clciked!");
+});
+box2.addEventListener("click", (e) => {
+  e.preventDefault(); // it can not be stop event bubbling
+  alert("box2 has been clciked!");
+});
+```
 
       - stopPropagation(): 可防止在 event bubbling 進一步傳播當前事件。
 
-        ```html
-        <div class="box1">
-          <div class="box2"></div>
-        </div>
-        ```
+```html
+<div class="box1">
+  <div class="box2"></div>
+</div>
+```
 
-        ```css
-        .box1 {
-          width: 300px;
-          height: 300px;
-          background-color: red;
-        }
+```css
+.box1 {
+  width: 300px;
+  height: 300px;
+  background-color: red;
+}
 
-        .box2 {
-          width: 150px;
-          height: 150px;
-          background-color: blue;
-        }
-        ```
+.box2 {
+  width: 150px;
+  height: 150px;
+  background-color: blue;
+}
+```
 
-        ```js
-        let box1 = document.querySelector(".box1");
-        let box2 = document.querySelector(".box2");
-        box1.addEventListener("click", () => {
-          alert("box1 has been clciked!");
-        });
-        box2.addEventListener("click", (e) => {
-          e.stopPropagation();
-          alert("box2 has been clciked!");
-        });
-        ```
+```js
+let box1 = document.querySelector(".box1");
+let box2 = document.querySelector(".box2");
+box1.addEventListener("click", () => {
+  alert("box1 has been clciked!");
+});
+box2.addEventListener("click", (e) => {
+  e.stopPropagation();
+  alert("box2 has been clciked!");
+});
+```
 
 # 第九章 Local Storage and Session Storage
 
