@@ -39,6 +39,24 @@
   - [REPLACE REVERSE CHARLENGTH](#REPLACE-REVERSE-CHARLENGTH)
   - [大小寫轉換](#大小寫轉換)
   - [字串處裡練習](#字串處裡練習)
+- [SELECT 結果的進一步處理](#SELECT-結果的進一步處理)
+  - [本章介紹](#本章介紹)
+  - [資料準備](#資料準備)
+  - [ORDER BY](#ORDER-BY)
+  - [LIMIT](#LIMIT)
+  - [LIKE](#LIKE)
+  - [大小寫匹配問題](#大小寫匹配問題)
+  - [練習](#練習)
+- [資料的聚合處理](#資料的聚合處理)
+  - [本章介紹](#本章介紹)
+  - [資料準備](#資料準備)
+  - [COUNT](#COUNT)
+  - [DISTINCT](#DISCINCT)
+  - [GROUP BY](#GROUP-BY)
+  - [MAX MIN](#MAX-MIN)
+  - [SUM AVG](#SUM-AVG)
+  - [HAVING](#HAVING)
+  - [練習](#練習)
 　
 # 介紹SQL
 
@@ -984,8 +1002,623 @@ DELETE FROM movie WHERE title_year=2006;
 - 字串"大小寫"
 
 ## 資料準備
+![範例](../img/mySQL/67.png)
+![範例](../img/mySQL/68.png)
+
 ## 字串拼接 CONCAT
+
+```sql
+select first_name, last_name from employee;
+```
+> 這樣會打印出兩個column，那如果我想直接拿到全名該怎麼做?
+
+- The MYSQL CONCAT function takes one or more string arguments and concatenates them into a single string. The CONCAT function requires a minimum of one parameter otherwise it raises an error
+
+- CONCAT("A","B") = "AB"
+
+```SQL
+SELECT CONCAT("A","B");
+```
+![CONCAT](../img/mySQL/69.png)
+
+```SQL
+SELECT CONCAT(first_name, last_name) from employee;
+```
+![CONCAT](../img/mySQL/70.png)
+
+> 讓他更美觀一點
+
+```SQL
+SELECT CONCAT(first_name, "," ,last_name) as FullName from employee;
+```
+![CONCAT](../img/mySQL/71.png)
+
+**範例**
+
+```SQL
+SELECT CONCAT(first_name, "," ,last_name," is a ",title) as Sentence from employee;
+```
+![CONCAT](../img/mySQL/72.png)
+
+**CONCAT_WS:第一個參數可以放要分割的東西，後面參數則是放合併的參數**
+
+```SQL
+SELECT CONCAT_WS(",",first_name,last_name) as FullName from employee;
+```
+![CONCAT](../img/mySQL/73.png)
+
+```SQL
+SELECT CONCAT_WS(",",first_name,last_name,title) as FullName from employee;
+```
+![CONCAT](../img/mySQL/74.png)
+
 ## 子字串 SUBSTRING
+
+> 取index為0~3的字母
+
+```SQL
+SELECT SUBSTRING("Hello World",1,4);
+```
+![SUBSTRING](../img/mySQL/75.png)
+
+> 取index從7開始到結束的字母
+
+```SQL
+SELECT SUBSTRING("Hello World",7);
+```
+![SUBSTRING](../img/mySQL/76.png)
+
+> 從後面數來的3個字母到最後
+
+```SQL
+SELECT SUBSTRING("Hello World",-3);
+```
+![SUBSTRING](../img/mySQL/77.png)
+
+**範例**
+
+```sql
+SELECT SUBSTRING(title,1,5) from employee;
+```
+![SUBSTRING](../img/mySQL/78.png)
+
+> `SUBSTRING`可以簡寫成`SUBSTR`
+
+```sql
+SELECT SUBSTR(title,1,5) from employee;
+```
+![SUBSTRING](../img/mySQL/79.png)
+
+
+```sql
+SELECT CONCAT_WS(" ",first_name,last_name,"was hired on",SUBSTR(hire_date,1,4)) as information from employee;
+```
+![SUBSTRING](../img/mySQL/80.png)
+
+
 ## REPLACE REVERSE CHARLENGTH
+
+> 替代指定的字串
+
+```sql
+SELECT REPLACE("Hello World", "World","MySQL");
+```
+![SUBSTRING](../img/mySQL/81.png)
+
+
+> 反轉字串
+
+```SQL
+SELECT REVERSE("Hello World");
+```
+![SUBSTRING](../img/mySQL/82.png)
+
+> 顯示字串長度
+
+```SQL
+SELECT CHAR_LENGTH("Hello World");
+```
+![SUBSTRING](../img/mySQL/83.png)
+
+**範例**
+
+```sql
+SELECT REPLACE(title, "Software","Hardware") from employee;
+```
+![SUBSTRING](../img/mySQL/84.png)
+
 ## 大小寫轉換
+
+> 轉換成大寫
+
+```sql
+SELECT UPPER("Hello MySQL");
+```
+![SUBSTRING](../img/mySQL/85.png)
+
+```sql
+SELECT LOWER("Hello MySQL");
+```
+![SUBSTRING](../img/mySQL/86.png)
+
+**範例**
+
+```sql
+SELECT UPPER(first_name) as first_name, UPPER(last_name) as last_name from employee;
+```
+![SUBSTRING](../img/mySQL/87.png)
+
 ## 字串處裡練習
+
+1. 複習
+
+```sql
+SELECT REPLACE(CONCAT("H"," ","E"," ","L"," ","L"," ","O")," ","-") AS Title;
+```
+
+| Title|
+|------|
+|H-E-L-L-O|
+
+![SUBSTRING](../img/mySQL/88.png)
+
+2. CONCAT練習
+
+```SQL
+SELECT CONCAT(director_name,"->",imdb_score) as "director_name->imdb_score" from movie;
+```
+```SQL
+SELECT CONCAT_WS("->",director_name,imdb_score) as "director_name->imdb_score" from movie;
+```
+
+![SUBSTRING](../img/mySQL/89.png)
+
+3. REVERSE練習
+
+```SQL
+SELECT country,REVERSE(country) as "yrtnuoc" from movie;
+```
+
+![SUBSTRING](../img/mySQL/90.png)
+
+4. CONCAT練習
+
+```SQL
+SELECT CONCAT_WS(" ",title,"was released in",title_year) as "title" from movie;
+```
+
+![SUBSTRING](../img/mySQL/91.png)
+
+5. CHAR_LENGTH練習
+
+```SQL
+SELECT title, CHAR_LENGTH(title) as character_count from movie;
+```
+
+![SUBSTRING](../img/mySQL/92.png)
+
+5. CONCAT和SUBSTR練習
+
+```SQL
+SELECT CONCAT(SUBSTR(title,1,8),"...")as short_title, director_name from movie;
+```
+![SUBSTRING](../img/mySQL/93.png)
+
+# SELECT 結果的進一步處理
+
+## 本章介紹
+
+1. 如何對SELECT返回的資料按某種規則進行排序?
+2. 如何限制SELECT返回資料的數量?
+3. 如何進行SELECT結果的模糊搜索?
+
+## 資料準備
+![範例](../img/mySQL/94.png)
+![範例](../img/mySQL/95.png)
+
+## ORDER BY
+
+```sql
+SELECT * from employee ORDER BY salary;
+```
+![範例](../img/mySQL/96.png)
+
+> 默認排序順序是從低到高
+
+**降序**
+```sql
+SELECT * from employee ORDER BY salary DESC;
+```
+![範例](../img/mySQL/97.png)
+
+> 除了一般的數字外，DATA和STRING也可以排序
+```sql
+SELECT * from employee ORDER BY title;
+```
+![範例](../img/mySQL/98.png)
+
+```sql
+SELECT * from employee ORDER BY hired_date;
+```
+![範例](../img/mySQL/99.png)
+
+> 若有指定column可以簡寫成數字排序
+
+- 照salary排序
+
+```sql
+SELECT first_name, last_name, salary from employee ORDER BY 3;
+```
+![範例](../img/mySQL/100.png)
+
+- 照last_name排序
+
+```sql
+SELECT first_name, last_name, salary from employee ORDER BY 2;
+```
+![範例](../img/mySQL/101.png)
+
+> 也可以照沒有指定的欄位排序
+
+```sql
+SELECT first_name, last_name, salary from employee ORDER BY id;
+```
+![範例](../img/mySQL/102.png)
+
+> 也可以選擇兩個column進行排序
+
+- 先按照`last_name`進行排序，若有相同的`last_name`再按照`first_name`做排序
+
+```sql
+SELECT first_name, last_name, salary from employee ORDER BY 2,1;
+```
+![範例](../img/mySQL/103.png)
+
+## LIMIT
+
+> 返回前五條記錄
+
+```sql
+SELECT * FROM employee limit 5;
+```
+![範例](../img/mySQL/104.png)
+
+```sql
+SELECT * FROM employee ORDER BY salary limit 3;
+```
+![範例](../img/mySQL/105.png)
+
+```sql
+SELECT * FROM employee ORDER BY salary DESC limit 3;
+```
+![範例](../img/mySQL/106.png)
+
+> 可以指定範圍
+
+- 從index為2開始數四個(2~5) 
+
+```sql
+SELECT * FROM employee ORDER BY salary DESC limit  2,4;
+```
+![範例](../img/mySQL/107.png)
+
+- 若不想要指定結束，要怎麼做?可以在後面放很大的數字
+
+[官網](https://dev.mysql.com/doc/refman/8.4/en/select.html)
+
+```SQL
+SELECT * FROM tbl LIMIT 95,18446744073709551615;
+```
+
+## LIKE
+
+> 模糊搜尋，`%`代表任意字符
+
+- 搜尋`last_name`是以`C`開頭的
+
+```SQL
+SELECT * FROM employee where last_name like "C%";
+```
+![範例](../img/mySQL/108.png)
+
+- 搜尋`last_name`是以`Cl`開頭的
+
+```SQL
+SELECT * FROM employee where last_name like "Cl%";
+```
+![範例](../img/mySQL/109.png)
+
+- 搜尋`last_name`包含`i`的資料
+
+```SQL
+SELECT * FROM employee where last_name like "%i%";
+```
+![範例](../img/mySQL/110.png)
+
+- 搜尋`last_name`以`n`結尾的資料
+
+```SQL
+SELECT * FROM employee where last_name like "%n";
+```
+![範例](../img/mySQL/111.png)
+
+> 若知道長度，那可以用`-`做篩選
+
+- 搜尋`last_name`為四個字，以`an`結尾
+
+```sql
+SELECT * FROM employee where last_name like "__an";
+```
+
+![範例](../img/mySQL/112.png)
+
+- 搜尋`last_name`為四個字
+
+```sql
+SELECT * FROM employee where last_name like "____";
+```
+![範例](../img/mySQL/113.png)
+
+> 若原本的字串裡面存在`%`和`_`時該怎麼辦?
+
+```sql
+INSERT INTO employee(first_name, last_name, title, salary, hired_date) VALUES("a%bb","c_dd","Test",10000,"2018-10-10");
+```
+![範例](../img/mySQL/114.png)
+
+> 此時可以用`\`做轉譯
+
+```sql
+SELECT * FROM employee where first_name like "%\%%";
+```
+![範例](../img/mySQL/115.png)
+
+```sql
+SELECT * FROM employee where last_name like "%\_%";
+```
+![範例](../img/mySQL/116.png)
+
+
+## 大小寫匹配問題
+
+> 不論大寫或小寫都可以被匹配到
+
+```sql
+SELECT * FROM employee where first_name="robin";
+```
+
+```sql
+SELECT * FROM employee where first_name="Robin";
+```
+
+![範例](../img/mySQL/117.png)
+
+## 練習
+
+1. 找出所有電影名字含有`dark`的影片，打印出片名，導演、上映時間
+
+```sql
+SELECT title,director_name,title_year from movie where title like "%dark%";
+```
+![範例](../img/mySQL/118.png)
+
+2. 找出票房最高的十部影片，打印出片名、上映時間、導演、票房、主演1和2
+
+```sql
+SELECT title,title_year,director_name,gross,actor_1_name,actor_2_name from movie ORDER BY gross DESC LIMIT 10;
+```
+![範例](../img/mySQL/119.png)
+
+3. 找到`Peter Jackson票房最高`的電影，打印出片名，上映時間，票房，IMDB評分
+
+```sql
+SELECT title,title_year,gross,imdb_score from movie WHERE director_name="Peter Jackson" ORDER BY gross DESC LIMIT 1;
+```
+![範例](../img/mySQL/120.png)
+
+4. 對片名按照字母順序排序，打印出片名、上映時間、導演
+
+```sql
+SELECT title,title_year,director_name from movie ORDER BY title;
+```
+![範例](../img/mySQL/121.png)
+
+5. 找到Christopher Nolan所有影片中IMDB評分最高的電影，打印出片名，上映時間，IMDB評分
+
+```sql
+SELECT title,title_year,imdb_score from movie WHERE director_name="Christopher Nolan" ORDER BY imdb_score DESC LIMIT 1;
+```
+![範例](../img/mySQL/122.png)
+
+# 資料的聚合處理
+
+## 本章介紹
+
+- Group and aggregation 
+
+![聚合](../img/mySQL/123.png)
+
+## 資料準備
+
+> 使用movie和employee的資料
+
+## COUNT
+
+> 可對篩選的結果做統計
+
+```sql
+select count(*) from employee;
+```
+
+![COUNT](../img/mySQL/124.png)
+
+```sql
+select count(*) from employee WHERE title="Software Engineer";
+```
+
+![COUNT](../img/mySQL/125.png)
+
+## DISTINCT
+
+```sql
+SELECT DISTINCT title FROM employee;
+```
+
+![DISTINCT](../img/mySQL/126.png)
+
+```sql
+SELECT COUNT(DISTINCT title) FROM employee;
+```
+
+![DISTINCT](../img/mySQL/127.png)
+
+## GROUP BY
+
+> 按照title去分組
+
+```SQL
+SELECT title FROM employee group by title;
+```
+![GROUP BY](../img/mySQL/128.png)
+
+```SQL
+SELECT title, count(first_name) from employee group by title;
+```
+![GROUP BY](../img/mySQL/129.png)
+
+```SQL
+SELECT last_name from employee group by last_name;
+```
+![GROUP BY](../img/mySQL/130.png)
+
+```SQL
+SELECT last_name from employee group by last_name,first_name;
+```
+![GROUP BY](../img/mySQL/131.png)
+
+## MAX MIN
+
+```sql
+SELECT MAX(salary) FROM employee;
+```
+![MAX](../img/mySQL/132.png)
+
+```sql
+SELECT * FROM employee ORDER BY salary DESC LIMIT 1;
+```
+![MAX](../img/mySQL/133.png)
+
+> 打印出每一種title的最高salary
+
+```sql
+SELECT title, max(salary) FROM employee group by title;
+```
+![MAX](../img/mySQL/134.png)
+
+> 打印出每一種title的最低salary
+
+```sql
+SELECT title, MIN(salary) FROM employee group by title;
+```
+![MIN](../img/mySQL/135.png)
+
+> 也可以使用在日期上
+
+```sql
+SELECT MIN(hire_date),MAX(hire_date) FROM employee;
+```
+![MIN](../img/mySQL/140.png)
+
+> 也可以使用在字串上
+
+```sql
+SELECT MIN(first_name),MAX(first_name) FROM employee;
+```
+![MIN](../img/mySQL/141.png)
+
+## SUM AVG
+
+```sql
+SELECT sum(salary) FROM employee;
+```
+![SUM](../img/mySQL/136.png)
+
+```sql
+SELECT sum(salary),AVG(salary) FROM employee;
+```
+![AVG](../img/mySQL/137.png)
+
+❌方法跟column名稱連用
+
+```sql
+SELECT sum(salary),AVG(salary),title FROM employee;
+```
+![AVG](../img/mySQL/138.png)
+
+> 算出每個title的最小值、最大值、總和和平均值
+
+```sql
+SELECT title, min(salary),max(salary),avg(salary),sum(salary) from employee GROUP by title;
+```
+![AVG](../img/mySQL/139.png)
+
+
+
+## HAVING
+
+- where指過濾原始資料，無法對聚合以後的結果進行過濾
+
+```sql
+SELECT title, count(*) FROM employee WHERE title="Database Administrator" group by title;
+```
+
+![HAVING](../img/mySQL/142.png)
+
+> 如何對group by的結果進行filter
+
+- 需要使用HAVING
+
+```sql
+SELECT title, count(*) FROM employee group by title HAVING title="Database Administrator";
+```
+
+![HAVING](../img/mySQL/143.png)
+
+> group by之前用where，group by之後用HAVING
+
+## 練習
+
+1. Christopher Nolan導演拍過幾部電影?
+
+```sql
+SELECT COUNT(*) from movie where director_name="Christopher Nolan";
+```
+![練習](../img/mySQL/144.png)
+
+2. Tom Hardy出演過幾部電影?
+
+```sql
+SELECT COUNT(*) from movie where actor_1_name="Tom Hardy" or actor_2_name="Tom Hardy";
+```
+![練習](../img/mySQL/145.png)
+
+3. 一共有多少導演?
+
+```sql
+SELECT COUNT(DISTINCT director_name) FROM movie;
+```
+![練習](../img/mySQL/146.png)
+
+4. Top5 拍電影最多的導演
+
+```sql
+SELECT COUNT(title),director_name FROM movie GROUP BY director_name ORDER BY COUNT(title) DESC LIMIT 5;
+```
+![練習](../img/mySQL/147.png)
+
+5. Top5 歷史票房最高的導演
+
+```sql
+SELECT SUM(gross),director_name FROM movie GROUP BY director_name ORDER BY SUM(gross) DESC LIMIT 5;
+```
+![練習](../img/mySQL/148.png)
