@@ -889,17 +889,18 @@ React Router Dom中,App.js的語法是:
 
 ```jsx
 import React from "react";
-import Car from "./Car";
+import Home from "./Home";
 import Layout from './Layout'; 
-import Create from "./Create";
+import About from "./About";
+import ErrorPage from "./ErrorPage";
 import{BrowserRouter, Routes,Route} from "react-router-dom";
 function App() {
   return(
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Layout/>}></Route>
-        <Route index element={<Create/>}></Route>
-        <Route path="Car" element={<Car/>}></Route>
+        <Route index element={<Home/>}></Route>
+        <Route path="about" element={<About/>}></Route>
         <Route path="*" element={<ErrorPage/>}></Route>       
       </Routes>
     </BrowserRouter>

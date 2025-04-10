@@ -48,3 +48,13 @@
 [Animation](https://storyset.com)
 
 [GSAP](https://gsap.com/)
+
+# 表格統整(前端)
+# Vite, React, Nuxt, Next - 設定與程式碼統整
+
+| 框架         | 描述                                      | 創建專案指令                                                   | 主要設定與程式碼範例                                     |
+|--------------|-------------------------------------------|---------------------------------------------------------------|----------------------------------------------------------|
+| **Vite**     | 快速的前端開發建構工具，支援 Vue、React 等框架 | `npm create vite@latest <project-name> --template react`       | `vite.config.js` 基本配置：<br> ```js import { defineConfig } from 'vite'; export default defineConfig({}); ``` |
+| **React**    | 用於構建用戶界面的 JavaScript 庫，專注於構建單頁應用 | 使用 `create-react-app` 或 `Vite` 生成 React 專案           | `App.js` 基本範例：<br> ```jsx import React, { useState } from 'react'; const App = () => { const [color, setColor] = useState('red'); const changeColor = () => { setColor(color === 'red' ? 'blue' : 'red'); }; return (<div><h1>The color is {color}</h1><button onClick={changeColor}>Change Color</button></div>); }; export default App; ``` |
+| **Nuxt**     | 基於 Vue 3 的服務端渲染框架，支援靜態生成頁面 | `npx create-nuxt-app <project-name>`                          | `nuxt.config.js` 配置範例：<br> ```js export default { ssr: true, buildModules: ['@nuxtjs/tailwindcss'], }; ``` |
+| **Next**     | 基於 React 的服務端渲染框架，支援靜態生成頁面 | `npx create-next-app <project-name>`                           | `pages/index.js` 基本範例：<br> ```jsx import { useState } from 'react'; const Home = () => { const [color, setColor] = useState('red'); return (<div><h1>The color is {color}</h1><button onClick={() => setColor(color === 'red' ? 'blue' : 'red')}>Change Color</button></div>); }; export default Home; ``` |
