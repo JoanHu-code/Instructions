@@ -371,6 +371,12 @@ export default function ServerSideRendering({data}){
 - [id].jsx
 
 ```jsx
+export asyns function getStaticProps(){
+  const response =await fetch("http://localhost:8080/students")
+  const data = await response.json();
+}
 ```
+> 這裡的path一定要符合Next.js要求的格式
+> `getStaticProps()`一定要return一個有paths屬性的物件
 
 
