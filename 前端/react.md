@@ -10,6 +10,7 @@
 - [State Lifting](#State-Lifting)
 - [useEffect](#useEffect)
 - [Class Component and Life Cycle](#Class-Component-and-Life-Cycle)
+- [React Router](#React-Router)
 
 # SPA
 
@@ -728,9 +729,14 @@ export default App;
 render函數可以定義此Component的JSX架構。
 若要在Class Component內部初始化某些屬性，則需要用到constructor()
 
+> 當此Class Component第一次被渲染時，constructor就會被React執行。
+
+
 **範例**
 
 ```jsx
+import React from "react";
+
 class Car extends React.Component{
   constructor(){
     super();
@@ -738,12 +744,198 @@ class Car extends React.Component{
   }
   render(){
     return(
-      <h2>Hi, I am {this.state.color} a Car!</h2>
+      <h2>Hi, this is a {this.state.color}  Car!</h2>
     )
   }
 }
+
+export default Car;
 ```
-> 當此Class Component第一次被渲染時，constructor就會被React執行。
+
+![Class](../img/react/13.png)
+
+在Class Component當中使用Props的方式也很簡單。先在父層的標籤設定屬性
+
+```jsx
+import React from "react";
+import Car from "./Car";
+
+function App() {
+  return (
+    <Car model="Toyota" />
+  );
+}
+
+export default App;
+```
+
+到子層再使用:
+
+```jsx
+import React from "react";
+class Car extends React.Component{
+  render(){
+    return(
+      <h2>Hi, this is a {this.props.model} car!</h2>
+    )
+  }
+}
+export default Car;
+```
+
+> props是constructor的參數，且一定要放入super()函數內部。
+> 在Class Component內部使用this.props就可以使用props內的屬性
+
+![Class](../img/react/14.png)
+
+在Class Component當中，如果要改變state屬性的內容，必須要用setState()函數:
+
+```jsx
+import React from "react";
+class Car extends React.Component{
+  constructor(props){
+    super(props);
+    this.state = {
+      price: 300000,
+      color: "red",
+      year: 2005,
+    };
+  }
+  changeColor = ()=>{
+    this.setState({color:"black"})
+  };
+  render(){
+    return (
+      <div>
+        <p>It is a {this.state.color} from {this.state.year}.</p>
+        <button type="button" onClick={this.changeColor}>Change color</button>
+      </div>
+    )
+  }
+}
+export default Car;
+```
+
+![Class](../img/react/15.png)
+![Class](../img/react/16.png)
+
+React 中的每個Component都有一個生命週期(Life Cycle)，而我們可以在其三個主要階段對其進行監控和操作。這三個與生命週期有關的函數(Life Cycle Method)是:
+
+1. componentDidMount(): 在一個component 被mount(加入DOM tree中)後，componentDidMount()會馬上被呼叫。
+
+>  被mount等於被render
+
+2. componentDidUpdate()- componentDidUpdate()會在更新後馬上被呼叫。這個方法並不會在初次render時被呼叫。
+
+3. componentWillUnmount(): componentWillUnmount()會在一個component即將被unmount和destroy時被呼叫。
+
+**在React的Development Mode之下，<React.StrictMode>會讓componentDidMount執行兩次。**
+**除了這三個methods之外，還有許多其他的Life Cycle Methods，有興趣在去認識。**
+
+![Class](../img/react/17.png)
+
+```jsx
+import React from "react";
+class Car extends React.Component{
+  constructor(props){
+    super(props);
+    this.state = {
+      price: 300000,
+      color: "red",
+      year: 2005,
+    };
+  }
+  componentDidMount(){
+    console.log("It is rendered...");
+  };
+  componentDidUpdate(){
+    console.log("It is updated...");
+  };  
+  componentWillUnmount(){
+    console.log("It is unmounted...");
+  };    
+  changeColor = ()=>{
+    this.setState({color:"black"})
+  };
+  render(){
+    return (
+      <div>
+        <p>It is a {this.state.color} from {this.state.year}.</p>
+        <button type="button" onClick={this.changeColor}>Change color</button>
+      </div>
+    )
+  }
+}
+export default Car;
+```
+
+### 補充
+根據React的文件,「如果你熟悉React class的生命週期方法，你可以把useEffect視為componentDidMount, componentDidUpdate和componentWillUnmount的組合」
+
+例如，在useEffect的第二個參數放入empty array，即有componentDidMount的效果。在useEffect的第二個參數放入[state]，即有componentDidMount以及componentDidUpdate的效果
+
+關於useEffect如何跟三個生命週期函數互換，可以參考此[網址](https://react.dev/reference/react/useEffect)
+
+# React Router
+
+因為Create React App並不自動包含page routing的功能，所以最有名的解決方案是使用`react-router-dom`這個package。
+
+```shell
+npm install react-router-dom
+```
+
+
+React Router Dom中,App.js的語法是:
+
+```jsx
+import React from "react";
+import Car from "./Car";
+import Layout from './Layout'; 
+import Create from "./Create";
+import{BrowserRouter, Routes,Route} from "react-router-dom";
+function App() {
+  return(
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Layout/>}></Route>
+        <Route index element={<Create/>}></Route>
+        <Route path="Car" element={<Car/>}></Route>
+        <Route path="*" element={<ErrorPage/>}></Route>       
+      </Routes>
+    </BrowserRouter>
+  )
+}
+
+export default App;
+```
+
+**Layout.js的語法如下**
+
+```jsx
+import React from 'react';  // 這是必須的
+import{Outlet, Link} from "react-router-dom";
+const Layout = ()=>{
+  return(
+    <>
+    <nav>
+      <ul>
+        <li>
+          <Link to="/">Create</Link>
+        </li>
+        <li>
+          <Link to="/Car">Car</Link>
+        </li>        
+      </ul>
+    </nav>
+      
+      <Outlet/>
+    </>
+  )
+}
+export default Layout
+```
+
+> `<Outlet/>`標籤會自動在<Route element={Layout}>下的其他`<Route>`標籤內自動轉換
 
 
 
