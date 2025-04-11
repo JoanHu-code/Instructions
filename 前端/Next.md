@@ -10,7 +10,7 @@
   - [Pre Rendering](#Pre-Rendering)
     - [static generation with data](#static-generation-with-Dynamic-Routes)
     - [static generation with Dynamic Routes](#Server-Side-Generation-Data)
-- [Server Side Rendering](#Server-Side-Rendering)
+    - [Server Side Rendering](#Server-Side-Rendering)
 
 # 介紹
 
@@ -359,7 +359,7 @@ export default function ServerSideRendering({data}){
     <div>
     {
       data.map(d=>{
-        return <Link href={`profile/${d.id}`} style={{padding:"2rem"}}>{d.name}</Link>;
+        return <Link href={`/profile/${d.id}`} style={{padding:"2rem"}}>{d.name}</Link>;
       })
     }
     </div>
@@ -374,9 +374,97 @@ export default function ServerSideRendering({data}){
 export asyns function getStaticProps(){
   const response =await fetch("http://localhost:8080/students")
   const data = await response.json();
+
+  //這裡的path一定要符合Next.js要求的格式
+  //getStaticProps()一定要return一個有paths屬性的物件
+  //paths一定需要是一個array of objects
+  //內部每個object都需要有id的屬性，此id一定要是string
+  //每個id都會用被用來製作相對應的頁面
+  const paths = data.map(d=>{
+    return{
+      params:{
+        id:d.id.toString();
+      }
+    }
+  })
+
+  return {
+    paths,
+    fallback: false, //404頁面會自動被製作出來
+  }
+}
+
+export async function getStaticPros({params}){
+  const response =await fetch(`http://localhost:8080/students${params.id}`)
+  const data = await response.json();
+  return {
+    props:{
+      data,
+    },
+  };
+}
+
+export default function StudentProfile({data}){
+  return (
+    <div>
+      <h3>{data.name}</h3>
+      <h3>{data.age}</h3>
+      <h3>{data.id}</h3>
+      <h3>{data.scholarship.merit}</h3>
+      <h3>{data.scholarship.other}</h3>
+    </div>
+  )
 }
 ```
 > 這裡的path一定要符合Next.js要求的格式
 > `getStaticProps()`一定要return一個有paths屬性的物件
+> paths一定需要是一個array of objects
+> 內部每個object都需要有id的屬性，此id一定要是string
+> 每個id都會用被用來製作相對應的頁面
+
+### Server Side Rendering
+
+- `index.jsx`
+
+```jsx
+export async function getServerSideProps(){
+  const response = await fetch("http://localhost:8080/students");
+  const data = await response.json();
+  return{
+    props:{
+      data,
+    },
+  };
+}
+```
+
+> getStaticProps只會執行一次，而getServerSideProps每次只要有HTTP的request進來就會執行
+
+- `[id].jsx`
+
+```jsx
+export async function getServerSideProps({params}){
+  const response = await fetch(`http://localhost:8080/students/${params.id}`);
+  const data = await response.json();
+  return {
+    props: {
+      data,
+    },
+  };
+}
+export default function StudentProfile({data}){
+  return (
+    <div>
+      <h3>{data.name}</h3>
+      <h3>{data.age}</h3>
+      <h3>{data.id}</h3>
+      <h3>{data.scholarship.merit}</h3>
+      <h3>{data.scholarship.other}</h3>
+    </div>
+  )
+}
+```
+
+> 若網址後面參數沒有此頁面的話，使用Server Side Rendering會直接出現問題，但若使用static generation with Dynamic Routes，因為有`fallback: false`，所以會有404畫面
 
 
