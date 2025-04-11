@@ -2533,4 +2533,16 @@ select MONTHNAME(b) from demo;
 ![Date Type](../img/mySQL/229.png)
 
 ## 練習
+
+> 打印出下圖
+
+![Date Type](../img/mySQL/230.png)
+
+- 使用DATE_FROMAT
+
+```sql
+SELECT CONCAT_WS(" ",first_name,last_name,"was hired on",DATE_FORMAT(hired_date,'%D %M %Y')) as title from employee;
+```
+![Date Type](../img/mySQL/231.png)
  
+ [DATE_FROMAT官網](https://dev.mysql.com/doc/refman/5.7/en/date-and-time-functions.html#function_date-format)
