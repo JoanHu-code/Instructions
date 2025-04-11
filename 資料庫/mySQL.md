@@ -1895,7 +1895,164 @@ SELECT * from testFloatingP2;
 
 > 資料並不準確，因為儲存空間的問題
 
+```sql
+Insert into testFloatingP2(b) values(131072.32);
+```
+
+```sql
+SELECT * from testFloatingP2;
+```
+![Interger 整數類型](../img/mySQL/171.png)
+
+> 用double資料會準確
+
 ## Bit Value
+
+> The BIT data type is used to store bit values. A type of BIT(**M**) enables storage of M-bit values. M can range from 1 to 64.
+
+```sql
+Create table testBit(a Bit);
+```
+
+```sql
+DESC testBit;
+```
+![Interger 整數類型](../img/mySQL/172.png)
+
+✅
+```sql
+Insert into testBit values(1);
+```
+
+```sql
+Select * from testBit;
+```
+![Interger 整數類型](../img/mySQL/173.png)
+
+✅
+```sql
+Insert into testBit values(0);
+```
+
+```sql
+Select * from testBit;
+```
+![Interger 整數類型](../img/mySQL/174.png)
+
+❌
+```sql
+Insert into testBit values(2);
+```
+![Interger 整數類型](../img/mySQL/175.png)
+
+> 因此可得知若不寫位數的話，預設是需小於2^1
+
+
+- 設置小於2的3次方，最大為7
+
+```sql
+Create table testBit2(a Bit(3));
+```
+```sql
+DESC testBit;
+```
+![Interger 整數類型](../img/mySQL/176.png)
+
+✅
+```sql
+Insert into testBit2 values(2);
+```
+
+```sql
+Select * from testBit2;
+```
+![Interger 整數類型](../img/mySQL/177.png)
+
+- 十進制
+```sql
+Select a+0 from testBit2;
+```
+- 二進制
+```sql
+Select bin(a+0) from testBit2;
+```
+
+- 十六進制
+```sql
+Select hex(a+0) from testBit2;
+```
+![Interger 整數類型](../img/mySQL/178.png)
+
+- 如何直接插入二進制
+
+```sql
+Create table testBit3(a Bit(8));
+```
+
+```sql
+insert into testBit3 values(b'1111');
+```
+![Interger 整數類型](../img/mySQL/179.png)
+
+- 統整進制表示: 十進制、二進制、八進制、十六進制
+
+```sql
+Select a+0, bin(a+0), oct(a+0), hex(a+0) from testBit3;
+```
+
+![Interger 整數類型](../img/mySQL/180.png)
 
 ## 練習
 
+[人口比例](https://en.wikipedia.org/wiki/List_of_countries_and_dependencies_by_population)
+
+|id|country|population|date|percent|
+|--|-------|----------|----|-------|
+|1|India|1,413,324,000|1 Mar 2025|17.3%|
+|2|China|1,408,280,000|31 Dec 2024|17.2%|
+|3|United States|340,110,988|1 Jul 2024|4.2%|
+
+
+```sql
+CREATE table IF NOT EXISTS population(
+  id SMALLINT UNSIGNED AUTO_INCREMENT PRIMARY KEY, 
+  country VARCHAR(50),
+  population INT UNSIGNED,
+  date DATE,
+  percent DECIMAL(4,2)
+);
+
+```
+```sql
+DESC population;
+```
+
+![Interger 整數類型](../img/mySQL/181.png)
+
+```sql
+insert into population(
+  country,
+  population,
+  date,
+  percent
+) values(
+   'India',
+   1413324000,
+   '2025-05-01',
+   17.3
+),(
+   'China',
+   1408280000,
+   '2024-12-31',
+   17.2
+),(
+   'United States',
+   340110988,
+   '2024-07-01',
+   4.2
+);
+```
+```sql
+Select * from population;
+```
+![Interger 整數類型](../img/mySQL/182.png)
