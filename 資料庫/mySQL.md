@@ -57,6 +57,13 @@
   - [SUM AVG](#SUM-AVG)
   - [HAVING](#HAVING)
   - [練習](#練習)
+- [Data Type 之數據值類型](#Data-Type-之數據值類型)
+  - [本章介紹](#本章介紹)
+  - [Interger 整數類型](#Interger-整數類型)
+  - [Fixed Point 類型](#Fixed-Point-類型)
+  - [Floating Point 類型](#Floating-Point-類型)
+  - [Bit Value](#Bit-Value)
+  - [練習](#練習)         
 　
 # 介紹SQL
 
@@ -1622,3 +1629,273 @@ SELECT COUNT(title),director_name FROM movie GROUP BY director_name ORDER BY COU
 SELECT SUM(gross),director_name FROM movie GROUP BY director_name ORDER BY SUM(gross) DESC LIMIT 5;
 ```
 ![練習](../img/mySQL/148.png)
+
+# Data Type 之數據值類型  
+
+## 本章介紹
+
+- Numeric Type
+  - id INT
+- Date and Time Type
+  - brith_data DATE
+- String Type
+  - first_name VARCHAR(100)  
+
+
+- Numeric Type
+
+  1. Interger Types (Exact Value) - INTEGER,INT,SMALLINT,TINYINT,MEDIUMINT,BIGINT
+  2. Fixed-Point Types (Exact Value) - DECIMAL,NUMERIC
+    > Fixed-Point:後面小數點位數是固定的
+  3. Floating-Point Types(Approximate Value) - FLOAT,DOUBLE
+    > Floating-Point:後面小數點位數是不固定的  
+  4. Bit-Value Type - BIT
+
+|類型|大小|範圍(Signed)|範圍(Unsigned)|用途|
+|----|----|----------|------------|----|
+|TINYINT|1字元|(-128,127)|(0,255)|小數整值|
+|SMALLINT|2字元|(-32768,32767)|(0,65535)|大整數值|
+|MEDIUMINT|3字元|(-8388608,8388607)|(0,65535)|大整數值|
+|INT或INTEGER|4字元|(-2147483648,2147483647)|(0,4294967295)| 大型數值|
+|BIGINT|8字元|(-9233372036854755808,9223372036854775807)|(0,18446744073709551615)|超大整數值|
+|FLOAT|4字元|(-3.402823466 E+38, -1.175494351E-38),0,(1.175494351E-38,3.402823466351E+38)|0,(1.175494351E-38,3402823466E+38)|單精度 浮點數值|
+|DOUBLE|8字元|(-1.797 6931348623157E+308, -2.2250738585072014E-308),0,(2.2250738585072014E-308,1.797 6931348623157E+308)|0,(2.2250738585072014e-308,1.7976931348623157E+308)|雙精度 浮點數值|
+|DECIMAL|對DECIMAL(M,D)，如果M>D，為M+2否則則為D+2|依賴於M和D的值|依賴於M和D的值|小數值|
+
+
+## Interger 整數類型
+
+MySQL supports the SQL standard interger types INTEGER (or INT) and SMALLINT. As an extension to the standard, MySQL also supports the integer types TINYINT, MEDIUMINT, and BIGINT. The following table shows the required storage and range for each integer type.
+
+![Interger 整數類型](../img/mySQL/149.png)
+
+[SQL](https://dev.mysql.com/doc/refman/5.7/en/integer-types.html)
+
+[QUORA](https://www.quora.com/Why-the-byte-range-is-defined-from-128-to-127-and-not-127-to-128)
+
+> 得知這些可以讓資料做最好的宣告，例如年齡的話就可以選擇用Unsigned TINYINT來宣告，因為年齡不可能是負的也很少超過255
+
+```sql
+ CREATE table test(a TINYINT, b SMALLINT, c MEDIUMINT, d INT, e BIGINT);
+```
+
+![Interger 整數類型](../img/mySQL/150.png)
+
+```sql
+ DESC test;
+```
+![Interger 整數類型](../img/mySQL/151.png)
+
+✅
+```sql
+insert into test(a) values(127);
+```
+❌
+```sql
+insert into test(a) values(128);
+```
+![Interger 整數類型](../img/mySQL/152.png)
+
+✅
+```sql
+insert into test(a) values(-128);
+```
+
+```sql
+SELECT * FROM test; 
+```
+
+![Interger 整數類型](../img/mySQL/153.png)
+
+```sql
+ CREATE table testUnsigned(a TINYINT UNSIGNED , b SMALLINT UNSIGNED, c MEDIUMINT UNSIGNED, d INT UNSIGNED, e BIGINT UNSIGNED);
+```
+
+![Interger 整數類型](../img/mySQL/154.png)
+
+❌
+```sql
+insert into testUnsigned(a) values(-128);
+```
+
+✅
+```sql
+insert into testUnsigned(a) values(128);
+```
+![Interger 整數類型](../img/mySQL/155.png)
+
+❌
+```sql
+insert into testUnsigned(a) values(-1);
+```
+
+✅
+```sql
+insert into testUnsigned(a) values(0);
+```
+
+❌
+```sql
+insert into testUnsigned(a) values(256);
+```
+
+✅
+```sql
+insert into testUnsigned(a) values(255);
+```
+
+![Interger 整數類型](../img/mySQL/156.png)
+
+
+## Fixed Point 類型
+
+- The DECIMAL and NUMERIC types store exact numeric data values. These types are used when it is important to preserve exact precision, for example with monetary data. In MySQL, NUMERIC is implemented as DECIMAL, so the following remarks about DECIMAL apply equally to NUMERIC.
+
+- salary DECIMAL(5,2) : 一共五位包含小數點，小數點為兩位
+  - `-999.99~999.99`
+
+[Fixed Point](https://dev.mysql.com/doc/refman/5.7/en/fixed-point-types.html)
+
+> 這很適合用於股票
+
+![Interger 整數類型](../img/mySQL/157.png)
+
+```sql
+Create table testFixedP(price DECIMAL(5,2));
+```
+
+```sql
+DESC testFixedP;
+```
+
+![Interger 整數類型](../img/mySQL/158.png)
+
+```sql
+insert into testFixedP(price) values(10);
+```
+```sql
+Select * from testFixedP;
+```
+![Interger 整數類型](../img/mySQL/159.png)
+
+> 系統會自動增加到小數點兩位
+
+```sql
+insert into testFixedP(price) values(10.1);
+```
+```sql
+Select * from testFixedP;
+```
+![Interger 整數類型](../img/mySQL/160.png)
+
+> 系統會自動增加到小數點兩位
+
+```sql
+insert into testFixedP(price) values(10.223);
+```
+```sql
+Select * from testFixedP;
+```
+![Interger 整數類型](../img/mySQL/161.png)
+
+```sql
+insert into testFixedP(price) values(10.228);
+```
+```sql
+Select * from testFixedP;
+```
+![Interger 整數類型](../img/mySQL/162.png)
+
+> 由此推斷會進行四捨五入進位
+
+- 查看警告
+
+```sql
+show warnings;
+```
+![Interger 整數類型](../img/mySQL/163.png)
+
+> warning只能查看最新的一次，當出現時沒有察看而值型別的指令時，就會被覆蓋掉
+
+✅
+```sql
+insert into testFixedP(price) values(999.14);
+```
+
+❌
+```sql
+insert into testFixedP(price) values(1000.14);
+```
+
+![Interger 整數類型](../img/mySQL/164.png)
+
+✅
+```sql
+insert into testFixedP(price) values(999.994);
+```
+
+❌
+```sql
+insert into testFixedP(price) values(999.995);
+```
+
+![Interger 整數類型](../img/mySQL/165.png)
+
+## Floating Point 類型
+
+- The FLOAT and DOUBLE types represent approximate numeric data values. MySQL uses **four bytes** for signle- precision values and **eight bytes** for double-precision values.
+
+> 適合用於薪水
+
+```sql
+Create table testFloatingP(a float, b double);
+```
+```sql
+DESC testFloatingP;
+```
+![Interger 整數類型](../img/mySQL/166.png)
+
+```sql
+Insert into testFloatingP(a,b) values(1,2);
+```
+
+```sql
+SELECT * from testFloatingP;
+```
+![Interger 整數類型](../img/mySQL/167.png)
+
+```sql
+Insert into testFloatingP(a) values(131072.32);
+```
+
+```sql
+SELECT * from testFloatingP;
+```
+![Interger 整數類型](../img/mySQL/168.png)
+
+> 小數點被刪除，原因是因為沒有設定後要帶幾位小數點
+
+```sql
+Create table testFloatingP2(a float(10,2), b double(10,2));
+```
+
+```sql
+DESC testFloatingP2;
+```
+![Interger 整數類型](../img/mySQL/169.png)
+
+```sql
+Insert into testFloatingP2(a) values(131072.32);
+```
+
+```sql
+SELECT * from testFloatingP2;
+```
+![Interger 整數類型](../img/mySQL/170.png)
+
+> 資料並不準確，因為儲存空間的問題
+
+## Bit Value
+
+## 練習
+
