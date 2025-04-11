@@ -63,7 +63,15 @@
   - [Fixed Point 類型](#Fixed-Point-類型)
   - [Floating Point 類型](#Floating-Point-類型)
   - [Bit Value](#Bit-Value)
-  - [練習](#練習)         
+  - [練習](#練習)
+- [Date Type 之日期時間類型](#Date-Type-之日期時間類型)
+  - [本章介紹](#本章介紹)    
+  - [DATE 和 TIME](#DATE-和-TIME)
+  - [YEAR](#YEAR)
+  - [DATETIME 和 TIMESTAMP](#DATETIME-和-TIMESTAMP)
+  - [關於時區 timezone](#關於時區-timezone)
+  - [關於時間和日期的函數方法](#關於時間和日期的函數方法)
+  - [練習](#練習)      
 　
 # 介紹SQL
 
@@ -2056,3 +2064,473 @@ insert into population(
 Select * from population;
 ```
 ![Interger 整數類型](../img/mySQL/182.png)
+
+- 新增`%`
+
+```sql
+Select id,country,population,date,CONCAT(percent,"%") as percent from population;
+```
+
+![Interger 整數類型](../img/mySQL/183.png)
+
+# Date Type 之日期時間類型
+
+## 本章介紹
+
+- Date and Time Type
+  - DATE
+  - TIME
+  - YEAR
+  - DATETIME
+  - TIMESTAMP
+
+## DATE 和 TIME
+
+- The **DATE** type is used for values with a data part but no time part. MySQL retrieves and displays. DATE values in `YYYY-MM-DD` format. The supported **range is '1000-01-01' to '9999-12-31'**
+
+- MySQL retrieves and displays **TIME** values in `HH:MM:SS` format (or 'HHH:MM:SS' format for large hours values). TIME values may **range from '-838:59:59' to '838:59:59'**. The hours part may be so large because the TIME type can be udes not only to represent a time of day(which must be less than 24 hours), but also elapsed time or a time interval between two events(which may be much greater than 24 hours, or even negative).
+
+**date**
+
+```sql
+create table dataTest(a DATE);
+```
+
+![Date Type](../img/mySQL/184.png)
+
+✅
+```sql
+insert into dataTest(a) values('2018-10-01');
+```
+![Date Type](../img/mySQL/185.png)
+
+❌
+```sql
+insert into dataTest(a) values('2018-10');
+```
+![Date Type](../img/mySQL/186.png)
+
+✅
+```sql
+insert into dataTest(a) values('20181002');
+```
+![Date Type](../img/mySQL/187.png)
+
+✅
+```sql
+insert into dataTest(a) values(20181003);
+```
+![Date Type](../img/mySQL/188.png)
+
+❌
+```sql
+insert into dataTest(a) values(201810);
+```
+![Date Type](../img/mySQL/189.png)
+
+**time**
+
+```sql
+create table timeTest(a TIME);
+```
+```sql
+DESC timeTest;
+```
+![Date Type](../img/mySQL/190.png)
+
+✅
+
+```sql
+insert into timeTest(a) values('10:10:35');
+```
+![Date Type](../img/mySQL/195.png)
+
+```sql
+insert into timeTest(a) values(101037);
+```
+![Date Type](../img/mySQL/197.png)
+
+```sql
+insert into timeTest(a) values(1010);
+```
+![Date Type](../img/mySQL/198.png)
+
+> 會變成`00:10:10`
+
+```sql
+insert into timeTest(a) values(10);
+```
+![Date Type](../img/mySQL/199.png)
+
+> 會變成`00:00:10`
+
+❌
+
+```sql
+insert into timeTest(a) values(10:10:36);
+```
+![Date Type](../img/mySQL/196.png)
+
+
+**Date 和 TIME 不能插入空的但可以指定為NULL**
+
+✅
+```sql
+insert into dataTest(a) values(NULL);
+```
+```sql
+insert into timeTest(a) values(NULL);
+```
+![Date Type](../img/mySQL/191.png)
+
+❌
+```sql
+insert into dataTest(a) values();
+```
+
+```sql
+insert into dataTest(a);
+```
+
+```sql
+insert into timeTest(a) values();
+```
+
+```sql
+insert into timeTest(a);
+```
+![Date Type](../img/mySQL/192.png)
+
+**TIME可以插入空字串，但DATE並不能**
+
+❌
+```sql
+insert into dataTest(a) values('');
+```
+![Date Type](../img/mySQL/193.png)
+✅
+```sql
+insert into timeTest(a) values('');
+```
+![Date Type](../img/mySQL/194.png)
+
+> 雖然沒有預設，但輸入空字串會變成"00:00:00"
+
+## YEAR
+
+- The YEAR type is a 1-byte type used to represent year values. It can be declared as YEAR or YEAR(4) and a display whidth of four characters.
+ - As a 4-digit number in the range 1901 to 2155.
+ - As a 4-digit string in the range '1901' to '2155'.
+ - As a 1- or 2-digit number in the range 1 to 99. MySQL converts values in the ranges 1 to 69 and 70 to 99 to YEAR values in the ranges 2001 to 2069 and 1970 to 1999.
+ - As a 1- or 2-digit string in the range '0' to '99'. MySQL converts values in the ranges '0' to '69' and '70' to '99' to YEAR values in the ranges 2000 to 2069 and 1970 to 1999.
+ - The result of inserting a numeric 0 has a display value of 0000 and an internal value of 0000. To insert zero and have it be interpreted as 2000, specify it as a string '0' or '00'.
+
+```sql
+create table yearTest(a YEAR);
+```
+
+```sql
+desc yearTest;
+```
+
+![Date Type](../img/mySQL/200.png)
+
+✅
+```sql
+insert into yearTest(a) values(1901);
+```
+![Date Type](../img/mySQL/201.png)
+
+❌
+
+```sql
+insert into yearTest(a) values(1900);
+```
+![Date Type](../img/mySQL/202.png)
+
+❌
+
+```sql
+insert into yearTest(a) values(2156);
+```
+![Date Type](../img/mySQL/203.png)
+
+✅
+```sql
+insert into yearTest(a) values(2155);
+```
+![Date Type](../img/mySQL/204.png)
+
+**插入個位數**
+
+```sql
+insert into yearTest(a) values(1);
+```
+![Date Type](../img/mySQL/205.png)
+
+```sql
+insert into yearTest(a) values(70);
+```
+![Date Type](../img/mySQL/206.png)
+
+```sql
+insert into yearTest(a) values(0);
+```
+![Date Type](../img/mySQL/207.png)
+
+```sql
+insert into yearTest(a) values("0");
+```
+![Date Type](../img/mySQL/208.png)
+
+
+## DATETIME 和 TIMESTAMP
+
+- The **DATETIME** type is used for values that contain both data and time parts. MySQL retrieves and displays DATETIME values in `YYYY-MM-DD HH:MM:SS` format. The supported range is **1000-01-01 00:00:00** to **9999-12-31 23:59:59**.  
+- The **TIMESTAMP** data type is used for values that contain both data and time parts. TIMESTAMP has a range of **'1970-01-01 00:00:01'UTC to '2038-01-19 03:14:07'UTC**.
+
+- **TIMESTAMP** will change automatically when the mysql **timezone** changed, DATETIME will not change.
+
+- **TIMESTAMP** need 4 bytes for storage, DATATIME need **8 bytes**
+
+- Different range size
+  - TIMESTAMP: 1970-01-01 00:00:00 ~ 2038-01-09 03:14:07
+  - DATETIME: 1000-01-01 00:00:00 ~ 9999-12-31 23:59:59
+
+- For index, TIMESTAMP is faster than DATETIME
+
+```sql
+create table stamp(a DATETIME, b TIMESTAMP);
+```
+```sql
+DESC stamp;
+```
+![Date Type](../img/mySQL/209.png)
+
+```sql
+insert into stamp(a) values("2018-01-01 01:10:10");
+```
+```sql
+select * from stamp;
+```
+![Date Type](../img/mySQL/210.png)
+
+**獲取當前時間**
+
+```sql
+select NOW();
+```
+
+![Date Type](../img/mySQL/211.png)
+
+**也可以把NOW()寫進去**
+
+```sql
+insert into stamp(b) values(NOW());
+```
+
+![Date Type](../img/mySQL/212.png)
+
+> 若要記錄修改紀錄的時間可以這樣寫
+
+```sql
+CREATE TABLE INFO(price int, changed_at TIMESTAMP);
+```
+
+```sql
+insert into INFO(price,changed_at) values(100,NOW());
+```
+
+```sql
+update INFO set price=10, changed_at=NOW();
+```
+
+![Date Type](../img/mySQL/213.png)
+
+OR
+
+```SQL
+CREATE TABLE INFO(
+  price INT,
+  changed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+```
+
+```SQL
+CREATE TABLE INFO(
+  price INT,
+  changed_at TIMESTAMP DEFAULT NOW() ON UPDATE NOW()
+);
+```
+
+```SQL
+INSERT INTO INFO(price) VALUES (100);
+```
+
+```SQL
+UPDATE INFO SET price = 10 WHERE price = 100;
+```
+
+![Date Type](../img/mySQL/214.png)
+![Date Type](../img/mySQL/215.png)
+
+**DATETIME也可以設置 ON UPDATE**
+
+```sql
+create table e(
+  price INT,
+  change_at DATETIME DEFAULT NOW() ON UPDATE NOW()
+);
+```
+```sql
+DESC e;
+```
+![Date Type](../img/mySQL/216.png)
+
+**MySQL 的設計邏輯是：「自動更新欄位」限制只能有一個，怕資料異動時不確定要更新哪一個欄位。**
+
+## 關於時區 timezone
+
+- TIMESTAMP will change automatically when the musql **timezone** changed, DATETIME will not change.
+
+- TIMESTAMP need 4 bytes form storage, DATATIME need 8 bytes
+
+- Different range size
+  - TIMESTAMP: 1970-01-01 00:00:00~ 2038-01-09 03:14:07
+  - DATETIME: 1000-01-01 00:00:00 ~ 9999-12-31 23:59:59
+
+- For index, TIMESTAMP is faster than DATETIME
+
+![Date Type](../img/mySQL/216.png)
+
+**查看時區**
+
+```SQL
+show variables like "%time_zone%";
+```
+
+![Date Type](../img/mySQL/217.png)
+
+```SQL
+create table test_time_zone(a DATETIME, b TIMESTAMP);
+```
+
+```SQL
+insert into test_time_zone(a,b) values (NOW(),NOW());
+```
+
+![Date Type](../img/mySQL/218.png)
+
+
+> 基於UTC時間做加減法，因此算出來的時間要先減8再減12才是對的
+
+**台灣是 UTC+8，也就是 UTC 時間再加 8 小時。**
+
+```sql
+set time_zone="-12:00";
+```
+
+![Date Type](../img/mySQL/219.png)
+
+**time_zone改變，NOW也會跟著改變**
+
+```sql
+select now();
+```
+
+![Date Type](../img/mySQL/220.png)
+
+**把time_zone改回去的語法**
+
+```sql
+set time_zone="system";
+```
+
+![Date Type](../img/mySQL/221.png)
+
+
+## 關於時間和日期的函數方法
+
+[官網](https://dev.mysql.com/doc/refman/5.7/en/date-and-time-functions.html)
+
+- 返回當前日期
+
+```SQL
+select CURDATE();
+```
+![Date Type](../img/mySQL/222.png)
+
+- 返回當前時間
+
+```SQL
+select CURTIME();
+```
+![Date Type](../img/mySQL/223.png)
+
+- 返回當前日期加時間
+
+```SQL
+select NOW();
+```
+![Date Type](../img/mySQL/224.png)
+
+- 範例
+
+```SQL
+CREATE TABLE DEMO(
+  a YEAR,
+  b DATE,
+  c TIME,
+  d DATETIME,
+  e TIMESTAMP DEFAULT NOW() ON UPDATE NOW()
+);
+```
+
+```SQL
+INSERT INTO DEMO(
+  a,
+  b,
+  c,
+  d,
+  e
+) VALUES (
+  '2018',
+  '2018-11-11',
+  '11:11:11',
+  '2018-11-05 10:12:40',
+  '2018-11-05 10:12:40'
+);
+
+```
+![Date Type](../img/mySQL/225.png)
+
+- 轉換成這個周的第幾天
+
+```sql
+select DAYOFWEEK(b) from demo;
+```
+![Date Type](../img/mySQL/226.png)
+
+- 轉換成這個月的第幾天
+
+```sql
+select DAYOFMONTH(b) from demo;
+```
+![Date Type](../img/mySQL/227.png)
+
+- 轉換成這個年的第幾天
+
+```sql
+select DAYOFYEAR(b) from demo;
+```
+![Date Type](../img/mySQL/228.png)
+
+- 調出月份
+
+```sql
+select MONTHNAME(b) from demo;
+```
+![Date Type](../img/mySQL/229.png)
+
+## 練習
+ 
