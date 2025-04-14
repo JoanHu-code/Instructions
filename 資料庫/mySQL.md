@@ -80,9 +80,20 @@
   - [BLOB 和 TEXT](#BLOB-和-TEXT)
   - [ENUM](#ENUM)
   - [SET](#SET)
-  - [修改已設定好的Table](#修改已設定好的Table)      
-　
-　
+  - [修改已設定好的Table](#修改已設定好的Table) 
+
+- [SQL 邏輯操作符](#SQL-邏輯操作符)
+  - [本章介紹](#本章介紹)    
+  - [EQUAL 和 NOT EQUAL](#EQUAL-和-NOT-EQUAL)
+  - [LIKE 和 NOT LIKE](#LIKE-和-NOT-LIKE)
+  - [MySQL 模糊查詢大小寫的問題](#MySQL-模糊查詢大小寫的問題)
+  - [GREATER THAN 和 LESS THAN](#GREATER-THAN-和-LESS-THAN)
+  - [AND 和 OR](#AND-和-OR)
+  - [BETWEEN](#BETWEEN)
+  - [IN 和 NOT IN](#IN-和-NOT-IN)
+  - [CASE 表達式](#CASE-表達式)
+  - [練習](#練習)  
+
 # 介紹SQL
 
 ## 什麼是資料庫
@@ -2779,3 +2790,337 @@ desc user;
 ```
 
 ![Table](../img/mySQL/255.png)
+
+# SQL 邏輯操作符
+
+## 本章介紹
+
+- Select all movies NOT in 2008
+
+```sql
+SELECT * from movie WHERE NOT title_year=2008;
+```
+
+```sql
+SELECT * from movie WHERE title_year!=2008;
+```
+
+![EQUAL 和 NOT EQUAL](../img/mySQL/261.png)
+
+- select all movies IMDB greater than 8
+
+```sql
+SELECT * from movie WHERE imdb_score>=8;
+```
+
+![greater than](../img/mySQL/274.png)
+
+- select all movies IMDB greater than 8 and director_name is Christopher Nolan
+
+```sql
+SELECT * from movie WHERE imdb_score>=8 and director_name='Christopher Nolan';
+```
+
+![and](../img/mySQL/277.png)
+
+- Select all movies BETWEEN 1990 ADN 2000
+
+```sql
+SELECT * from movie WHERE title_year BETWEEN 1990 and 2000;
+```
+
+![BETWEEN](../img/mySQL/280.png)
+
+
+## EQUAL 和 NOT EQUAL
+
+![EQUAL 和 NOT EQUAL](../img/mySQL/256.png)
+
+> 找出salary等於8000的
+
+```sql
+SELECT * FROM employee WHERE salary=8000;
+```
+
+```sql
+SELECT * FROM employee WHERE NOT salary!=8000;
+```
+
+![EQUAL](../img/mySQL/257.png)
+
+> 找出salary不等於8000的
+
+```sql
+SELECT * FROM employee WHERE salary!=8000;
+```
+
+```sql
+SELECT * FROM employee WHERE NOT salary=8000;
+```
+
+![NOT EQUAL](../img/mySQL/258.png)
+
+**TRUE OR FALSE**
+
+```sql
+SELECT 1=1;
+```
+
+![NOT EQUAL](../img/mySQL/259.png)
+
+
+```sql
+SELECT 1!=1;
+```
+
+![NOT EQUAL](../img/mySQL/260.png)
+
+
+## LIKE 和 NOT LIKE
+
+- 找出所有的first_name以h開頭的
+
+```sql
+SELECT * FROM employee WHERE first_name like 'H%';
+```
+
+![EQUAL](../img/mySQL/262.png)
+
+- 找出所有的first_name不是以h開頭的
+
+```sql
+SELECT * FROM employee WHERE first_name NOT like 'H%';
+```
+
+![NOT EQUAL](../img/mySQL/263.png)
+
+## MySQL 模糊查詢大小寫的問題
+
+```sql
+CREATE TABLE t1 (name VARCHAR(100), age INT);
+```
+![NOT EQUAL](../img/mySQL/264.png)
+
+```sql
+INSERT INTO t1(name,age) VALUES("Tom",18),("Jack",20),("john",19);
+```
+![NOT EQUAL](../img/mySQL/265.png)
+
+```sql
+SELECT * FROM t1 WHERE name LIKE "%J%";
+```
+![NOT EQUAL](../img/mySQL/266.png)
+
+```sql
+SELECT * FROM t1 WHERE name LIKE binary "%J%";
+```
+![NOT EQUAL](../img/mySQL/267.png)
+
+```sql
+SELECT * FROM t1 WHERE name LIKE binary "%j%";
+```
+![NOT EQUAL](../img/mySQL/268.png)
+
+> 可以直接設定大小寫敏感
+
+```sql
+CREATE TABLE t2 (name VARCHAR(100) BINARY, age INT);
+```
+```sql
+INSERT INTO t2(name,age) VALUES("Tom",18),("Jack",20),("john",19);
+```
+```sql
+SELECT * FROM t2 WHERE name LIKE "%J%";
+```
+![NOT EQUAL](../img/mySQL/269.png)
+
+## GREATER THAN 和 LESS THAN
+
+> 找出薪水大於6000
+
+```sql
+select * from employee where NOT salary<=6000;
+```
+
+```sql
+select * from employee where salary>6000;
+```
+
+![GREATER THAN 和 LESS THAN](../img/mySQL/270.png)
+
+> 找出薪水大於等於6000
+
+```sql
+select * from employee where salary>6000 or salary=6000;
+```
+
+```sql
+select * from employee where NOT salary<6000;
+```
+
+```sql
+select * from employee where salary>=6000;
+```
+
+![GREATER THAN 和 LESS THAN](../img/mySQL/271.png)
+
+> 找出薪水小於6000
+
+```sql
+select * from employee where NOT salary>=6000;
+```
+
+```sql
+select * from employee where salary<6000;
+```
+
+![GREATER THAN 和 LESS THAN](../img/mySQL/272.png)
+
+> 找出薪水小於等於6000
+
+```sql
+select * from employee where NOT salary>6000;
+```
+
+```sql
+select * from employee where salary<6000 or salary=6000;
+```
+
+```sql
+select * from employee where salary<=6000;
+```
+
+![GREATER THAN 和 LESS THAN](../img/mySQL/273.png)
+
+## AND 和 OR
+
+> 尋找出薪水大於6000以及first_name開頭為H的資料
+
+```sql
+SELECT * from employee WHERE salary>6000 and first_name like "H%";
+```
+
+![AND](../img/mySQL/275.png)
+
+> 尋找出薪水大於6000或title是Database Admonistrator
+
+```sql
+SELECT * from employee WHERE salary>6000 or title="Database Admonistrator";
+```
+
+![OR](../img/mySQL/276.png)
+
+## BETWEEN
+
+- 找出薪水在6000~8000之間的資料
+
+```SQL
+SELECT * FROM employee where salary>=6000 and salary<=8000;
+```
+![BETWEEN](../img/mySQL/278.png)
+
+```SQL
+SELECT * FROM employee where salary BETWEEN 6000 and 8000;
+```
+
+![BETWEEN](../img/mySQL/279.png)
+
+## IN 和 NOT IN
+
+- 想要過濾薪水是5000、6000、7000、8000這接整數的資料
+
+```sql
+select * from employee where salary=5000 or salary=6000 or salary=7000 or salary=8000;
+```
+
+![IN 和 NOT IN](../img/mySQL/281.png)
+
+```sql
+select * from employee where salary in (5000,6000,7000,8000);
+```
+
+![IN](../img/mySQL/282.png)
+
+```sql
+select * from employee where salary NOT in (5000,6000,7000,8000);
+```
+
+![NOT IN](../img/mySQL/283.png)
+
+
+## CASE 表達式
+
+- 新增一個TAG若薪水小於等於7000則表示為low，反之大於為high
+
+```sql
+SELECT First_name, last_name, title, salary,
+  case 
+    when salary>=7000 then "high"
+    else "low"
+  end as tag
+from employee order by salary desc;
+```
+
+![CASE](../img/mySQL/284.png)
+
+```sql
+SELECT *,
+  case 
+    when salary>=7000 then "high"
+    else "low"
+  end as tag
+from employee order by salary desc;
+```
+
+![CASE](../img/mySQL/285.png)
+
+> 根據title若有'Engineer'打1,'Architect'打2,其他打3
+
+```sql
+SELECT *,
+  case 
+    when title like "%Engineer" then 1
+    when title like "%Architect" then 2
+    else 3
+  end as tag
+from employee order by tag;
+```
+
+![CASE](../img/mySQL/286.png)
+
+## 練習
+
+1. 按票房**多->少**排序，找出**美國**在**2000-2010**年期間票房**超過1億**美元的電影(打印出電影名稱,導演,放映時間,票房,IMDB評分)
+
+```SQL
+SELECT 
+  title, director_name,title_year,gross,imdb_score 
+FROM movie 
+WHERE 
+  country="USA" AND title_year BETWEEN 2000 and 2010 
+order by gross DESC;
+```
+
+![練習1](../img/mySQL/287.png)
+
+2. 給電影加一個start評分,按imdb評分**多->少**排序，評分規則為
+
+- IMDB評分8分以及8分以上的,標記為五星 `*****`
+- IMDB評分7-8分(包含7分,但不包含8分), 標記為四星 `****`
+- IMDB評分為6-7分(包含6分,但不包含7分), 標記為三星`***`
+- IMDB評分5-6分(包含5分,但不包含6分)，標記為二星`**`
+- IMDB評分低於5分,標記為一星`*`
+
+```SQL
+SELECT title, director_name,title_year,gross,imdb_score,
+  CASE
+    WHEN imdb_score>=8 then "*****"
+    WHEN imdb_score<8 and imdb_score>=7 then "****"
+    WHEN imdb_score<7 and imdb_score>=6 then "***"
+    WHEN imdb_score<6 and imdb_score>=5 then "**"
+    else "*"
+  END as start
+FROM movie order by imdb_score DESC;
+```
+
+![練習1](../img/mySQL/288.png)
