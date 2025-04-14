@@ -3221,6 +3221,198 @@ SELECT SUBSTRING('MySQL',1,3), SUBSTRING('MySQL',3), SUBSTRING('MySQL',-4);
 ![字符處理函數](../img/mySQL/298.png)
 
 ## 數值處理函數
+
+- CEIL(): 向上取整
+
+```sql
+SELECT CEIL(10.1), CEIL(10.61);
+```
+
+![數值處理函數](../img/mySQL/299.png)
+
+- FLOOR(): 向下取整
+
+```sql
+SELECT FLOOR(10.1), FLOOR(10.61);
+```
+
+![數值處理函數](../img/mySQL/300.png)
+
+- DIV(): 取整數除法
+- MOD(): 取餘數除法
+
+```sql
+SELECT 3/4, 3 DIV 4, 3 MOD 4;
+```
+
+![數值處理函數](../img/mySQL/301.png)
+
+- POEWR(): 平方運算
+
+```sql
+SELECT POWER(2.3);
+```
+
+![數值處理函數](../img/mySQL/302.png)
+
+- ROUND(): 四捨五入
+
+```sql
+SELECT ROUND(3.1461,2),ROUND(3.1461,3);
+```
+
+![數值處理函數](../img/mySQL/303.png)
+
+
 ## 時間日期函數
+
+- NOW(): 顯示當前時間和日期
+- CURDATE(): 顯示當前日期
+- CURTIME(): 顯示當前時間
+
+```sql
+SELECT NOW(), CURDATE(),CURTIME();
+```
+
+![數值處理函數](../img/mySQL/304.png)
+
+- DATE_FORMAT(): 轉換時間格式
+
+```sql
+SELECT DATE_FORMAT('2001-1-11','%m/%d/%Y');
+```
+
+![數值處理函數](../img/mySQL/305.png)
+
+- DATE_ADD(): 增減時間
+
+```sql
+SELECT DATE_ADD(NOW(), INTERVAL 10 DAY), DATE_ADD('2000-11-11', INTERVAL 10 WEEK);
+```
+
+![數值處理函數](../img/mySQL/306.png)
+
+```sql
+SELECT DATE_ADD(NOW(), INTERVAL -10 DAY);
+```
+
+![數值處理函數](../img/mySQL/307.png)
+
+- DATEDIFF(): 取得時間(天數)差
+
+```sql
+SELECT DATEDIFF(NOW(), '2000-12-20');
+```
+
+![數值處理函數](../img/mySQL/308.png)
+
+
 ## 信息函數
+
+- CONNECTION_ID(): 獲取當前MYSQL的ID
+
+```sql
+SELECT CONNECTION_ID();
+```
+
+![數值處理函數](../img/mySQL/309.png)
+
+- DATABASE(): 獲取當前所使用的DATABASE
+
+```sql
+SELECT DATABASE();
+```
+
+![數值處理函數](../img/mySQL/310.png)
+
+- LAST_INSERT_ID(): 獲取最後插入的ID
+
+```sql
+SELECT LAST_INSERT_ID();
+```
+
+![數值處理函數](../img/mySQL/311.png)
+
+> 若同時插入多個值，他只會取第一個
+
+```SQL
+CREATE TABLE testInsert (
+  a INT AUTO_INCREMENT,
+  b INT,
+  PRIMARY KEY (a)
+);
+```
+
+```sql
+INSERT INTO testInsert(b) VALUES(1),(2),(3);
+```
+```sql
+SELECT LAST_INSERT_ID();
+```
+![數值處理函數](../img/mySQL/314.png)
+
+- USER(): 獲取當前用戶
+
+```sql
+SELECT USER();
+```
+
+![數值處理函數](../img/mySQL/312.png)
+
+
+- VERSION(): 獲取當前本版
+
+```sql
+SELECT VERSION();
+```
+
+![數值處理函數](../img/mySQL/313.png)
+
+
+
 ## 加密函數
+
+- MD5():安全性較低
+
+```sql
+SELECT MD5('abc123');
+```
+![數值處理函數](../img/mySQL/316.png)
+
+- 範例使用
+
+```sql
+create table user(username VARCHAR(100) NOT NULL, password VARCHAR(100) NOT NULL);
+```
+
+```sql
+INSERT INTO user(username,password) VALUES ('Amy', MD5('abc123'));
+```
+
+![數值處理函數](../img/mySQL/318.png)
+
+- SHA2(): 密碼做雜湊（hash）
+
+```sql
+SELECT SHA2('abc123', 256);
+```
+
+![數值處理函數](../img/mySQL/315.png)
+
+- 用 ALTER USER 修改密碼
+
+```sql
+ALTER USER 'root'@'localhost' IDENTIFIED BY 'abc123';
+```
+
+- 範例使用
+
+```sql
+create table user(username VARCHAR(100) NOT NULL, password VARCHAR(100) NOT NULL);
+```
+
+```sql
+INSERT INTO user(username,password) VALUES ('root', SHA2('abc123', 256));
+```
+
+![數值處理函數](../img/mySQL/317.png)
