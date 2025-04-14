@@ -92,7 +92,14 @@
   - [BETWEEN](#BETWEEN)
   - [IN 和 NOT IN](#IN-和-NOT-IN)
   - [CASE 表達式](#CASE-表達式)
-  - [練習](#練習)  
+  - [練習](#練習) 
+
+- [MySQL 內置函數串講](#MySQL-內置函數串講)
+  - [字符處理函數](#字符處理函數)    
+  - [數值處理函數](#數值處理函數)
+  - [時間日期函數](#時間日期函數)
+  - [信息函數](#信息函數)
+  - [加密函數](#加密函數)
 
 # 介紹SQL
 
@@ -3123,4 +3130,97 @@ SELECT title, director_name,title_year,gross,imdb_score,
 FROM movie order by imdb_score DESC;
 ```
 
-![練習1](../img/mySQL/288.png)
+![練習2](../img/mySQL/288.png)
+
+# MySQL 內置函數串講
+
+- 字符函數
+- 數值函數
+- 時間日期函數
+- 信息函數
+- 聚合函數
+- 加密函數
+
+## 字符處理函數 
+
+- concat: 字串連接
+
+```sql
+SELECT CONCAT('Hello','','MySQL');
+```
+
+![字符處理函數](../img/mySQL/289.png)
+
+- LOWER(): 轉換小寫， UPPER(): 轉換大寫
+
+```sql
+SELECT LOWER('MYSQL'), UPPER('mySQL');
+```
+
+![字符處理函數](../img/mySQL/290.png)
+
+- LEFT: 留下左邊自符, RIGHT: 留下右邊自符
+
+```sql
+SELECT LEFT('MySQL',2), RIGHT('MySQL',2);
+```
+
+![字符處理函數](../img/mySQL/291.png)
+
+- LENGTH: 長度
+
+```sql
+SELECT LENGTH('MySQL'), LENGTH('My SQL');
+```
+
+![字符處理函數](../img/mySQL/292.png)
+
+- LENGTH(LTRIM()): 去除開頭空格
+- LENGTH(RTRIM()): 去除結尾空格
+
+```sql
+SELECT LENGTH(LTRIM('  MySQL')), LENGTH(RTRIM('MySQL  '));
+```
+
+![字符處理函數](../img/mySQL/293.png)
+
+- TRIM(): 去除特定自符
+
+```sql
+SELECT TRIM('  My SQL  ');
+```
+
+![字符處理函數](../img/mySQL/294.png)
+
+```sql
+SELECT TRIM(LEADING '$' FROM '$$My SQL$$');
+```
+
+![字符處理函數](../img/mySQL/295.png)
+
+```sql
+SELECT TRIM(TRAILING '$' FROM '$$My SQL$$');
+```
+
+![字符處理函數](../img/mySQL/296.png)
+
+- REPLACE(): 替換自符
+
+```sql
+SELECT REPLACE('$$My SQL$$','$','');
+```
+
+![字符處理函數](../img/mySQL/297.png)
+
+- SUBSTRING(): 擷取字串
+
+```sql
+SELECT SUBSTRING('MySQL',1,3), SUBSTRING('MySQL',3), SUBSTRING('MySQL',-4);
+```
+
+![字符處理函數](../img/mySQL/298.png)
+
+## 數值處理函數
+## 時間日期函數
+## 信息函數
+## 加密函數
