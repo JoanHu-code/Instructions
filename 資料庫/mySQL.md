@@ -2753,3 +2753,29 @@ INSERT INTO set1 values(0);
 |7|111|one,two,three|
 
 ## 修改已設定好的Table
+
+```sql
+create table user(username VARCHAR(10), password VARCHAR(20));
+```
+![Table](../img/mySQL/253.png)
+
+```sql
+insert into user(username, password) values('test','test123');
+```
+
+```sql
+select * from user;
+```
+
+![Table](../img/mySQL/254.png)
+
+
+```sql
+ALTER TABLE user MODIFY username VARCHAR(15);
+```
+
+```sql
+desc user;
+```
+
+![Table](../img/mySQL/255.png)
