@@ -71,7 +71,17 @@
   - [DATETIME 和 TIMESTAMP](#DATETIME-和-TIMESTAMP)
   - [關於時區 timezone](#關於時區-timezone)
   - [關於時間和日期的函數方法](#關於時間和日期的函數方法)
-  - [練習](#練習)      
+  - [練習](#練習)
+
+- [Date Type 之字符類型](#Date-Type-之字符類型)
+  - [本章介紹](#本章介紹)    
+  - [CHAR 和 VARCHAR](#CHAR-和-VARCHAR)
+  - [BINARY 和 VARBINARY](#BINARY-和-VARBINARY)
+  - [BLOB 和 TEXT](#BLOB-和-TEXT)
+  - [ENUM](#ENUM)
+  - [SET](#SET)
+  - [修改已設定好的Table](#修改已設定好的Table)      
+　
 　
 # 介紹SQL
 
@@ -2546,3 +2556,200 @@ SELECT CONCAT_WS(" ",first_name,last_name,"was hired on",DATE_FORMAT(hired_date,
 ![Date Type](../img/mySQL/231.png)
  
  [DATE_FROMAT官網](https://dev.mysql.com/doc/refman/5.7/en/date-and-time-functions.html#function_date-format)
+
+# Date Type 之字符類型
+
+## 本章介紹
+
+- String Type
+  - CHAR and VARCHAR
+  - BINARY and VARBINARH
+  - BLOB and TEXT
+  - ENUM
+  - SET
+
+## CHAR 和 VARCHAR
+
+- **CHAR** is fixed length string (0-255)
+- **VARCHAR** is variable-length strings (0-65535)
+  - VARCHAR不只要存儲實際資料，還要儲存長度，所以會多佔一個
+
+|Value|Char(4)|Storage Required|VARCHAR(4)|Storage Required|
+|-----|-------|-----------------|----------|-----|
+|''|'    '|4 bytes|''|1 byte|
+|'ab'|'ab  '|4 bytes|'ab'|3 bytes|
+|'abcd'|'abcd'|4 bytes|'abcd'|5 bytes|
+|'abcdfgh'|'abcd'|4 bytes|'abcd'|5 bytes|
+
+**使用時機**
+> 當長度是固定的會使用**CHAR**，當長度是不固定的可以使用**VARCHAR**
+
+> 例如:國內電話號碼就可以使用**CHAR**，若是名字就可以設定為**VARCHAR**
+
+> **CHAR**沒有特別節省空間，不管你使用多少他所佔的空間都一樣，但若使用**VARCHAR**則可以節省空間
+
+```SQL
+CREATE TABLE testChar(a CHAR(4), b VARCHAR(4));
+```
+![CHAR](../img/mySQL/232.png)
+
+```SQL
+INSERT INTO testChar values("ab","cd");
+```
+
+![CHAR](../img/mySQL/233.png)
+
+```SQL
+SELECT CHAR_LENGTH(a), CHAR_LENGTH(b) from testChar;
+```
+
+![CHAR](../img/mySQL/234.png)
+
+> CHAR_LENGTH是顯示字符長度，LENGTH則是顯示bytes的存儲空間
+
+## BINARY 和 VARBINARY
+
+[官網](https://dev.mysql.com/doc/refman/8.0/en/binary-varbinary.html)
+
+> BINARY若傳入不滿足此指定的數字在後面會自動插入`\0`，但VARBINARY並不會幫我們自動插入`\0`
+
+```sql
+CREATE TABLE testBinary (a BINARY(4), b VARBINARY(4));
+```
+
+![CHAR](../img/mySQL/235.png)
+
+```sql
+INSERT INTO testBinary values('a','b');
+```
+![CHAR](../img/mySQL/236.png)
+
+```sql
+SELECT LENGTH(a), LENGTH(b) from testBinary;
+```
+![CHAR](../img/mySQL/237.png)
+
+## BLOB 和 TEXT
+
+[官網](https://dev.mysql.com/doc/refman/8.0/en/storage-requirements.html)
+
+> BINARY 和 VARBINARY是有限制的，但BLOB的儲存空間，遠遠的都比這大，TEXT也是存儲非常大的字串，他對應的是CHAR 和 VARCHAR
+
+> 個別會分四個級別
+
+- BLOB
+  - TINYBLOB
+  - BLOB
+  - MEDIUMBLOB
+  - LONGBLOB
+- TEXT
+  - TINYTEST
+  - TEXT
+  - HEDIUMTEXT
+  - LONGTEXT  
+
+![BLOB](../img/mySQL/238.png)
+
+> 因為儲存的東西太大，會造成排序的負擔，因此MYSQL創造了一個語法`max_sort_length`，用來指定指排序前幾個字串，而不是處理全部，這樣效率會提高很多
+
+```sql
+SET max_sort_length = 2000;
+SELECT id, comment from testTable ORDER BY comment;  
+```
+
+## ENUM
+
+[官網](https://dev.mysql.com/doc/refman/5.7/en/enum.html)
+
+```sql
+CREATE TABLE shirts(name VARCHAR(40), size ENUM('x-small', 'small', 'medium', 'large', 'x-large'));
+```
+
+![ENUM](../img/mySQL/239.png)
+
+```sql
+INSERT INTO shirts (name, size) VALUES ('dress shirt','large'), ('t-shirt','medium'),('pole shirt','small');
+```
+
+![ENUM](../img/mySQL/240.png)
+
+```sql
+INSERT INTO shirts values("test1",1);
+```
+![SET](../img/mySQL/241.png)
+
+```sql
+INSERT INTO shirts values("test2",2);
+```
+![SET](../img/mySQL/242.png)
+
+## SET
+
+```sql
+CREATE TABLE set1(a SET('one', 'two', 'three'));
+```
+
+![SET](../img/mySQL/243.png)
+
+```sql
+INSERT INTO set1 values('one,three');
+```
+
+![SET](../img/mySQL/244.png)
+
+> 也可以插入數字
+
+```sql
+INSERT INTO set1 values(2);
+```
+
+![SET](../img/mySQL/245.png)
+
+```sql
+INSERT INTO set1 values(3);
+```
+![SET](../img/mySQL/246.png)
+
+
+```sql
+INSERT INTO set1 values(4);
+```
+![SET](../img/mySQL/247.png)
+
+```sql
+INSERT INTO set1 values(5);
+```
+![SET](../img/mySQL/248.png)
+
+```sql
+INSERT INTO set1 values(6);
+```
+![SET](../img/mySQL/249.png)
+
+```sql
+INSERT INTO set1 values(7);
+```
+![SET](../img/mySQL/250.png)
+
+```sql
+INSERT INTO set1 values(8);
+```
+![SET](../img/mySQL/251.png)
+
+```sql
+INSERT INTO set1 values(0);
+```
+![SET](../img/mySQL/252.png)
+
+|十進制|二進制|SET值|
+|-----|------|-----|
+|0|000|''|
+|1|001|one|
+|2|010|two|
+|3|011|one,two|
+|4|100|three|
+|5|101|one,three|
+|6|110|two,three|
+|7|111|one,two,three|
+
+## 修改已設定好的Table
