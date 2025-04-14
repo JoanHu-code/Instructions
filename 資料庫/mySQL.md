@@ -93,13 +93,21 @@
   - [IN 和 NOT IN](#IN-和-NOT-IN)
   - [CASE 表達式](#CASE-表達式)
   - [練習](#練習) 
-
 - [MySQL 內置函數串講](#MySQL-內置函數串講)
   - [字符處理函數](#字符處理函數)    
   - [數值處理函數](#數值處理函數)
   - [時間日期函數](#時間日期函數)
   - [信息函數](#信息函數)
   - [加密函數](#加密函數)
+- [Relationship 之 One to Many](#Relationship-之-One-to-Many)
+  - [本章介紹](#本章介紹)    
+  - [通過ID關聯兩個表](#通過ID關聯兩個表)
+  - [使用外鍵的束關聯自斷](#使用外鍵的束關聯自斷)
+  - [inner join](#inner-join)
+  - [left join](#left-join)
+  - [right join](#right-join)
+  - [On Delete](#On-Delete)
+  - [練習](#練習)  
 
 # 介紹SQL
 
@@ -3416,3 +3424,273 @@ INSERT INTO user(username,password) VALUES ('root', SHA2('abc123', 256));
 ```
 
 ![數值處理函數](../img/mySQL/317.png)
+
+# Relationship 之 One to Many
+
+## 本章介紹
+例如: 
+
+1. 一部電影只有一位導演，但一位導演可以導多部電影，電影和導演就是一對多的關係
+2. 一個商品可以對一個條碼，但一個條碼可以對多個商品，商品和條碼就是一對多的關係
+
+## 通過ID關聯兩個表
+
+- 建立客戶資訊(customers)
+
+```sql
+CREATE TABLE customers(
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  first_name VARCHAR(100),
+  last_name VARCHAR(100),
+  email VARCHAR(100)
+);
+```
+- 插入客戶資料
+
+```sql
+INSERT INTO customers(first_name, last_name,email) VALUES ('Robin', 'Jackman', 'roj@gmail.com'),
+('Taylor', 'Edward', 'taed@gmail.com'),
+('Vivian', 'Dickens', 'vid@gmail.com'),
+('Harley', 'Gilbert', 'hgi@gmail.com');
+```
+
+
+- 建立訂單資訊(orders)
+
+```sql
+CREATE TABLE orders(
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  order_date DATE,
+  amount DECIMAL(8,2),
+  customer_id INT
+);
+```
+
+```sql
+INSERT INTO orders(order_date, amount,customer_id) VALUES ('2001-10-12', 99.12, 1),
+('2001-09-21', 100.99, 2),
+('2001-10-13', 12.19, 1),
+('2001-11-29', 88.09, 3),
+('2001-11-11', 205.01, 4);
+```
+![通過ID關聯兩個表](../img/mySQL/319.png)
+
+```sql
+select * from orders where customer_id=(select id from customers where email="roj@gmail.com");
+```
+
+![通過ID關聯兩個表](../img/mySQL/320.png)
+
+## 使用外鍵的束關聯自斷
+
+- 設置FOREIGN KEY,FOREIGN KEY可以有多個
+
+```sql
+CREATE TABLE orders(
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  order_date DATE,
+  amount DECIMAL(8,2),
+  customer_id INT,
+  FOREIGN KEY(customer_id) REFERENCES customers(id)
+);
+```
+![通過ID關聯兩個表](../img/mySQL/322.png)
+
+```sql
+INSERT INTO orders(order_date,amount,customer_id) values(20020101, 300.05,100);
+```
+> 設置FOREIGN KEY就可以避免插入不存在的id
+
+![通過ID關聯兩個表](../img/mySQL/321.png)
+
+## inner join
+
+把原本一個表變成兩個表，但某些情況下需要看一些訊息，所以要匯成一個大表，如何通過兩張表，合成一個大表?
+
+> 只會取集合裡面交集的部分
+
+![inner join](../img/mySQL/326.png)
+
+```sql
+select * from customers inner join orders where customers.id=orders.customer_id;
+```
+![inner join](../img/mySQL/323.png)
+
+```sql
+insert into customers(first_name, last_name,email) values("A",'B','AB@gmail.com');
+```
+![inner join](../img/mySQL/324.png)
+
+> 新插入的資料並不會出現，因為它沒有關聯到orders
+
+```sql
+select first_name, last_name from customers inner join orders where customers.id=orders.customer_id group by customers.id;
+```
+
+```sql
+select first_name, last_name, SUM(amount) from customers inner join orders where customers.id=orders.customer_id group by customers.id;
+```
+
+![inner join](../img/mySQL/325.png)
+
+> where 也可以改 on,結果是一樣的
+
+```sql
+select first_name, last_name, SUM(amount) from customers inner join orders on customers.id=orders.customer_id group by customers.id;
+```
+
+## left join
+
+![left join](../img/mySQL/327.png)
+
+> 只能用`ON`不能把`ON`改成`WHERE`
+```sql
+SELECT * FROM customers LEFT JOIN orders ON customers.id = orders.customer_id;
+```
+![left join](../img/mySQL/329.png)
+
+```sql
+select first_name, last_name,SUM(amount) from customers LEFT JOIN orders ON customers.id=orders.customer_id group by customers.id;
+```
+![left join](../img/mySQL/330.png)
+
+```sql
+SELECT first_name, last_name,
+  CASE
+    WHEN SUM(amount) IS NULL THEN 0
+    ELSE SUM(amount)
+  END AS total_amount
+FROM customers
+LEFT JOIN orders ON customers.id = orders.customer_id
+GROUP BY customers.id;
+```
+![left join](../img/mySQL/331.png)
+
+- 使用IFNULL(): 也可以達到同樣的效果
+
+```sql
+select first_name, last_name,IFNULL(SUM(amount),0) from customers LEFT JOIN orders ON customers.id=orders.customer_id group by customers.id;
+```
+![left join](../img/mySQL/332.png)
+
+## right join
+![right join](../img/mySQL/328.png)
+
+```sql
+SELECT * FROM customers RIGHT JOIN orders ON customers.id = orders.customer_id;
+```
+![left join](../img/mySQL/333.png)
+
+> 和inner join的結果是一樣的
+
+## On Delete
+> 在刪除customers裡的紀錄時，同時會連動刪除有用到customers裡面資料的orders table裡的資料
+
+- 設置On Delete
+
+```sql
+CREATE TABLE orders(
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  order_date DATE,
+  amount DECIMAL(8,2),
+  customer_id INT,
+  FOREIGN KEY(customer_id) 
+    REFERENCES customers(id)
+    ON DELETE CASCADE
+);
+```
+```sql
+DELETE from customers where id=1;
+```
+
+![On Delete](../img/mySQL/334.png)
+
+> 有關id為1的customer資料全都不見了
+
+## 練習
+
+```sql
+-- director table
+CREATE TABLE IF NOT EXISTS directors(
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    first_name VARCHAR(50),
+    last_name VARCHAR(50)
+);
+
+-- movie table
+CREATE TABLE IF NOT EXISTS movies(
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(100) NOT NULL,
+    title_year INT NOT NULL,
+    director_id INT,
+    gross BIGINT NOT NULL,
+    imdb_score FLOAT DEFAULT 0,
+    FOREIGN KEY (director_id) 
+        REFERENCES directors(id)
+        ON DELETE CASCADE
+);
+
+INSERT INTO directors(first_name, last_name) VALUES
+    ('Christopher', 'Nolan'),
+    ('Anthony', 'Russo'),
+    ('Doug', 'Liman'),
+    ('Andrew', 'Stanton'),
+    ('Dean', 'DeBlois'),
+    ('Pete', 'Docter'),
+    ('James', 'Gunn'),
+    ('Peter', 'Jackson'),
+    ('Bryan', 'Singer'),
+    ('Lee', 'Unkrich'),
+    ('Dean', 'DeBlois'),
+    ('Don', 'Hall'),
+    ('Joss', 'Whedon'),
+    ('Jon', 'Favreau'),
+    ('James', 'Cameron'),
+    ('Nathan', 'Greno');
+
+INSERT INTO movies(title, title_year, gross, imdb_score, director_id) VALUES
+    ('The Avengers', 2012, 623279547, 8.1,13),
+    ('X-Men: Days of Future Past', 2014, 233914986, 8, 9),
+    ('The Dark Knight', 2008, 533316061, 9, 1),
+    ('Big Hero 6', 2014, 222487711, 7.9, 12),
+    ('Inception', 2010, 292568851, 8.8, 1),
+    ('How to Train Your Dragon', 2010, 217387997, 8.2, 5),
+    ('Interstellar', 2014, 187991439, 8.6, 1),
+    ('Avatar', 2009, 760505847, 7.9, 15),
+    ('The Dark Knight Rises', 2012, 448130642, 8.5, 1),
+    ('Guardians of the Galaxy', 2014, 333130696, 8.1, 7),
+    ('The Hobbit: The Desolation of Smaug', 2013, 258355354, 7.9, 8),
+    ('Toy Story 3', 2010, 414984497, 8.3, 10),
+    ('The Hobbit: An Unexpected Journey', 2012, 303001229, 7.9, 8),
+    ('Up', 2009, 292979556, 8.3, 6),
+    ('Tangled', 2010, 200807262, 7.8, 16),
+    ('Captain America: Civil War', 2016, 407197282, 8.2, 2),
+    ('Inside Out', 2015, 356454367, 8.3, 6),
+    ('Edge of Tomorrow', 2014, 100189501, 7.9, 3),
+    ('WALL·E', 2008, 223806889, 8.4, 4),
+    ('Iron Man', 2008, 318298180, 7.9, 14);
+
+
+SELECT
+    first_name,
+    last_name,count(*) AS total_moves,
+    CONVERT(AVG(imdb_score), DECIMAL(2,1)) AS imdb_avg
+FROM directors 
+INNER JOIN movies ON directors.id=movies.director_id
+GROUP BY directors.id
+ORDER BY imdb_avg DESC;
+```
+![On Delete](../img/mySQL/335.png)
+
+```sql
+SELECT
+  first_name,
+  last_name,
+  COUNT(title) AS total_movies,
+  CONVERT(AVG(imdb_score), DECIMAL(2,1)) AS imdb_avg
+FROM directors
+INNER JOIN movies ON directors.id = movies.director_id
+GROUP BY directors.id;
+ORDER BY imdb_avg DESC;
+```
+> CONVERT可以轉換成其他的數據類型
