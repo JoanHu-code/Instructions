@@ -108,6 +108,14 @@
   - [right join](#right-join)
   - [On Delete](#On-Delete)
   - [練習](#練習)  
+- [Relationship 之 Many to Many](#Relationship-之-Many-to-Many)
+  - [本章介紹](#本章介紹)    
+  - [資料準備](#資料準備)
+  - [第一個練習](#第一個練習)
+  - [第二個練習](#第二個練習)
+  - [第三個練習](#第三個練習)
+  - [第四個練習](#第四個練習)
+    
 
 # 介紹SQL
 
@@ -3694,3 +3702,148 @@ GROUP BY directors.id;
 ORDER BY imdb_avg DESC;
 ```
 > CONVERT可以轉換成其他的數據類型
+
+# Relationship 之 Many to Many
+
+## 本章介紹
+
+- One-Many: 一位電影只能有一位導演，一位導演可以有多個電影
+- Many-Many: 亞馬遜上的books和review的關係就是多對多的關係，每本書都可以有很多人的評論，每個人也可以評論很多本書
+
+## 資料準備
+
+```sql
+CREATE TABLE reviewers (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    first_name VARCHAR(100),
+    last_name VARCHAR(100)
+);
+
+CREATE TABLE books(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(100) NOT NULL,
+    released_year YEAR(4) NOT NULL,
+    language VARCHAR(100) NOT NULL,
+    paperback INT NOT NULL
+);
+
+CREATE TABLE reviews (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    rating DECIMAL(2,1),
+    book_id INT,
+    reviewer_id INT,
+    FOREIGN KEY(book_id) REFERENCES books(id),
+    FOREIGN KEY(reviewer_id) REFERENCES reviewers(id)
+);
+
+INSERT INTO books(title, released_year, language, paperback) VALUES
+    ('Fifty Shades of Grey Series', 2012, 'English', 514),
+    ('Civilian Publishing Alif Baa Taa: Learning My Arabic Alphabet', 2018, 'Arabic', 30),
+    ('The Hunger Games (Book 3)', 2014, 'English', 400),
+    ('Santo Remedio', 2017, 'Spanish', 240),
+    ('The Fault in Our Stars', 2012, 'English', 318),
+    ('Harry Potter Und der Stein der Weisen (German Edition)', 2005, 'German', 334),
+    ('Collection Folio, no. 2', 1971, 'French', 185),
+    ('Santo remedio: Ilustrado y a color', 2018, 'Spanish', 216),
+    ('Splatoon 2', 2017, 'Japanese', 384),
+    ('Minna No Nihongo: Beginner 1, 2nd Edition', 2012, 'Japanese', 210);
+
+
+INSERT INTO reviewers (first_name, last_name) VALUES
+    ('Thomas', 'Stoneman'),
+    ('Wyatt', 'Skaggs'),
+    ('Kimbra', 'Masters'),
+    ('Domingo', 'Cortes'),
+    ('Colt', 'Steele'),
+    ('Pinkie', 'Petit'),
+    ('Marlon', 'Crafford');
+
+INSERT INTO reviews(book_id, reviewer_id, rating) VALUES
+    (1,1,8.0),(1,2,7.5),(1,3,8.5),(1,4,7.7),(1,5,8.9),
+    (2,1,8.1),(2,4,6.0),(2,3,8.0),(2,6,8.4),(2,5,9.9),
+    (3,1,7.0),(3,6,7.5),(3,4,8.0),(3,3,7.1),(3,5,8.0),
+    (4,1,7.5),(4,3,7.8),(4,4,8.3),(4,2,7.6),(4,5,8.5),
+    (5,1,9.5),(5,3,9.0),(5,4,9.1),(5,2,9.3),(5,5,9.9),
+    (6,2,6.5),(6,3,7.8),(6,4,8.8),(6,2,8.4),(6,5,9.1),
+    (7,2,9.1),(7,5,9.7),
+    (8,4,8.5),(8,2,7.8),(8,6,8.8),(8,5,9.3),
+    (9,2,5.5),(9,3,6.8),(9,4,5.8),(9,6,4.3),(9,5,4.5),
+    (10,5,9.9);
+
+```
+
+![資料準備](../img/mySQL/336.png)
+
+## 第一個練習
+```sql
+SELECT 
+  title, 
+  CONVERT(AVG(rating), DECIMAL(3,2)) AS avg_rating
+FROM books 
+INNER JOIN reviews on books.id = reviews.book_id GROUP BY reviews.book_id 
+ORDER BY CONVERT(AVG(rating), DECIMAL(3,2)) DESC;
+```
+![第一個練習](../img/mySQL/337.png)
+
+## 第二個練習
+```sql
+SELECT 
+  first_name,
+  last_name, 
+  CONVERT(AVG(rating), DECIMAL(3,2)) AS avg_rating
+FROM reviewers 
+INNER JOIN reviews on reviewers.id = reviews.reviewer_id GROUP BY reviews.reviewer_id 
+ORDER BY avg_rating DESC;
+```
+![第二個練習](../img/mySQL/338.png)
+
+## 第三個練習
+
+```sql
+SELECT
+  books.title,
+  CONVERT(AVG(rating), DECIMAL(3,2)) AS avg_rating
+FROM books
+LEFT JOIN reviews
+  ON books.id = reviews.book_id
+GROUP BY books.id
+ORDER BY avg_rating DESC;
+```
+![第三個練習](../img/mySQL/339.png)
+
+```sql
+SELECT 
+  first_name,
+  last_name, 
+  CONVERT(AVG(rating), DECIMAL(3,2)) AS avg_rating
+FROM reviewers 
+LEFT JOIN reviews 
+  ON reviewers.id = reviews.reviewer_id 
+GROUP BY reviewers.id
+ORDER BY avg_rating DESC;
+```
+![第三個練習](../img/mySQL/340.png)
+
+## 第四個練習
+
+```sql
+SELECT 
+  first_name,
+  last_name,
+  COUNT(reviewer_id) AS COUNT,
+  IFNULL(CONVERT(MIN(rating), DECIMAL(2,1)),0.0) AS MIN,
+  IFNULL(CONVERT(MAX(rating), DECIMAL(2,1)),0.0) AS MAX, 
+  IFNULL(CONVERT(AVG(rating), DECIMAL(3,2)),0.00) AS AVG,
+  CASE
+    WHEN COUNT(reviewer_id)>0 THEN 'ACTIVE'
+    ELSE 'INACTIVE'
+  END AS STATUS  
+FROM reviews 
+RIGHT JOIN reviewers 
+  ON reviewers.id = reviews.reviewer_id
+LEFT JOIN books 
+  ON books.id = reviews.book_id
+GROUP BY reviews.reviewer_id, reviewers.first_name, reviewers.last_name
+ORDER BY AVG DESC;
+```
+![第四個練習](../img/mySQL/341.png)
