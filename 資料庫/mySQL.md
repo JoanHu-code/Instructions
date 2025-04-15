@@ -115,6 +115,9 @@
   - [第二個練習](#第二個練習)
   - [第三個練習](#第三個練習)
   - [第四個練習](#第四個練習)
+- [MySQL 編碼問題](#MySQL-編碼問題)
+  - [overivew](#overivew)    
+  - [編碼的查看](#編碼的查看)
     
 
 # 介紹SQL
@@ -3831,9 +3834,9 @@ SELECT
   first_name,
   last_name,
   COUNT(reviewer_id) AS COUNT,
-  IFNULL(CONVERT(MIN(rating), DECIMAL(2,1)),0.0) AS MIN,
-  IFNULL(CONVERT(MAX(rating), DECIMAL(2,1)),0.0) AS MAX, 
-  IFNULL(CONVERT(AVG(rating), DECIMAL(3,2)),0.00) AS AVG,
+  CONVERT(MIN(IFNULL(rating,0.0)), DECIMAL(2,1)) AS MIN,
+  CONVERT(MAX(IFNULL(rating,0.0)), DECIMAL(2,1)) AS MAX, 
+  CONVERT(AVG(IFNULL(rating,0.0)), DECIMAL(3,2)) AS AVG,
   CASE
     WHEN COUNT(reviewer_id)>0 THEN 'ACTIVE'
     ELSE 'INACTIVE'
@@ -3846,4 +3849,54 @@ LEFT JOIN books
 GROUP BY reviews.reviewer_id, reviewers.first_name, reviewers.last_name
 ORDER BY AVG DESC;
 ```
+
+```sql
+SELECT 
+  first_name,
+  last_name,
+  COUNT(reviewer_id) AS COUNT,
+  CONVERT(MIN(IFNULL(rating,0.0)), DECIMAL(2,1)) AS MIN,
+  CONVERT(MAX(IFNULL(rating,0.0)), DECIMAL(2,1)) AS MAX, 
+  CONVERT(AVG(IFNULL(rating,0.0)), DECIMAL(3,2)) AS AVG,
+  IF(COUNT(reviewer_id)>0, 'ACTIVE', 'INACTIVE') AS STATUS
+FROM reviews 
+RIGHT JOIN reviewers 
+  ON reviewers.id = reviews.reviewer_id
+LEFT JOIN books 
+  ON books.id = reviews.book_id
+GROUP BY reviews.reviewer_id, reviewers.first_name, reviewers.last_name
+ORDER BY AVG DESC;
+```
 ![第四個練習](../img/mySQL/341.png)
+
+# MySQL 編碼問題
+
+## overivew
+```sql
+CREATE DATABASE test1;
+use test1;
+CREATE TABLE user(id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(100));
+DESC user;
+INSERT INTO user(name) values('test');
+SELECT * FROM user;
+INSERT INTO user(name) values('測試')
+```
+> MAC並不能插入中文，會有問題，需修改編碼方式
+
+```SQL
+CREATE DATABASE db_name DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+```
+
+```SQL
+ALTER TABLE table_name CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
+
+```
+
+## 編碼的查看
+
+- 創建默認編碼為utf8的database
+  - CREATE DATABASE dbname DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+- 更改已有database的編碼
+  - ALTER DATABASE dbname CHARSET utf8 COLLATE utf8_general_ci
+- 更改已有table的編碼
+  - ALTER TABLE tablename CONVER TO CHARACTER SET utf8;  
