@@ -120,9 +120,6 @@ fetchpromise.then((response)=>return response.json())
 
 # json 與 fetch 補充
 
-各位同學！關於fetch()的其他規則，我用文字補充在這邊。
-
- 
 根據 MDN，在 JavaScript 內建的 fetch() 函式的定義是「starts the process of fetching a resource from the network, returning a promise which is fulfilled once the response is available. The promise resolves to the Response object representing the response to your request.」
 
 
@@ -171,3 +168,22 @@ Content-Type: text/json; charset=UTF-8
 
 [mdn](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API)
 
+# Catching Errors
+
+為了支持錯誤處理, Promise 物件提供了一個catch() 方法, 跟then()很像。我們調用.catch()時，傳入一個callback function當作參數。傳遞給catch()的處理函數在異步操作失敗時會自動被JavaScript調用。catch()內部的callback function被調用時，參數會被放入錯誤訊息，通常以變數e或是err代表錯誤(error)。
+
+當串聯多個`.then`語句時，後一個`.then()`內部的callback function被執行時，所用的參數是前一個`.then()`中的callback function索回傳的值
+
+如果將catch()添加到Promise Chain的末尾,那麼當任何異步函數調用失敗時都會調用到它。
+
+```js
+let fetchPromise = fetch(url);
+fetchPromise
+  .then((res)=>res.json())
+  .then((data)=>{
+    console.log(data);
+  })
+  .catch((e)=>{
+    console.log(e);
+  });
+```
