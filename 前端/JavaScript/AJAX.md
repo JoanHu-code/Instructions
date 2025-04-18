@@ -187,3 +187,30 @@ fetchPromise
     console.log(e);
   });
 ```
+
+# Combining Multiple Promise
+
+當我們的操作由多個異步函數組成時,我們需要用到promise chaining,讓我們在開始下一個函數之前完成前一個函數。這種情況下,每個Promise都互相依賴。
+
+有時,我們需要所有Promise都被fulfilled,但它們並不相互依賴。在這種情況下,將它們全部一起啟動,然後在它們全部fulfilled時收到通知會更有效。JavaScript當中,提供了Promise.all()這個static method,它接受一個promise array並返回一個promise。
+
+Promise.all() 返回的promise是:
+
+1. fulfilled: 如果所有在array當中的promisses都變成fulfilled,則Promised.all()所return的promise狀態會變成fulfilled。`.then()`被JavaScript調用時,參數是array of response,順序跟Promise.all()參數的array of promises的順序相同。
+
+2. rejected: 當任一個array當中的promises變成rejected,則Promise.all()所return的promise狀態會變成rejected。此時,`.catch()`被JavaScript調用時,參數會是被rejected的promises的錯誤訊息。
+
+```js
+const fetchPromise1 = fetch(url1);
+const fetchPromise2 = fetch(url2);
+const fetchPromise3 = fetch(url3);
+Promise.all([fetchPromise1,fetchPromise2,fetchPromise3]).then(responses=>{
+  responses.forEach(response=>{
+    console.log(response.url,response.status);
+  })
+}).catch(e=>{
+  console.log(e);
+})
+```
+
+有時,我們可能需要履行一組Promise中的任何一個,而不關心哪一個,那我們就需要使用Promise.any()。只要Promise array中的任何一個變成fulfilled,就執行.then(),或者如果所有promises都被拒絕,則執行.catch()
