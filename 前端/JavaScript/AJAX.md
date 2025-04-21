@@ -214,3 +214,56 @@ Promise.all([fetchPromise1,fetchPromise2,fetchPromise3]).then(responses=>{
 ```
 
 有時,我們可能需要履行一組Promise中的任何一個,而不關心哪一個,那我們就需要使用Promise.any()。只要Promise array中的任何一個變成fulfilled,就執行.then(),或者如果所有promises都被拒絕,則執行.catch()
+
+# Async and Await
+
+Async關鍵字為我們提供了一種更簡單的方式來處理基於async promise的代碼
+
+```js
+async function myFunction(){
+  //This is an async function
+}
+```
+
+在asynchoronous function中，您可以在調用return promise的函數之前使用await關鍵字。這使得代碼在該點等待值到Promise被fulfilled或是rejected。
+
+**await關鍵字只能放在async function內部!!**
+
+**特別注意!!JavaScript設定所有的async function都一定會return一個Promise Object，不論我們在async function內return什麼值!!在async function內部return的任何值，在async function所return的Promise變成fulfilled時，執行`.then()`的callback function內部自動變成參數。**
+
+```js
+async function myFunction(){
+  return 10;
+}
+let promise = myFunction();
+promise.then(data=>{
+  console.log(data);
+})
+```
+
+> `console.log`的data會是10
+
+特別注意，若程式碼是:
+
+```js
+async function fetchSomething(){
+  const response = await fetch(URL)
+}
+```
+> 在這裡我們調用了await fetch()，response並不會是一個Promise! 使用了 await關鍵字，我們會獲得URL回應完整的Response Object，就像fetch()是一個同步函數(synchronous)一樣!
+
+> 我們在asynchronous function內部甚至可以使用`try...catch`塊進行錯誤處理，就像代碼是同步的一樣
+
+```js
+const function fetchProduct(){
+  try{
+    const response = await fetch(url);
+    console.log(response);
+    const data = await response.json();
+    console.log(data);
+  }catch(e){
+    console.log(e)
+  }
+}
+fetchProduct();
+```
