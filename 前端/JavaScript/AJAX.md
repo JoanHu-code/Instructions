@@ -267,3 +267,101 @@ const function fetchProduct(){
 }
 fetchProduct();
 ```
+
+# Nodejs Event Loop
+
+在Node.js當中,將凡事有任何等待結果的、請求外部資源才能進行的涵式，都會被放到Event Loop中等待。
+
+當運算結果出來了或是資源載入完成後，這些正在等待被執行的涵式，都會被Node.js依序執行。如此一來，Node.js可以保持忙碌且維持高效率。
+
+**Node.js的Event Loop與瀏覽器的Event Loop不盡相同。Event Loop的結果也跟JavaScript引擎的版本有官**
+
+再認識Event Loop之前,先來認識一種資料結構 - Queue。Queue與Stack是兩個相似但源則相反的資料結構。Queue是一種列隊式的結構,採用先進先出(First In First Out, FIFO)為原則。 Stack則是推狀的結構,採用後進先出(Last In First Out, LIFO)為原則。
+
+![AJAX](../../img/AJAX/07.png)
+
+![AJAX](../../img/AJAX/08.png)
+
+> 在Node.js的Event Loop當中，大致可分成以下幾種Queue:
+
+1. 優先級別: nextTick queue 以及 mircoTask Queue。
+2. 普通級別: macrotask queue (或叫做 task queue)。其中,macrotask queue 又有 timers, pending callbacks, Idle, prepare, polling, check, and close callbacks 這六種。
+
+- nextTick Queue: 優先程度最高 queue。給定的process.nextTick(callbackFn)的callbackFn都會背放入這個queue內部。
+
+- mircoTack Queue: 優先程度第二高的queue。當promise object的狀態,由pending轉變成fulfilled或rejected時,`.then`(callbackFn)或`.catch`(callbackFn)所執行的callbackFn都會被排在這個queue。
+
+以下的都是marcoTack queue:
+
+- timers: 當setTimeout(callbackFn)跟setInterval(callbackFn)所設定的時間到屬完畢時,callbackDn會被放來這裡等待執行
+
+- Pending callbacks: 給作業系統做使用的queue,例如socket連線時的錯誤,或是傳輸控制協定層出現錯誤，相關的callback functions會被放到這邊來。
+
+- Idle, prepare: 給Node.js內部座使用的queue，可以略過
+
+- Polling: 當I/O有callback function時使用的queue。例如: `.on('data',callbackFn)`當中callbackFn就會被放入polling。
+
+- Check: 給setImmediate()的callback function使用的queue。
+
+- Close Callbacks: 當socket或是檔案被關閉或是突然中斷連線時，使用的關閉動作callback會被放在這裡。
+
+**Node.js運行程式碼的順序是:**
+
+1. 將整份程式碼先掃描一次。若遇到同步涵式，就馬上執行。
+
+2. 若遇到異步函式，則將callback function分配到各字歸屬的queue內部。例如，setImmediate()的callback function就會被放到Check。
+
+3. 當整份程式碼完成掃描後，Node.js會重複event loop。只要queue還有callbackg尚未被觸發，Node.js就會一直循環下去。例如，setTimeout()有callback function，但需要幾秒後才觸發，那這之間的時間event loop就會不斷循環。當然，這中間的幾秒也有可能有其他的callback function被放入queue。
+
+4. 循環至某個queue時，發現callback可以被執行了，就把queue內部的callback依照先進先出原則處理
+
+5. 如果在循環的過程中，若nextTick Queue有涵式可以執行，則優先將nextTick Queue清空
+
+6. mircotack Queue也是同樣操作，若mircotask Queue當中有涵式可以執行，則優先將mircotask Queue清空。
+
+```js
+console.log("start");
+
+process.nextTick(function () {
+  console.log("nextTick1");
+});
+
+setTimeout(function () {
+  console.log("setTimeout");
+}, 0);
+
+// call the constructor 是一個sync function
+new Promise(function (resolve, reject) {
+  console.log("promise");
+  resolve("resolve");
+}).then(function (result) {
+  console.log("promise then");
+});
+
+//IIFE
+(async function () {
+  console.log("async");
+})();
+
+setImmediate(function () {
+  console.log("setImmediate");
+});
+
+process.nextTick(function () {
+  console.log("nextTick2");
+});
+
+console.log("end");
+```
+
+1. start
+2. promise
+3. async
+4. end
+5. nextTick1
+6. nextTick2
+7. promise then
+8. setTimeout
+9. setImmediate
+
+![AJAX](../../img/AJAX/09.png)
