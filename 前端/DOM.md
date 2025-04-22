@@ -738,7 +738,7 @@ console.log(Wilson.spouse.Grace);
         let body = document.querySelector("body");
         console.log(body.children[0].children);
         ```
-        ![children](../img/DOM/16.png)
+    ![children](../img/DOM/16.png)
 
   - childNodes: return NodeList
 
