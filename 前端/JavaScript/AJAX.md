@@ -365,3 +365,112 @@ console.log("end");
 9. setImmediate
 
 ![AJAX](../../img/AJAX/09.png)
+
+# Race Condition
+
+在電腦科學中，進程(process)是正在執行的程式，執行緒(thread)是可以由程序調度員(scheduler，一個作業系統內的功能)獨自管理的輕量級進程。一個process內部可以有多個threads。
+
+由於絕大多數的時間，我們電腦許多CPU都是閒置的狀態(因為threads可能會需要等待I/O，或者是可能發生CPU正在忙碌，其他的CPU卻閒得發慌的情況)，因此，我們可以寫出內部含有多個threads的程式，讓threads被多個CPU並聯執行，善用CPU資源，提高效率。這就是許多程式語言都支援的multi-threaded programming。
+
+> 可以查看電腦的工作管理員，就知道現在有多少程式或軟體在同時進行
+
+當兩個以上的thread訪問的一個共享資源(shared resource)時，就會發生race condition。Race condition 發生時，有可能造成難以預期的狀況或bug。
+
+> 例如:演唱會門票購買，餐廳線上訂位等等，都可能造成race condition的發生
+
+要避免Race Condition的發生，我們可以透過劃分critical region。程式當中，訪問shared resource的部分，被稱為Critical Region。每當我們要進去Critical Region之前，我們可以先把共享資源上鎖。上鎖期間，任何其他的thread都無法訪問這個共享資源。離開Critical Region之後，再去做解鎖。
+
+**Lock也稱為mutex(mutual exclusion lock)。在進入Critical Region之前,mutex會檢查我們是否可以進入。Mutex另一個名字是binary semaphore。**
+
+在Node.js當中，製作mutex的方式很簡單。
+
+```js
+let mutex =Promise.resolve();
+async function doing SomethingCritical(){
+  mutex = mutex.then(()=>{
+    // ... do stuff on the critical path
+  }).catch(()=>{
+    // ...manage errors on the critical path
+  })
+  return mutex;
+}
+```
+
+> 這個想法是每次我們調用doingSomethingCritical()函數時，我們都在使用mutex.then()有效地「排隊」執行critical region的代碼。mutex = Promise.resolve()會回傳給我們一個fulfilled promise(這是Promise class的一個static method。)這是屬於同步動作，在Node.js會直接執行。
+
+> 每次的mutex = mutex.then()會return一個pending promise。當Promise.all()執行多次時，每次mutex.then()內部的callback function能否被執行，都取決於前次的promise是否已經進入fulfilled。只有當前一個promise進入fulfilled時，程式才會繼續執行，所以可以避免發生race condition。
+
+
+```js
+let balance = 0; // shared resource
+let mutex = Promise.resolve(); // return fulfilled Promise object
+
+const randomDelay = () => {
+  // return value is a Promise
+  // and the time for this promise changing from pending to fulfilled
+  // is random (0s-0.1s)
+  return new Promise((resolve) => setTimeout(resolve, Math.random() * 100));
+};
+
+async function loadBalance() {
+  await randomDelay(); // 等個隨機的0s~0.1s
+  return balance;
+}
+
+async function saveBalance(value) {
+  await randomDelay();
+  balance = value;
+}
+
+async function sellGrapes() {
+  mutex = mutex
+    .then(async () => {
+      const balance = await loadBalance();
+      console.log(`賣葡萄前，帳戶金額為: ${balance}`);
+      const newBalance = balance + 50;
+      await saveBalance(newBalance);
+      console.log(`賣葡萄後，帳戶金額為: ${newBalance}`);
+    })
+    .catch((e) => {
+      console.log(e);
+    });
+  return mutex;
+}
+
+async function sellOlives() {
+  mutex = mutex
+    .then(async () => {
+      const balance = await loadBalance();
+      console.log(`賣橄欖前，帳戶金額為: ${balance}`);
+      const newBalance = balance + 50;
+      await saveBalance(newBalance);
+      console.log(`賣橄欖後，帳戶金額為: ${newBalance}`);
+    })
+    .catch((e) => {
+      console.log(e);
+    });
+  return mutex;
+}
+
+async function main() {
+  await Promise.all([
+    sellGrapes(),
+    sellOlives(),
+    sellOlives(),
+    sellOlives(),
+    sellGrapes(),
+    sellGrapes(),
+    sellGrapes(),
+  ]);
+  const balance = await loadBalance();
+  console.log(`賣葡萄與橄欖後的帳戶金額是$${balance}`);
+}
+
+main();
+
+```
+
+> 每次的mutex = mutex.then()會return一個pending promise。當Promise.all()執行多次sellOlives與sellGrapes時，每次mutex.then()內部的callback function能否被執行，都取決於前次的promise是否已經進入fulfilled。只有當前一個promise進入fulfilled時，程式才會繼續執行，所以可以避免發生race condition。
+
+
+![AJAX](../../img/AJAX/10.png)
