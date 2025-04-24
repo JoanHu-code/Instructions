@@ -529,6 +529,36 @@ async function main() {
 main();
 ```
 
+🔍 問題說明
+你有兩個關鍵的 async 函數 sellGrapes() 和 sellOlives()，它們都會：
+
+讀取 balance（透過 loadBalance()，這會有隨機延遲）
+
+將讀取到的 balance 加上 50
+
+寫回 balance（透過 saveBalance()，也有隨機延遲）
+
+看起來這是共享資源的讀-改-寫操作，這本質上是一個critical section（臨界區段），但你現在的程式中：
+
+👉 這些操作是沒有鎖的！
+
+雖然你用了 await 把它們串起來，但這只保證順序性，不保證原子性。
+
+🧠 為什麼會有問題？
+因為 randomDelay() 會讓讀跟寫時間不固定，可能導致 race condition（競爭條件）：
+
+假設：
+
+sellGrapes() 讀到 balance = 0
+
+sellOlives() 也讀到 balance = 0（還沒來得及更新）
+
+sellGrapes() 寫入 balance = 50
+
+sellOlives() 寫入 balance = 50（把剛剛的結果覆蓋掉了）
+
+最後結果應該是 100，但實際會是 50！
+
 ![AJAX](../../img/AJAX/10.png)
 
 ```js
@@ -547,7 +577,7 @@ async function main() {
 
 不解await的好處:
 
-1. 可以不用等await function跑完就可以執行下面程式碼
+1. 可以不用等await function跑完就可以執行下面程式碼，但會產生race condition的問題
 2. 順序如果沒有差別，那其實可以不用await確定先後關係
 
 什麼時候要用await?
