@@ -473,4 +473,87 @@ main();
 > 每次的mutex = mutex.then()會return一個pending promise。當Promise.all()執行多次sellOlives與sellGrapes時，每次mutex.then()內部的callback function能否被執行，都取決於前次的promise是否已經進入fulfilled。只有當前一個promise進入fulfilled時，程式才會繼續執行，所以可以避免發生race condition。
 
 
+# Mutex 製作原因
+
+> 另一種寫法
+
+```js
+let balance = 0; // shared resource
+let mutex = Promise.resolve(); // return fulfilled Promise object
+
+const randomDelay = () => {
+  // return value is a Promise
+  // and the time for this promise changing from pending to fulfilled
+  // is random (0s-0.1s)
+  return new Promise((resolve) => setTimeout(resolve, Math.random() * 100));
+};
+
+async function loadBalance() {
+  await randomDelay(); // 等個隨機的0s~0.1s
+  return balance;
+}
+
+async function saveBalance(value) {
+  await randomDelay();
+  balance = value;
+}
+
+async function sellGrapes() {
+  const balance = await loadBalance();
+  console.log(`賣葡萄前，帳戶金額為: ${balance}`);
+  const newBalance = balance + 50;
+  await saveBalance(newBalance);
+  console.log(`賣葡萄後，帳戶金額為: ${newBalance}`);
+}
+
+async function sellOlives() {
+  const balance = await loadBalance();
+  console.log(`賣橄欖前，帳戶金額為: ${balance}`);
+  const newBalance = balance + 50;
+  await saveBalance(newBalance);
+  console.log(`賣橄欖後，帳戶金額為: ${newBalance}`);
+}
+
+async function main() {
+  await  sellGrapes()
+  await  sellOlives()
+  await  sellOlives()
+  await  sellOlives()
+  await  sellGrapes()
+  await  sellGrapes()
+  await  sellGrapes()
+
+  console.log("we will be doing some work here...");
+}
+
+main();
+```
+
 ![AJAX](../../img/AJAX/10.png)
+
+```js
+async function main() {
+  sellGrapes()
+  sellOlives()
+  sellOlives()
+  sellOlives()
+  sellGrapes()
+  sellGrapes()
+  sellGrapes()
+  console.log("we will be doing some work here...");  
+}
+```
+![AJAX](../../img/AJAX/11.png)
+
+不解await的好處:
+
+1. 可以不用等await function跑完就可以執行下面程式碼
+2. 順序如果沒有差別，那其實可以不用await確定先後關係
+
+什麼時候要用await?
+
+1. 當你要還傳值，值需要被下一段程式碼使用(順序有關聯)，就需要用await
+
+**那什麼時候要用mutex?**
+
+function裡面的值被共用，但每個function的先後順序沒有關係，這時就會使用mutex

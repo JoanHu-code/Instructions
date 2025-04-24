@@ -19,47 +19,37 @@ async function saveBalance(value) {
 }
 
 async function sellGrapes() {
-  mutex = mutex
-    .then(async () => {
-      const balance = await loadBalance();
-      console.log(`賣葡萄前，帳戶金額為: ${balance}`);
-      const newBalance = balance + 50;
-      await saveBalance(newBalance);
-      console.log(`賣葡萄後，帳戶金額為: ${newBalance}`);
-    })
-    .catch((e) => {
-      console.log(e);
-    });
-  return mutex;
+  const balance = await loadBalance();
+  console.log(`賣葡萄前，帳戶金額為: ${balance}`);
+  const newBalance = balance + 50;
+  await saveBalance(newBalance);
+  console.log(`賣葡萄後，帳戶金額為: ${newBalance}`);
 }
 
 async function sellOlives() {
-  mutex = mutex
-    .then(async () => {
-      const balance = await loadBalance();
-      console.log(`賣橄欖前，帳戶金額為: ${balance}`);
-      const newBalance = balance + 50;
-      await saveBalance(newBalance);
-      console.log(`賣橄欖後，帳戶金額為: ${newBalance}`);
-    })
-    .catch((e) => {
-      console.log(e);
-    });
-  return mutex;
+  const balance = await loadBalance();
+  console.log(`賣橄欖前，帳戶金額為: ${balance}`);
+  const newBalance = balance + 50;
+  await saveBalance(newBalance);
+  console.log(`賣橄欖後，帳戶金額為: ${newBalance}`);
 }
 
 async function main() {
-  await Promise.all([
-    sellGrapes(),
-    sellOlives(),
-    sellOlives(),
-    sellOlives(),
-    sellGrapes(),
-    sellGrapes(),
-    sellGrapes(),
-  ]);
-  const balance = await loadBalance();
-  console.log(`賣葡萄與橄欖後的帳戶金額是$${balance}`);
+  // await  sellGrapes()
+  // await  sellOlives()
+  // await  sellOlives()
+  // await  sellOlives()
+  // await  sellGrapes()
+  // await  sellGrapes()
+  // await  sellGrapes()
+  sellGrapes()
+  sellOlives()
+  sellOlives()
+  sellOlives()
+  sellGrapes()
+  sellGrapes()
+  sellGrapes()
+  console.log("we will be doing some work here...");  
 }
 
 main();
