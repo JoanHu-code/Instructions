@@ -99,7 +99,36 @@
 // console.log(x); // ReferenceError: cannot access 'x' before initialization
 // var x;
 
-function multiply(a = 1, b = 1) {
-  return a * b;
+// function multiply(a = 1, b = 1) {
+//   return a * b;
+// }
+// console.log(multiply(5)); //5
+
+const name = document.querySelector("#name");
+const delay = document.querySelector("#delay");
+const button = document.querySelector("#set-alarm");
+const output = document.querySelector("#output");
+
+//return Promise object
+//delay of pending => fulfilled
+//if delay < 0 => rejected
+function alarm(person,delay){
+  return new Promise((resolve,reject)=>{
+     if(delay<0){
+      reject("delay is not able to less 0.");
+     }else{
+      setTimeout(() => {
+        resolve( person + " wakes up!!");
+      }, delay);
+     }
+  })
 }
-console.log(multiply(5)); //5
+
+button.addEventListener("click",async()=>{
+  try{
+      let result = await alarm(name.value,delay.value);
+      output.innerHTML = result;
+  }catch(e){
+      output.innerHTML = e;
+  }
+})

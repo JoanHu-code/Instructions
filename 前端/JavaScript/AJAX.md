@@ -587,3 +587,100 @@ async function main() {
 **那什麼時候要用mutex?**
 
 function裡面的值被共用，但每個function的先後順序沒有關係，這時就會使用mutex
+
+# Promise Based API
+
+API(Application Programming Interface)的中文是應用程式介面。
+Application是指任何具有功能的程式，Interface(接口)可以背認為是兩個程式之間的服務契約。該合約定義了兩個程式之間如何互相通信。例如:當程式甲需要程式乙幫他做某件事情，或是取得某些資料的時候，程式乙會定義一套的標準或接口，告訴任何想要程式乙提供服務的對象，如何跟程式乙溝通。這套標準就是API。
+
+這時程式甲並不需要知道程式乙做了什麼，怎麼做的。程式甲只需要知道三件事情:
+
+1. API上面要求要提供什麼資料,才能向程式乙溝通?
+2. 成功的話，程式乙會回覆給我什麼?
+3. 失敗的話，程式乙會回覆給我什麼?
+
+API上面會把這些情況寫得明明白白。至於哪些機構或機關有提供API,讓大家獲取服務呢？如Facebook、Google，或是政府機關網站（像是故宮博物院）都會有對應的API規則文件可以參考
+
+透過API，我們可以連結到其他程式所提供的服務，大多數的API都需要先申請註冊，申請API Key才能使用，甚至有些向google的api超過一定的次數還需要付錢。所以使用之前，還是需要先查詢官方網站查看；資料回傳結構，也需查看此官網的api網站
+
+若我們想要製作一個API，而API中的function會return promise object，使的調用這些function時，可以使用`.then()`,`.catch()`等語法，那我們就必須使用Promise class的constructor。Promise cinstructor接受一個函數作為參數。我們將這個函數稱為executor。
+
+executor函數本身有兩個參數，它們都是函數，通常稱為resolve和reject。如果異步函數成功，則調用resolve，如果失敗，則調用reject。Resolve以及Reject這兩個函數的argument只有一個，並且可以是任何的data type。
+
+```html
+<input type="text" id="name"/>
+<input type="number" id="delay"/>
+<button id="set-alarm">設定鬧鐘</button>
+<div id="output"></div>
+
+<script src="./app.js"></script>
+```
+
+> app.js
+
+- 一般寫法
+
+```js
+const name = document.querySelector("#name");
+const delay = document.querySelector("#delay");
+const button = document.querySelector("#set-alarm");
+const output = document.querySelector("#output");
+
+function alarm(person,delay){
+    setTimeout(() => {
+    output.innerHTML = person + " wakes up!!";
+  }, delay);
+}
+
+button.addEventListener("click",(e)=>{
+  alarm(name.value,delay.value);
+  // console.log("Click Button");
+})
+```
+
+- Promise寫法
+
+```js
+const name = document.querySelector("#name");
+const delay = document.querySelector("#delay");
+const button = document.querySelector("#set-alarm");
+const output = document.querySelector("#output");
+
+//return Promise object
+//delay of pending => fulfilled
+//if delay < 0 => rejected
+function alarm(person,delay){
+  return new Promise((resolve,reject)=>{
+     if(delay<0){
+      reject("delay is not able to less 0.");
+     }else{
+      setTimeout(() => {
+        resolve( person + " wakes up!!");
+      }, delay);
+     }
+  })
+}
+
+button.addEventListener("click",()=>{
+  let promiseObject = alarm(name.value,delay.value);
+  promiseObject.then((message)=>{
+    output.innerHTML = message;
+  }).catch(e=>{
+    output.innerHTML = e;
+  })
+})
+```
+
+> 從寫成async方式
+```js
+button.addEventListener("click",async()=>{
+  try{
+      let result = await alarm(name.value,delay.value);
+      output.innerHTML = result;
+  }catch(e){
+      output.innerHTML = e;
+  }
+})
+```
+
+![AJAX](../../img/AJAX/12.png)
