@@ -104,31 +104,48 @@
 // }
 // console.log(multiply(5)); //5
 
-const name = document.querySelector("#name");
-const delay = document.querySelector("#delay");
-const button = document.querySelector("#set-alarm");
-const output = document.querySelector("#output");
+// const name = document.querySelector("#name");
+// const delay = document.querySelector("#delay");
+// const button = document.querySelector("#set-alarm");
+// const output = document.querySelector("#output");
 
-//return Promise object
-//delay of pending => fulfilled
-//if delay < 0 => rejected
-function alarm(person,delay){
-  return new Promise((resolve,reject)=>{
-     if(delay<0){
-      reject("delay is not able to less 0.");
-     }else{
-      setTimeout(() => {
-        resolve( person + " wakes up!!");
-      }, delay);
-     }
-  })
+// //return Promise object
+// //delay of pending => fulfilled
+// //if delay < 0 => rejected
+// function alarm(person,delay){
+//   return new Promise((resolve,reject)=>{
+//      if(delay<0){
+//       reject("delay is not able to less 0.");
+//      }else{
+//       setTimeout(() => {
+//         resolve( person + " wakes up!!");
+//       }, delay);
+//      }
+//   })
+// }
+
+// button.addEventListener("click",async()=>{
+//   try{
+//       let result = await alarm(name.value,delay.value);
+//       output.innerHTML = result;
+//   }catch(e){
+//       output.innerHTML = e;
+//   }
+// })
+
+let output = document.querySelector("#output");
+async function hello(){
+  try{
+    let result = await fetch('https://v2.jokeapi.dev/joke/Programming?type=single');
+    let data = await result.json();
+    console.log(data);
+    output.innerText += data.joke+ "\n";
+  } catch(e){
+    console.log(e)
+  }
 }
 
-button.addEventListener("click",async()=>{
-  try{
-      let result = await alarm(name.value,delay.value);
-      output.innerHTML = result;
-  }catch(e){
-      output.innerHTML = e;
-  }
+let button = document.querySelector("#new-joke");
+button.addEventListener("click",()=>{
+  hello();
 })

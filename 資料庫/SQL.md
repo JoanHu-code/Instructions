@@ -437,3 +437,45 @@ A^2 = {(1,1),(1,2),(2,1),(2,2)}
 1. 不提供對 SQL 的支持: 因為不支持 SQL 這樣傳統的資料庫，將會對用戶產生一定的學習和應用遷移成本
 2. 支持的特性不夠豐富: 現有產品所提供的功能都比較有限，也不像 MS SQL Server 和 Oracle 那樣能提供各種附加功能，比如自通生成報表等等
 3. 現有產品的不夠成熟: 大多數產品都還處於初創期，和關係行資料庫幾十年的完善不可同日而語。
+
+# MongoDB
+
+## 安裝 MongoDB 與 Mongo Shell
+
+[MongoDB下載網址](https://www.mongodb.com/try/download/community)
+
+![安裝 MongoDB](../img/SQL/33.png)
+![安裝 MongoDB](../img/SQL/34.png)
+![安裝 MongoDB](../img/SQL/35.png)
+![安裝 MongoDB](../img/SQL/36.png)
+
+[Mongo Shell](https://www.mongodb.com/try/download/shell)
+
+![安裝 MongoDB](../img/SQL/37.png)
+
+> 解壓縮完放入C槽的Program Files
+
+![安裝 MongoDB](../img/SQL/38.png)
+
+> 進入bin複製網址 
+
+```shell
+C:\Program Files\mongosh-2.5.0-win32-x64\bin
+```
+![安裝 MongoDB](../img/SQL/39.png)
+
+> 打開環境變數，新增此網址
+
+
+![安裝 MongoDB](../img/SQL/40.png)
+![安裝 MongoDB](../img/SQL/41.png)
+![安裝 MongoDB](../img/SQL/42.png)
+
+> 打開命令提示字元，看是否安裝成功
+
+```shell
+mongosh --help
+```
+> 若無效可試試看加入PATH裡面
+![安裝 MongoDB](../img/SQL/43.png)
+![安裝 MongoDB](../img/SQL/44.png)
