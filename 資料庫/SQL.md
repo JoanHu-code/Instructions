@@ -479,3 +479,60 @@ mongosh --help
 > 若無效可試試看加入PATH裡面
 ![安裝 MongoDB](../img/SQL/43.png)
 ![安裝 MongoDB](../img/SQL/44.png)
+
+## JSON and BSON
+
+JavaScript Object Notation,通常稱為JSON，在2000年代初期由 JavaScript創建者 Douglas Crockford定義為JavaScript語言的一部份。JavaScript物件簡單的容器，其中一個String key可以映射到一個value(這個value可以是數字、String、Function，甚至是另一個物件)。這種簡單的語言特性允許JavaScript對象在文件中非常簡單地表示；
+
+```json
+{
+ "firstName": "John",
+ "lastName": "Smith",
+ "sex": "male",
+ "age": 25,
+ "address":
+ {
+    "streetAddress":"21 2nd Street",
+    "city":"New York",
+    "state": "NY",
+    "postalCode": "10021"
+ },
+ "phoneNumber":
+ [
+    {
+      "type": "home",
+      "number": "212 555-1234"
+    },
+    {
+      "type":"fax",
+      "number":"646 555-4567"
+    }
+ ]
+}
+```
+JSON 的普遍性使其成為MongoDB在開發時的數據結構第一選擇。但是，有幾個問題使JSON不太適合在數據庫內部使用:
+1. JSON是基於純文字的格式，而純文字在解析上很緩慢
+2. JSON的高可讀性並無法節省儲存空間，另一個用JSON製作數據庫會引發的問題。
+3. JSON僅支持有限數量的基本data types。
+
+為了使MongoDB提高性能，人們發明了BSON來解決以上的問題。BSON基於JSON，但仍然具有高性能和通用性。BSON代表Binary JSON，BSON的二進制結構對data types和長度信息進行編碼，從而可以更快地對其進行解析，針對速度、空間和靈活性進行了優化。
+
+例如，將JSON的
+
+```JSON
+{
+  "hello": "world"
+}
+```
+
+換成BSON會得到
+
+```BSON
+\x16\x00\x00\x00\x02 hello\x00\x06\x00\x00\x00world\x00\x00
+```
+
+|   | JSON|BSON|
+|---|-----|----|
+|Encoding|UTF-8 String| Binary|
+|Data Type Support|String, Boolean, Number, Array| String, Boolean, Number(Integer, Float, Long, Decimal128...), Array, Data, Raw Binary|
+|Readability| Human and Machine| Machine Only|
