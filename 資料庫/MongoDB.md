@@ -8,6 +8,7 @@
   - [在 collection 裡面 insert 資料](#在-collection-裡面-insert-資料)
   - [JSON 和 BSON](#JSON-和-BSON)
   - [插入和刪除](#插入和刪除)
+  - [查找和更新](#查找和更新)
 - [結構和資料類型](#結構和資料類型)
 - [NOSQL 中的關係](#NOSQL-中的關係)
 - [深入了解增刪查改](#深入了解增刪查改)
@@ -403,3 +404,151 @@ db.employee.deleteMany({"Salary":{"$gt":2000}})
 ```
 
 ![插入和刪除](../img/mongoDB/27.png)
+
+## 查找和更新
+
+- 查找
+  - findOne(fliter,options)
+  - find(filter,option)
+- 更新
+
+  - updateOne(fliter,update,options)
+  - updateMany(fliter,update,options)
+
+- 所使用的 json
+
+```json
+[
+  {
+    "first_name": "Robin",
+    "last_name": "Jackman",
+    "title": "Software Engineer",
+    "salary": 5500,
+    "hire_date": "2001-10-12"
+  },
+  {
+    "first_name": "Taylor",
+    "last_name": "Edward",
+    "title": "Software Architect",
+    "salary": 7200,
+    "hire_date": "2002-09-21"
+  },
+  {
+    "first_name": "Vivian",
+    "last_name": "Dickens",
+    "title": "Database Administrator",
+    "salary": 6000,
+    "hire_date": "2012-08-29"
+  },
+  {
+    "first_name": "Harry",
+    "last_name": "Clifford",
+    "title": "Database Administrator",
+    "salary": 6800,
+    "hire_date": "2015-12-10"
+  },
+  {
+    "first_name": "Eliza",
+    "last_name": "Clifford",
+    "title": "Software Engineer",
+    "salary": 4750,
+    "hire_date": "1998-10-19"
+  },
+  {
+    "first_name": "Nancy",
+    "last_name": "Newman",
+    "title": "Software Engineer",
+    "salary": 5100,
+    "hire_date": "2007-01-23"
+  },
+  {
+    "first_name": "Melinda",
+    "last_name": "Clifford",
+    "title": "Project Manager",
+    "salary": 8500,
+    "hire_date": "2013-10-29"
+  },
+  {
+    "first_name": "Jack",
+    "last_name": "Chan",
+    "title": "Test Engineer",
+    "salary": 6500,
+    "hire_date": "2018-09-07"
+  },
+  {
+    "first_name": "Harley",
+    "last_name": "Gilbert",
+    "title": "Software Architect",
+    "salary": 8000,
+    "hire_date": "2000-07-17"
+  }
+]
+```
+
+**查找**
+
+```shell
+db.employee.find({'title':"Software Architect"})
+```
+
+![查找和更新](../img/mongoDB/30.png)
+
+> 可以把引號去掉
+
+```shell
+db.employee.find({salary :{$gt:6000}})
+```
+
+![查找和更新](../img/mongoDB/31.png)
+
+> `findOne` 只返回第一個符合的資料
+
+```shell
+db.employee.findOne({salary :{$gt:6000}})
+```
+
+![查找和更新](../img/mongoDB/32.png)
+
+**更新**
+
+> `updateOne`
+
+```shell
+db.<collection-name>.updateOne({<condition>},{$set:{<edit>}}}
+```
+
+```shell
+db.employee.updateOne({_id: ObjectId('6813786025986ff956b5f8ae')},{$set:{"salary":7300}})
+```
+
+![查找和更新](../img/mongoDB/33.png)
+
+> `updateMany`
+
+```shell
+db.<collection-name>.updateMany({<condition>},{$set:{<edit>}}}
+```
+
+```shell
+db.employee.updateMany({title:"Software Architect"},{$set:{"salary":8000}})
+```
+
+![查找和更新](../img/mongoDB/34.png)
+
+> 直接覆蓋可用`replaceOne`
+
+```shell
+db.<collection-name>.replaceOne({<condition>},{$set:{<edit>}}}
+```
+
+```shell
+db.employee.replaceOne({_id: ObjectId('6813786025986ff956b5f8ad')},{
+    "first_name": "Joan",
+    "last_name": "Hu",
+    "title": "Teacher",
+    "salary": 1500,
+    "hire_date": "2012-11-10"
+  })
+```
+
+![查找和更新](../img/mongoDB/35.png)
