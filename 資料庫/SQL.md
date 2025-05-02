@@ -476,6 +476,8 @@ C:\Program Files\mongosh-2.5.0-win32-x64\bin
 ```shell
 mongosh --help
 ```
+![安裝 MongoDB](../img/SQL/50.png)
+
 > 若無效可試試看加入PATH裡面
 ![安裝 MongoDB](../img/SQL/43.png)
 ![安裝 MongoDB](../img/SQL/44.png)
@@ -536,3 +538,107 @@ JSON 的普遍性使其成為MongoDB在開發時的數據結構第一選擇。�
 |Encoding|UTF-8 String| Binary|
 |Data Type Support|String, Boolean, Number, Array| String, Boolean, Number(Integer, Float, Long, Decimal128...), Array, Data, Raw Binary|
 |Readability| Human and Machine| Machine Only|
+
+## mongosh 與 數據新增
+
+- MongoDB Shell (mongosh)
+ - MongoDB Shell(mongosh)是一個功能齊全的JavaScript和Node.js 16.x REPL(Read,Evalute,Print,Loop)環境，用於與MongoDB部屬進行交互運作。我們可以使用MongoDB Shell 直接用數據庫測試查詢和操作。
+
+![MongoDB](../img/SQL/46.png)
+1. read: 先讀`16*3`
+2. Evalute: 計算`16*3`
+3. Print: 返回`16*3`的結果，也就是`48`
+
+ - 在MongoDB當中，我們可以一次擁有數個databases。每個database內部可以有數個collections。Collections等同於是MySQL當中的一個表格。
+
+ ![MongoDB](../img/SQL/45.png)
+
+### 在MongoDB Shell當中，常用的指令有:
+
+1. 展示所有的資料庫:
+
+```shell
+show dbs
+```
+![MongoDB](../img/SQL/47.png)
+
+2. 展示目前所在的資料庫
+
+```shell
+db
+```
+![MongoDB](../img/SQL/48.png)
+
+3. 將當前所在的資料庫切換到<db>。若<db>不存在，則至做出並且切換到<db>
+
+```shell
+use <db>
+```
+
+![MongoDB](../img/SQL/49.png)
+
+4. 打印當前所在資料庫的所有collections。
+
+```shell
+show collections
+```
+![MongoDB](../img/SQL/51.png)
+
+> 在MongoDB中，document指的是數據的基本單元或基本構件塊。在MongoDB Shell當中，跟CRUD有關的常見語法有:
+
+1. 在collection 當中新增一個document
+
+```shell
+db.collection.insertOne(<document>)
+```
+> 參數為一個物件
+
+```shell
+db.students.insertOne(
+  {
+    name:"Grace",
+    age:27,
+    major:"Computer Science",
+    scholarship:{merit:3000,other:1500}
+  }
+)
+```
+
+![MongoDB](../img/SQL/52.png)
+
+2. 在collection當中新增一個或一個以上的document
+
+```shell
+db.collection.insertMany([<document1>,<document2>,...])
+```
+> 參數為一個由物件組成的array
+
+
+```shell
+db.students.insertMany([
+  {
+    name:"Mike",
+    age:28,
+    major:"Chemistry",
+    scholarship:{merit:0,other:1500}
+  },
+  {
+    name:"Spence Kwan",
+    age:35,
+    major:"Computer Science",
+    scholarship:{merit:3000,other:200}
+  }
+])
+```
+
+![MongoDB](../img/SQL/53.png)
+![MongoDB](../img/SQL/54.png)
+
+3. 在collection當中新增一個或一個以上的document
+
+```shell
+db.collection.insert(<document of array of documents>)
+```
+> 參數為一個物件或是一個由物件組成的array
+
+**insertMany和insertOne的混和體**
