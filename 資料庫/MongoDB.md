@@ -9,7 +9,15 @@
   - [JSON 和 BSON](#JSON-和-BSON)
   - [插入和刪除](#插入和刪除)
   - [查找和更新](#查找和更新)
+  - [find 方法和 cursor 物件](#find-方法和-cursor-物件)
+  - [projection](#projection)
+  - [Document 嵌套](#Document-嵌套)
+  - [Document limitation](#Document-limitation)
 - [結構和資料類型](#結構和資料類型)
+  - [Collection 有 Schema 嗎](Collection-有-Schema-嗎)
+  - [資料類型](#資料類型)
+  - [關於時間資料類型](#關於時間資料類型)
+  - [關於數字資料類型](#關於數字資料類型)
 - [NOSQL 中的關係](#NOSQL-中的關係)
 - [深入了解增刪查改](#深入了解增刪查改)
 - [使用 index 索引](#使用-index-索引)
@@ -552,3 +560,357 @@ db.employee.replaceOne({_id: ObjectId('6813786025986ff956b5f8ad')},{
 ```
 
 ![查找和更新](../img/mongoDB/35.png)
+
+## find 方法和 cursor 物件
+
+> 使用資料
+
+```json
+[
+  { "name": "Linda Rodgers" },
+  { "name": "Oscar Jensen" },
+  { "name": "Dawn Dingle" },
+  { "name": "Joline Thomas" },
+  { "name": "Mary Bennett" },
+  { "name": "Steven Partee" },
+  { "name": "Vickie Lyle" },
+  { "name": "Richard Hartman" },
+  { "name": "David Baldwin" },
+  { "name": "Elizabeth Oneal" },
+  { "name": "Sharon Hanson" },
+  { "name": "Caleb Kirkpatrick" },
+  { "name": "Bruce Spruill" },
+  { "name": "Ralph Smith" },
+  { "name": "Monica Baxter" },
+  { "name": "Faith Williams" },
+  { "name": "Helen Tucker" },
+  { "name": "Vernell Mcmorran" },
+  { "name": "Eric Smith" },
+  { "name": "Floyed Gallup" },
+  { "name": "John Doe" },
+  { "name": "Jane Smith" },
+  { "name": "Michael Johnson" },
+  { "name": "Patricia Williams" },
+  { "name": "Robert Brown" },
+  { "name": "Jennifer Davis" },
+  { "name": "Linda Miller" },
+  { "name": "Michael Wilson" },
+  { "name": "Sarah Moore" }
+]
+```
+
+![find 方法和 cursor 物件](../img/mongoDB/35.png)
+![find 方法和 cursor 物件](../img/mongoDB/36.png)
+![find 方法和 cursor 物件](../img/mongoDB/37.png)
+![find 方法和 cursor 物件](../img/mongoDB/38.png)
+![find 方法和 cursor 物件](../img/mongoDB/39.png)
+
+[官方網站](https://www.mongodb.com/docs/manual/reference/method/db.collection.find/)
+
+> 打`it`可察看更多資訊，這裡的`it`全名是`iterate`
+> iterate:透過 for 迴圈迭代的物件
+
+> `db.collection.find()`:默認只返回前二十個，透過`it`可以再取得二十個
+
+- 對 javascript 來講，可以轉換成 array
+
+```shell
+db.name.find().toArray()
+```
+
+> 這樣不用輸入`it`可直接返回所有資料
+
+![find 方法和 cursor 物件](../img/mongoDB/40.png)
+
+[MongoDB Drivers](https://www.mongodb.com/docs/drivers/)
+
+## projection
+
+> 原始資料
+
+```json
+{
+  "first_name": "Robin",
+  "last_name": "Jackman",
+  "title": "Software Ebgineer",
+  "salary": 5500,
+  "hire_date": "2001-10-12"
+}
+```
+
+> 需要的資料
+
+```json
+{
+  "first_name": "Robin",
+  "last_name": "Jackman",
+  "salary": 5500
+}
+```
+
+> 若把所有資料都傳給前端，讓前端處理會造成浪費存處和傳輸頻寬，所以在資料庫返回時就該處理好資料再進行返回
+
+```shell
+db.collections.find(filter,condition)
+```
+
+```shell
+db.employee.find({},{first_name:1,last_name:1,salary:1,_id:0})
+```
+
+![projection](../img/mongoDB/41.png)
+
+## Document 嵌套
+
+> 使用資料
+
+```json
+[
+  {
+    "first_name": "Robin",
+    "last_name": "Jackman",
+    "title": "Software Engineer",
+    "salary": 5500,
+    "hire_date": "2001-10-12",
+    "hobby": ["book", "movie"],
+    "contact": {
+      "email": "rj@jackman.com",
+      "phone": 1111
+    }
+  },
+  {
+    "first_name": "Taylor",
+    "last_name": "Edward",
+    "title": "Software Architect",
+    "salary": 7200,
+    "hire_date": "2002-09-21",
+    "hobby": ["travel", "hiking"],
+    "contact": {
+      "email": "te@edward.com",
+      "phone": 2222
+    }
+  },
+  {
+    "first_name": "Vivian",
+    "last_name": "Dickens",
+    "title": "Database Administrator",
+    "salary": 6000,
+    "hire_date": "2012-08-29",
+    "hobby": ["travel", "music"],
+    "contact": {
+      "email": "vd@dickens.com",
+      "phone": 3333
+    }
+  },
+  {
+    "first_name": "Harry",
+    "last_name": "Clifford",
+    "title": "Database Administrator",
+    "salary": 6800,
+    "hire_date": "2015-12-10",
+    "hobby": ["book", "gym"],
+    "contact": {
+      "email": "hc@clifford.com",
+      "phone": 4444
+    }
+  }
+]
+```
+
+![Document 嵌套](../img/mongoDB/41.png)
+![Document 嵌套](../img/mongoDB/42.png)
+![Document 嵌套](../img/mongoDB/43.png)
+
+> 顯示第一條紀錄
+
+```shell
+db.employee.findOne()
+```
+
+![Document 嵌套](../img/mongoDB/44.png)
+
+> 找尋物件單筆資料
+
+```shell
+db.employee.findOne({"contact.phone":1111})
+```
+
+![Document 嵌套](../img/mongoDB/45.png)
+
+> 當有嵌套時，`key`的引號不能省略不然會報錯
+
+❌
+
+```shell
+db.employee.findOne({contact.phone:1111})
+```
+
+![Document 嵌套](../img/mongoDB/46.png)
+
+**找尋陣列資料**
+
+> 找尋 hobby 有 book 的資料
+
+```shell
+db.employee.find({"hobby":"book"})
+```
+
+![Document 嵌套](../img/mongoDB/47.png)
+
+> 找尋有 book 和 movie
+
+```shell
+db.employee.find({"hobby":["book","movie"]})
+```
+
+![Document 嵌套](../img/mongoDB/48.png)
+
+> 找尋 hobby 有 book 或 movie 的資料
+
+[include 官網](https://www.mongodb.com/docs/manual/reference/operator/query/in/)
+
+```shell
+db.employee.find({ "hobby": { $in: ["book", "movie"] } })
+```
+
+![Document 嵌套](../img/mongoDB/49.png)
+
+```shell
+db.employee.find({ "hobby": { $in: ["book", "movie","travel"] } })
+```
+
+![Document 嵌套](../img/mongoDB/50.png)
+
+## Document limitation
+
+[官網](https://www.mongodb.com/docs/manual/reference/limits/#bson-documents)
+
+![Document 嵌套](../img/mongoDB/51.png)
+
+> 一個 BSON 大小不能超過十六兆，嵌套不能超過一百層
+
+# 結構和資料類型
+
+## Collection 有 Schema 嗎
+
+Schema: 固定結構，須提前定義
+
+> 例如: MySQL 再給定資料前，要先新建結構，例如要這個 table 要幾個 column，每一列的數據類型都是固定的，例如: age 就是 int，name 就是 varchar，定好後就要按照這結構插入數據，不能多也不能少
+
+> Collection 沒有任何限制，可以插入任何類型的數據，但 collection 有 Schema，不是強制但可以設定
+
+**在使用上雖然 mongoDB 可以隨意插入不同類型的數據，但設計者並不會讓使用者這麼做，畢竟一旦這麼做了，就很難去控管和對數據做處理，所以都還是會設計 Schema**
+
+## 資料類型
+
+- String
+- Boolean
+- Number (32 bit interger, 64bit Interger, Decimal)
+- ObjectID
+- Data (Timestamp, ISODate)
+- Array
+
+**數據類型用到的方法**
+
+1. 用物件 `.` 的形式拿取資料
+
+```shell
+db.employee.findOne({}).<key>
+```
+
+- 範例
+
+```shell
+db.employee.findOne({}).title
+```
+
+```shell
+db.employee.findOne({}).hobby
+```
+
+```shell
+db.employee.findOne({}).contact
+```
+
+![資料類型](../img/mongoDB/52.png)
+
+2. 使用`typeof`查看數據類型
+
+```shell
+typeof db.employee.findOne({}).<key>
+```
+
+- 範例
+
+```shell
+typeof db.employee.findOne({}).title
+```
+
+```shell
+typeof db.employee.findOne({}).hobby
+```
+
+```shell
+typeof db.employee.findOne({}).contact
+```
+
+![資料類型](../img/mongoDB/53.png)
+
+## 關於時間資料類型
+
+> 透過 javascript 語法產生
+
+```shell
+var a = new Date()
+```
+
+```shell
+var b = new Timestamp()
+```
+
+```shell
+db.test.insertOne({date: a, timedtamp:b})
+```
+
+> 之後要使用這個需要看要使用什麼 drive，每個指令會不同，而去選擇使用
+
+![資料類型](../img/mongoDB/54.png)
+
+## 關於數字資料類型
+
+> 透過 javascript 語法產生
+
+```shell
+var a = 1234
+```
+
+```shell
+var b = NumberLong(1234)
+```
+
+```shell
+db.test.insertOne({a: a, b:b})
+```
+
+![資料類型](../img/mongoDB/55.png)
+![資料類型](../img/mongoDB/56.png)
+
+```shell
+db.test.updateOne({},{$set:{c:1.001}})
+```
+
+![資料類型](../img/mongoDB/57.png)
+
+```shell
+type db.test.findOne().a
+```
+
+```shell
+type db.test.findOne().b
+```
+
+```shell
+type db.test.findOne().c
+```
+
+![資料類型](../img/mongoDB/58.png)
