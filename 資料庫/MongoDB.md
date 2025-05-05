@@ -522,7 +522,7 @@ db.employee.findOne({salary :{$gt:6000}})
 > `updateOne`
 
 ```shell
-db.<collection-name>.updateOne({<condition>},{$set:{<edit>}}}
+db.<collection-name>.updateOne({<filter>},{$set:{<edit>}}}
 ```
 
 ```shell
@@ -534,7 +534,7 @@ db.employee.updateOne({_id: ObjectId('6813786025986ff956b5f8ae')},{$set:{"salary
 > `updateMany`
 
 ```shell
-db.<collection-name>.updateMany({<condition>},{$set:{<edit>}}}
+db.<collection-name>.updateMany({<filter>},{$set:{<edit>}}}
 ```
 
 ```shell
@@ -546,7 +546,7 @@ db.employee.updateMany({title:"Software Architect"},{$set:{"salary":8000}})
 > 直接覆蓋可用`replaceOne`
 
 ```shell
-db.<collection-name>.replaceOne({<condition>},{$set:{<edit>}}}
+db.<collection-name>.replaceOne({<filter>},{$set:{<edit>}}}
 ```
 
 ```shell

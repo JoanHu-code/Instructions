@@ -17,8 +17,7 @@
   - [安裝 MongoDB 與 Mongo Shell](#安裝-MongoDB-與-Mongo-Shell)
   - [JSON and BSON](#JSON-and-BSON)
   - [mongosh 與 數據新增](#mongosh-與-數據新增)
-  - [數據查詢](#數據查詢)
-  - [修改與刪除](#修改與刪除)
+  - [數據查詢以及修改與刪除](#數據查詢以及修改與刪除)
 
 # MySQL
 
@@ -642,3 +641,31 @@ db.collection.insert(<document of array of documents>)
 > 參數為一個物件或是一個由物件組成的array
 
 **insertMany和insertOne的混和體**
+
+## 數據查詢以及修改與刪除
+
+- `db.collection.find(<query>)`:找尋collection中的資料。Query的data type是object，用來過濾找尋的資料。若想要獲得collection中的所有資料，query可以是empty object，或者執行find()時不給定任何argument即可。
+
+```shell
+db.students.find()
+```
+
+![MongoDB](../img/SQL/55.png)
+
+```shell
+db.students.find({name:"Grace"})
+```
+
+![MongoDB](../img/SQL/56.png)
+
+```shell
+db.students.find({"scgolarship.merit":{$lt:5000}})
+```
+
+![MongoDB](../img/SQL/57.png)
+
+[operation講解](https://www.mongodb.com/docs/manual/reference/operator/query/)
+
+- `db.collection.updateOne(<filter>,<update>)`:更新collection中第一筆找到的資料。Filter的data type是object，是指更新的選擇標準，與find()中query功能一模一樣。Update的data type也是object，我們可以將被修改資料的新數據放在update這個位置。
+
+- `db.collection.updateMany(<filter>,<update>)`:功能也是更新collection中的資料，但可以一次性的更新collection中所有符合filter的多筆資料
