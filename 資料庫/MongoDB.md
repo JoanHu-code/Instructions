@@ -19,6 +19,7 @@
   - [關於時間資料類型](#關於時間資料類型)
   - [關於數字資料類型](#關於數字資料類型)
 - [NOSQL 中的關係](#NOSQL-中的關係)
+  - [什麼是關係](#什麼是關係)
 - [深入了解增刪查改](#深入了解增刪查改)
 - [使用 index 索引](#使用-index-索引)
 - [地理空間資料處理](#地理空間資料處理)
@@ -914,3 +915,67 @@ type db.test.findOne().c
 ```
 
 ![資料類型](../img/mongoDB/58.png)
+
+# NOSQL 中的關係
+
+## 什麼是關係
+
+```json
+{
+  "_id": 1,
+  "name": "John Cart",
+  "email": "test@g,com",
+  "phone": 1234,
+  "orders": [
+    {
+      "date": "2018-12-10",
+      "product": "a book",
+      "cost": 19.99
+    },
+    {
+      "date": "2018-12-22",
+      "product": "a computer",
+      "cost": 2000
+    }
+  ]
+}
+```
+
+> 轉變為關係文件
+
+**customers**
+
+```json
+{
+  "_id": 1,
+  "name": "John Cart",
+  "email": "test@g,com",
+  "phone": 1234,
+  "orders": [1, 2]
+}
+```
+
+**orders**
+
+```json
+[
+  {
+    "_id": 1,
+    "date": "2018-12-10",
+    "product": "a book",
+    "cost": 19.99
+  },
+  {
+    "_id": 2,
+    "date": "2018-12-22",
+    "product": "a computer",
+    "cost": 2000
+  }
+]
+```
+
+關係分很多種情況
+
+1. 1 對 1
+2. 1 對多
+3. 多對多
