@@ -142,14 +142,14 @@ app2();
 
 - Response Object 常用的 methods 有:
 
-| Methods                      | Description                                                                                                        |
-| ---------------------------- | ------------------------------------------------------------------------------------------------------------------ |
-| `res.send(body)`             | 傳送出 HTTP Response。Body 可以是 String,object,array,boolean 等等。                                               |
-| `res.sendFile(path)`         | 將位於 path 的文件傳送出去。                                                                                       |
-| `res.json(body)`             | 發送 JSON response。此 method 會先使用 JSON.stringify()將 body 轉換為 JSON String 後，再發送一個 response 給客戶端 |
-| `res.redirect(path)`         | 伺服器通過發送狀態為 302 的 HTTP response 要求客戶端到 path。客戶端會重新發送一個 HTTP GET request 到 path。       |
-| `res.render(view[,locals])`) | 將 view 模板套用 locals 的文字後，將 view 發送到客戶端。                                                           |
-| `res.status()`               | 設定 HTTP Response 的 status code。                                                                                |
+| Methods                     | Description                                                                                                        |
+| --------------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| `res.send(body)`            | 傳送出 HTTP Response。Body 可以是 String,object,array,boolean 等等。                                               |
+| `res.sendFile(path)`        | 將位於 path 的文件傳送出去。                                                                                       |
+| `res.json(body)`            | 發送 JSON response。此 method 會先使用 JSON.stringify()將 body 轉換為 JSON String 後，再發送一個 response 給客戶端 |
+| `res.redirect(path)`        | 伺服器通過發送狀態為 302 的 HTTP response 要求客戶端到 path。客戶端會重新發送一個 HTTP GET request 到 path。       |
+| `res.render(view[,locals])` | 將 view 模板套用 locals 的文字後，將 view 發送到客戶端。                                                           |
+| `res.status()`              | 設定 HTTP Response 的 status code。                                                                                |
 
 - res.send(body)
 
@@ -305,7 +305,7 @@ app.listen(port, () => {
 
 [解說可看 EJS](./EJS.md#EJS-基本介紹)
 
-## Request object 的常用屬性為:
+# Request object 常用屬性
 
 |Attributes|Description|
 |req.body|此屬性是一個物件，預設值是 undefined，但若使用 express.json()或是 express.urlencode()這種 middleware，可以讓內部包含 POST request 季來的資料訊息，並且用 key-value pair 來表示|
