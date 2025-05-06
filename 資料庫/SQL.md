@@ -19,6 +19,7 @@
   - [mongosh 與 數據新增](#mongosh-與-數據新增)
   - [數據查詢以及修改與刪除](#數據查詢以及修改與刪除)
 
+
 # MySQL
 
 ## 資料庫管理系統
@@ -659,7 +660,7 @@ db.students.find({name:"Grace"})
 ![MongoDB](../img/SQL/56.png)
 
 ```shell
-db.students.find({"scgolarship.merit":{$lt:5000}})
+db.students.find({"scholarship.merit":{$lt:5000}})
 ```
 
 ![MongoDB](../img/SQL/57.png)
@@ -668,4 +669,32 @@ db.students.find({"scgolarship.merit":{$lt:5000}})
 
 - `db.collection.updateOne(<filter>,<update>)`:更新collection中第一筆找到的資料。Filter的data type是object，是指更新的選擇標準，與find()中query功能一模一樣。Update的data type也是object，我們可以將被修改資料的新數據放在update這個位置。
 
+```shell
+db.students.updateOne({name:"Spence Kwan"},{$set:{name:"Spencer Kwan"}})
+```
+![MongoDB](../img/SQL/58.png)
+
+> 紀錄修改時間
+
+```shell
+db.students.updateOne({name:"Spencer Kwan"},{$set:{age:37}, $currentDate:{lastModified: true}})
+```
+![MongoDB](../img/SQL/59.png)
+
 - `db.collection.updateMany(<filter>,<update>)`:功能也是更新collection中的資料，但可以一次性的更新collection中所有符合filter的多筆資料
+
+```shell
+db.students.updateMany({"scholarship.merit":{$lt:5000}},{$set:{"scholarship.other":500}})
+```
+
+![MongoDB](../img/SQL/60.png)
+
+- `db.collection.deleteOne(<filter>)`: 可以刪除collection內的第一筆符合filter的資料
+
+```shell
+db.students.deleteOne({name:"Mike"})
+```
+
+![MongoDB](../img/SQL/61.png)
+
+- `db.collection.deleteMany(<filter>)`: 刪除collection內所有符合filter的資料
