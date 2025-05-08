@@ -24,4 +24,108 @@
 
 **SQL資料庫使用的工具叫做ORM，而NoSQL資料庫使用的工具叫做ODM。兩者功能相同但名稱不同。**
 
-  ![Mongoose](../img/Mongoose/CN01.png)
+![Mongoose](../img/Mongoose/CN01.png)
+
+## Mongoose 套件下載
+
+> 創建資料夾後用VS code打開，下載npm
+
+```shell
+npm init
+```
+> 全部留預設
+
+![Mongoose](../img/Mongoose/02.png)
+
+> 下載 express和ejs
+
+```shell
+npm install express ejs
+```
+![Mongoose](../img/Mongoose/03.png)
+
+> 新建一個檔案(app.js)
+
+```js
+const express = require("express");
+const app = express();
+
+app.set("view engine","ejs");
+
+app.listen(3000, ()=>{
+  console.log("server is listening port 3000")
+})
+```
+
+> 啟動伺服器
+
+```shell
+nodemon app.js
+```
+
+![Mongoose](../img/Mongoose/04.png)
+
+>  下載mongoose
+
+```shell
+npm install mongoose
+```
+[npm install mongoose](https://www.npmjs.com/package/mongoose)
+
+
+![Mongoose](../img/Mongoose/05.png)
+
+> package.json
+
+```json
+{
+  "name": "mongoose",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "ejs": "^3.1.10",
+    "express": "^5.1.0",
+    "mongoose": "^8.14.1"
+  }
+}
+```
+
+[mongoose 官網](https://mongoosejs.com/)
+
+> 連結mongoose，修改app.js
+
+```js
+const express = require("express");
+const app = express();
+const mongoose = require("mongoose")
+
+app.set("view engine","ejs");
+
+mongoose.connect("mongodb://localhost:27017/demo").then(()=>{
+  console.log("connecting is successful...");
+}).catch((e)=>{
+  console.log(e);
+})
+
+app.listen(3000, ()=>{
+  console.log("server is listening port 3000");
+})
+```
+![Mongoose](../img/Mongoose/07.png)
+![Mongoose](../img/Mongoose/08.png)
+
+> `mongoose.connect("mongodb://<IP>:<port>/yourDB")`
+
+> 啟動伺服器
+
+```shell
+nodemon app.js
+```
+
+![Mongoose](../img/Mongoose/09.png)
