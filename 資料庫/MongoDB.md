@@ -21,6 +21,7 @@
 - [NOSQL 中的關係](#NOSQL-中的關係)
   - [什麼是關係](#什麼是關係)
   - [一對一關係](#一對一關係)
+  - [一對多關係](#一對多關係)
 - [深入了解增刪查改](#深入了解增刪查改)
 - [使用 index 索引](#使用-index-索引)
 - [地理空間資料處理](#地理空間資料處理)
@@ -1018,6 +1019,25 @@ type db.test.findOne().c
 }
 ```
 
+> all
+
+```json
+{
+  "_id": 1,
+  "name": "John Cart",
+  "email": "jc@gmail.com",
+  "phone": 12345,
+  "address": {
+    "_id": 1,
+    "city": "Shanghai",
+    "street": "street",
+    "buliding": 1,
+    "unit": 2,
+    "room": 1021
+  }
+}
+```
+
 > mongoDB(方法一)
 
 ```shell
@@ -1051,12 +1071,6 @@ db.address.insertOne(
 
 > mongoDB(方法二)
 
-> 先把剛剛的 insert 都 drop 掉
-
-```shell
-db.dropDatabase()
-```
-
 ```shell
 db.people.insertOne(
     {
@@ -1064,7 +1078,7 @@ db.people.insertOne(
     "name":"John Cart",
     "email": "jc@gmail.com",
     "phone": 12345,
-    "address":     {
+    "address": {
         "_id": 1,
         "city": "Shanghai",
         "street": "street",
@@ -1085,3 +1099,300 @@ db.people.findOne({ "name":"John Cart"},{address:0})
 ```
 
 ![一對一關係](../img/mongoDB/62.png)
+
+## 一對多關係
+
+**資料**
+
+> 全部
+
+```json
+{
+  "_id": 1,
+  "name": "John Cart",
+  "email": "jc@gmail.com",
+  "phone": 12345,
+  "orders": [
+    {
+      "date": "2018-12-19",
+      "product": "book",
+      "cost": 19.99
+    },
+    {
+      "date": "2018-12-13",
+      "product": "book",
+      "cost": 39.99
+    },
+    {
+      "date": "2018-12-22",
+      "product": "computer",
+      "cost": 2899
+    }
+  ]
+}
+```
+
+> customers
+
+```json
+{
+  "_id": 1,
+  "name": "John Cart",
+  "email": "jc@gmail.com",
+  "phone": 12345,
+  "orders": [1, 2, 3]
+}
+```
+
+> orders
+
+```json
+{
+  "_id": 1,
+  "date": "2018-12-19",
+  "product": "book",
+  "cost": 19.99
+},
+{
+  "_id": 2,
+  "date": "2018-12-13",
+  "product": "book",
+  "cost": 39.99
+},
+{
+  "_id": 3,
+  "date": "2018-12-22",
+  "product": "computer",
+  "cost": 2899
+}
+```
+
+> mongoDB(方法一)
+
+```shell
+db.customer.insertOne(
+  {
+    "_id": 1,
+    "name": "John Cart",
+    "email": "jc@gmail.com",
+    "phone": 12345,
+    "orders": [
+      {
+        "date": "2018-12-19",
+        "product": "book",
+        "cost": 19.99
+      },
+      {
+        "date": "2018-12-13",
+        "product": "book",
+        "cost": 39.99
+      },
+      {
+        "date": "2018-12-22",
+        "product": "computer",
+        "cost": 2899
+      }
+    ]
+  }
+)
+```
+
+![一對多關係](../img/mongoDB/63.png)
+
+> 好處:用一條 find 語法就可以找到全部的資料
+> 壞處: 無法對整體訂單進行分析
+
+> mongoDB(方法二)
+
+```shell
+db.customer.insertOne(
+  {
+    "_id": 1,
+    "name": "John Cart",
+    "email": "jc@gmail.com",
+    "phone": 12345,
+    "orders": [1, 2, 3]
+  }
+)
+```
+
+![一對多關係](../img/mongoDB/64.png)
+
+```shell
+db.order.insertMany([
+   {
+    "_id": 1,
+    "date": "2018-12-19",
+    "product": "book",
+    "cost": 19.99
+  },
+  {
+    "_id": 2,
+    "date": "2018-12-13",
+    "product": "book",
+    "cost": 39.99
+  },
+  {
+    "_id": 3,
+    "date": "2018-12-22",
+    "product": "computer",
+    "cost": 2899
+  }
+])
+```
+
+![一對多關係](../img/mongoDB/65.png)
+
+> 壞處:至少需要兩次的查詢
+> 好處:可以針對訂單做操作；例如可以統計書的訂單共有多少
+
+**範例**
+
+```shell
+db.customer.insertMany([
+  {
+    "_id": 1,
+    "name": "John Cart",
+    "email": "jc@gmail.com",
+    "phone": 12345,
+    "orders": [
+      {
+        "date": "2018-12-19",
+        "product": "book",
+        "cost": 19.99
+      },
+      {
+        "date": "2018-12-13",
+        "product": "book",
+        "cost": 39.99
+      },
+      {
+        "date": "2018-12-22",
+        "product": "computer",
+        "cost": 2899
+      }
+    ]
+  },
+    {
+    "_id": 2,
+    "name": "Arber Su",
+    "email": "as@gmail.com",
+    "phone": 6666,
+    "orders": [
+      {
+        "date": "2018-12-01",
+        "product": "book",
+        "cost": 19.99
+      },
+      {
+        "date": "2018-12-29",
+        "product": "computer",
+        "cost": 2899
+      }
+    ]
+  }
+])
+```
+
+![一對多關係](../img/mongoDB/66.png)
+
+> 尋找哪些訂單是書的訂單
+
+```shell
+db.customer.aggregate([
+  { $unwind: "$orders" },
+  { $match: { "orders.product": "book" } },
+  { $replaceRoot: { newRoot: "$orders" } }
+])
+```
+
+![一對多關係](../img/mongoDB/73.png)
+
+```shell
+db.customer.insertMany([
+  {
+    "_id": 1,
+    "name": "John Cart",
+    "email": "jc@gmail.com",
+    "phone": 12345,
+    "orders": [1,2,3]
+  },
+    {
+    "_id": 2,
+    "name": "Arber Su",
+    "email": "as@gmail.com",
+    "phone": 6666,
+    "orders": [4,6]
+  }
+])
+```
+
+![一對多關係](../img/mongoDB/67.png)
+
+```shell
+db.order.insertMany([
+  {
+    "_id": 1,
+    "date": "2018-12-19",
+    "product": "book",
+    "cost": 19.99
+  },
+  {
+    "_id": 2,
+    "date": "2018-12-13",
+    "product": "book",
+    "cost": 39.99
+  },
+  {
+    "_id": 3,
+    "date": "2018-12-22",
+    "product": "computer",
+    "cost": 2899
+  },
+  {
+    "_id": 4,
+    "date": "2018-12-01",
+    "product": "book",
+    "cost": 19.99
+   },
+   {
+    "_id": 5,
+    "date": "2018-12-29",
+    "product": "computer",
+    "cost": 2899
+  }
+])
+```
+
+![一對多關係](../img/mongoDB/68.png)
+
+> 把顧客和訂單做連結
+
+```shell
+let a = db.customer.findOne({_id:1}).orders
+db.order.find({_id: {$in: a}})
+```
+
+![一對多關係](../img/mongoDB/69.png)
+
+> 尋找哪些訂單是書的訂單
+
+```shell
+db.order.find({product:"book"})
+```
+
+![一對多關係](../img/mongoDB/70.png)
+
+> 做一些額外的統計
+
+```shell
+db.order.find({product:"book"}.count)
+```
+
+![一對多關係](../img/mongoDB/71.png)
+
+```shell
+db.order.countDocuments({product:"book"})
+```
+
+![一對多關係](../img/mongoDB/72.png)
