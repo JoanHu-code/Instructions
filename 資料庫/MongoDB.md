@@ -20,6 +20,7 @@
   - [關於數字資料類型](#關於數字資料類型)
 - [NOSQL 中的關係](#NOSQL-中的關係)
   - [什麼是關係](#什麼是關係)
+  - [一對一關係](#一對一關係)
 - [深入了解增刪查改](#深入了解增刪查改)
 - [使用 index 索引](#使用-index-索引)
 - [地理空間資料處理](#地理空間資料處理)
@@ -985,3 +986,102 @@ type db.test.findOne().c
 **這兩方法各有優缺**
 
 可能會使用方法 2 的情況下，就是怕超過嵌套的限制，若訂單很多比就會優先選方法 2
+
+## 一對一關係
+
+**現有資料**
+
+> 一個人只有一個 address，一個 address 只能對應一個人
+
+> people
+
+```json
+{
+  "_id": 1,
+  "name": "John Cart",
+  "email": "jc@gmail.com",
+  "phone": 12345,
+  "address": 1
+}
+```
+
+> address
+
+```json
+{
+  "_id": 1,
+  "city": "Shanghai",
+  "street": "street",
+  "buliding": 1,
+  "unit": 2,
+  "room": 1021
+}
+```
+
+> mongoDB(方法一)
+
+```shell
+db.people.insertOne(
+    {
+    "_id":1,
+    "name":"John Cart",
+    "email": "jc@gmail.com",
+    "phone": 12345,
+    "address": 1
+   }
+)
+```
+
+![一對一關係](../img/mongoDB/59.png)
+
+```shell
+db.address.insertOne(
+    {
+        "_id": 1,
+        "city": "Shanghai",
+        "street": "street",
+        "buliding": 1,
+        "unit": 2,
+        "room": 1021
+    }
+)
+```
+
+![一對一關係](../img/mongoDB/60.png)
+
+> mongoDB(方法二)
+
+> 先把剛剛的 insert 都 drop 掉
+
+```shell
+db.dropDatabase()
+```
+
+```shell
+db.people.insertOne(
+    {
+    "_id":1,
+    "name":"John Cart",
+    "email": "jc@gmail.com",
+    "phone": 12345,
+    "address":     {
+        "_id": 1,
+        "city": "Shanghai",
+        "street": "street",
+        "buliding": 1,
+        "unit": 2,
+        "room": 1021
+     }
+   }
+)
+```
+
+![一對一關係](../img/mongoDB/61.png)
+
+> 若不想出現 address 則可以:
+
+```shell
+db.people.findOne({ "name":"John Cart"},{address:0})
+```
+
+![一對一關係](../img/mongoDB/62.png)
