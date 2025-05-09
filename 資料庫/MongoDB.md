@@ -22,6 +22,8 @@
   - [什麼是關係](#什麼是關係)
   - [一對一關係](#一對一關係)
   - [一對多關係](#一對多關係)
+  - [多對多關係](#多對多關係)
+  - [一對多關係 Aggregation](#一對多關係-Aggregation)
 - [深入了解增刪查改](#深入了解增刪查改)
 - [使用 index 索引](#使用-index-索引)
 - [地理空間資料處理](#地理空間資料處理)
@@ -1322,7 +1324,7 @@ db.customer.insertMany([
     "name": "Arber Su",
     "email": "as@gmail.com",
     "phone": 6666,
-    "orders": [4,6]
+    "orders": [4,5]
   }
 ])
 ```
@@ -1396,3 +1398,247 @@ db.order.countDocuments({product:"book"})
 ```
 
 ![一對多關係](../img/mongoDB/72.png)
+
+## 多對多關係
+
+> 所有顧客可以購買多個商品，任一商品都可以被多個顧客購買
+
+**資料**
+
+> customer
+
+```json
+  {
+    "_id":"c01",
+    "name":"Jack",
+    "age": 20
+  },
+  {
+    "_id":"c02",
+    "name":"Max",
+    "age":20
+  }
+```
+
+> product
+
+```json
+  {
+    "_id":"p01",
+    "name":"Book",
+    "price": 19
+  },
+  {
+    "_id":"p02",
+    "name":"Computer",
+    "price": 2000
+  }
+```
+
+> order(連接客戶與商品)
+
+```json
+  {
+    "_id":"o01",
+    "customer_id":"c01",
+    "product_id":"p01",
+    "qantity":2
+  },
+  {
+    "_id":"o02",
+    "customer_id":"c01",
+    "product_id":"p02",
+    "_id":"o02",
+    "qantity":1
+  },
+  {
+    "_id":"o03",
+    "customer_id":"c02",
+    "product_id":"p02",
+    "_id":"o02",
+    "qantity":1
+  }
+```
+
+**MongoDB**
+
+> 方法一
+
+```shell
+db.customers.insertMany([
+  {
+    "_id":"c01",
+    "name":"Jack",
+    "age": 20,
+    "orders":[
+      {
+        "name":"Book",
+        "price": 19,
+        "quantity":2
+      },
+      {
+        "name":"Computer",
+        "price": 2000,
+        "quantity":1
+      },
+    ]
+  },
+  {
+    "_id":"c02",
+    "name":"Max",
+    "age":20,
+      "orders":[
+      {
+        "name":"Book",
+        "price": 19,
+        "quantity":1
+      },
+    ]
+  }
+])
+```
+
+![多對多關係](../img/mongoDB/77.png)
+![多對多關係](../img/mongoDB/78.png)
+
+> 方法二
+
+> customer
+
+```shell
+db.customer.insertMany([
+  {
+    "_id":"c01",
+    "name":"Jack",
+    "age": 20
+  },
+  {
+    "_id":"c02",
+    "name":"Max",
+    "age":20
+  }
+])
+```
+
+![多對多關係](../img/mongoDB/74.png)
+
+> product
+
+```shell
+db.product.insertMany([
+  {
+    "_id":"p01",
+    "name":"Book",
+    "price": 19
+  },
+  {
+    "_id":"p02",
+    "name":"Computer",
+    "price": 2000
+  }
+])
+```
+
+![多對多關係](../img/mongoDB/75.png)
+
+> order
+
+```shell
+db.order.insertMany([
+  {
+    "_id":"o01",
+    "customer_id":"c01",
+    "product_id":"p01",
+    "quantity":2
+  },
+  {
+    "_id":"o02",
+    "customer_id":"c01",
+    "product_id":"p02",
+    "quantity":1
+  },
+  {
+    "_id":"o03",
+    "customer_id":"c02",
+    "product_id":"p02",
+    "quantity":1
+  }
+])
+```
+
+![多對多關係](../img/mongoDB/76.png)
+
+> 優點:可修改商品價格，因為訂單是歷史紀錄應該不能修改價格
+
+## 一對多關係 Aggregation
+
+```shell
+db.customer.insertMany([
+  {
+    "_id": 1,
+    "name": "John Cart",
+    "email": "jc@gmail.com",
+    "phone": 12345,
+    "orders": [1,2,3]
+  },
+    {
+    "_id": 2,
+    "name": "Arber Su",
+    "email": "as@gmail.com",
+    "phone": 6666,
+    "orders": [4,5]
+  }
+])
+```
+
+```shell
+db.order.insertMany([
+  {
+    "_id": 1,
+    "date": "2018-12-19",
+    "product": "book",
+    "cost": 19.99
+  },
+  {
+    "_id": 2,
+    "date": "2018-12-13",
+    "product": "book",
+    "cost": 39.99
+  },
+  {
+    "_id": 3,
+    "date": "2018-12-22",
+    "product": "computer",
+    "cost": 2899
+  },
+  {
+    "_id": 4,
+    "date": "2018-12-01",
+    "product": "book",
+    "cost": 19.99
+   },
+   {
+    "_id": 5,
+    "date": "2018-12-29",
+    "product": "computer",
+    "cost": 2899
+  }
+])
+```
+
+> 如何透過一條語法找到客戶的詳細資訊並起找到此訂單訊息?
+
+```shell
+db.customer.aggregate([
+  {
+    $lookup: {
+      from: "order",
+      localField: "orders",
+      foreignField: "_id",
+      as: "order_details"
+    }
+  }
+])
+```
+
+![一對多關係](../img/mongoDB/79.png)
