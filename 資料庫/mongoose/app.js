@@ -26,25 +26,23 @@ const studentSchema = new Schema({
 
 const Student = mongoose.model("Student", studentSchema);
 
-const newObject = new Student({
-  name: "Esther",
-  age: 27,
-  major: "Mathematics",
-  scholarship: {
-    merit: 6000,
-    other: 7000,
-  },
+app.get("/", async (req, res) => {
+  try {
+    let data = await Student.findOne({ name: "Grace" }).exec();
+    res.send(data);
+  } catch (e) {
+    console.log(e);
+  }
 });
 
-newObject
-  .save()
-  .then((saveObject) => {
-    console.log("The data has been saved. The saved data is... ");
-    console.log(saveObject);
-  })
-  .catch((e) => {
-    console.log(e);
-  });
+// Student.find({})
+//   .exec()
+//   .then((data) => {
+//     console.log(data);
+//   })
+//   .catch((e) => {
+//     console.log(e);
+//   });
 
 app.listen(3000, () => {
   console.log("server is listening port 3000");

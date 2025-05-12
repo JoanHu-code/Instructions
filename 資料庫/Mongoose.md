@@ -3,6 +3,7 @@
 - [Mongoose 介紹](#Mongoose-介紹)
 - [Mongoose 套件下載](#Mongoose-套件下載)
 - [Model and Schema](#Model-and-Schema)
+- [Mongoose 資料查詢](#Mongoose-資料查詢)
 - [Query Object 與 Promise 比較補充](#Query-Object-與-Promise-比較補充)
 - [更新資料](#更新資料)
 - [刪除資料](#刪除資料)
@@ -230,4 +231,69 @@ newObject
 ![Mongoose](../img/Mongoose/11.png)
 ![Mongoose](../img/Mongoose/12.png)
 
+## Mongoose 資料查詢
+
 在 Mongoose 當中，許多 methods 的 return type 都是「Query」。Query 是一種 Mongoose 特有的 Class(根據 documentation，Query 是一種 thenable object，但不是 Promise)，提供用於 find、update 和 documents 等操作提供 method chaining。如果要讓這些 methods 的 return type 變成 promise，可以讓 Query 執行.exec()即可。
+
+- `Model.find(filter)`: 找到所有符合 filter 條件的物件。參數一個物件，用來提供過濾尋找的條件。
+
+> return array of documents
+
+```js
+Student.find({})
+  .exec()
+  .then((data) => {
+    console.log(data);
+  })
+  .catch((e) => {
+    console.log(e);
+  });
+```
+
+> async function 的形式
+
+```js
+async function findStudent() {
+  try {
+    let data = await Student.find().exec();
+    console.log(data);
+  } catch (e) {
+    console.log(e);
+  }
+}
+```
+
+![Mongoose](../img/Mongoose/13.png)
+
+**真正在網站時的用法**
+
+```js
+app.get("/", async (req, res) => {
+  try {
+    let data = await Student.find().exec();
+    res.send(data);
+  } catch (e) {
+    console.log(e);
+  }
+});
+```
+
+![Mongoose](../img/Mongoose/14.png)
+![Mongoose](../img/Mongoose/15.png)
+
+- `Model.findOne(filter)`: 找到第一個符合 filter 條件的物件。參數一個物件，用來提供過濾尋找的條件
+
+> return a document
+
+```js
+app.get("/", async (req, res) => {
+  try {
+    let data = await Student.findOne({ name: "Grace" }).exec();
+    res.send(data);
+  } catch (e) {
+    console.log(e);
+  }
+});
+```
+
+![Mongoose](../img/Mongoose/16.png)
