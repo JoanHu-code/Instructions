@@ -297,3 +297,13 @@ app.get("/", async (req, res) => {
 ```
 
 ![Mongoose](../img/Mongoose/16.png)
+
+關於 Query Object 與 Promise 的比較，我用文字在這裡補充。Query Object 以及 Promise 兩者非常相像：
+
+1. Query Object 本身是一種 thenable object，代表後面可以串接.then()以及.catch()。在上支影片當中的 find()以及 findOne()兩個 method 的 return 值都是 Query Object。因此，如果你把上支影片範例中的.exec()全部刪掉，會發現程式碼還是能夠照常運作的。
+
+2. Promise 語法我想你應該很熟悉了。也是可以使用.then()以及.catch()。
+
+這裡可以看出，在 Query Object 後面加上.exec()，轉變成 Promise，這個步驟，似乎不是必要的。那兩者有何不同？或者，哪些情況該用哪個呢？
+
+答案是，不管在哪種情況，在 Query Object 後面加上.exec()，讓它變成 Promise 都是比較好的。這是因為，使用 Promise 的話，JavaScript 的 try...catch...語法中，catch 可以顯示更好的錯誤追蹤訊息。詳細的例子可以參考 mongoose 的 documentation：https://mongoosejs.com/docs/promises.html 。使用 Promise 的話，錯誤追蹤訊息會顯示出問題的.exec()是在哪一行程式碼。因此，加上.exec()會比不加來得更好。
