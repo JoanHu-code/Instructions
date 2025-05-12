@@ -25,6 +25,7 @@
   - [多對多關係](#多對多關係)
   - [一對多關係 Aggregation](#一對多關係-Aggregation)
 - [深入了解增刪查改](#深入了解增刪查改)
+  - [insert-方法](#insert-方法)
 - [使用 index 索引](#使用-index-索引)
 - [地理空間資料處理](#地理空間資料處理)
 - [聚合操作](#聚合操作)
@@ -1642,3 +1643,39 @@ db.customer.aggregate([
 ```
 
 ![一對多關係](../img/mongoDB/79.png)
+
+# 深入了解增刪查改
+
+## insert 方法
+
+可以使用 insertOne 和 insertMany
+
+```shell
+db.test.insertOne({A:1,B:1})
+```
+
+```shell
+db.test.insertMany([{A:3,B:4},{A:5,B:6}])
+```
+
+![insert](../img/mongoDB/80.png)
+
+可以賦予給變數後做處理
+
+```shell
+a = db.test.insertMany([{A:3,B:4},{A:5,B:6}])
+```
+
+![insert](../img/mongoDB/81.png)
+
+**insert()可以差一個值和多個值**
+
+```shell
+db.test.insert({A:10,B:20})
+```
+
+```shell
+db.test.insert([{A:30,B:40},{A:50,B:60}])
+```
+
+![insert](../img/mongoDB/82.png)
