@@ -702,3 +702,71 @@ const studentSchema = new Schema({
   },
 });
 ```
+
+## Static method and instance method
+
+**instance method**
+
+在 Mongoose Model 當中的每筆資料都叫作 document，而 document 又叫作 instance。若我們希望某個 model 中的所有 documnents 都可以使用某個 method，則可以將此 method 定義在 Schema 上。像這樣定義在 Schema 上的 method 被稱為 instance method。Instance method 的語法有兩種。第一種是在 Schema 內設定 methods 屬性並且給予一個物件，物件內部有 methods:
+
+```js
+const animalSchema = new Schema(setting, {
+  methods: {
+    findSimilarTypes(cb) {
+      return mongoose.mode("Animal").find({ type: this.type }, cb);
+    },
+  },
+});
+```
+
+```js
+const studentSchema = new Schema(
+  {
+    name: { type: String, required: true },
+    age: {
+      type: Number,
+      required: function () {
+        return this.scholarship.merit >= 3000;
+      },
+    },
+    major: {
+      type: String,
+      required: [true, "Please enter your major!!"],
+      enum: [
+        "Chemistry",
+        "Computer Science",
+        "Mathematics",
+        "Civil Engineering",
+        "undecided",
+      ],
+    },
+    scholarship: {
+      merit: { type: Number, default: 0 },
+      other: { type: Number, default: 0 },
+    },
+  },
+  {
+    methods: {
+      printTotalScholarship() {
+        return this.scholarship.merit + this.scholarship.other;
+      },
+    },
+  }
+);
+const Student = mongoose.model("Student", studentSchema);
+Student.find({})
+  .exec()
+  .then((arr) => {
+    arr.forEach((student) => {
+      console.log(
+        student.name + "的總獎學金金額是" + student.printTotalScholarship()
+      );
+    });
+  });
+```
+
+![Mongoose](../img/Mongoose/29.png)
+
+## Mongoose Middleware
+
+![Mongoose](../img/Mongoose/29.png)
