@@ -500,3 +500,205 @@ Student.deleteOne({ name: "Mike Chen" })
 - `Model.deleteMany(condition)`: 從 Conditions 中刪除與 conditions 匹配的所有 documents。此 method 會 return 一個具有 deletedCount 屬性的 object。
 
 **[其他的所有 Mongoose CRUD 操作 ](https://mongoosejs.com/docs/queries.html)**
+
+## Schema Vaildation
+
+如果我們希望 Collections 中的資料，在被存放到 Collections 之前，可以經過驗證(例如，員工資料庫的薪資欄位不能小於 0)，則可以在 Schema 中設定每個屬性的驗證器(validators)來達到此功能。
+
+通常來說，Schema 屬性的設定語法是:`name:String`，但也可以寫成是:`name:{type:String}`。因為 vaildator 本身是 Schema 屬性設定時，物件的一個屬性，所以加入 validator 的語法會變成:
+
+```js
+name:{
+  type:String,
+  required:true
+}
+```
+
+- 因為每種 data type 所通用的驗證器不同，所以我們需要將每種驗證器歸類到各自的 data type 上。
+
+對於所有的 data type 都是用的驗證器有:
+
+1. required: 可放入一個 boolean 值，或是一個 array(包含一個值以及一個客製化的錯誤訊息)，或是一個 function
+
+```js
+const studentSchema = new Schema({
+  name: { type: String, required: true },
+  age: {
+    type: Number,
+    required: function () {
+      return this.scholarship.merit >= 3000;
+    },
+  },
+  major: { type: String, required: [true, "Please enter your major!!"] },
+  scholarship: {
+    merit: Number,
+    other: Number,
+  },
+});
+```
+
+```js
+const Student = mongoose.model("Student", studentSchema);
+
+let newStudent = new Student({
+  name: "Joan",
+  scholarship: {
+    merit: 5000,
+    other: 0,
+  },
+});
+
+newStudent
+  .save()
+  .then((data) => {
+    console.log("success!");
+  })
+  .catch((e) => {
+    console.log(e);
+  });
+```
+
+![Mongoose](../img/Mongoose/27.png)
+
+2. default: 可設定屬性的預設值
+
+```js
+const studentSchema = new Schema({
+  name: { type: String, required: true },
+  age: {
+    type: Number,
+    required: function () {
+      return this.scholarship.merit >= 3000;
+    },
+  },
+  major: {
+    type: String,
+    required: [true, "Please enter your major!!"],
+  },
+  scholarship: {
+    merit: { type: Number, default: 0 },
+    other: { type: Number, default: 0 },
+  },
+});
+```
+
+**跟 String 有關的驗證器有:**
+
+1. uppercase(boolean)
+
+2. lowercase(boolean)
+
+3. enum(array of strings)
+
+```js
+const studentSchema = new Schema({
+  name: { type: String, required: true },
+  age: {
+    type: Number,
+    required: function () {
+      return this.scholarship.merit >= 3000;
+    },
+  },
+  major: {
+    type: String,
+    required: [true, "Please enter your major!!"],
+    enum: [
+      "Chemistry",
+      "Computer Science",
+      "Mathematics",
+      "Civil Engineering",
+      "undecided",
+    ],
+  },
+  scholarship: {
+    merit: { type: Number, default: 0 },
+    other: { type: Number, default: 0 },
+  },
+});
+```
+
+```js
+const Student = mongoose.model("Student", studentSchema);
+
+let newStudent = new Student({
+  name: "Joan",
+  age: 27,
+  major: "Nuclear Engineering",
+  scholarship: {
+    merit: 5000,
+    other: 0,
+  },
+});
+
+newStudent
+  .save()
+  .then((data) => {
+    console.log("success!");
+  })
+  .catch((e) => {
+    console.log(e);
+  });
+```
+
+![Mongoose](../img/Mongoose/28.png)
+
+4. minlength(number)
+
+5. maxlength(number)
+
+```js
+const studentSchema = new Schema({
+  name: { type: String, required: true, maxlength: 25, minlength: 0 },
+  age: {
+    type: Number,
+    required: function () {
+      return this.scholarship.merit >= 3000;
+    },
+  },
+  major: {
+    type: String,
+    required: [true, "Please enter your major!!"],
+    enum: [
+      "Chemistry",
+      "Computer Science",
+      "Mathematics",
+      "Civil Engineering",
+      "undecided",
+    ],
+  },
+  scholarship: {
+    merit: { type: Number, default: 0 },
+    other: { type: Number, default: 0 },
+  },
+});
+```
+
+**跟 number 有關的驗證器有:min，max，enum**
+
+```js
+const studentSchema = new Schema({
+  name: { type: String, required: true, maxlength: 25, minlength: 0 },
+  age: {
+    type: Number,
+    required: function () {
+      return this.scholarship.merit >= 3000;
+    },
+    min: [0, "Age cannot be less than 0"],
+  },
+  major: {
+    type: String,
+    required: [true, "Please enter your major!!"],
+    enum: [
+      "Chemistry",
+      "Computer Science",
+      "Mathematics",
+      "Civil Engineering",
+      "undecided",
+    ],
+  },
+  scholarship: {
+    merit: { type: Number, default: 0 },
+    other: { type: Number, default: 0 },
+  },
+});
+```

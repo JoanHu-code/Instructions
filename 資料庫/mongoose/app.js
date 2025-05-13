@@ -15,21 +15,46 @@ mongoose
   });
 
 const studentSchema = new Schema({
-  name: String,
-  age: { type: Number, min: [0, "Age cannot be less than 0"] },
-  major: String,
+  name: { type: String, required: true },
+  age: {
+    type: Number,
+    required: function () {
+      return this.scholarship.merit >= 3000;
+    },
+  },
+  major: {
+    type: String,
+    required: [true, "Please enter your major!!"],
+    enum: [
+      "Chemistry",
+      "Computer Science",
+      "Mathematics",
+      "Civil Engineering",
+      "undecided",
+    ],
+  },
   scholarship: {
-    merit: Number,
-    other: Number,
+    merit: { type: Number, default: 0 },
+    other: { type: Number, default: 0 },
   },
 });
 
 const Student = mongoose.model("Student", studentSchema);
 
-Student.deleteOne({ name: "Mike Chen" })
-  .exec()
-  .then((msg) => {
-    console.log(msg);
+let newStudent = new Student({
+  name: "Joan",
+  age: 27,
+  major: "Nuclear Engineering",
+  scholarship: {
+    merit: 5000,
+    other: 0,
+  },
+});
+
+newStudent
+  .save()
+  .then((data) => {
+    console.log("success!");
   })
   .catch((e) => {
     console.log(e);
