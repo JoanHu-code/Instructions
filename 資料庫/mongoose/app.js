@@ -26,18 +26,35 @@ const studentSchema = new Schema({
 
 const Student = mongoose.model("Student", studentSchema);
 
-Student.findOneAndUpdate(
-  { name: "Mike" },
-  { name: "Mike Chen" },
-  { runValidators: true, new: false } //new預設為false
-)
+Student.deleteOne({ name: "Mike Chen" })
   .exec()
-  .then((oldData) => {
-    console.log(oldData);
+  .then((msg) => {
+    console.log(msg);
   })
   .catch((e) => {
     console.log(e);
   });
+
+// Student.find({})
+//   .then((data) => {
+//     console.log(data);
+//   })
+//   .catch((e) => {
+//     console.log(e);
+//   });
+
+// Student.findOneAndUpdate(
+//   { name: "Mike" },
+//   { name: "Mike Chen" },
+//   { runValidators: true, new: false } //new預設為false
+// )
+//   .exec()
+//   .then((oldData) => {
+//     console.log(oldData);
+//   })
+//   .catch((e) => {
+//     console.log(e);
+//   });
 
 // Student.updateOne({ name: "Esther Lam" }, { age: 27 }, { runValidators: true })
 //   .exec()

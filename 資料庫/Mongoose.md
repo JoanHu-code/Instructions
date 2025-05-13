@@ -298,6 +298,20 @@ app.get("/", async (req, res) => {
 
 ![Mongoose](../img/Mongoose/16.png)
 
+> 找到`scholarship.merit`大於`1500`
+
+```js
+Student.find({ "scholarship.merit": { $gte: 1500 } })
+  .then((data) => {
+    console.log(data);
+  })
+  .catch((e) => {
+    console.log(e);
+  });
+```
+
+![Mongoose](../img/Mongoose/25.png)
+
 ## Query Object 與 Promise 比較補充
 
 關於 Query Object 與 Promise 的比較，我用文字在這裡補充。Query Object 以及 Promise 兩者非常相像：
@@ -465,3 +479,24 @@ Student.findOneAndUpdate(
 - `updateOne()`是當我們不需要更新後的 document，並且希望節省一點資料庫操作時間的通訊流量可以選擇使用。
 
 - `findOneAndUpdate()`:排除上面可以選擇使用`updateOne()`的情況，推薦使用此方法，因為`findOneAndUpdate()`提供更新完成的 document 是非常實用的功能
+
+## 刪除資料
+
+- `Model.deleteOne(condition)`:從 Collections 中刪除與 conditions 匹配的第一個 document。此 method 會 return 一個具有 deletedCount 屬性的 object。
+
+```js
+Student.deleteOne({ name: "Mike Chen" })
+  .exec()
+  .then((msg) => {
+    console.log(msg);
+  })
+  .catch((e) => {
+    console.log(e);
+  });
+```
+
+![Mongoose](../img/Mongoose/26.png)
+
+- `Model.deleteMany(condition)`: 從 Conditions 中刪除與 conditions 匹配的所有 documents。此 method 會 return 一個具有 deletedCount 屬性的 object。
+
+**[其他的所有 Mongoose CRUD 操作 ](https://mongoosejs.com/docs/queries.html)**
