@@ -298,6 +298,8 @@ app.get("/", async (req, res) => {
 
 ![Mongoose](../img/Mongoose/16.png)
 
+## Query Object 與 Promise 比較補充
+
 關於 Query Object 與 Promise 的比較，我用文字在這裡補充。Query Object 以及 Promise 兩者非常相像：
 
 1. Query Object 本身是一種 thenable object，代表後面可以串接.then()以及.catch()。在上支影片當中的 find()以及 findOne()兩個 method 的 return 值都是 Query Object。因此，如果你把上支影片範例中的.exec()全部刪掉，會發現程式碼還是能夠照常運作的。
@@ -307,3 +309,159 @@ app.get("/", async (req, res) => {
 這裡可以看出，在 Query Object 後面加上.exec()，轉變成 Promise，這個步驟，似乎不是必要的。那兩者有何不同？或者，哪些情況該用哪個呢？
 
 答案是，不管在哪種情況，在 Query Object 後面加上.exec()，讓它變成 Promise 都是比較好的。這是因為，使用 Promise 的話，JavaScript 的 try...catch...語法中，catch 可以顯示更好的錯誤追蹤訊息。詳細的例子可以參考 mongoose 的 documentation：https://mongoosejs.com/docs/promises.html 。使用 Promise 的話，錯誤追蹤訊息會顯示出問題的.exec()是在哪一行程式碼。因此，加上.exec()會比不加來得更好。
+
+## 更新資料
+
+- `Model.updateOne(filter,update,options)`:找到第一個符合 filter 條件的物件，並且將資料更新 update 的值。filter,update 這兩個 parameter 的資料類型都是 object。`.then()`內部的 callback 被執行時，帶入的 parameter 是更新操作訊息，例如:acknowledge, modifiedCount, upsertedId 等等。Options 物件可設定 runValidators，若 update 物件的值不符合 Schema 的設定，則出現 error。
+
+```js
+const Student = mongoose.model("Student", studentSchema);
+
+Student.updateOne({ name: "Esther" }, { name: "Esther Lam" })
+  .exec()
+  .then((msg) => {
+    console.log(msg);
+  })
+  .catch((e) => {
+    console.log(e);
+  });
+```
+
+![Mongoose](../img/Mongoose/17.png)
+
+> 檢查是否有被更新
+
+```js
+Student.find({})
+  .exec()
+  .then((data) => {
+    console.log(data);
+  })
+  .catch((e) => {
+    console.log(e);
+  });
+```
+
+![Mongoose](../img/Mongoose/18.png)
+
+> Schema 可以設定最小值和最大值
+
+```js
+const studentSchema = new Schema({
+  name: String,
+  age: { type: Number, min: [0, "Age cannot be less than 0"] },
+  major: String,
+  scholarship: {
+    merit: Number,
+    other: Number,
+  },
+});
+```
+
+> 設定錯誤年齡
+
+```js
+Student.updateOne({ name: "Esther Lam" }, { age: -5 })
+  .exec()
+  .then((msg) => {
+    console.log(msg);
+  })
+  .catch((e) => {
+    console.log(e);
+  });
+```
+
+![Mongoose](../img/Mongoose/19.png)
+![Mongoose](../img/Mongoose/20.png)
+
+> 已經限制最大值了，為什麼還可以改變此值?
+
+**因為在使用有關 update 的方法是，此方法是不會去看 Schema 是如何設定的，他們沒有關聯；但在新增時就會去判斷 Schema 是如何設定的，所以會發生錯誤**
+
+```js
+let newStudent = new Student({
+  name: "Joan",
+  age: -12,
+  major: "Business Administration",
+  scholarship: {
+    merit: 5000,
+    other: 2000,
+  },
+});
+
+newStudent
+  .save()
+  .then((data) => {
+    console.log("success!");
+  })
+  .catch((e) => {
+    console.log(e);
+  });
+```
+
+![Mongoose](../img/Mongoose/21.png)
+
+> 如何讓 update 也能做到呢?需要設定第三個`option`，`{ runValidators: true }`
+
+```js
+Student.updateOne(
+  { name: "Esther Lam" },
+  { age: -100 },
+  { runValidators: true }
+)
+  .exec()
+  .then((msg) => {
+    console.log(msg);
+  })
+  .catch((e) => {
+    console.log(e);
+  });
+```
+
+![Mongoose](../img/Mongoose/22.png)
+
+> `option`還可以設定`{new:true}`，但對`updateOne()`這方法是不起作用的
+
+- `Model.updateMany(filter,update,options)`:找到所有符合 filter 條件的物件，並且將符合 filter 的每一筆資料，更新 update 的值。filter,update 這兩個 parameter 的資料類型都是 object。`.then()`內部的 callback 被執行時，帶入的 parameter 也是更新操作訊息。Options 可設定 run Validators。
+
+- `Model.findOneAndUpdate(condition,update,options)`: 找到第一個符合 condition 條件的物件，並且更新 update 的值。condition,update,options 這三個 parameters 的資料類型都是 object。`.then()`內部的 callback 被執行時，若在 options 內部有表明 new 屬性為 true，則`.then()`內部的 callback 被執行時，帶入的 parameter 會是更新完成了 document。反之，沒有表明 new 是 true，或設定 new 是 false(這是預設值)，則 callback 的 parameter 會是更新前的 document。Options 中野可設定 runValidators
+
+```js
+Student.findOneAndUpdate(
+  { name: "Grace" },
+  { name: "Grace Wong" },
+  { runValidators: true, new: true }
+)
+  .exec()
+  .then((newData) => {
+    console.log(newData);
+  })
+  .catch((e) => {
+    console.log(e);
+  });
+```
+
+![Mongoose](../img/Mongoose/23.png)
+
+```js
+Student.findOneAndUpdate(
+  { name: "Mike" },
+  { name: "Mike Chen" },
+  { runValidators: true, new: false } //new預設為false
+)
+  .exec()
+  .then((oldData) => {
+    console.log(oldData);
+  })
+  .catch((e) => {
+    console.log(e);
+  });
+```
+
+![Mongoose](../img/Mongoose/24.png)
+
+> `updateOne()`與`findOneAndUpdate()`的使用時機為何?
+
+- `updateOne()`是當我們不需要更新後的 document，並且希望節省一點資料庫操作時間的通訊流量可以選擇使用。
+
+- `findOneAndUpdate()`:排除上面可以選擇使用`updateOne()`的情況，推薦使用此方法，因為`findOneAndUpdate()`提供更新完成的 document 是非常實用的功能
