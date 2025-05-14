@@ -1038,4 +1038,4 @@ Student.findAllMajorStudents("Mathematics").then((data) => {
 
 ## Mongoose Middleware
 
-![Mongoose](../img/Mongoose/35.png)
+![Mongoose](../img/Mongoose/34.png)
