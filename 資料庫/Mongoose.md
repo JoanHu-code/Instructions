@@ -759,7 +759,9 @@ Student.find({})
   .then((arr) => {
     arr.forEach((student) => {
       console.log(
-        student.name + "的總獎學金金額是" + student.printTotalScholarship()
+        student.name +
+          "'s total scholarship amount is " +
+          student.printTotalScholarship()
       );
     });
   });
@@ -767,6 +769,273 @@ Student.find({})
 
 ![Mongoose](../img/Mongoose/29.png)
 
-## Mongoose Middleware
+或是，第二種方式，可以直接設定 Schema 的 methods 屬性:
+
+```js
+animalSchema.methods.findSimilarTypes = function (cb) {
+  return mongoose.model("Animal").finc({ type: this.type }, cb);
+};
+```
+
+```js
+const studentSchema = new Schema({
+  name: { type: String, required: true },
+  age: {
+    type: Number,
+    required: function () {
+      return this.scholarship.merit >= 3000;
+    },
+  },
+  major: {
+    type: String,
+    required: [true, "Please enter your major!!"],
+    enum: [
+      "Chemistry",
+      "Computer Science",
+      "Mathematics",
+      "Civil Engineering",
+      "undecided",
+    ],
+  },
+  scholarship: {
+    merit: { type: Number, default: 0 },
+    other: { type: Number, default: 0 },
+  },
+});
+
+studentSchema.methods.printTotalScholarship = function () {
+  return this.scholarship.merit + this.scholarship.other;
+};
+
+const Student = mongoose.model("Student", studentSchema);
+Student.find({})
+  .exec()
+  .then((arr) => {
+    arr.forEach((student) => {
+      console.log(
+        student.name +
+          "'s total scholarship amount is " +
+          student.printTotalScholarship()
+      );
+    });
+  });
+```
 
 ![Mongoose](../img/Mongoose/29.png)
+
+**Static Methods**
+
+如果我們想要定義某個專屬於 Schema 使用的 method，則可以使用 static method。Static method 屬於 Schema 本身，而不屬於 Mongoose Model 內部的 documents。此概念來自於物件導向程式設計。Static methods 的設置方式有以下三種:
+
+```js
+const animalSchema = new Schema(setting, {
+  statics: {
+    findByName(name) {
+      return this.find({
+        name: new RegExp(name, "i"),
+      });
+    },
+  },
+});
+```
+
+```js
+const studentSchema = new Schema(
+  {
+    name: { type: String, required: true },
+    age: {
+      type: Number,
+      required: function () {
+        return this.scholarship.merit >= 3000;
+      },
+    },
+    major: {
+      type: String,
+      required: [true, "Please enter your major!!"],
+      enum: [
+        "Chemistry",
+        "Computer Science",
+        "Mathematics",
+        "Civil Engineering",
+        "undecided",
+      ],
+    },
+    scholarship: {
+      merit: { type: Number, default: 0 },
+      other: { type: Number, default: 0 },
+    },
+  },
+  {
+    statics: {
+      findAllMajorStudents(major) {
+        console.log(this);
+      },
+    },
+  }
+);
+
+const Student = mongoose.model("Student", studentSchema); // students
+
+Student.findAllMajorStudents();
+```
+
+![Mongoose](../img/Mongoose/30.png)
+
+```js
+const studentSchema = new Schema(
+  {
+    name: { type: String, required: true },
+    age: {
+      type: Number,
+      required: function () {
+        return this.scholarship.merit >= 3000;
+      },
+    },
+    major: {
+      type: String,
+      required: [true, "Please enter your major!!"],
+      enum: [
+        "Chemistry",
+        "Computer Science",
+        "Mathematics",
+        "Civil Engineering",
+        "undecided",
+      ],
+    },
+    scholarship: {
+      merit: { type: Number, default: 0 },
+      other: { type: Number, default: 0 },
+    },
+  },
+  {
+    statics: {
+      findAllMajorStudents(major) {
+        return this.find({ major: major }).exec();
+      },
+    },
+  }
+);
+const Student = mongoose.model("Student", studentSchema);
+console.log(
+  Student.findAllMajorStudents("Computer Science")
+    .then((data) => {
+      console.log(data);
+    })
+    .catch((e) => {
+      console.log(e);
+    })
+);
+```
+
+![Mongoose](../img/Mongoose/31.png)
+
+```js
+const Student = mongoose.model("Student", studentSchema);
+console.log(
+  Student.findAllMajorStudents("Mathematics")
+    .then((data) => {
+      console.log(data);
+    })
+    .catch((e) => {
+      console.log(e);
+    })
+);
+```
+
+![Mongoose](../img/Mongoose/32.png)
+
+第二種，直接將 methods 設定在 Schema 的 statics 屬性上:
+
+```js
+animalSchema.statics.findByName = function (name) {
+  return this.find({ name: new RegExp(name, "i") });
+};
+```
+
+```js
+const studentSchema = new Schema({
+  name: { type: String, required: true },
+  age: {
+    type: Number,
+    required: function () {
+      return this.scholarship.merit >= 3000;
+    },
+  },
+  major: {
+    type: String,
+    required: [true, "Please enter your major!!"],
+    enum: [
+      "Chemistry",
+      "Computer Science",
+      "Mathematics",
+      "Civil Engineering",
+      "undecided",
+    ],
+  },
+  scholarship: {
+    merit: { type: Number, default: 0 },
+    other: { type: Number, default: 0 },
+  },
+});
+studentSchema.statics.findAllMajorStudents = function (major) {
+  return this.find({ major: major }).exec();
+};
+const Student = mongoose.model("Student", studentSchema);
+
+Student.findAllMajorStudents("Mathematics").then((data) => {
+  console.log(data);
+});
+```
+
+![Mongoose](../img/Mongoose/33.png)
+
+第三種:
+
+```js
+animalSchema.static("findByBreed", function (breed) {
+  return this.find({ breed });
+});
+```
+
+```js
+const studentSchema = new Schema({
+  name: { type: String, required: true },
+  age: {
+    type: Number,
+    required: function () {
+      return this.scholarship.merit >= 3000;
+    },
+  },
+  major: {
+    type: String,
+    required: [true, "Please enter your major!!"],
+    enum: [
+      "Chemistry",
+      "Computer Science",
+      "Mathematics",
+      "Civil Engineering",
+      "undecided",
+    ],
+  },
+  scholarship: {
+    merit: { type: Number, default: 0 },
+    other: { type: Number, default: 0 },
+  },
+});
+
+studentSchema.static("findAllMajorStudents", function (major) {
+  return this.find({ major: major }).exec();
+});
+
+const Student = mongoose.model("Student", studentSchema);
+
+Student.findAllMajorStudents("Mathematics").then((data) => {
+  console.log(data);
+});
+```
+
+![Mongoose](../img/Mongoose/33.png)
+
+## Mongoose Middleware
+
+![Mongoose](../img/Mongoose/35.png)

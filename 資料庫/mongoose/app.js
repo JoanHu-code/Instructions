@@ -14,49 +14,40 @@ mongoose
     console.log(e);
   });
 
-const studentSchema = new Schema(
-  {
-    name: { type: String, required: true },
-    age: {
-      type: Number,
-      required: function () {
-        return this.scholarship.merit >= 3000;
-      },
-    },
-    major: {
-      type: String,
-      required: [true, "Please enter your major!!"],
-      enum: [
-        "Chemistry",
-        "Computer Science",
-        "Mathematics",
-        "Civil Engineering",
-        "undecided",
-      ],
-    },
-    scholarship: {
-      merit: { type: Number, default: 0 },
-      other: { type: Number, default: 0 },
+const studentSchema = new Schema({
+  name: { type: String, required: true },
+  age: {
+    type: Number,
+    required: function () {
+      return this.scholarship.merit >= 3000;
     },
   },
-  {
-    methods: {
-      printTotalScholarship() {
-        return this.scholarship.merit + this.scholarship.other;
-      },
-    },
-  }
-);
+  major: {
+    type: String,
+    required: [true, "Please enter your major!!"],
+    enum: [
+      "Chemistry",
+      "Computer Science",
+      "Mathematics",
+      "Civil Engineering",
+      "undecided",
+    ],
+  },
+  scholarship: {
+    merit: { type: Number, default: 0 },
+    other: { type: Number, default: 0 },
+  },
+});
+
+studentSchema.static("findAllMajorStudents", function (major) {
+  return this.find({ major: major }).exec();
+});
+
 const Student = mongoose.model("Student", studentSchema);
-Student.find({})
-  .exec()
-  .then((arr) => {
-    arr.forEach((student) => {
-      console.log(
-        student.name + "的總獎學金金額是" + student.printTotalScholarship()
-      );
-    });
-  });
+
+Student.findAllMajorStudents("Mathematics").then((data) => {
+  console.log(data);
+});
 
 // Student.find({})
 //   .then((data) => {
