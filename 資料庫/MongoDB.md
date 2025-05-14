@@ -26,6 +26,7 @@
   - [一對多關係 Aggregation](#一對多關係-Aggregation)
 - [深入了解增刪查改](#深入了解增刪查改)
   - [insert-方法](#insert-方法)
+  - [insertMany 是否按順序插入對結果的影響](#insert-是否按順序插入對結果的影響)
 - [使用 index 索引](#使用-index-索引)
 - [地理空間資料處理](#地理空間資料處理)
 - [聚合操作](#聚合操作)
@@ -1679,3 +1680,33 @@ db.test.insert([{A:30,B:40},{A:50,B:60}])
 ```
 
 ![insert](../img/mongoDB/82.png)
+
+## insertMany 是否按順序插入對結果的影響
+
+1. id 重複會造成什麼問題呢?
+
+```shell
+db.test.insertOne({_id:1,A:1,B:2})
+```
+
+![insert](../img/mongoDB/83.png)
+
+> 如果再 insertMany 插入有些重複 id 的資料會如何?
+
+```shell
+db.test.insertMany([{_id:2, A:10},{_id:1,A:20},{_id:3,A:30}])
+```
+
+![insert](../img/mongoDB/84.png)
+
+> insertMany 插入時會按照順序插入，因此若前面沒有重複會成功插入，但後面重複以及之後的數據就不會被插入，會擋掉
+
+> 若我們希望只擋掉 id 重複的值，其他值要成功插入該怎麼辦?
+
+> 要加入 `{ordered:false}`
+
+```shell
+db.test.insertMany([{_id:2, A:10},{_id:1,A:20},{_id:3,A:30}],{ordered:false})
+```
+
+![insert](../img/mongoDB/85.png)
