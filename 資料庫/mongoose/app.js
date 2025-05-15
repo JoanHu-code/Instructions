@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
-
+const fs = require("fs");
 app.set("view engine", "ejs");
 
 mongoose
@@ -39,15 +39,31 @@ const studentSchema = new Schema({
   },
 });
 
-studentSchema.static("findAllMajorStudents", function (major) {
-  return this.find({ major: major }).exec();
+studentSchema.pre("save", () => {
+  fs.writeFile("record.txt", "A new data will be saved...", (e) => {
+    if (e) throw e;
+  });
 });
-
 const Student = mongoose.model("Student", studentSchema);
 
-Student.findAllMajorStudents("Mathematics").then((data) => {
-  console.log(data);
+let newStudent = new Student({
+  name: "Joan",
+  age: 27,
+  major: "Computer Science",
+  scholarship: {
+    merit: 5000,
+    other: 1000,
+  },
 });
+
+newStudent
+  .save()
+  .then((data) => {
+    console.log("success!");
+  })
+  .catch((e) => {
+    console.log(e);
+  });
 
 // Student.find({})
 //   .then((data) => {

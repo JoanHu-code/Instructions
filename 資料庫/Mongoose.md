@@ -1038,4 +1038,38 @@ Student.findAllMajorStudents("Mathematics").then((data) => {
 
 ## Mongoose Middleware
 
+> Mongoose Middleware(也稱為 pre,post hooks)是在異步函數執行期間傳遞控制權的函數。Middleware 是定義在 Schema 上的。
+
+> 例如，我們可以定義 schema.pre('save',callbackFn)這個 Middleware。當任何與此 Schema 有關的物件要被儲存之前，此 pre hook 內的 callbackFn 就會先被執行。同理，若定義 schema.post('save',callbackFn)這個 Middleware，則任何與此 Schema 有關的物件被成功儲存之後，此 post hook 內的 callbackFn 就會被執行。
+
+```js
+const fs = require("fs");
+studentSchema.pre("save", () => {
+  fs.writeFile("record.txt", "A new data will be saved...", (e) => {
+    if (e) throw e;
+  });
+});
+const Student = mongoose.model("Student", studentSchema);
+let newStudent = new Student({
+  name: "Joan",
+  age: 27,
+  major: "Computer Science",
+  scholarship: {
+    merit: 5000,
+    other: 1000,
+  },
+});
+
+newStudent
+  .save()
+  .then((data) => {
+    cosnole.log("success!");
+  })
+  .catch((e) => {
+    console.log(e);
+  });
+```
+
 ![Mongoose](../img/Mongoose/34.png)
+![Mongoose](../img/Mongoose/35.png)
+![Mongoose](../img/Mongoose/36.png)
