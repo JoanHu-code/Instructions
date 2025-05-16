@@ -24,22 +24,31 @@ const studentSchema = new Schema({
 });
 const Student = mongoose.model("Student", studentSchema);
 
-function myMiddleware(req, res, next) {
-  console.log("In myMiddleware...");
-  next(); // 呼叫 next()，讓流程繼續
-}
+app.get("/students",async (req, res) => {
+    try {
+      let studentData = await Student.find({}).exec();
+      return res.render("students", { studentData }); // 變數名要一致
+    } catch (e) {
+      return res.status(500).send("error...");
+    }
+  });
 
-app.get("/students", myMiddleware, async (req, res) => {
-  try {
-    let studentData = await Student.find({}).exec();
-    return res.render("students", { studentData }); // 變數名要一致
-  } catch (e) {
-    return res.status(500).send("error...");
-  }
-});
+// function myMiddleware(req, res, next) {
+//   console.log("In myMiddleware...");
+//   next(); // 呼叫 next()，讓流程繼續
+// }
+
+// app.get("/students", myMiddleware, async (req, res) => {
+//   try {
+//     let studentData = await Student.find({}).exec();
+//     return res.render("students", { studentData }); // 變數名要一致
+//   } catch (e) {
+//     return res.status(500).send("error...");
+//   }
+// });
 
 app.get("/students/new", (req, res) => {
-  return res.render("nwe-student-form");
+  return res.render("new-student-form");
 });
 
 app.listen(3000, () => {

@@ -14,30 +14,30 @@
     </style>
   </head>
   <body>
-    <h1>成功新增學生!!</h1>
-    <p>以下為成功新增的學生資料:</p>
+    <h1>Student Added Successfully!!</h1>
+    <p>The following is the information of the newly added student:</p>
     <table>
       <tr>
-        <td>學生ID</td>
+        <td>Student ID</td>
         <td><%= savedStudent._id %></td>
       </tr>
       <tr>
-        <td>名稱</td>
+        <td>Name</td>
         <td><%= savedStudent.name %></td>
       </tr>
       <tr>
-        <td>年齡</td>
+        <td>Age</td>
         <td><%= savedStudent.age %></td>
       </tr>
       <tr>
-        <td>merit獎學金</td>
+        <td>Merit Scholarship</td>
         <td><%= savedStudent.scholarship.merit %></td>
       </tr>
       <tr>
-        <td>other獎學金</td>
+        <td>Other Scholarship</td>
         <td><%= savedStudent.scholarship.other %></td>
       </tr>
     </table>
-    <a href="/students">回到首頁</a>
+    <a href="/students">Back to Home</a>
   </body>
 </html>
