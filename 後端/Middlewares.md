@@ -136,20 +136,254 @@ app.get("/students",
 在 try catch block 內部，我們可以把 catch()到的錯誤，用 next()往 middleware 的方向傳送。此時，我在 express 的 app.use() 所使用的 callbackFn 則需要四個參數:err,req,res 以及 next。
 
 ```js
-app.get("/students/:id",async(req,res)=>{
-  let{_id}=req.params;
-  try{
-    //let foundStudent = await Student.findOne({_id}).exec();
-    let foundStudent = await Student.findById({_id}).exec();
-    if(foundStudent!=null){
-      return res.render("student-page",{foundStudent});
-    }else{
+const express = require("express");
+const app = express();
+const mongoose = require("mongoose");
+const methodOverride = require("method-override");
+const { Schema } = mongoose;
+
+mongoose
+  .connect("mongodb://localhost:27017/demo")
+  .then(() => {
+    console.log("connecting is successful...");
+  })
+  .catch((e) => {
+    console.log(e);
+  });
+
+app.set("view engine", "ejs");
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(methodOverride("_method"));
+
+const studentSchema = new Schema({
+  name: String,
+  age: Number,
+  scholarship: {    // 你有用到 scholarship，要加這欄位
+    merit: Number,
+    other: Number,
+  }
+});
+const Student = mongoose.model("Student", studentSchema);
+
+// 修改學生資料表單頁面 (注意路由前面要有 /)
+app.get("/students/:_id/edit", async (req, res, next) => {
+  let { _id } = req.params;
+  try {
+    let foundStudent = await Student.findOne({ _id }).exec();
+    if (foundStudent != null) {
+      return res.render("edit-student", { foundStudent }); // 拼錯，原本是 "esit-student"
+    } else {
       return res.status(400).render("student-not-found");
     }
-  }catch(e){
-    return res.status(400.render("student-not-found"))
+  } catch (e) {
+    next(e);
   }
-})
+});
+
+// 新增學生 (POST)
+app.post("/students", async (req, res) => {
+  try {
+    let { name, age, merit, other } = req.body;
+    let newStudent = new Student({
+      name,
+      age,
+      scholarship: {
+        merit: Number(merit), // 資料型態轉換，避免存字串
+        other: Number(other),
+      },
+    });
+    let savedStudent = await newStudent.save();
+    return res.render("student-save-success", { savedStudent });
+  } catch (e) {
+    return res.status(400).render("student-save-fail");
+  }
+});
+
+// 修改學生資料 (PUT)
+app.put("/students/:_id", async (req, res) => {
+  try {
+    let { _id } = req.params;
+    let { name, age, merit, other } = req.body;
+    let newData = await Student.findOneAndUpdate(
+      { _id },
+      {
+        name,
+        age,
+        scholarship: {
+          merit: Number(merit),
+          other: Number(other),
+        },
+      },
+      {
+        new: true,
+        runValidators: true,
+        overwrite: true,
+      }
+    );
+    return res.render("student-update-success", { newData });
+  } catch (e) {
+    return res.status(400).send(e.message);
+  }
+});
+
+// 刪除學生資料 (DELETE)
+// 路由修正: 要跟其他路由保持一致 /students 而非 /student
+app.delete("/students/:_id", async (req, res) => {
+  try {
+    let { _id } = req.params;
+    let deleteResult = await Student.deleteOne({ _id });
+    return res.send(deleteResult);
+  } catch (e) {
+    console.log(e);
+    return res.status(500).send("could not delete.");
+  }
+});
+
+// 取得所有學生資料
+app.get("/students", async (req, res, next) => {
+  try {
+    let studentData = await Student.find({}).exec();
+    return res.render("students", { studentData });
+  } catch (e) {
+    next(e);
+  }
+});
+
+// 依ID取得單一學生資料
+app.get("/students/:id", async (req, res,next) => {
+  let { id } = req.params;
+  try {
+    let foundStudent = await Student.findById(id).exec();
+    if (foundStudent != null) {
+      return res.render("student-page", { foundStudent });
+    } else {
+      return res.status(400).render("student-not-found");
+    }
+  } catch (e) {
+    next(e);
+    // return res.status(400).render("student-not-found");
+  }
+});
+
+// 新增學生表單頁面
+app.get("/students/new", (req, res) => {
+  return res.render("new-student-form");
+});
+
+// 錯誤處理 middleware
+app.use((err, req, res, next) => {
+  console.error("Error middleware");
+  return res.status(400).send(err);
+});
+
+app.listen(3000, () => {
+  console.log("server is listening port 3000");
+});
 ```
 
+> student-page.ejs
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= foundStudent.name %>'s Page</title>
+    <style>
+      table,
+      tr,
+      td {
+        border: 1px solid black;
+      }
+    </style>
+  </head>
+  <body>
+    <table>
+      <tr>
+        <td>Student ID</td>
+        <td><%= foundStudent._id %></td>
+      </tr>
+      <tr>
+        <td>Name</td>
+        <td><%= foundStudent.name %></td>
+      </tr>
+      <tr>
+        <td>Age</td>
+        <td><%= foundStudent.age %></td>
+      </tr>
+      <tr>
+        <td>Merit Scholarship</td>
+        <td><%= foundStudent.scholarship.merit %></td>
+      </tr>
+      <tr>
+        <td>Other Scholarship</td>
+        <td><%= foundStudent.scholarship.other %></td>
+      </tr>
+    </table>
+    <a href="/students">Back to Home</a>
+    <a href="/students/<%= foundStudent._id %>/edit">Update Student Information</a>
+  </body>
+</html>
+
+```
+
+> student-not-found
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Error Page</title>
+  </head>
+  <body>
+    <p>Student not found...</p>
+    <a href="/students">Back to Home</a>
+  </body>
+</html>
+
+
+```
+>正常顯示學生資料
+
 ![Middlewares](../img/Middlewares/04.png)
+
+> 找不到學生時呈現的東西
+
+![Middlewares](../img/Middlewares/05.png)
+![Middlewares](../img/Middlewares/06.png)
+
+> 處理錯誤資訊
+```js
+// 錯誤處理 middleware
+app.use((err, req, res, next) => {
+  console.error("Error middleware");
+  return res.status(400).render("error");
+});
+
+```
+
+> error.ejs
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Error Page</title>
+  </head>
+  <body>
+    <h1>An error has occurred...</h1>
+    <p>If you have any questions, please contact the developer.</p>
+  </body>
+</html>
+
+```
+![Middlewares](../img/Middlewares/07.png)
