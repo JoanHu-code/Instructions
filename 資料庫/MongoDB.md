@@ -27,6 +27,8 @@
 - [深入了解增刪查改](#深入了解增刪查改)
   - [insert-方法](#insert-方法)
   - [insertMany 是否按順序插入對結果的影響](#insert-是否按順序插入對結果的影響)
+  - [如何透過 JSON 文件導入資料](#如何透過-JSON-文件導入資料)
+  - [method filter operator](#method-filter-operator)
 - [使用 index 索引](#使用-index-索引)
 - [地理空間資料處理](#地理空間資料處理)
 - [聚合操作](#聚合操作)
@@ -1710,3 +1712,71 @@ db.test.insertMany([{_id:2, A:10},{_id:1,A:20},{_id:3,A:30}],{ordered:false})
 ```
 
 ![insert](../img/mongoDB/85.png)
+
+## 如何透過 JSON 文件導入資料
+
+**mongo_import.json**
+
+```JSON
+[
+  {
+    "name":"A",
+    "age": 12
+  },
+  {
+    "name":"B",
+    "age": 14
+  },
+  {
+    "name":"C",
+    "age": 15
+  }
+]
+```
+
+1. 安裝 mongoDB Tools
+
+[官方網址](https://www.mongodb.com/try/download/database-tools)
+
+> 下載完 zip 檔案後解壓縮，把所有 bin 資料夾裡的.exe 檔案直接放入`C:\Program Files\MongoDB\Server\8.0\bin`，之後打下面指令，測試是否安裝完成
+
+```shell
+mongoimport --version
+```
+
+![mongo_import](../img/mongoDB/87.png)
+
+1. 複製此 josn 資料路徑
+
+![mongo_import](../img/mongoDB/86.png)
+
+2. 打開 CMD，貼上複製的 path
+
+```shell
+mongoimport <your-json-path> -d <your-database> -c <your-collection> --jsonArray --drop
+```
+
+```shell
+mongoimport D:\USERS\Desktop\Instructions\資料庫\mogoDB\mongo_import.json -d test -c demo --jsonArray --drop
+```
+
+![mongo_import](../img/mongoDB/88.png)
+
+3. 查看資料是否有真的匯入
+
+![mongo_import](../img/mongoDB/89.png)
+
+## method filter operator
+
+![mongo_import](../img/mongoDB/90.png)
+
+> operator 的種類
+
+- Query 和 Projection 查找和返回值修整
+  - 用於過濾數據，和修改返回值的表現形式
+- Update 更新
+  - 用於修改資料庫中的具體資料
+- Aggregation 聚合
+  - 用於聚合的 pipeline
+
+[更多相關資訊](https://docs.mongodb.com/manual/reference/operator/)
