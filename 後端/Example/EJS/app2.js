@@ -1,17 +1,3 @@
-# 目錄
-
-- [Express Middlewares](#Express-Middlewares)
-- [Express Router](#Express-Router)
-
-## Express Middlewares
-
-> Express 中的 Middleware(中介軟體)除了可以放在所有的 routes 之前，也可以放在 route 內部的 path 以及 callbackFn 之間。語法是:
-
-```js
-app.METHOD(path, middlewareFn, callbackFn);
-```
-
-```js
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
@@ -59,12 +45,3 @@ app.get("/students/new", (req, res) => {
 app.listen(3000, () => {
   console.log("server is listening port 3000");
 });
-```
-
-![Middlewares](../img/Middlewares/01.png)
-
-之前的課程有提過，Middelware 中的 callbackFn 內可以有三個參數，分別為 req，res 以及 next。若我們希望用 middleware 來處理錯誤，則可以改用包含四個參數的 callbackFn。四個參數分別為: err,req,res,next(順序不能換)。
-
-在 try catch block 內部，我們可以把 catch()到的錯誤，用 next()往 middleware 的方向傳送。此時，我在 express 的 route 所使用的 callbackFn 則需要三個參數:req,res 以及 next。
-
-![Middlewares](../img/Middlewares/02.png)
