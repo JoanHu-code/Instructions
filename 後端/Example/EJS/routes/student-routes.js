@@ -8,7 +8,7 @@ router.get("/", async (req, res, next) => {
     // return res.send(studentData);
     return res.render("students", { studentData });
   } catch (e) {
-    // return res.status(500).send("尋找資料時發生錯誤。。。");
+    // return res.status(500).send("An error occurred while retrieving data...");
     next(e);
   }
 });
@@ -76,8 +76,8 @@ router.put("/:_id", async (req, res) => {
         new: true,
         runValidators: true,
         overwrite: true,
-        // 因為HTTP put request要求客戶端提供所有數據，所以
-        // 我們需要根據客戶端提供的數據，來更新資料庫內的資料
+        // Because HTTP PUT requests require the client to provide all data,
+        // we update the database data based on the client-provided data.
       }
     );
     return res.render("student-update-success", { newData });
@@ -108,9 +108,9 @@ router.patch("/:_id", async (req, res) => {
     let newData = await Student.findByIdAndUpdate({ _id }, newObject, {
       new: true,
       runValidators: true,
-      // 不能寫overwrite: true
+      // Do not use overwrite: true here
     });
-    res.send({ msg: "成功更新學生資料!", updatedData: newData });
+    res.send({ msg: "Successfully updated student data!", updatedData: newData });
   } catch (e) {
     return res.status(400).send(e.message);
   }
@@ -122,7 +122,7 @@ router.delete("/:_id", async (req, res) => {
     let deleteResult = await Student.deleteOne({ _id });
     return res.send(deleteResult);
   } catch (e) {
-    return res.status(500).send("無法刪除學生資料");
+    return res.status(500).send("Unable to delete student data");
   }
 });
 

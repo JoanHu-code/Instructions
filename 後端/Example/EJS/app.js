@@ -6,7 +6,7 @@ const studentRoutes = require("./routes/student-routes");
 const facultyRoutes = require("./routes/faculty-routes");
 
 mongoose
-  .connect("mongodb://localhost:27017/exampleDB")
+  .connect("mongodb://localhost:27017/demo")
   .then(() => {
     console.log("Successfully connected to MongoDB...");
   })

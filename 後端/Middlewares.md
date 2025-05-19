@@ -387,3 +387,238 @@ app.use((err, req, res, next) => {
 
 ```
 ![Middlewares](../img/Middlewares/07.png)
+
+## Express Router
+
+隨者伺服器的擴大，routes的數量可能變得非常巨大。此時，將routes根據功能分類變得相當重要。Express.js提供了express.Router的功能，讓我們可以將routes分門別類。express.Router的語法為:
+
+```js
+const express = require("express");
+const router = express.Router();
+const Student = require("../models/student");
+
+router.get("/", async (req, res, next) => {
+  try {
+    let studentData = await Student.find({}).exec();
+    // return res.send(studentData);
+    return res.render("students", { studentData });
+  } catch (e) {
+    // return res.status(500).send("An error occurred while retrieving data...");
+    next(e);
+  }
+});
+
+router.get("/new", (req, res) => {
+  return res.render("new-student-form");
+});
+
+router.get("/:_id", async (req, res, next) => {
+  let { _id } = req.params;
+  try {
+    let foundStudent = await Student.findOne({ _id }).exec();
+    if (foundStudent != null) {
+      return res.render("student-page", { foundStudent });
+    } else {
+      return res.status(400).render("student-not-found");
+    }
+  } catch (e) {
+    // return res.status(400).render("student-not-found");
+    next(e);
+  }
+});
+
+router.get("/:_id/edit", async (req, res, next) => {
+  let { _id } = req.params;
+  try {
+    let foundStudent = await Student.findOne({ _id }).exec();
+    if (foundStudent != null) {
+      return res.render("edit-student", { foundStudent });
+    } else {
+      return res.status(400).render("student-not-found");
+    }
+  } catch (e) {
+    // return res.status(400).render("student-not-found");
+    next(e);
+  }
+});
+
+router.post("/", async (req, res) => {
+  try {
+    let { name, age, merit, other } = req.body;
+    let newStudent = new Student({
+      name,
+      age,
+      scholarship: {
+        merit,
+        other,
+      },
+    });
+    let savedStudent = await newStudent.save();
+    return res.render("student-save-success", { savedStudent });
+  } catch (e) {
+    return res.status(400).render("student-save-fail.ejs");
+  }
+});
+
+router.put("/:_id", async (req, res) => {
+  try {
+    let { _id } = req.params;
+    let { name, age, major, merit, other } = req.body;
+    let newData = await Student.findOneAndUpdate(
+      { _id },
+      { name, age, major, scholarship: { merit, other } },
+      {
+        new: true,
+        runValidators: true,
+        overwrite: true,
+        // Because HTTP PUT requests require the client to provide all data,
+        // we update the database data based on the client-provided data.
+      }
+    );
+    return res.render("student-update-success", { newData });
+  } catch (e) {
+    return res.status(400).send(e.message);
+  }
+});
+
+class NewData {
+  constructor() {}
+  setProperty(key, value) {
+    if (key !== "merit" && key !== "other") {
+      this[key] = value;
+    } else {
+      this[`scholarship.${key}`] = value;
+    }
+  }
+}
+
+router.patch("/:_id", async (req, res) => {
+  try {
+    let { _id } = req.params;
+    let newObject = new NewData();
+    for (let property in req.body) {
+      newObject.setProperty(property, req.body[property]);
+    }
+
+    let newData = await Student.findByIdAndUpdate({ _id }, newObject, {
+      new: true,
+      runValidators: true,
+      // Do not use overwrite: true here
+    });
+    res.send({ msg: "Successfully updated student data!", updatedData: newData });
+  } catch (e) {
+    return res.status(400).send(e.message);
+  }
+});
+
+router.delete("/:_id", async (req, res) => {
+  try {
+    let { _id } = req.params;
+    let deleteResult = await Student.deleteOne({ _id });
+    return res.send(deleteResult);
+  } catch (e) {
+    return res.status(500).send("Unable to delete student data");
+  }
+});
+
+module.exports = router;
+```
+
+> app.js
+
+```js
+const express = require("express");
+const app = express();
+const mongoose = require("mongoose");
+const methodOverride = require("method-override");
+const studentRoutes = require("./routes/student-routes");
+
+mongoose
+  .connect("mongodb://localhost:27017/demo")
+  .then(() => {
+    console.log("Successfully connected to MongoDB...");
+  })
+  .catch((e) => {
+    console.log(e);
+  });
+
+app.set("view engine", "ejs");
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(methodOverride("_method"));
+
+app.use("/students", studentRoutes);
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.log("Using this middleware...");
+  return res.status(400).render("error");
+});
+
+app.listen(3000, () => {
+  console.log("Server is listening on port 3000");
+});
+
+```
+
+![Middlewares](../img/Middlewares/08.png)
+
+> faculty-routes.js
+
+```js
+const express = require("express");
+const router = express.Router();
+
+router.get("/", (req, res) => {
+  return res.send("Welcome to the staff homepage");
+});
+
+router.get("/new", (req, res) => {
+  return res.send("This is the page for adding new staff data.");
+});
+
+module.exports = router;
+
+```
+
+> app.js
+
+```js
+const express = require("express");
+const app = express();
+const mongoose = require("mongoose");
+const methodOverride = require("method-override");
+const studentRoutes = require("./routes/student-routes");
+const facultyRoutes = require("./routes/faculty-routes");
+
+mongoose
+  .connect("mongodb://localhost:27017/demo")
+  .then(() => {
+    console.log("Successfully connected to MongoDB...");
+  })
+  .catch((e) => {
+    console.log(e);
+  });
+
+app.set("view engine", "ejs");
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(methodOverride("_method"));
+
+app.use("/students", studentRoutes);
+app.use("/faculty", facultyRoutes);
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.log("Using this middleware...");
+  return res.status(400).render("error");
+});
+
+app.listen(3000, () => {
+  console.log("Server is listening on port 3000");
+});
+
+```
+
+![Middlewares](../img/Middlewares/09.png)
+![Middlewares](../img/Middlewares/10.png)
