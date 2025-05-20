@@ -29,6 +29,7 @@
   - [insertMany 是否按順序插入對結果的影響](#insert-是否按順序插入對結果的影響)
   - [如何透過 JSON 文件導入資料](#如何透過-JSON-文件導入資料)
   - [method filter operator](#method-filter-operator)
+  - [比較操作符](#比較操作符)
 - [使用 index 索引](#使用-index-索引)
 - [地理空間資料處理](#地理空間資料處理)
 - [聚合操作](#聚合操作)
@@ -1780,3 +1781,50 @@ mongoimport D:\USERS\Desktop\Instructions\資料庫\mogoDB\mongo_import.json -d 
   - 用於聚合的 pipeline
 
 [更多相關資訊](https://docs.mongodb.com/manual/reference/operator/)
+
+## 比較操作符
+
+`$eq`: 等於
+`$gt`: 大於
+`$gte`: 大於等於
+`$in`: 包含其中任意一個
+`$lt`: 小於
+`$lte`: 小於等於
+`$ne`: 不等於
+`$nin`: 不包含其中任意一個
+
+> 使用方式
+
+**eq**
+
+> tags 等於 A 和 B
+
+> 此 eq 可以不寫，結果是一樣的
+
+```shell
+db.inventory.find({tags:{$eq:["A","B"]}})
+```
+
+**in**
+
+> price 等於 5 或 15
+
+```shell
+db.inventory.find({price:{$in:[5,15]}})
+```
+
+**ne**
+
+> price 不等於 20
+
+```shell
+db.inventory.find({price:{$ne:20}})
+```
+
+**nin**
+
+> price 不等於 5 並且不等於 15
+
+```shell
+db.inventory.find({price:{$nin:{5,15}}})
+```
