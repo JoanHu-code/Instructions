@@ -30,6 +30,7 @@
   - [如何透過 JSON 文件導入資料](#如何透過-JSON-文件導入資料)
   - [method filter operator](#method-filter-operator)
   - [比較操作符](#比較操作符)
+  - [邏輯操作符](#邏輯操作符)
 - [使用 index 索引](#使用-index-索引)
 - [地理空間資料處理](#地理空間資料處理)
 - [聚合操作](#聚合操作)
@@ -1827,4 +1828,43 @@ db.inventory.find({price:{$ne:20}})
 
 ```shell
 db.inventory.find({price:{$nin:{5,15}}})
+```
+
+## 邏輯操作符
+
+`$and`: 邏輯與
+`$not`: 邏輯非
+`$nor`: 邏輯或的相反
+`$or`: 邏輯或
+
+**$and**
+
+> 找出 price 不等於 1.99 以及有 price 的資料
+
+```shell
+db.inventory.find({$and:[{price:{$ne:1.99}},{price:{$exists:true}}]})
+```
+
+**$not**
+
+> 找出 price 不大於 1.99(小於等於 1.99)
+
+```shell
+db.inventory.find({price:{$not:{$gt:1.99}}})
+```
+
+**$nor**
+
+> 找出 price 不滿足 price 不等於 1.99 或 sale 不等於 true 的資料
+
+```shell
+db.inventory.find({$nor:[{price:1.99},{sale:true}]})
+```
+
+**$or**
+
+> 找出 quantity 小於 20 或 price 等於 10 的資料
+
+```shell
+db.inventory.find({$or:[{quantity:{$lt:20}},{price:10}]})
 ```
