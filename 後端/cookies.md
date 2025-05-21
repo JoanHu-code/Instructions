@@ -124,3 +124,51 @@ app.get("/seeCookie",(req,res)=>{
 ```
 
 ![Cookies](../img/Cookies/11.png)
+
+## Cookies 簽名
+
+由於cookies可以在客戶端的瀏覽器內被自由修改，我們可以在傳送cookie之前，幫cookie做簽名(sign)。簽名後的cookie被稱為signed cookie。若客戶端對signed cookie做修改的話，我們的Express伺服器可以抓到這個錯誤，並且確認修改過的cookie為無效cookie。
+
+在Express當中，若要對cookie做簽名的話，我們需要先下載cookie parser，並且在cookieParser()這個function內部提供一個參數，此參數為某個秘密String。在寄送cookie之前時，我們需要設定signed屬性為true:
+
+```js
+res.cookie(key,value,{signed:true})
+```
+
+下次同個瀏覽器傳送HTTP request到我們的伺服器時，我們可以用`req.signedCookies`這個屬性獲得未簽名的cookies。
+
+```js
+const express = require("express");
+const app = express();
+const cookieParser = require("cookie-parser");
+
+app.use(cookieParser("secret"))
+
+app.get("/",(req,res)=>{
+  return res.send("This is homepage.")
+})
+
+app.get("/setCookie",(req,res)=>{
+  //res.cookie("yourCookie","test");
+  res.cookie("yourCookie","test",{ signed:true });
+  return res.send("Cookie has already setted.")
+})
+
+app.get("/seeCookie",(req,res)=>{
+  console.log(req.signedCookies)
+  return res.send("Get Cookies! ..." + (req.signedCookies.yourCookie))
+})
+app.listen(3000,()=>{
+  console.log("Server running on port 3000....")
+})
+```
+
+> 進入`http://localhost:3000/setCookie`，可看到值已經被加密
+
+![Cookies](../img/Cookies/12.png)
+
+
+> 進入`http://localhost:3000/seeCookie`，在console.log和介面上可以看到cookie的值
+
+![Cookies](../img/Cookies/13.png)
+![Cookies](../img/Cookies/14.png)
