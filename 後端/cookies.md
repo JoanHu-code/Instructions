@@ -2,7 +2,7 @@
 
 - [Cookies 簡介](#Cookies-簡介)
 - [Cookies 簽名](#Cookies-簽名)
-- [Singing Cookies](#Singing-Cookies)
+- [Signing Cookies](#Singing-Cookies)
 - [Cookies 和 Storage 差別](#Cookies-和-Storage-差別)
 
 ## Cookies 簡介
@@ -173,7 +173,7 @@ app.listen(3000,()=>{
 ![Cookies](../img/Cookies/13.png)
 ![Cookies](../img/Cookies/14.png)
 
-## Singing Cookies
+## Signing Cookies
 
 在電腦科學當中，雜湊函數的功能是，把訊息或資訊壓縮成摘要(或指紋)，或使得資料量變小或變大，將資料的格式轉換，重新建立一個叫做雜湊值(hash values)。好的雜湊函數應該要有以下的特點:
 
