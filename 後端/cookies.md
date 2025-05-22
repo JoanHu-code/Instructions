@@ -172,3 +172,37 @@ app.listen(3000,()=>{
 
 ![Cookies](../img/Cookies/13.png)
 ![Cookies](../img/Cookies/14.png)
+
+## Singing Cookies
+
+在電腦科學當中，雜湊函數的功能是，把訊息或資訊壓縮成摘要(或指紋)，或使得資料量變小或變大，將資料的格式轉換，重新建立一個叫做雜湊值(hash values)。好的雜湊函數應該要有以下的特點:
+
+1. 一致性:每次我們給hash()函數提供相同的輸入時，我們需要得到相同的輸出。不同長度的輸入也應該有相同長度的輸出。
+
+2. 均勻分布:這樣的好處在於，可以減少hash collision的發生(hash collision是指兩個不同的input卻算出相同的hash value)。
+
+3. 不可逆性: 雜湊函數不應該是可逆的，不然很容易被破解
+
+4. 雪崩效應: 輸入的微小變化會導致輸出的巨大差異。增加hash function的不可逆性。
+
+![Cookies](../img/Cookies/15.png)
+
+SHA 演算法是Secure Hash Algorithm的縮寫，一種密碼雜湊函式演算法標準，由美國國家安全局研發。其下又可再分為六個不同的演算法標準，包括了: SHA-224、SHA-256、SHA-384、SHA-512、SHA-512/224、SHA-512/256。以上總稱SHA家族。
+
+為了確保Cookies沒有在客戶端被竄改過，幫Cookies做簽名需要用到的演算法叫做HMAC(Hashed MAC)。根據RFC 2014，HMAC的數學公式為
+
+$$
+\text{HMAC}_K(m) = H \big( (K' \oplus opad) \parallel H((K' \oplus ipad) \parallel m) \big)
+$$
+
+
+
+Cookie簽名的完整流程是:
+
+1. 伺服器將value以及secret拿去做運算，得到HMAC值。HMAC就是我們的 Signed Cookies。
+
+2. 伺服器將signed cookies以及value送到客戶端。
+
+3. 客戶端或許會竄改signed cookies。
+
+4. 客戶端下次發送HTTP request 到伺服器時，伺服器會將value以及secret拿去做運算，得到HMAC值。再將HMAC值與客戶端送來的signed cookies對照。如果兩者不同，則代表signed cookies遭到竄改。伺服器及認定此為無效的signed cookies。
