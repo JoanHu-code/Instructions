@@ -201,11 +201,36 @@ $$
 - \(K\)：為秘密鑰匙(secret key)
 - \(m\)：訊息
 - \(K'\)：是從秘密鑰匙 \(K\)生成的另一個金鑰。如果 \(K\)小於\(H\)要求的最短長度，則向右填充零。如果大於\(H\)要求的長度，則對\(K\)進型雜湊運算。
-- \(opad\)：外層填充常數（outer padding），十六進為常數，通常是重複 0x5c 的字節。(\(opad\) = 0x5c5c5c5c....5c)
-- \(ipad\)：內層填充常數（inner padding），十六進為常數，通常是重複 0x36 的字節。(\(ipad\) = 0x36363636....36)
+- \(opad\)：外層填充常數（outer padding），十六進為常數，通常是重複 0x5c 的字節。(\(opad\) = 0x5c5c5c5c....5c)，重複多少次取決於我們的\(H\)有多長
+- \(ipad\)：內層填充常數（inner padding），十六進為常數，通常是重複 0x36 的字節。(\(ipad\) = 0x36363636....36)，重複多少次取決於我們的雜湊涵式有多長
 - ⊕ ：位元異或運算（XOR）
 - ∥：串接（concatenation）
 
+
+1. 首先將密鑰 \(K\) 處理成固定長度 \(K'\)。
+2. 將 \(K'\) 與 \(ipad\) 進行 XOR，然後串接訊息 \(m\)。
+3. 對上述結果做一次雜湊 \(H\)。
+4. 將 \(K'\) 與 \(opad\) XOR 後，串接前面雜湊的結果，再做一次雜湊 \(H\)。
+5. 最終結果即為 HMAC。
+
+**實現HMAC的虛擬碼是:**
+
+```js
+function hmac(key,message){
+  if(length(key)>blocksize){
+    key = hash(key) //keys longer than blocksoze are shortend
+  }
+  if(length(key)<blocksize){
+    //key shorter than blocksize are zero-padded (where || is concatenation)
+    key = key || [0x00 * (blocksize-length(key))] // Where * is repetition
+  }
+
+  o_key_pad = [0x5c*blocksize]⊕key // where blocksize is that of the underlying hash function
+  i_key_pad = [0x36*blocksize]⊕key // where ⊕ is exclusive of (XOR)
+
+  return hash(o_key_pad || hash(i_key_pad || message)) // Where || is concatenation
+}
+```
 
 Cookie簽名的完整流程是:
 
@@ -216,3 +241,7 @@ Cookie簽名的完整流程是:
 3. 客戶端或許會竄改signed cookies。
 
 4. 客戶端下次發送HTTP request 到伺服器時，伺服器會將value以及secret拿去做運算，得到HMAC值。再將HMAC值與客戶端送來的signed cookies對照。如果兩者不同，則代表signed cookies遭到竄改。伺服器及認定此為無效的signed cookies。
+
+**Signed Cookies驗證流程圖**
+
+![Cookies](../img/Cookies/16.png)
