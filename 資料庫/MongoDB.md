@@ -31,6 +31,7 @@
   - [method filter operator](#method-filter-operator)
   - [比較操作符](#比較操作符)
   - [邏輯操作符](#邏輯操作符)
+  - [邏輯和比較操作符練習](#邏輯和比較操作符練習)
 - [使用 index 索引](#使用-index-索引)
 - [地理空間資料處理](#地理空間資料處理)
 - [聚合操作](#聚合操作)
@@ -1868,3 +1869,170 @@ db.inventory.find({$nor:[{price:1.99},{sale:true}]})
 ```shell
 db.inventory.find({$or:[{quantity:{$lt:20}},{price:10}]})
 ```
+
+## 邏輯和比較操作符練習
+
+> 練習檔案`movie.json`
+
+```shell
+mongoimport D:\USERS\Desktop\Instructions\資料庫\mogoDB\movie.json -d demo -c movie --jsonArray --drop
+```
+
+![mongo_import](../img/mongoDB/91.png)
+![mongo_import](../img/mongoDB/92.png)
+
+1. 在 100 部電影裡，找出 imdb_score 大於 8 分的電影
+
+```shell
+db.movie.find({imdb_score:{$gt:8}})
+```
+
+![mongo_import](../img/mongoDB/93.png)
+
+> 取總數
+
+```shell
+db.movie.countDocuments({ imdb_score: { $gt: 8 } })
+```
+
+![mongo_import](../img/mongoDB/94.png)
+
+```shell
+db.movie.find({imdb_score:{$gt:8}}).count()
+```
+
+![mongo_import](../img/mongoDB/95.png)
+
+2.  在 100 部電影裡，找出 imdb_score 小於 7 分的電影
+
+```shell
+db.movie.find({imdb_score:{$lt:7}})
+```
+
+> 取總數
+
+```shell
+db.movie.countDocuments({ imdb_score: { $lt: 7 } })
+```
+
+```shell
+db.movie.find({imdb_score:{$lt:7}}).count()
+```
+
+3.  在 100 部電影裡，找出 imdb_score 小於等於 7 分的電影
+
+```shell
+db.movie.find({imdb_score:{$lte:7}})
+```
+
+> 取總數
+
+```shell
+db.movie.countDocuments({ imdb_score: { $lte: 7 } })
+```
+
+```shell
+db.movie.find({imdb_score:{$lte:7}}).count()
+```
+
+3.  在 100 部電影裡，找出 imdb_score 等於 7 分的電影
+
+```shell
+db.movie.find({imdb_score:{$eq:7}})
+```
+
+```shell
+db.movie.find({imdb_score:7})
+```
+
+> 取總數
+
+```shell
+db.movie.countDocuments({ imdb_score: { $eq: 7 } })
+```
+
+```shell
+db.movie.countDocuments({ imdb_score: 7})
+```
+
+```shell
+db.movie.find({imdb_score:{$eq:7}}).count()
+```
+
+```shell
+db.movie.find({imdb_score:7}).count()
+```
+
+4.  在 100 部電影裡，找出 actors 有 Johnny Depp
+
+```shell
+db.movie.find({actors:{$in:["Johnny Depp"]}})
+```
+
+![mongo_import](../img/mongoDB/96.png)
+
+```shell
+db.movie.find({actors:{$in:["Johnny Depp"]}}).count()
+```
+
+![mongo_import](../img/mongoDB/97.png)
+
+5. 在 100 部電影裡，找出 actors 不包含 Johnny Depp
+
+```shell
+db.movie.find({actors:{$nin:["Johnny Depp"]}})
+```
+
+```shell
+db.movie.find({actors:{$nin:["Johnny Depp"]}}).count()
+```
+
+6. 在 100 部電影裡，找出 imdb_score 超過 7 但 8 分以下( 8>= imdb_score>7 )
+
+```shell
+db.movie.find({$and:[{imdb_score:{$gt:7}},{imdb_score:{$lte:8}}]})
+```
+
+![mongo_import](../img/mongoDB/98.png)
+
+```shell
+db.movie.find({$and:[{imdb_score:{$gt:7}},{imdb_score:{$lte:8}}]}).count()
+```
+
+![mongo_import](../img/mongoDB/99.png)
+
+7. 在 100 部電影裡，找出 imdb_score 不小於等於 7
+
+```shell
+db.movie.find({ imdb_score: { $not: { $lte: 7 } } })
+```
+
+```shell
+db.movie.find({ imdb_score: { $not: { $lte: 7 } } }).count()
+```
+
+8. 在 100 部電影裡，找出 imdb_score 大於 8 或小於 7
+
+```shell
+db.movie.find({$or:[{imdb_score:{$gt:8}},{imdb_score:{$lt:7}}]})
+```
+
+```shell
+db.movie.find({$or:[{imdb_score:{$gt:8}},{imdb_score:{$lt:7}}]}).count()
+```
+
+![mongo_import](../img/mongoDB/100.png)
+
+9. 在 100 部電影裡，找出 imdb_score 小於等於 8 或大於等於 7
+
+```shell
+db.movie.find({$nor:[{imdb_score:{$gt:8}},{imdb_score:{$lt:7}}]})
+```
+
+```shell
+db.movie.find({$nor:[{imdb_score:{$gt:8}},{imdb_score:{$lt:7}}]}).count()
+```
+
+![mongo_import](../img/mongoDB/101.png)
+
+**or 和 nor 加起來剛好是 100**
