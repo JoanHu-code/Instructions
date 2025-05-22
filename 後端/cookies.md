@@ -195,6 +195,16 @@ $$
 \text{HMAC}_K(m) = H \big( (K' \oplus opad) \parallel H((K' \oplus ipad) \parallel m) \big)
 $$
 
+其中：
+
+- \(H\)：密碼雜湊涵式(Cryptographical Hash Function)，例如SHA家族。
+- \(K\)：為秘密鑰匙(secret key)
+- \(m\)：訊息
+- \(K'\)：是從秘密鑰匙 \(K\)生成的另一個金鑰。如果 \(K\)小於\(H\)要求的最短長度，則向右填充零。如果大於\(H\)要求的長度，則對\(K\)進型雜湊運算。
+- \(opad\)：外層填充常數（outer padding），十六進為常數，通常是重複 0x5c 的字節。(\(opad\) = 0x5c5c5c5c....5c)
+- \(ipad\)：內層填充常數（inner padding），十六進為常數，通常是重複 0x36 的字節。(\(ipad\) = 0x36363636....36)
+- \(\oplus\)：位元異或運算（XOR）
+- \(\parallel\)：串接（concatenation）
 
 
 Cookie簽名的完整流程是:
