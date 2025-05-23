@@ -245,3 +245,16 @@ Cookie簽名的完整流程是:
 **Signed Cookies驗證流程圖**
 
 ![Cookies](../img/Cookies/16.png)
+
+## Cookies 和 Storage 差別
+
+> Cookies以及storage(local storage、session storage的統稱)的差別在於:
+
+|  |Cookies| Storage|
+|--|-------|---------|
+|Purpose|伺服器端讀取資料、保留使用者的偏好設置|運行在用戶端的儲存空間|
+|HTTP|會隨著HTTP請求寄送到伺服器端|不會隨著HTTP請求寄送到伺服器端|
+|Data Size|對每個網站來說，最大4095Bytes。|最大5MB|
+|Expriation|有可能會過期|不會過期|
+
+![Cookies](../img/Cookies/17.png)
