@@ -1,0 +1,1402 @@
+[
+    {
+        "title": "Avatar",
+        "year": 2009,
+        "director_name": "James Cameron",
+        "actors": [
+            "CCH Pounder",
+            "Joel David Moore"
+        ],
+        "duration": 178,
+        "country": "USA",
+        "content_rating": "PG-13",
+        "gross": 760505847,
+        "imdb_score": 7.9
+    },
+    {
+        "title": "Pirates of the Caribbean: At World's End",
+        "year": 2007,
+        "director_name": "Gore Verbinski",
+        "actors": [
+            "Johnny Depp",
+            "Orlando Bloom"
+        ],
+        "duration": 169,
+        "country": "USA",
+        "content_rating": "PG-13",
+        "gross": 309404152,
+        "imdb_score": 7.1
+    },
+    {
+        "title": "Spectre",
+        "year": 2015,
+        "director_name": "Sam Mendes",
+        "actors": [
+            "Christoph Waltz",
+            "Rory Kinnear"
+        ],
+        "duration": 148,
+        "country": "UK",
+        "content_rating": "PG-13",
+        "gross": 200074175,
+        "imdb_score": 6.8
+    },
+    {
+        "title": "The Dark Knight Rises",
+        "year": 2012,
+        "director_name": "Christopher Nolan",
+        "actors": [
+            "Tom Hardy",
+            "Christian Bale"
+        ],
+        "duration": 164,
+        "country": "USA",
+        "content_rating": "PG-13",
+        "gross": 448130642,
+        "imdb_score": 8.5
+    },
+    {
+        "title": "John Carter",
+        "year": 2012,
+        "director_name": "Andrew Stanton",
+        "actors": [
+            "Daryl Sabara",
+            "Samantha Morton"
+        ],
+        "duration": 132,
+        "country": "USA",
+        "content_rating": "PG-13",
+        "gross": 73058679,
+        "imdb_score": 6.6
+    },
+    {
+        "title": "Spider-Man 3",
+        "year": 2007,
+        "director_name": "Sam Raimi",
+        "actors": [
+            "J.K. Simmons",
+            "James Franco"
+        ],
+        "duration": 156,
+        "country": "USA",
+        "content_rating": "PG-13",
+        "gross": 336530303,
+        "imdb_score": 6.2
+    },
+    {
+        "title": "Tangled",
+        "year": 2010,
+        "director_name": "Nathan Greno",
+        "actors": [
+            "Brad Garrett",
+            "Donna Murphy"
+        ],
+        "duration": 100,
+        "country": "USA",
+        "content_rating": "PG",
+        "gross": 200807262,
+        "imdb_score": 7.8
+    },
+    {
+        "title": "Avengers: Age of Ultron",
+        "year": 2015,
+        "director_name": "Joss Whedon",
+        "actors": [
+            "Chris Hemsworth",
+            "Robert Downey Jr."
+        ],
+        "duration": 141,
+        "country": "USA",
+        "content_rating": "PG-13",
+        "gross": 458991599,
+        "imdb_score": 7.5
+    },
+    {
+        "title": "Harry Potter and the Half-Blood Prince",
+        "year": 2009,
+        "director_name": "David Yates",
+        "actors": [
+            "Alan Rickman",
+            "Daniel Radcliffe"
+        ],
+        "duration": 153,
+        "country": "UK",
+        "content_rating": "PG",
+        "gross": 301956980,
+        "imdb_score": 7.5
+    },
+    {
+        "title": "Batman v Superman: Dawn of Justice",
+        "year": 2016,
+        "director_name": "Zack Snyder",
+        "actors": [
+            "Henry Cavill",
+            "Lauren Cohan"
+        ],
+        "duration": 183,
+        "country": "USA",
+        "content_rating": "PG-13",
+        "gross": 330249062,
+        "imdb_score": 6.9
+    },
+    {
+        "title": "Superman Returns",
+        "year": 2006,
+        "director_name": "Bryan Singer",
+        "actors": [
+            "Kevin Spacey",
+            "Marlon Brando"
+        ],
+        "duration": 169,
+        "country": "USA",
+        "content_rating": "PG-13",
+        "gross": 200069408,
+        "imdb_score": 6.1
+    },
+    {
+        "title": "Quantum of Solace",
+        "year": 2008,
+        "director_name": "Marc Forster",
+        "actors": [
+            "Giancarlo Giannini",
+            "Mathieu Amalric"
+        ],
+        "duration": 106,
+        "country": "UK",
+        "content_rating": "PG-13",
+        "gross": 168368427,
+        "imdb_score": 6.7
+    },
+    {
+        "title": "Pirates of the Caribbean: Dead Man's Chest",
+        "year": 2006,
+        "director_name": "Gore Verbinski",
+        "actors": [
+            "Johnny Depp",
+            "Orlando Bloom"
+        ],
+        "duration": 151,
+        "country": "USA",
+        "content_rating": "PG-13",
+        "gross": 423032628,
+        "imdb_score": 7.3
+    },
+    {
+        "title": "The Lone Ranger",
+        "year": 2013,
+        "director_name": "Gore Verbinski",
+        "actors": [
+            "Johnny Depp",
+            "Ruth Wilson"
+        ],
+        "duration": 150,
+        "country": "USA",
+        "content_rating": "PG-13",
+        "gross": 89289910,
+        "imdb_score": 6.5
+    },
+    {
+        "title": "Man of Steel",
+        "year": 2013,
+        "director_name": "Zack Snyder",
+        "actors": [
+            "Henry Cavill",
+            "Christopher Meloni"
+        ],
+        "duration": 143,
+        "country": "USA",
+        "content_rating": "PG-13",
+        "gross": 291021565,
+        "imdb_score": 7.2
+    },
+    {
+        "title": "The Chronicles of Narnia: Prince Caspian",
+        "year": 2008,
+        "director_name": "Andrew Adamson",
+        "actors": [
+            "Peter Dinklage",
+            "Pierfrancesco Favino"
+        ],
+        "duration": 150,
+        "country": "USA",
+        "content_rating": "PG",
+        "gross": 141614023,
+        "imdb_score": 6.6
+    },
+    {
+        "title": "The Avengers",
+        "year": 2012,
+        "director_name": "Joss Whedon",
+        "actors": [
+            "Chris Hemsworth",
+            "Robert Downey Jr."
+        ],
+        "duration": 173,
+        "country": "USA",
+        "content_rating": "PG-13",
+        "gross": 623279547,
+        "imdb_score": 8.1
+    },
+    {
+        "title": "Pirates of the Caribbean: On Stranger Tides",
+        "year": 2011,
+        "director_name": "Rob Marshall",
+        "actors": [
+            "Johnny Depp",
+            "Sam Claflin"
+        ],
+        "duration": 136,
+        "country": "USA",
+        "content_rating": "PG-13",
+        "gross": 241063875,
+        "imdb_score": 6.7
+    },
+    {
+        "title": "Men in Black 3",
+        "year": 2012,
+        "director_name": "Barry Sonnenfeld",
+        "actors": [
+            "Will Smith",
+            "Michael Stuhlbarg"
+        ],
+        "duration": 106,
+        "country": "USA",
+        "content_rating": "PG-13",
+        "gross": 179020854,
+        "imdb_score": 6.8
+    },
+    {
+        "title": "The Hobbit: The Battle of the Five Armies",
+        "year": 2014,
+        "director_name": "Peter Jackson",
+        "actors": [
+            "Aidan Turner",
+            "Adam Brown"
+        ],
+        "duration": 164,
+        "country": "New Zealand",
+        "content_rating": "PG-13",
+        "gross": 255108370,
+        "imdb_score": 7.5
+    },
+    {
+        "title": "The Amazing Spider-Man",
+        "year": 2012,
+        "director_name": "Marc Webb",
+        "actors": [
+            "Emma Stone",
+            "Andrew Garfield"
+        ],
+        "duration": 153,
+        "country": "USA",
+        "content_rating": "PG-13",
+        "gross": 262030663,
+        "imdb_score": 7
+    },
+    {
+        "title": "Robin Hood",
+        "year": 2010,
+        "director_name": "Ridley Scott",
+        "actors": [
+            "Mark Addy",
+            "William Hurt"
+        ],
+        "duration": 156,
+        "country": "USA",
+        "content_rating": "PG-13",
+        "gross": 105219735,
+        "imdb_score": 6.7
+    },
+    {
+        "title": "The Hobbit: The Desolation of Smaug",
+        "year": 2013,
+        "director_name": "Peter Jackson",
+        "actors": [
+            "Aidan Turner",
+            "Adam Brown"
+        ],
+        "duration": 186,
+        "country": "USA",
+        "content_rating": "PG-13",
+        "gross": 258355354,
+        "imdb_score": 7.9
+    },
+    {
+        "title": "The Golden Compass",
+        "year": 2007,
+        "director_name": "Chris Weitz",
+        "actors": [
+            "Christopher Lee",
+            "Eva Green"
+        ],
+        "duration": 113,
+        "country": "USA",
+        "content_rating": "PG-13",
+        "gross": 70083519,
+        "imdb_score": 6.1
+    },
+    {
+        "title": "King Kong",
+        "year": 2005,
+        "director_name": "Peter Jackson",
+        "actors": [
+            "Naomi Watts",
+            "Thomas Kretschmann"
+        ],
+        "duration": 201,
+        "country": "New Zealand",
+        "content_rating": "PG-13",
+        "gross": 218051260,
+        "imdb_score": 7.2
+    },
+    {
+        "title": "Titanic",
+        "year": 1997,
+        "director_name": "James Cameron",
+        "actors": [
+            "Leonardo DiCaprio",
+            "Kate Winslet"
+        ],
+        "duration": 194,
+        "country": "USA",
+        "content_rating": "PG-13",
+        "gross": 658672302,
+        "imdb_score": 7.7
+    },
+    {
+        "title": "Captain America: Civil War",
+        "year": 2016,
+        "director_name": "Anthony Russo",
+        "actors": [
+            "Robert Downey Jr.",
+            "Scarlett Johansson"
+        ],
+        "duration": 147,
+        "country": "USA",
+        "content_rating": "PG-13",
+        "gross": 407197282,
+        "imdb_score": 8.2
+    },
+    {
+        "title": "Battleship",
+        "year": 2012,
+        "director_name": "Peter Berg",
+        "actors": [
+            "Liam Neeson",
+            "Alexander Skarsg\u00e5rd"
+        ],
+        "duration": 131,
+        "country": "USA",
+        "content_rating": "PG-13",
+        "gross": 65173160,
+        "imdb_score": 5.9
+    },
+    {
+        "title": "Jurassic World",
+        "year": 2015,
+        "director_name": "Colin Trevorrow",
+        "actors": [
+            "Bryce Dallas Howard",
+            "Judy Greer"
+        ],
+        "duration": 124,
+        "country": "USA",
+        "content_rating": "PG-13",
+        "gross": 652177271,
+        "imdb_score": 7
+    },
+    {
+        "title": "Skyfall",
+        "year": 2012,
+        "director_name": "Sam Mendes",
+        "actors": [
+            "Albert Finney",
+            "Helen McCrory"
+        ],
+        "duration": 143,
+        "country": "UK",
+        "content_rating": "PG-13",
+        "gross": 304360277,
+        "imdb_score": 7.8
+    },
+    {
+        "title": "Spider-Man 2",
+        "year": 2004,
+        "director_name": "Sam Raimi",
+        "actors": [
+            "J.K. Simmons",
+            "James Franco"
+        ],
+        "duration": 135,
+        "country": "USA",
+        "content_rating": "PG-13",
+        "gross": 373377893,
+        "imdb_score": 7.3
+    },
+    {
+        "title": "Iron Man 3",
+        "year": 2013,
+        "director_name": "Shane Black",
+        "actors": [
+            "Robert Downey Jr.",
+            "Jon Favreau"
+        ],
+        "duration": 195,
+        "country": "USA",
+        "content_rating": "PG-13",
+        "gross": 408992272,
+        "imdb_score": 7.2
+    },
+    {
+        "title": "Alice in Wonderland",
+        "year": 2010,
+        "director_name": "Tim Burton",
+        "actors": [
+            "Johnny Depp",
+            "Alan Rickman"
+        ],
+        "duration": 108,
+        "country": "USA",
+        "content_rating": "PG",
+        "gross": 334185206,
+        "imdb_score": 6.5
+    },
+    {
+        "title": "X-Men: The Last Stand",
+        "year": 2006,
+        "director_name": "Brett Ratner",
+        "actors": [
+            "Hugh Jackman",
+            "Kelsey Grammer"
+        ],
+        "duration": 104,
+        "country": "Canada",
+        "content_rating": "PG-13",
+        "gross": 234360014,
+        "imdb_score": 6.8
+    },
+    {
+        "title": "Monsters University",
+        "year": 2013,
+        "director_name": "Dan Scanlon",
+        "actors": [
+            "Steve Buscemi",
+            "Tyler Labine"
+        ],
+        "duration": 104,
+        "country": "USA",
+        "content_rating": "G",
+        "gross": 268488329,
+        "imdb_score": 7.3
+    },
+    {
+        "title": "Transformers: Revenge of the Fallen",
+        "year": 2009,
+        "director_name": "Michael Bay",
+        "actors": [
+            "Glenn Morshower",
+            "Kevin Dunn"
+        ],
+        "duration": 150,
+        "country": "USA",
+        "content_rating": "PG-13",
+        "gross": 402076689,
+        "imdb_score": 6
+    },
+    {
+        "title": "Transformers: Age of Extinction",
+        "year": 2014,
+        "director_name": "Michael Bay",
+        "actors": [
+            "Bingbing Li",
+            "Sophia Myles"
+        ],
+        "duration": 165,
+        "country": "USA",
+        "content_rating": "PG-13",
+        "gross": 245428137,
+        "imdb_score": 5.7
+    },
+    {
+        "title": "Oz the Great and Powerful",
+        "year": 2013,
+        "director_name": "Sam Raimi",
+        "actors": [
+            "Tim Holmes",
+            "Mila Kunis"
+        ],
+        "duration": 130,
+        "country": "USA",
+        "content_rating": "PG",
+        "gross": 234903076,
+        "imdb_score": 6.4
+    },
+    {
+        "title": "The Amazing Spider-Man 2",
+        "year": 2014,
+        "director_name": "Marc Webb",
+        "actors": [
+            "Emma Stone",
+            "Andrew Garfield"
+        ],
+        "duration": 142,
+        "country": "USA",
+        "content_rating": "PG-13",
+        "gross": 202853933,
+        "imdb_score": 6.7
+    },
+    {
+        "title": "TRON: Legacy",
+        "year": 2010,
+        "director_name": "Joseph Kosinski",
+        "actors": [
+            "Jeff Bridges",
+            "Olivia Wilde"
+        ],
+        "duration": 125,
+        "country": "USA",
+        "content_rating": "PG",
+        "gross": 172051787,
+        "imdb_score": 6.8
+    },
+    {
+        "title": "Cars 2",
+        "year": 2011,
+        "director_name": "John Lasseter",
+        "actors": [
+            "Joe Mantegna",
+            "Thomas Kretschmann"
+        ],
+        "duration": 106,
+        "country": "USA",
+        "content_rating": "G",
+        "gross": 191450875,
+        "imdb_score": 6.3
+    },
+    {
+        "title": "Green Lantern",
+        "year": 2011,
+        "director_name": "Martin Campbell",
+        "actors": [
+            "Ryan Reynolds",
+            "Temuera Morrison"
+        ],
+        "duration": 123,
+        "country": "USA",
+        "content_rating": "PG-13",
+        "gross": 116593191,
+        "imdb_score": 5.6
+    },
+    {
+        "title": "Toy Story 3",
+        "year": 2010,
+        "director_name": "Lee Unkrich",
+        "actors": [
+            "Tom Hanks",
+            "John Ratzenberger"
+        ],
+        "duration": 103,
+        "country": "USA",
+        "content_rating": "G",
+        "gross": 414984497,
+        "imdb_score": 8.3
+    },
+    {
+        "title": "Terminator Salvation",
+        "year": 2009,
+        "director_name": "McG",
+        "actors": [
+            "Christian Bale",
+            "Bryce Dallas Howard"
+        ],
+        "duration": 118,
+        "country": "USA",
+        "content_rating": "PG-13",
+        "gross": 125320003,
+        "imdb_score": 6.6
+    },
+    {
+        "title": "Furious 7",
+        "year": 2015,
+        "director_name": "James Wan",
+        "actors": [
+            "Jason Statham",
+            "Paul Walker"
+        ],
+        "duration": 140,
+        "country": "USA",
+        "content_rating": "PG-13",
+        "gross": 350034110,
+        "imdb_score": 7.2
+    },
+    {
+        "title": "World War Z",
+        "year": 2013,
+        "director_name": "Marc Forster",
+        "actors": [
+            "Peter Capaldi",
+            "Brad Pitt"
+        ],
+        "duration": 123,
+        "country": "USA",
+        "content_rating": "PG-13",
+        "gross": 202351611,
+        "imdb_score": 7
+    },
+    {
+        "title": "X-Men: Days of Future Past",
+        "year": 2014,
+        "director_name": "Bryan Singer",
+        "actors": [
+            "Jennifer Lawrence",
+            "Peter Dinklage"
+        ],
+        "duration": 149,
+        "country": "USA",
+        "content_rating": "PG-13",
+        "gross": 233914986,
+        "imdb_score": 8
+    },
+    {
+        "title": "Star Trek Into Darkness",
+        "year": 2013,
+        "director_name": "J.J. Abrams",
+        "actors": [
+            "Benedict Cumberbatch",
+            "Bruce Greenwood"
+        ],
+        "duration": 132,
+        "country": "USA",
+        "content_rating": "PG-13",
+        "gross": 228756232,
+        "imdb_score": 7.8
+    },
+    {
+        "title": "Jack the Giant Slayer",
+        "year": 2013,
+        "director_name": "Bryan Singer",
+        "actors": [
+            "Eddie Marsan",
+            "Ewen Bremner"
+        ],
+        "duration": 114,
+        "country": "USA",
+        "content_rating": "PG-13",
+        "gross": 65171860,
+        "imdb_score": 6.3
+    },
+    {
+        "title": "The Great Gatsby",
+        "year": 2013,
+        "director_name": "Baz Luhrmann",
+        "actors": [
+            "Leonardo DiCaprio",
+            "Elizabeth Debicki"
+        ],
+        "duration": 143,
+        "country": "Australia",
+        "content_rating": "PG-13",
+        "gross": 144812796,
+        "imdb_score": 7.3
+    },
+    {
+        "title": "Prince of Persia: The Sands of Time",
+        "year": 2010,
+        "director_name": "Mike Newell",
+        "actors": [
+            "Jake Gyllenhaal",
+            "Richard Coyle"
+        ],
+        "duration": 116,
+        "country": "USA",
+        "content_rating": "PG-13",
+        "gross": 90755643,
+        "imdb_score": 6.6
+    },
+    {
+        "title": "Pacific Rim",
+        "year": 2013,
+        "director_name": "Guillermo del Toro",
+        "actors": [
+            "Charlie Hunnam",
+            "Clifton Collins Jr."
+        ],
+        "duration": 131,
+        "country": "USA",
+        "content_rating": "PG-13",
+        "gross": 101785482,
+        "imdb_score": 7
+    },
+    {
+        "title": "Transformers: Dark of the Moon",
+        "year": 2011,
+        "director_name": "Michael Bay",
+        "actors": [
+            "Glenn Morshower",
+            "Lester Speight"
+        ],
+        "duration": 154,
+        "country": "USA",
+        "content_rating": "PG-13",
+        "gross": 352358779,
+        "imdb_score": 6.3
+    },
+    {
+        "title": "Indiana Jones and the Kingdom of the Crystal Skull",
+        "year": 2008,
+        "director_name": "Steven Spielberg",
+        "actors": [
+            "Harrison Ford",
+            "Ray Winstone"
+        ],
+        "duration": 122,
+        "country": "USA",
+        "content_rating": "PG-13",
+        "gross": 317011114,
+        "imdb_score": 6.2
+    },
+    {
+        "title": "The Good Dinosaur",
+        "year": 2015,
+        "director_name": "Peter Sohn",
+        "actors": [
+            "A.J. Buckley",
+            "Jack McGraw"
+        ],
+        "duration": 93,
+        "country": "USA",
+        "content_rating": "PG",
+        "gross": 123070338,
+        "imdb_score": 6.8
+    },
+    {
+        "title": "Brave",
+        "year": 2012,
+        "director_name": "Mark Andrews",
+        "actors": [
+            "Kelly Macdonald",
+            "John Ratzenberger"
+        ],
+        "duration": 93,
+        "country": "USA",
+        "content_rating": "PG",
+        "gross": 237282182,
+        "imdb_score": 7.2
+    },
+    {
+        "title": "Star Trek Beyond",
+        "year": 2016,
+        "director_name": "Justin Lin",
+        "actors": [
+            "Sofia Boutella",
+            "Melissa Roxburgh"
+        ],
+        "duration": 122,
+        "country": "USA",
+        "content_rating": "PG-13",
+        "gross": 130468626,
+        "imdb_score": 7.5
+    },
+    {
+        "title": "WALL\u00b7E",
+        "year": 2008,
+        "director_name": "Andrew Stanton",
+        "actors": [
+            "John Ratzenberger",
+            "Fred Willard"
+        ],
+        "duration": 98,
+        "country": "USA",
+        "content_rating": "G",
+        "gross": 223806889,
+        "imdb_score": 8.4
+    },
+    {
+        "title": "Rush Hour 3",
+        "year": 2007,
+        "director_name": "Brett Ratner",
+        "actors": [
+            "Tzi Ma",
+            "Dana Ivey"
+        ],
+        "duration": 91,
+        "country": "USA",
+        "content_rating": "PG-13",
+        "gross": 140080850,
+        "imdb_score": 6.2
+    },
+    {
+        "title": "2012",
+        "year": 2009,
+        "director_name": "Roland Emmerich",
+        "actors": [
+            "Oliver Platt",
+            "Liam James"
+        ],
+        "duration": 158,
+        "country": "USA",
+        "content_rating": "PG-13",
+        "gross": 166112167,
+        "imdb_score": 5.8
+    },
+    {
+        "title": "A Christmas Carol",
+        "year": 2009,
+        "director_name": "Robert Zemeckis",
+        "actors": [
+            "Robin Wright",
+            "Colin Firth"
+        ],
+        "duration": 96,
+        "country": "USA",
+        "content_rating": "PG",
+        "gross": 137850096,
+        "imdb_score": 6.8
+    },
+    {
+        "title": "Jupiter Ascending",
+        "year": 2015,
+        "director_name": "Lana Wachowski",
+        "actors": [
+            "Channing Tatum",
+            "Mila Kunis"
+        ],
+        "duration": 127,
+        "country": "USA",
+        "content_rating": "PG-13",
+        "gross": 47375327,
+        "imdb_score": 5.4
+    },
+    {
+        "title": "The Legend of Tarzan",
+        "year": 2016,
+        "director_name": "David Yates",
+        "actors": [
+            "Christoph Waltz",
+            "Alexander Skarsg\u00e5rd"
+        ],
+        "duration": 110,
+        "country": "USA",
+        "content_rating": "PG-13",
+        "gross": 124051759,
+        "imdb_score": 6.6
+    },
+    {
+        "title": "The Chronicles of Narnia: The Lion, the Witch and the Wardrobe",
+        "year": 2005,
+        "director_name": "Andrew Adamson",
+        "actors": [
+            "Jim Broadbent",
+            "Kiran Shah"
+        ],
+        "duration": 150,
+        "country": "USA",
+        "content_rating": "PG",
+        "gross": 291709845,
+        "imdb_score": 6.9
+    },
+    {
+        "title": "X-Men: Apocalypse",
+        "year": 2016,
+        "director_name": "Bryan Singer",
+        "actors": [
+            "Jennifer Lawrence",
+            "Michael Fassbender"
+        ],
+        "duration": 144,
+        "country": "USA",
+        "content_rating": "PG-13",
+        "gross": 154985087,
+        "imdb_score": 7.3
+    },
+    {
+        "title": "The Dark Knight",
+        "year": 2008,
+        "director_name": "Christopher Nolan",
+        "actors": [
+            "Christian Bale",
+            "Heath Ledger"
+        ],
+        "duration": 152,
+        "country": "USA",
+        "content_rating": "PG-13",
+        "gross": 533316061,
+        "imdb_score": 9
+    },
+    {
+        "title": "Up",
+        "year": 2009,
+        "director_name": "Pete Docter",
+        "actors": [
+            "John Ratzenberger",
+            "Delroy Lindo"
+        ],
+        "duration": 96,
+        "country": "USA",
+        "content_rating": "PG",
+        "gross": 292979556,
+        "imdb_score": 8.3
+    },
+    {
+        "title": "Monsters vs. Aliens",
+        "year": 2009,
+        "director_name": "Rob Letterman",
+        "actors": [
+            "Amy Poehler",
+            "Rainn Wilson"
+        ],
+        "duration": 94,
+        "country": "USA",
+        "content_rating": "PG",
+        "gross": 198332128,
+        "imdb_score": 6.5
+    },
+    {
+        "title": "Iron Man",
+        "year": 2008,
+        "director_name": "Jon Favreau",
+        "actors": [
+            "Robert Downey Jr.",
+            "Jeff Bridges"
+        ],
+        "duration": 126,
+        "country": "USA",
+        "content_rating": "PG-13",
+        "gross": 318298180,
+        "imdb_score": 7.9
+    },
+    {
+        "title": "Hugo",
+        "year": 2011,
+        "director_name": "Martin Scorsese",
+        "actors": [
+            "Chloe Grace Moretz",
+            "Christopher Lee"
+        ],
+        "duration": 126,
+        "country": "USA",
+        "content_rating": "PG",
+        "gross": 73820094,
+        "imdb_score": 7.5
+    },
+    {
+        "title": "Wild Wild West",
+        "year": 1999,
+        "director_name": "Barry Sonnenfeld",
+        "actors": [
+            "Will Smith",
+            "Salma Hayek"
+        ],
+        "duration": 106,
+        "country": "USA",
+        "content_rating": "PG-13",
+        "gross": 113745408,
+        "imdb_score": 4.8
+    },
+    {
+        "title": "The Mummy: Tomb of the Dragon Emperor",
+        "year": 2008,
+        "director_name": "Rob Cohen",
+        "actors": [
+            "Jet Li",
+            "Brendan Fraser"
+        ],
+        "duration": 112,
+        "country": "USA",
+        "content_rating": "PG-13",
+        "gross": 102176165,
+        "imdb_score": 5.2
+    },
+    {
+        "title": "Suicide Squad",
+        "year": 2016,
+        "director_name": "David Ayer",
+        "actors": [
+            "Will Smith",
+            "Robin Atkin Downes"
+        ],
+        "duration": 123,
+        "country": "USA",
+        "content_rating": "PG-13",
+        "gross": 161087183,
+        "imdb_score": 6.9
+    },
+    {
+        "title": "Evan Almighty",
+        "year": 2007,
+        "director_name": "Tom Shadyac",
+        "actors": [
+            "Jimmy Bennett",
+            "Morgan Freeman"
+        ],
+        "duration": 96,
+        "country": "USA",
+        "content_rating": "PG",
+        "gross": 100289690,
+        "imdb_score": 5.4
+    },
+    {
+        "title": "Edge of Tomorrow",
+        "year": 2014,
+        "director_name": "Doug Liman",
+        "actors": [
+            "Tom Cruise",
+            "Lara Pulver"
+        ],
+        "duration": 113,
+        "country": "USA",
+        "content_rating": "PG-13",
+        "gross": 100189501,
+        "imdb_score": 7.9
+    },
+    {
+        "title": "Waterworld",
+        "year": 1995,
+        "director_name": "Kevin Reynolds",
+        "actors": [
+            "Jeanne Tripplehorn",
+            "Rick Aviles"
+        ],
+        "duration": 176,
+        "country": "USA",
+        "content_rating": "PG-13",
+        "gross": 88246220,
+        "imdb_score": 6.1
+    },
+    {
+        "title": "G.I. Joe: The Rise of Cobra",
+        "year": 2009,
+        "director_name": "Stephen Sommers",
+        "actors": [
+            "Joseph Gordon-Levitt",
+            "Dennis Quaid"
+        ],
+        "duration": 118,
+        "country": "USA",
+        "content_rating": "PG-13",
+        "gross": 150167630,
+        "imdb_score": 5.8
+    },
+    {
+        "title": "Inside Out",
+        "year": 2015,
+        "director_name": "Pete Docter",
+        "actors": [
+            "Amy Poehler",
+            "Mindy Kaling"
+        ],
+        "duration": 95,
+        "country": "USA",
+        "content_rating": "PG",
+        "gross": 356454367,
+        "imdb_score": 8.3
+    },
+    {
+        "title": "The Jungle Book",
+        "year": 2016,
+        "director_name": "Jon Favreau",
+        "actors": [
+            "Scarlett Johansson",
+            "Bill Murray"
+        ],
+        "duration": 106,
+        "country": "UK",
+        "content_rating": "PG",
+        "gross": 362645141,
+        "imdb_score": 7.8
+    },
+    {
+        "title": "Iron Man 2",
+        "year": 2010,
+        "director_name": "Jon Favreau",
+        "actors": [
+            "Robert Downey Jr.",
+            "Scarlett Johansson"
+        ],
+        "duration": 124,
+        "country": "USA",
+        "content_rating": "PG-13",
+        "gross": 312057433,
+        "imdb_score": 7
+    },
+    {
+        "title": "Snow White and the Huntsman",
+        "year": 2012,
+        "director_name": "Rupert Sanders",
+        "actors": [
+            "Chris Hemsworth",
+            "Kristen Stewart"
+        ],
+        "duration": 132,
+        "country": "USA",
+        "content_rating": "PG-13",
+        "gross": 155111815,
+        "imdb_score": 6.1
+    },
+    {
+        "title": "Maleficent",
+        "year": 2014,
+        "director_name": "Robert Stromberg",
+        "actors": [
+            "Angelina Jolie Pitt",
+            "Sharlto Copley"
+        ],
+        "duration": 97,
+        "country": "USA",
+        "content_rating": "PG",
+        "gross": 241407328,
+        "imdb_score": 7
+    },
+    {
+        "title": "Dawn of the Planet of the Apes",
+        "year": 2014,
+        "director_name": "Matt Reeves",
+        "actors": [
+            "Gary Oldman",
+            "Judy Greer"
+        ],
+        "duration": 130,
+        "country": "USA",
+        "content_rating": "PG-13",
+        "gross": 208543795,
+        "imdb_score": 7.6
+    },
+    {
+        "title": "47 Ronin",
+        "year": 2013,
+        "director_name": "Carl Rinsch",
+        "actors": [
+            "Keanu Reeves",
+            "Cary-Hiroyuki Tagawa"
+        ],
+        "duration": 128,
+        "country": "USA",
+        "content_rating": "PG-13",
+        "gross": 38297305,
+        "imdb_score": 6.3
+    },
+    {
+        "title": "Captain America: The Winter Soldier",
+        "year": 2014,
+        "director_name": "Anthony Russo",
+        "actors": [
+            "Scarlett Johansson",
+            "Chris Evans"
+        ],
+        "duration": 136,
+        "country": "USA",
+        "content_rating": "PG-13",
+        "gross": 259746958,
+        "imdb_score": 7.8
+    },
+    {
+        "title": "Shrek Forever After",
+        "year": 2010,
+        "director_name": "Mike Mitchell",
+        "actors": [
+            "Jon Hamm",
+            "Kathy Griffin"
+        ],
+        "duration": 93,
+        "country": "USA",
+        "content_rating": "PG",
+        "gross": 238371987,
+        "imdb_score": 6.4
+    },
+    {
+        "title": "Tomorrowland",
+        "year": 2015,
+        "director_name": "Brad Bird",
+        "actors": [
+            "Judy Greer",
+            "Chris Bauer"
+        ],
+        "duration": 130,
+        "country": "USA",
+        "content_rating": "PG",
+        "gross": 93417865,
+        "imdb_score": 6.5
+    },
+    {
+        "title": "Inception",
+        "year": 2010,
+        "director_name": "Christopher Nolan",
+        "actors": [
+            "Leonardo DiCaprio",
+            "Tom Hardy"
+        ],
+        "duration": 148,
+        "country": "USA",
+        "content_rating": "PG-13",
+        "gross": 292568851,
+        "imdb_score": 8.8
+    },
+    {
+        "title": "Big Hero 6",
+        "year": 2014,
+        "director_name": "Don Hall",
+        "actors": [
+            "Damon Wayans Jr.",
+            "Daniel Henney"
+        ],
+        "duration": 102,
+        "country": "USA",
+        "content_rating": "PG",
+        "gross": 222487711,
+        "imdb_score": 7.9
+    },
+    {
+        "title": "Wreck-It Ralph",
+        "year": 2012,
+        "director_name": "Rich Moore",
+        "actors": [
+            "Jack McBrayer",
+            "Sarah Silverman"
+        ],
+        "duration": 101,
+        "country": "USA",
+        "content_rating": "PG",
+        "gross": 189412677,
+        "imdb_score": 7.8
+    },
+    {
+        "title": "The Polar Express",
+        "year": 2004,
+        "director_name": "Robert Zemeckis",
+        "actors": [
+            "Tom Hanks",
+            "Eddie Deezen"
+        ],
+        "duration": 100,
+        "country": "USA",
+        "content_rating": "G",
+        "gross": 665426,
+        "imdb_score": 6.6
+    },
+    {
+        "title": "Independence Day: Resurgence",
+        "year": 2016,
+        "director_name": "Roland Emmerich",
+        "actors": [
+            "Vivica A. Fox",
+            "Sela Ward"
+        ],
+        "duration": 120,
+        "country": "USA",
+        "content_rating": "PG-13",
+        "gross": 102315545,
+        "imdb_score": 5.5
+    },
+    {
+        "title": "How to Train Your Dragon",
+        "year": 2010,
+        "director_name": "Dean DeBlois",
+        "actors": [
+            "Gerard Butler",
+            "America Ferrera"
+        ],
+        "duration": 98,
+        "country": "USA",
+        "content_rating": "PG",
+        "gross": 217387997,
+        "imdb_score": 8.2
+    },
+    {
+        "title": "Terminator 3: Rise of the Machines",
+        "year": 2003,
+        "director_name": "Jonathan Mostow",
+        "actors": [
+            "Nick Stahl",
+            "M.C. Gainey"
+        ],
+        "duration": 109,
+        "country": "USA",
+        "content_rating": "R",
+        "gross": 150350192,
+        "imdb_score": 6.4
+    },
+    {
+        "title": "Guardians of the Galaxy",
+        "year": 2014,
+        "director_name": "James Gunn",
+        "actors": [
+            "Bradley Cooper",
+            "Vin Diesel"
+        ],
+        "duration": 121,
+        "country": "USA",
+        "content_rating": "PG-13",
+        "gross": 333130696,
+        "imdb_score": 8.1
+    },
+    {
+        "title": "Interstellar",
+        "year": 2014,
+        "director_name": "Christopher Nolan",
+        "actors": [
+            "Matthew McConaughey",
+            "Anne Hathaway"
+        ],
+        "duration": 169,
+        "country": "USA",
+        "content_rating": "PG-13",
+        "gross": 187991439,
+        "imdb_score": 8.6
+    },
+    {
+        "title": "Australia",
+        "year": 2008,
+        "director_name": "Baz Luhrmann",
+        "actors": [
+            "Essie Davis",
+            "Bryan Brown"
+        ],
+        "duration": 165,
+        "country": "Australia",
+        "content_rating": "PG-13",
+        "gross": 49551662,
+        "imdb_score": 6.6
+    },
+    {
+        "title": "Warcraft",
+        "year": 2016,
+        "director_name": "Duncan Jones",
+        "actors": [
+            "Dominic Cooper",
+            "Callum Rennie"
+        ],
+        "duration": 123,
+        "country": "USA",
+        "content_rating": "PG-13",
+        "gross": 46978995,
+        "imdb_score": 7.3
+    },
+    {
+        "title": "X-Men: First Class",
+        "year": 2011,
+        "director_name": "Matthew Vaughn",
+        "actors": [
+            "Jennifer Lawrence",
+            "Michael Fassbender"
+        ],
+        "duration": 132,
+        "country": "USA",
+        "content_rating": "PG-13",
+        "gross": 146405371,
+        "imdb_score": 7.8
+    },
+    {
+        "title": "The Hobbit: An Unexpected Journey",
+        "year": 2012,
+        "director_name": "Peter Jackson",
+        "actors": [
+            "Aidan Turner",
+            "Adam Brown"
+        ],
+        "duration": 182,
+        "country": "USA",
+        "content_rating": "PG-13",
+        "gross": 303001229,
+        "imdb_score": 7.9
+    }
+]
