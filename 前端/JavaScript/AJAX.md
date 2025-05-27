@@ -566,7 +566,7 @@ async function main() {
 
 ![AJAX](../../img/AJAX/11.png)
 
-不解 await 的好處:
+不用 await 的好處:
 
 1. 可以不用等 await function 跑完就可以執行下面程式碼，但會產生 race condition 的問題
 2. 順序如果沒有差別，那其實可以不用 await 確定先後關係
