@@ -1,13 +1,14 @@
+require('dotenv').config();
 const express = require("express");
 const session = require("express-session");
 const cookieParser = require("cookie-parser");
 
 const app = express();
-app.use(cookieParser("secret"))
+app.use(cookieParser("process.env.MYCOOKIESECRETKEY"))
 
 app.use(
   session({
-    secret:"session-example",
+    secret:"process.env.MYSESSIONSECRETKEY",
     resave: false,
     saveUninitialized: false,
     cookie:{secure:false}, // localhost

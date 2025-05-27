@@ -242,3 +242,93 @@ app.listen(3000,()=>{
   console.log("Server running on port 3000....")
 })
 ```
+
+## dotenv
+
+直接在程式碼內儲存秘密是一個不好的習慣。通常來說，我們會把秘密存在環境變數內部。環境變數(environment varaible)是一個動態的值，可以影響電腦上運行的城市。它們是正在運行程式的一部份。
+
+例如，一個正在運行的程式可以查詢TEMP環境變量的值來發現一個合適的位置，來存儲林時的文件，或者查詢HOME便量來找到運行該程式的用戶所擁有的目錄結構。
+
+在Node.js當中，我們使用dotenv套件，透過process物件的env屬性，來獲得環境變數。(除此之外，如果我們在雲端上不屬伺服器，通常雲端提供商應該有某種秘密管理工具，例如AWS Secrets Manager。)
+
+[dotenv](https://www.npmjs.com/package/dotenv)
+
+```shell
+npm install dotenv
+```
+
+> 創造`.env`文件
+
+```env
+MYCOOKIESECRETKEY = "secret"
+MYSESSIONSECRETKEY="session-example"
+```
+
+```js
+require('dotenv').config();
+const express = require("express");
+const session = require("express-session");
+const cookieParser = require("cookie-parser");
+
+const app = express();
+app.use(cookieParser("process.env.MYCOOKIESECRETKEY"))
+
+app.use(
+  session({
+    secret:"process.env.MYSESSIONSECRETKEY",
+    resave: false,
+    saveUninitialized: false,
+    cookie:{secure:false}, // localhost
+  })
+)
+
+const checkUser = (req,res,next)=>{
+  if (!req.session.isVerified) {
+    return res.send("Please log in to the system!");
+  } else {
+    next();
+  }
+}
+
+app.get("/",(req,res)=>{
+  return res.send("This is homepage.")
+})
+
+app.get("/setCookie",(req,res)=>{
+  //res.cookie("yourCookie","test");
+  res.cookie("yourCookie","test",{ signed:true });
+  return res.send("Cookie has already setted.")
+})
+
+app.get("/seeCookie",(req,res)=>{
+  console.log(req.signedCookies)
+  return res.send("Get Cookies! ..." + (req.signedCookies.yourCookie))
+})
+
+app.get("/setSessionData",(req,res)=>{
+  req.session.example= 'something not important...'
+  return res.send("Setting session data on the server and storing the signed session ID in the browser.")
+})
+
+app.get("/getSessionData",(req,res)=>{
+  console.log(req.session);
+  // connect.sid => session id
+  return res.send("Get session data: ",req.session )
+})
+
+app.get("/verifyUser",(req,res)=>{
+  req.session.isVerified = true;
+  return res.send("Thank you for your login!")
+
+})
+
+app.get("/login",checkUser, (req, res) => {
+  return res.send("You are already logged in!");
+});
+
+app.listen(3000,()=>{
+  console.log("Server running on port 3000....")
+})
+```
+
+![Session](../img/Session/09.png)
