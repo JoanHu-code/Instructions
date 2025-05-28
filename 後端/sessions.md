@@ -331,4 +331,22 @@ app.listen(3000,()=>{
 })
 ```
 
+## flash
+
+> Flash是在session當中一個特別的儲存空間，可以用來儲存一些簡短的訊息。例如，登入成功或是登入失敗的資訊。如果要使用flash，可以使用connect-flash套件。
+
+[connect-flash npm](https://www.npmjs.com/package/connect-flash)
+
+```js
+const flash = require("connect-flash");
+
+app.use(flash());
+
+app.get("/",(req,res)=>{
+  req.flash('message', 'Welcome to my website!')
+  return res.send("This is homepage."+ req.flash("message"))
+})
+
+```
+
 ![Session](../img/Session/09.png)

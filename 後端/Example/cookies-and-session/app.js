@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require("express");
 const session = require("express-session");
 const cookieParser = require("cookie-parser");
+const flash = require("connect-flash");
 
 const app = express();
 app.use(cookieParser("process.env.MYCOOKIESECRETKEY"))
@@ -15,6 +16,8 @@ app.use(
   })
 )
 
+app.use(flash())
+
 const checkUser = (req,res,next)=>{
   if (!req.session.isVerified) {
     return res.send("Please log in to the system!");
@@ -24,8 +27,10 @@ const checkUser = (req,res,next)=>{
 }
 
 app.get("/",(req,res)=>{
-  return res.send("This is homepage.")
+  req.flash('message', 'Welcome to my website!')
+  return res.send("This is homepage."+ req.flash("message"))
 })
+
 
 app.get("/setCookie",(req,res)=>{
   //res.cookie("yourCookie","test");
