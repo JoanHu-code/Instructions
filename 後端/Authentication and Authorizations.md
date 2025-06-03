@@ -61,6 +61,62 @@
 
 ## Bcrypt 密碼處理
 
+Bcrypt 是根據Blowfish加密演算法所設計的密碼雜湊函式。在使用Bcrypt時，我們可以客製化salt round。salt round的數字越大，Bcrypt做雜湊運算所需要完成的時間就越久，且成2^salt round倍成長。也就是說，salt round寫10，會比寫1需要花上的時間多2^10=1024倍。
+
+使用Bcrypt時，輸入式密碼、salt round、一個鹽巴，而輸出是雜湊值。雜湊值的形式是:
+
+```
+$2<a/b/x/y>$[cost]$[22 character salt][31 character hash]
+```
+
+cost: salt round
+
+22 character salt: salt
+
+31 character hash: 算出來的hash value
+
+例如，如果密碼是abc123xyz，salt round是12，還有隨機的鹽巴，那bcrypt輸出的結果會是:
+
+![Bcrypt](../img/Authentication/02.png)
+
+Where:
+
+1. `$2a$`: The hash algorithm identifier (bcrypt)
+
+2. `12`: Input cost (i.e. 4096 rounds)
+
+3. `R9h/cIPz0gi.URNNX3kh2O`: input Salt
+
+4. `PST9/PgBkqquzi.Ss7KIUgO2t0jWMUW: the first 23 bytes of the computed 24 byte hash`
+
+這裡我們發現，資料庫當中也會儲存鹽巴以及salt round，所以下次有登入時。我們把他的密碼拿去跟資料庫內的鹽巴進行bcrypt加密，salt round以及演算法版本，全部一起使用，即可確認密碼的正確性!
+
+**Bcrypt語法**
+
+> 在Node.js當中使用Bcrypt計算密碼的雜湊值語法有兩種:
+
+```js
+bcrypt.genSalt(saltRounds,function(err,salt){
+  bcrypt.hash(myPlaintextPassword, salt, function(err,hash){
+    //Store hash in your password DB.
+  });
+})
+```
+> 第二種:
+
+```js
+bcrypt.hash(myPlaintextPassword, saltRounds, function(err,hash){
+    // Store hash in your password DB.
+});
+```
+
+[npm bcrypt](https://www.npmjs.com/package/bcrypt)
+
+```shell
+npm i bcrypt
+```
+
+
 ## 登入系統
 
 ## Blowfish 演算法
