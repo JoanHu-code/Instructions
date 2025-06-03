@@ -116,6 +116,97 @@ bcrypt.hash(myPlaintextPassword, saltRounds, function(err,hash){
 npm i bcrypt
 ```
 
+> 資料schema
+
+```js
+const mongoose = require("mongoose");
+const { Schema } = mongoose;
+
+// Define the schema for a student
+const studentSchema = new Schema({
+  username: {
+    type: String,
+    required: true,
+  },
+  password: {
+    type: String,
+    required: true,
+  },
+});
+
+// Create and export the Student model
+const Student = mongoose.model("Student", studentSchema);
+module.exports = Student;
+```
+
+> app.js
+
+```js
+require('dotenv').config();
+const express = require("express");
+const session = require("express-session");
+const mongoose = require("mongoose");
+const Student = require("./models/student");
+const bcrypt = require("bcrypt");
+const saltRounds = 12; // 8,10,12,14
+
+const app = express();
+
+mongoose.connect("mongodb://localhost:27017/demo").then(()=>{
+  console.log("connecting is successful...");
+}).catch((e) => {
+  console.log(e);
+});
+
+app.use(
+  session({
+    secret:"process.env.MYSESSIONSECRETKEY",
+    resave: false,
+    saveUninitialized: false,
+    cookie:{secure:false}, // localhost
+  })
+)
+
+app.use(express.json());
+
+app.use(express.urlencoded({extended:true}))
+
+app.get("/students", async (req, res) => {
+  try {
+    let foundStudent = await Student.find({}); // ✅ 等待查詢完成
+    return res.send(foundStudent);
+  } catch (e) {
+    return res.status(500).send({ error: "Failed to fetch students", detail: e });
+  }
+});
+
+app.post("/students",async (req,res)=>{
+  try{
+    let {username,password} = req.body;
+    let hashValue = await bcrypt.hash(password, saltRounds);
+    const newStudent = new Student({
+      username,
+      password: hashValue,
+    });
+    let saveStudent = await newStudent.save();
+    return res.send({message:"Adding successful:",saveStudent});
+  }catch (e) {
+    console.error("Error while saving student:", e);
+    return res.status(400).send({ error: e.message, details: e.errors });
+  }
+
+})
+
+app.listen(3000,()=>{
+  console.log("Server running on port 3000....")
+})
+```
+
+結果:
+
+![Bcrypt](../img/Authentication/03.png)
+![Bcrypt](../img/Authentication/04.png)
+![Bcrypt](../img/Authentication/05.png)
 
 ## 登入系統
 
