@@ -27,6 +27,14 @@ app.use(express.json());
 
 app.use(express.urlencoded({extended:true}))
 
+const verifyUser = (req,res,next) =>{
+  if(req.session.isVerified){
+    next();
+  }else{
+    return res.send("Please sign in to continue.");
+  }
+}
+
 app.get("/students", async (req, res) => {
   try {
     let foundStudent = await Student.find({}); // ✅ 等待查詢完成
@@ -51,6 +59,37 @@ app.post("/students",async (req,res)=>{
     return res.status(400).send({ error: e.message, details: e.errors });
   }
 
+})
+
+app.post("/students/login",async(req,res)=>{
+  try{
+    let {username,password} = req.body;
+    let foundStudent = await Student.findOne({username}); // ✅ 等待查詢完成
+    console.log(foundStudent)
+    if(!foundStudent){
+      return res.send("No user found with the provided email address.");
+    }else{
+      let result = await bcrypt.compare(password,foundStudent.password);
+      if(result){
+        req.session.isVerified = true;
+        return res.send("login success!")
+      }else{
+        return res.send("login fail!")
+      }
+    }
+    }catch (e) {
+      console.error("Error while saving student:", e);
+      return res.status(400).send({ error: e.message, details: e.errors });
+    }
+})
+
+app.get("/students/logout",(req,res)=>{
+  req.session.isVerified = false;
+  return res.send("You have already logged out.");
+})
+
+app.get("/sercet",verifyUser,(req,res)=>{
+  return res.send("My secret is ...")
 })
 
 app.listen(3000,()=>{
