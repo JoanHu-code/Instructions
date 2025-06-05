@@ -394,3 +394,45 @@ app.listen(3000,()=>{
 ![Bcrypt](../img/Authentication/13.png)
 
 ## Blowfish 演算法
+
+> Blowfish是由Bruce Schneier在1993年發明的對稱金鑰分組加密演算法，與DES和AES相似，都是分組加密演算法。Blowfish是沒有商用限制的，任何人都可以自由使用。blowfish的分組塊大小是64bits，可變金鑰長度可以從32bits到448bits不等
+
+Blowfish演算法需要進行16輪的加密操作:
+
+![Blowfish](../img/Authentication/14.png)
+
+Blowdish的大致流程是，把Plaintext分成兩邊(L,R)，左邊(L)跟Kr拿去做XOR運算之後，得出的結果放入F函數內部。最後將F函數(F-Function)的輸出結果和右邊(R)部分進行XOR運算。算出來後，再把左右兩邊交換，這樣就完成一個循環。Blowfish總共會做十六次循環。
+
+加密過程中最重要的兩個變數就Kr和F函數。從流程圖可知，Kr的範圍介於K1到K18之間，總共18組金鑰，每個金鑰長度是32bits。金鑰生成的演算法是，我們先選定18組隨機的32bits的數字V1,...V18。因為可變成金鑰的bits範圍是32bits到448bits，所以(可能)可以生成1到14組不同的數字P1,...P14。我們將V1,P1做XOR運算、V2,P2做XOR運算，不斷重複。
+
+因為P只有14個值，而V有18個值，所以接下來我們需要重複使用P的值，V15,P1做XOR運算、V16,P2做XOR運算，值到V18,P4做XOR運算。運算完成後，獲得到18個數值放入新的array中，此array叫做K'array。
+
+接下來，我們需要看F函數內部S-box。S-box的全名叫做substitution-box，用來將數值做非線性替換。例如，在DES中的S-box可以將54bits轉換成4bits:
+
+![Blowfish](../img/Authentication/15.png)
+
+例如: 011111透過S-box轉換成4bits
+
+步驟一:先取中間四個值`1111`，轉換成十進位`15`
+
+步驟二:看外層兩個bits`01`，轉成十進位`1`
+
+步驟三:查看S-box表，[1,15]這欄位可以看到是`8`
+
+步驟四:把這8轉成4bits也就是二進位`1000`
+
+> 因此我們可以知道011111透過S-box轉換成4bits為:`1000`
+
+在Blowfish演算法當中，F函數的輸入是32BITS的數據。而這些數據會被拆分為四等份，每份是8bits。所以，S-box的輸入是8bits。每個S-box會將8bits的數據換成32bits，而S-box0運算出的32bits結果需要跟S-box1運算出的32bits結果做addition mod 2^32運算(因為我們不希望加法後的結果超過32bits能夠表示的範圍)，之後再跟S-box2的運算結果做XOR運算。最後在跟S-box3的運算結果做addition mod 2^32運算。最後的輸出就是F函數的結果。
+
+在之前的步驟中，我們生成了最初的K'array以及S-box。但blowfish認為這樣還不夠安全，不夠隨機，所以還需要進行一些操作來生成最後的K array(也就是真正的金鑰Kr)。
+
+最後，K'array當中的數值，拿去當作Blowfish演算法中的金鑰，選定隨機的數值當作S-box，將一個全部為0的64bits數值，當作Blowfish演算法的輸入值，可以得到一個64bits的輸出。我們再將這64bits的輸出分成左右兩部分，作為k1以及k2。我們再將k1以及k2放入Blowfish演算法中，使用K'array當中的數值當作Blowfish演算法中的金鑰，可以算出K3以及K4。不斷重複，可以生成K1,K2,...,K18。這18組數字形成的array，就稱為K array，也是Blowfish演算法中真正使用的金鑰Kr。
+
+接下來，S-box0,S-box1,S-box2,S-box3內的數值也會按照上面的步驟進行生成，而算出最後的S-box0,S-box1,S-box2,S-box3。有了最終的K array和S-box，我們就可以真正的對要加密的檔案進行加密操作了。
+
+Blowfish演算法的好處:
+
+1. 每個新的金鑰都需要進行大概4KB文字的預先處理，和其他分組密碼演算法相比(例如AES，DES)，Blowfish速度會很慢。對於惡意攻擊者來說，每次長是新的金鑰都需要進行漫長的預先處理，所以可以用來抵抗字典攻擊或是彩虹表。
+
+2. Blowfish沒有任何專利限制，任何人都可以免費使用。這種好處促進了它在密碼軟體中的普及。
