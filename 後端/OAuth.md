@@ -86,6 +86,7 @@ OAuth 2.0是一種安全協議，協議規範能讓第三方應用程式以有�
 ![OAuth](../img/OAuth/14.png)
 ![OAuth](../img/OAuth/15.png)
 ![OAuth](../img/OAuth/16.png)
+![OAuth](../img/OAuth/17.png)
 
 
 ## Google 登入頁面
