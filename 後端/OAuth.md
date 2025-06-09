@@ -62,6 +62,32 @@ OAuth 2.0是一種安全協議，協議規範能讓第三方應用程式以有�
 
 ## Google client id 與 secret
 
+1. 建立Google專案
+
+[google cloud](https://console.cloud.google.com/apis/dashboard)
+
+![OAuth](../img/OAuth/03.png)
+![OAuth](../img/OAuth/04.png)
+![OAuth](../img/OAuth/05.png)
+
+2. 建立金鑰
+
+![OAuth](../img/OAuth/06.png)
+![OAuth](../img/OAuth/07.png)
+![OAuth](../img/OAuth/08.png)
+![OAuth](../img/OAuth/09.png)
+![OAuth](../img/OAuth/10.png)
+![OAuth](../img/OAuth/11.png)
+![OAuth](../img/OAuth/12.png)
+![OAuth](../img/OAuth/13.png)
+
+3. 設定金鑰
+
+![OAuth](../img/OAuth/14.png)
+![OAuth](../img/OAuth/15.png)
+![OAuth](../img/OAuth/16.png)
+
+
 ## Google 登入頁面
 
 ## 儲存使用者資訊
