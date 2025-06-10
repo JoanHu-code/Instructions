@@ -91,6 +91,217 @@ OAuth 2.0是一種安全協議，協議規範能讓第三方應用程式以有�
 
 ## Google 登入頁面
 
+**Passport 套件**
+
+Passport.js是適用於Node.js中，用來做身分驗證的middleware。使用Passport.js，我們可以將OAuth身分驗證的功能輕鬆集成到任何基於Node和Express的應用程序。
+
+Passport 庫提供了500多種身分驗證機制，包括本地身分驗證、Google、Facebook、Twitter、GitHub、LinkedIn、Instagram登入等等功能。
+
+![OAuth](../img/OAuth/18.png)
+
+上圖框框的部分都會由Passport隱藏起來。對於client來說,只需要提供client_id,secret以及redirect URL給Passport,Passport就會提供token以及protected resource給client。
+
+[passportjs](https://www.passportjs.org/)
+
+![OAuth](../img/OAuth/19.png)
+
+[google-oauth2.0](https://www.passportjs.org/packages/passport-google-oauth20/)
+
+因為Passport 把所有跟OAuth有關的步驟都自動完成了，所以我們程式碼是從獲得token與resource owner的資料後，以及redirect的部分開始撰寫。(內部的步驟有點繁瑣且複雜，需要一些耐心。)
+
+1. 先設定Google Strategy的登入方式。Google Strategy需要兩個parameter，第一個parameter是一個物件，內部含有client id, client secret以及一個callback URL。第二個parameter是一個function。
+
+2. 用戶端在Google登入頁面按下登入後，Passport會自動完成Oauth的步驟，取得用戶的資料後，Passport會自動調用Google Strategy第二個parameter內部的function。此function的參數為accessToken， refreshToken, profile, done。其中profile代表Passprot從Google取得的用戶資料。
+
+3. 我們可以在此function內部判斷，若此用戶為第一次登入系統，則將從Google取得的用戶資料存入我們系統的資料庫內。
+
+> 正式試做
+
+1. 開啟新專案，下載要用的npm
+
+```shell
+npm init
+```
+
+```shell
+npm install express mongoose ejs dotenv
+```
+
+2. 創建一個index.js文件
+
+```js
+const dotenv = require("dotenv");
+dotenv.config();
+const express = require("express");
+const app = express();
+const mongoose = require("mongoose");
+
+//connect MongoDB
+mongoose.connect("mongodb://localhost:27017/GoogleDB").then(()=>{
+  console.log("Connecting to mongodb....");
+}).catch((e)=>{
+  console.log(e)
+})
+
+//setting Middlewares and ejs
+
+app.set("view engine","ejs");
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+app.get("/",(req,res)=>{
+  return res.render("index")
+})
+
+app.listen(8080,()=>{
+  console.log("Server running on port 8080.")
+});
+```
+3. 創建index.ejs和其餘的模板
+
+> index.ejs
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include("partials/header") %>
+    <title>Home</title>
+  </head>
+  <body>
+    <%- include("partials/nav") %>
+    <div class="p-5 mb-4 bg-light rounded-3">
+      <div class="container-fluid py-5">
+        <h1 class="display-5 fw-bold">Project 7 - Google and Local Login System</h1>
+        <p class="col-md-8 fs-4">
+          The practice of Project 7 includes using EJS, MongoDB, Passport.js, Authentication, OAuth (Google Login Setup), and other examples.
+        </p>
+        <button class="btn btn-primary btn-lg" type="button">
+          Learn how to build a website!
+        </button>
+      </div>
+    </div>
+  </body>
+</html>
+
+```
+
+![OAuth](../img/OAuth/20.png)
+
+4. 下載 passport-google-oauth20 和 passport
+
+```shell
+npm install passport-google-oauth20
+```
+
+```shell
+npm install passport
+```
+
+5. 新增一個routes的資料夾，並且新增一個auth-routes.js的文件
+
+```js
+const router = require("express").Router();
+const passport = require("passport");
+
+router.get("/login",(req,res)=>{
+  return res.render("login")
+})
+
+module.exports = router;
+```
+> index.js
+```js
+const dotenv = require("dotenv");
+dotenv.config();
+const express = require("express");
+const app = express();
+const mongoose = require("mongoose");
+const authRoutes = require("./routes/auth-routes");
+
+//connect MongoDB
+mongoose.connect("mongodb://localhost:27017/GoogleDB").then(()=>{
+  console.log("Connecting to mongodb....");
+}).catch((e)=>{
+  console.log(e)
+})
+
+//setting Middlewares and ejs
+
+app.set("view engine","ejs");
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+//setting routes
+app.use("/auth", authRoutes)
+
+app.get("/",(req,res)=>{
+  return res.render("index")
+})
+
+app.listen(8080,()=>{
+  console.log("Server running on port 8080.")
+});
+```
+![OAuth](../img/OAuth/21.png)
+
+6. 新增一個config資料夾，在裡面新增passport.js文件
+
+```js
+const passport = require("passport");
+const GoogleStrategy = require("passport-google-oauth20")
+
+passport.use(new GoogleStrategy(
+  {
+     clientID: process.env.GOOGLE_CLIENT_ID,
+     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+     callbackURL:"/auth/google/redirect",
+  },
+  (accessToken, refreshToken, profile, done) => {}
+ )
+);
+```
+7.製作一個.env的文件，放入Client ID和Client secret
+
+```js
+GOOGLE_CLIENT_ID="111111111111-0aaaa00b0cdef0ghijkl000mnmm0p0uj.apps.googleusercontent.com"
+GOOGLE_CLIENT_SECRET="GOOGLE-isSEC-secret_FA_C_KP5433YAA_A"
+```
+
+> autho-routes.js
+
+```js
+const router = require("express").Router();
+const passport = require("passport");
+
+router.get("/login",(req,res)=>{
+  return res.render("login")
+})
+
+router.get('/google', 
+  passport.authenticate('google', {
+    scope: ['profile', 'email'],
+    prompt: 'select_account'
+  })
+);
+```
+
+> index.js新增下面這一行
+
+```js
+require("./config/passport");
+```
+
+執行下面指令
+
+```shell
+nodemon index.js
+```
+
+點擊`Sign in with Google`
+
+![OAuth](../img/OAuth/22.png)
+
 ## 儲存使用者資訊
 
 ## 顯示使用者資訊
