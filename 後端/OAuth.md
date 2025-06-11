@@ -115,6 +115,20 @@ Passport 庫提供了500多種身分驗證機制，包括本地身分驗證、Go
 
 3. 我們可以在此function內部判斷，若此用戶為第一次登入系統，則將從Google取得的用戶資料存入我們系統的資料庫內。
 
+4. 在此Function的第四個參數done是一個function。我們可以將使用者資訊放入done的第二個參數內，並且執行done()。
+
+在程式開發當中，Serialization是指，將數據(或是物件)傳輸或儲存之前，將其轉換為bytes的過程。Deserialization則是指將bytes轉換回到物件。
+
+Passport將這部分的實作留給開發者自己決定怎麼實踐Serialization與Deserialization的功能，傳統上來說，Serialization的做法，是簡單的將用戶端的id存入session。而Deserialization的做法是將session內部的id拿去資料庫查看資料，將id所指向的資料取回。
+
+在Passport當中，serialization與deserialization的功能名稱叫做serializeUser與deserializeUser。我們實作這兩個功能之前，需要先使用express-session這個套件的功能，幫session做簽名等功能。
+
+以上的功能都設定好後，在Google Strategy內部的第二個參數的function所使用的第四個參數done被我們執行時，Passport會透過express-session套件去自動執行passport.serializeUser()。serializeUser()參數為user與done。user會被自動帶入Google Strategy的done的第二個參數。passport.serializeUser()也會自動帶入以下的兩個功能(當內部的done()被執行時):
+
+1. 內部的done()執行時，將參數的值放入session內部，並且在用戶端設置cookie。
+
+2. 設定req.isAuthenticated()為true。
+
 > 正式試做
 
 1. 開啟新專案，下載要用的npm
@@ -303,6 +317,157 @@ nodemon index.js
 ![OAuth](../img/OAuth/22.png)
 
 ## 儲存使用者資訊
+
+> passport.js
+
+```js
+const passport = require("passport");
+const GoogleStrategy = require("passport-google-oauth20")
+
+passport.use(new GoogleStrategy(
+  {
+     clientID: process.env.GOOGLE_CLIENT_ID,
+     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+     callbackURL:"/auth/google/redirect",
+  },
+  (accessToken, refreshToken, profile, done) => {
+   console.log(profile)
+  }
+ )
+);
+```
+
+> auth-routes
+
+```js
+router.get('/google/redirect',passport.authrnticate("google"),(res,req)=>{
+  return res .redirect("/profile")
+})
+```
+
+![OAuth](../img/OAuth/23.png)
+
+> user-model.js
+
+```js
+const mongoose = require("mongoose");
+
+const userSchema = new mongoose.Schema({
+  name:{
+    type: String,
+    required: true,
+    minLength: 3,
+    maxLength: 255,
+  },
+  googleID:{
+    type: String,
+  },
+  date:{
+    type: Date,
+    default: Date.now,
+  },
+  thumbmail:{
+    type:String,
+  },
+  // local login
+  email:{
+    type: String,
+  },
+  password:{
+    type: String,
+    minLength: 8,
+    maxLength: 1024,
+  }
+});
+
+module.exports = mongoose.model("User",userSchema);
+```
+
+> passport.js
+
+```js
+const passport = require("passport");
+const GoogleStrategy = require("passport-google-oauth20")
+const User = require("../models/user-model");
+const userModel = require("../models/user-model");
+
+passport.use(new GoogleStrategy(
+  {
+     clientID: process.env.GOOGLE_CLIENT_ID,
+     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+     callbackURL:"/auth/google/redirect",
+  },
+  async (accessToken, refreshToken, profile, done) => {
+   console.log("Entered the Google Strategy section!");
+   console.log(profile);
+   console.log("============================");
+   let foundUser = await userModel.findOne({googleID: profile.id}).exec();
+   if(foundUser){
+      console.log("This user is already registered.");
+      done(null,foundUser)
+   }else{
+      console.log("A new user has been detected!");
+      let newUser = new User({
+         name: profile.displayName,
+         googleID: profile.ud,
+         thumbnail: profile.photos[0].value,
+         email: profile.emails[0].value,
+      });
+      let saveUser = await newUser.save();
+      console.log("Successfully created a new user");
+      done(null,saveUser);
+   }
+  }
+ )
+);
+```
+
+> 安裝express-session
+
+```shell
+npm install express-session
+```
+
+> 在index.js裡面加入session和passport
+
+```js
+const session = require("express-session");
+const passport = require("passport")
+app.use(session({
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: false,
+  cookie: {secure: false},
+}))
+app.use(passport.initialize());
+app.use(passport.session());
+```
+
+> 在.env檔案設定`SESSION_SECRET`
+
+```js
+SESSION_SECRET="THISISASESSIONSECRET"
+```
+> passport.js裡加入serializeUser()
+
+```js
+passport.serializeUser((user, done)=>{
+   console.log("Serialize User....")
+   console.log(user);
+});
+```
+
+![OAuth](../img/OAuth/24.png)
+![OAuth](../img/OAuth/25.png)
+
+使用done在serializeUser裡面
+
+```js
+passport.serializeUser((user, done)=>{
+   console.log("Serialize User....")
+   done(null, user._id); // Save the MongoDB id in the session, and sign the id before sending it to the user as a cookie.
+});
+```
 
 ## 顯示使用者資訊
 
