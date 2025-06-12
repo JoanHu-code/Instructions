@@ -129,6 +129,17 @@ Passport將這部分的實作留給開發者自己決定怎麼實踐Serializatio
 
 2. 設定req.isAuthenticated()為true。
 
+serializeUser完成後，Passport會執行callback URL的route。進入此route之後，Passport會執行deserializeUser()。
+
+Passport在deserializeUser()額外付加的一個功能，就是當deserializeUser()內部的done()被執行時，第二個參數會被設定在req.user內部。為何Passport會如此設計？這是因為，從使用者登入後，我們目前只有執行過serializeUser，也就是將使用者的登入資訊存入session內部。但使用者或許曾經登入過系統，是個舊用戶，以前曾在系統內有存過其他資料。我們讓使用者開始使用網站之前，最好可以把這些資料放在一個方便存取的地方，這就是Passport為何會提供「deserializeUser()內部自動設定req.user的值是done()的第二個參數的值」這個功能。
+
+最後，callback URL內部會將使用者導向到網頁的其他地方。在這些route內部，我就可以使用req.user這個屬性來客制化網頁的內容。
+
+以下幾個為Passport內建的methods:
+
+- req.logout(): 登出使用者。Passport會自動刪除session。
+- req.isAuthenticated(): 給定boolean的值，代表使用者是否被認證過。
+
 > 正式試做
 
 1. 開啟新專案，下載要用的npm
@@ -340,7 +351,7 @@ passport.use(new GoogleStrategy(
 > auth-routes
 
 ```js
-router.get('/google/redirect',passport.authrnticate("google"),(res,req)=>{
+router.get('/google/redirect',passport.authrnticate("google"),(req,res)=>{
   return res .redirect("/profile")
 })
 ```
@@ -366,7 +377,7 @@ const userSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
-  thumbmail:{
+  thumbnail:{
     type:String,
   },
   // local login
@@ -409,7 +420,7 @@ passport.use(new GoogleStrategy(
       console.log("A new user has been detected!");
       let newUser = new User({
          name: profile.displayName,
-         googleID: profile.ud,
+         googleID: profile.id,
          thumbnail: profile.photos[0].value,
          email: profile.emails[0].value,
       });
@@ -470,6 +481,185 @@ passport.serializeUser((user, done)=>{
 ```
 
 ## 顯示使用者資訊
+
+> passport.js (Deserialize)
+
+```js
+passport.deserializeUser(async (_id,done)=>{
+   console.log("Deserialize User... Use the id saved by serializeUser to find the data in the database");
+   let foundUser = await User.findOne({ _id });
+   done(null,foundUser)
+})
+```
+
+> 在routes的資料夾裡面，做一個profile的檔案
+
+> profile-routes.js
+
+```js
+const router = require("express").Router();
+
+router.get("/",(req,res)=>{
+  return res.render("profile", {user: req.user}); //deSerializeUser()
+})
+
+module.exports = router;
+```
+
+> profile.ejs
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include("partials/header") %>
+    <title>Profile Page</title>
+    <style>
+      .posts {
+        padding: 2rem;
+      }
+      section.user-info img {
+        border-radius: 50%;
+        display: inline-block;
+        padding: 1rem 0.5rem;
+      }
+      section.user-info h1 {
+        padding: 1rem 0.5rem;
+      }
+      .flex-container {
+        display: flex;
+        align-items: center;
+      }
+    </style>
+  </head>
+  <body>
+    <%- include("partials/nav") %>
+    <section class="user-info">
+      <div class="flex-container">
+        <img src="<%= user.thumbnail %>" alt="Profile Picture" />
+        <h1><%= user.name %>'s Profile Page</h1>
+      </div>
+      <ul>
+        <li>Google ID: <%= user.googleID %></li>
+        <li>Date: <%= user.date %></li>
+      </ul>
+    </section>
+  </body>
+</html>
+```
+
+> index.js
+
+```js
+const profileRoutes = require("./routes/profile-routes");
+app.use("/profile",profileRoutes);
+```
+
+![OAuth](../img/OAuth/26.png)
+![OAuth](../img/OAuth/27.png)
+![OAuth](../img/OAuth/28.png)
+
+**profile-routes.js應該要被保護，不然一旦刪除cookie就會報錯**
+
+![OAuth](../img/OAuth/29.png)
+
+> profile-routes.js
+
+```js
+const router = require("express").Router();
+
+const authCheck = (req,res,next)=>{
+  if(req.isAuthenticated()){
+    next();
+  }else{
+    return res.redirect("/auth/login");
+  }
+}
+
+router.get("/",authCheck,(req,res)=>{
+  console.log("enter profile!")
+  return res.render("profile", {user: req.user}); //deSerializeUser()
+})
+
+module.exports = router;
+```
+
+> 這樣刪除cookies後就會直接被跳轉到登入畫面
+
+**在auth-routes.js裡面設定logout**
+
+```js
+router.get("/logout",(req,res)=>{
+  req.logOut((err)=>{
+    if(err) return res.send(err);
+    return res.redirect("/")
+  })
+})
+```
+
+**更改.ejs，只有登入會員後才能看到profile和logout**
+
+> `nav.ejs`
+
+```html
+<nav class="navbar navbar-dark bg-dark navbar-expand-lg navbar-light bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">Google and Local Login System</a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarText"
+      aria-controls="navbarText"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarText">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+        <% if (!user) { %>
+        <li class="nav-item">
+          <a class="nav-link" href="/auth/login">Member Login</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/auth/signup">Register</a>
+        </li>
+        <% } %> <% if (user) { %>
+        <li class="nav-item">
+          <a class="nav-link" href="/auth/logout">Logout</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/profile">Profile</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/profile/post">Create New Post</a>
+        </li>
+        <% } %>
+      </ul>
+    </div>
+  </div>
+</nav>
+```
+
+> `index.js`
+
+```js
+app.get("/",(req,res)=>{
+  return res.render("index",{user:req.user})
+})
+```
+
+> `auth-routes.js`
+
+```js
+router.get("/login",(req,res)=>{
+  return res.render("login",{user:req.user})
+})
+```
+![OAuth](../img/OAuth/30.png)
+![OAuth](../img/OAuth/31.png)
 
 ## 註冊本地使用者
 
