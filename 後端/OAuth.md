@@ -946,6 +946,16 @@ router.post('/signup', async (req, res) => {
 ![OAuth](../img/OAuth/37.png)
 ![OAuth](../img/OAuth/38.png)
 
+> 查看註冊的會員
+![OAuth](../img/OAuth/39.png)
+![OAuth](../img/OAuth/40.png)
+
+> Google註冊
+![OAuth](../img/OAuth/41.png)
+
+> 本地註冊
+![OAuth](../img/OAuth/42.png)
+
 ## 登入本地使用者
 
 ## 製作 Post
