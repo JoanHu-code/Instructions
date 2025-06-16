@@ -663,6 +663,289 @@ router.get("/login",(req,res)=>{
 
 ## 註冊本地使用者
 
+> auth-routes.js
+
+```js
+router.get("/signup",(req,res)=>{
+  return res.render("signup",{user: req.user})
+})
+```
+
+> signup.ejs
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include("partials/header") %>
+    <title>Signup</title>
+  </head>
+  <body>
+    <%- include("partials/nav") %>
+    <main style="padding: 3rem">
+      <form action="/auth/signup" method="POST">
+        <div class="form-group">
+          <label for="exampleUsername">Name:</label>
+          <input
+            name="name"
+            type="text"
+            class="form-control"
+            id="exampleUsername"
+            required
+            minlength="6"
+            maxlength="255"
+          />
+          <small class="form-text text-muted">Please enter your full name.</small>
+        </div>
+        <br />
+        <div class="form-group">
+          <label for="exampleInputEmail1">Email Address:</label>
+          <input
+            type="email"
+            class="form-control"
+            id="exampleInputEmail1"
+            aria-describedby="emailHelp"
+            name="email"
+            required
+          />
+          <small id="emailHelp" class="form-text text-muted">
+            We will not share your email with anyone else.
+          </small>
+        </div>
+        <br />
+        <div class="form-group">
+          <label for="exampleInputPassword1">Password:</label>
+          <input
+            type="password"
+            class="form-control"
+            id="exampleInputPassword1"
+            minlength="8"
+            maxlength="1024"
+            name="password"
+            required
+          />
+        </div>
+        <br />
+        <button type="submit" class="btn btn-primary">Register</button>
+      </form>
+    </main>
+  </body>
+</html>
+```
+![OAuth](../img/OAuth/32.png)
+
+> 在auth-routes.js新增post
+
+```js
+// POST /signup
+router.post('/signup', (req, res) => {
+  const { name, email, password } = req.body;
+
+  // Check password length
+  if (password.length < 8) {
+    req.flash("error_msg","Password must be at least 8 characters long");
+    return res.redirect("/auth/signup")
+  }
+
+});
+```
+
+> 下載connect-flash
+
+```shell
+npm install connect-flash
+```
+
+> index.js
+```js
+const flash = require("connect-flash");
+app.use(flash());
+app.use((req,res,next)=>{
+  res.locals.success_msg = req.flash("success_msg");
+  res.locals.error_msg = req.flash("error_msg");
+  res.locals.error= req.flash("error");
+  next();
+})
+```
+
+**res.locals可以在ejs直接被使用**
+
+> msg.ejs
+
+```html
+<% if (error != "") { %>
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+  <strong><%= error %></strong>
+</div>
+<% } %>
+
+<!--break-->
+<% if (error_msg != "") { %>
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+  <strong><%= error_msg %></strong>
+</div>
+<% } %>
+
+<!--break-->
+<% if (success_msg != "") { %>
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+  <strong><%= success_msg %></strong>
+</div>
+<% } %>
+```
+
+> 拿掉signup.ejs裡面密碼的限制(minlength="8")，查看是否有成功設置error_msg；並且加入`<%- include ("partials/message")%>`
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include("partials/header") %>
+    <title>Signup</title>
+  </head>
+  <body>
+    <%- include("partials/nav") %>
+    <main style="padding: 3rem">
+      <form action="/auth/signup" method="POST">
+        <%- include ("partials/message") %>
+        <div class="form-group">
+          <label for="exampleUsername">Name:</label>
+          <input
+            name="name"
+            type="text"
+            class="form-control"
+            id="exampleUsername"
+            required
+            minlength="6"
+            maxlength="255"
+          />
+          <small class="form-text text-muted">Please enter your full name.</small>
+        </div>
+        <br />
+        <div class="form-group">
+          <label for="exampleInputEmail1">Email Address:</label>
+          <input
+            type="email"
+            class="form-control"
+            id="exampleInputEmail1"
+            aria-describedby="emailHelp"
+            name="email"
+            required
+          />
+          <small id="emailHelp" class="form-text text-muted">
+            We will not share your email with anyone else.
+          </small>
+        </div>
+        <br />
+        <div class="form-group">
+          <label for="exampleInputPassword1">Password:</label>
+          <input
+            type="password"
+            class="form-control"
+            id="exampleInputPassword1"
+            maxlength="1024"
+            name="password"
+            required
+          />
+        </div>
+        <br />
+        <button type="submit" class="btn btn-primary">Register</button>
+      </form>
+    </main>
+  </body>
+</html>
+
+```
+
+![OAuth](../img/OAuth/33.png)
+![OAuth](../img/OAuth/34.png)
+
+> 完善auth-routes.js裡面的post，檢查信箱是否重複，若沒問題把密碼加密後存入資料庫
+
+```shell
+npm install bcrypt
+```
+
+```js
+const User = require("../models/user-model");
+const bcrypt = require("bcrypt");
+
+// POST /signup
+router.post('/signup', async (req, res) => {
+  const { name, email, password } = req.body;
+
+  // Check password length
+  if (password.length < 8) {
+    req.flash("error_msg", "Password must be at least 8 characters long");
+    return res.redirect("/auth/signup");
+  }
+
+  try {
+    // Check if the email is already registered
+    const foundEmail = await User.findOne({ email });
+
+    if (foundEmail) {
+      req.flash(
+        "error_msg",
+        "The email is already registered. Please use a different email or try logging in with this email!"
+      );
+      return res.redirect("/auth/signup");
+    }
+
+    // Hash the password and create a new user
+    const hashPassword = await bcrypt.hash(password, 12);
+    const newUser = new User({ name, email, password: hashPassword });
+    await newUser.save();
+
+    req.flash("success_msg", "Successfully registered! You can now log in.");
+    return res.redirect("/auth/login");
+  } catch (err) {
+    console.error(err);
+    req.flash("error_msg", "An error occurred. Please try again.");
+    return res.redirect("/auth/signup");
+  }
+});
+
+```
+
+> 在login.ejs的form裡面include message.ejs
+
+```html
+      <form action="/auth/login" method="POST">
+        <%- include("partials/message") %>
+        <div class="form-group">
+          <label for="exampleInputEmail1">Email address:</label>
+          <input
+            type="email"
+            class="form-control"
+            id="exampleInputEmail1"
+            aria-describedby="emailHelp"
+            name="username"
+          />
+          <small id="emailHelp" class="form-text text-muted">
+            We’ll never share your email with anyone else.
+          </small>
+        </div>
+        <br />
+        <div class="form-group">
+          <label for="exampleInputPassword1">Password:</label>
+          <input
+            type="password"
+            class="form-control"
+            id="exampleInputPassword1"
+            name="password"
+          />
+        </div>
+        <br />
+        <button class="btn btn-primary">Login</button>
+      </form>
+```
+
+![OAuth](../img/OAuth/35.png)
+![OAuth](../img/OAuth/36.png)
+![OAuth](../img/OAuth/37.png)
+![OAuth](../img/OAuth/38.png)
+
 ## 登入本地使用者
 
 ## 製作 Post
