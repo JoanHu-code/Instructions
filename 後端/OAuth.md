@@ -958,6 +958,100 @@ router.post('/signup', async (req, res) => {
 
 ## 登入本地使用者
 
+> 使用 passport-local Strategy
+
+[passport-local Strategy](https://www.passportjs.org/packages/passport-local/)
+
+```shell
+npm install passport-local
+```
+
+> passport.js
+
+```js
+const LocalStrategy = require("passport-local");
+const bcrypt = require("bcrypt");
+
+passport.use(new LocalStrategy(async (username, password, done) => {
+  // Search for user by email
+  let foundUser = await User.findOne({ email: username });
+
+  if (foundUser) {
+    // Compare entered password with hashed password
+    let result = await bcrypt.compare(password, foundUser.password);
+
+    if (result) {
+      // Password is correct, proceed with login
+      done(null, foundUser);
+    } else {
+      // Password is incorrect
+      done(null, false);
+    }
+  } else {
+    // No user found with that email
+    done(null, false);
+  }
+}));
+```
+
+> login.ejs
+
+```html
+  <form action="/auth/login" method="POST">
+   <%- include("partials/message") %>
+    <div class="form-group">
+      <label for="exampleInputEmail1">Email address:</label>
+       <input
+         type="email"
+         class="form-control"
+         id="exampleInputEmail1"
+         aria-describedby="emailHelp"
+         name="username"
+        />
+        <small id="emailHelp" class="form-text text-muted">
+            We’ll never share your email with anyone else.
+        </small>
+        </div>
+        <br />
+        <div class="form-group">
+          <label for="exampleInputPassword1">Password:</label>
+          <input
+            type="password"
+            class="form-control"
+            id="exampleInputPassword1"
+            name="password"
+          />
+        </div>
+        <br />
+      <button class="btn btn-primary">Login</button>
+  </form>
+```
+
+> auth-routes.js
+
+```js
+router.post("/login", passport.authenticate("local", {
+  failureRedirect: "/auth/login",
+  failureFlash: "Login failed: Incorrect username or password!"
+}),
+   (req,res)=>{
+    return res.redirect("/profile");
+   }
+);
+```
+
+**failureFlash的值會自動套在index.js裡面的res.locals.error當中**
+
+**一定要保證login.ejs裡面的input tag裡name的屬性名稱要和passport.js裡的new LocalStrategy(async(username,password,done)一樣才抓取得到資料**
+
+> 結果
+
+- 登入失敗
+![OAuth](../img/OAuth/43.png)
+
+- 登入成功
+![OAuth](../img/OAuth/44.png)
+
 ## 製作 Post
 
 ## RFC 6749 導讀與詳細說明
