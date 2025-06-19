@@ -1054,4 +1054,95 @@ router.post("/login", passport.authenticate("local", {
 
 ## 製作 Post
 
+1. 在models裡面新增post-model.js的文件
+
+```js
+const mongoose = require("mongoose");
+
+const postSchema = new mongoose.Schema({
+  title:{
+    type: String,
+    required: true,
+  },
+  content: {
+    type: String,
+    required: true,
+  },
+  date: {
+    type: Date,
+    default: Date.now(),
+  },
+  author: String,
+});
+module.exports = mongoose.model("Post",postSchema);
+```
+
+> profile-routes.js
+
+```js
+const Post = require("../models/post-model");
+
+router.get("/",authCheck,async (req,res)=>{
+  let postFound = await Post.find({ author: req.user._id }) 
+  return res.render("profile", {user: req.user,posts:postFound}); //deSerializeUser()
+})
+
+router.get("/post", authCheck, (req,res)=>{
+  return res.render("post", {user: req.user});
+})
+
+router.post("/post",authCheck,async(req,res)=>{
+  let { title,content } = req.body;
+  let newPost = new Post({title,content,author: req.user._id});
+  try{
+    await newPost.save();
+    return res.redirect("/profile");
+  }catch(e){
+    req.flash("error_msg", "Title and content are both required!");
+    return res.redirect("/profile/post")
+  }
+})
+```
+
+> profile.ejs
+
+```html
+<section class="posts">
+  <% for (let i = 0; i < posts.length; i++) { %>
+    <div class="card" style="width: 18rem margin: 1rem">
+      <div class="card-body">
+        <h5 class="card-title"><%= posts[i].title %></h5>
+        <p class="card-text"><%= posts[i].content %></p>
+        <a href="#" class="btn btn-primary"><%= posts[i].date %></a>
+      </div>
+    </div>
+  <% } %>
+</section>
+```
+
+![OAuth](../img/OAuth/45.png)
+![OAuth](../img/OAuth/46.png)
+![OAuth](../img/OAuth/47.png)
+![OAuth](../img/OAuth/48.png)
+![OAuth](../img/OAuth/49.png)
+
 ## RFC 6749 導讀與詳細說明
+
+[RFC 6749](https://datatracker.ietf.org/doc/html/rfc6749)
+
+**Protocol Flow**
+
+![OAuth](../img/OAuth/50.png)
+
+**The preferred method for the client to obtain an authorization grant from the resource owner (depicted in steps (A) and (B)) is to use the authorization server as an intermediary, which is illustrated in Figure 3 in Section 4.1.**
+
+若要讓client去resource owner手上拿authorization grant，最好的方式是使用 authorization server 來當中介點(此流程是放在4.1裡面)
+
+![OAuth](../img/OAuth/51.png)
+
+**User Agent: 網頁瀏覽器**
+
+[HTTP 302](https://stackoverflow.com/questions/973098/what-does-http-1-1-302-mean-exactly)
+
+![OAuth](../img/OAuth/52.png)
+![OAuth](../img/OAuth/53.png)
