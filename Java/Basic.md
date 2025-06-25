@@ -4,7 +4,7 @@
 - [環境設定和基本安裝](#環境設定和基本安裝)
 - [第一支Java程式](#第一支Java程式)
 - [基本語法](#基本語法)
-  - [注意事項](#注意事項)
+  - [基本介紹](#基本介紹)
   - [變量和賦值](#變量和賦值)
   - [Data Type](#Data-Type)
   - [String Operation](#String-Operation)
@@ -105,7 +105,35 @@ javac Main.java
 
 ## 基本語法
 
-### 注意事項
+### 基本介紹
+
+**函數(Functions. Methods)**
+
+f(x) = 3x+6
+
+f(x): 函數名稱
+x: 輸入(input)
+3x+6: 輸出(output)
+
+會有一個函數名稱，一個輸入和輸入，根據輸入的不同會得到不同的輸出。此外，一個函數應該只返回一個值(如果一個input導致兩個不同的output，那麼f(x)就不是一個函數。)
+
+同樣的概念也是用於Java函數。在Java函數中，我們可以提供或不提供任何input；然後，我們從該函數或的一個output
+
+**Class 規則**
+
+1. Class名稱一定要跟文件名稱相同
+2. Class名稱一定要大寫英文字母當開頭
+3. public static void main(String[] args)會被執行。這是Java的規定，每個字都不能少。
+
+> 若打 `psvm`就會出現`public static void main(String[] args)`
+
+![基本語法](../img/Java/05.png)
+
+> 打`sout`+Tab鍵會直接出現`System.out.println()`
+
+![基本語法](../img/Java/06.png)
+
+![基本語法](../img/Java/07.png)
 
 ### 變量和賦值
 
