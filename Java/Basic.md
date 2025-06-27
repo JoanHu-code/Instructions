@@ -137,6 +137,49 @@ x: 輸入(input)
 
 ### 變量和賦值
 
+變數(variable)和賦值(assignment)是任何程式語言中的一些基本概念。變數就像我們存儲值的容器。由於變數內部的值可以不斷改變，它被稱之為『變數』。
+
+Java 當中的等號與數學中使用的等號概述不同!!在Java中，等號是"賦值"，意思是把等號右邊的數據放在等號左邊；因此，我們可以這樣做
+
+```
+x=5,x=x+1
+```
+
+經過執行後，x的值會變成6
+
+
+```Java
+public class Main{
+  public static void main(String[] args){
+    int x = 5; // variables x data type => integer
+    // x = x + 1;
+    x += 1;
+    System.out.println(x);
+  }
+}
+```
+
+![基本語法](../img/Java/08.png)
+
+**語法糖是將x=x+1更改為x+=1。這在Java中極為常見。**
+
+**變數名稱可由英文、數字、底線以及$構成，但不能由數字當開頭，變數名稱不能為Java關鍵字(reserved words)。**
+
+#### 常量(constants)
+
+我們可以定義不能改變的量，稱為常量(constants)。在Java的variable declaration當中加入final keyword，就可以把設定constant variable。另外，寫程式者習慣(非強迫性)的會把constants全部用大寫英文字母表示。
+
+其他命名規範或是習慣包含:
+
+1. ClassName uses camelCase if needed and starts with an uppercase letter.
+2. variables use camelCase if needed and start with a lowercase letter.
+3. CONSTANTS uses all uppercase letter and use _ if needed. For example, MAX_VALUE.
+
+![基本語法](../img/Java/09.png)
+
+**Java 當中有內見的常數**
+
+
 ### Data Type
 
 ### String Operation
