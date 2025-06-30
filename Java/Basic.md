@@ -182,6 +182,27 @@ public class Main{
 
 ### Data Type
 
+> Java 當中常見的資料類型(Data Type)有以下幾類:
+
+- var: 可用於任何資料類型
+- int: Integer整數。使用32bits儲存數據
+- long: 整數，但使用64bits儲存數據
+- double: 帶有小數點的數。使用64bits儲存數據，因此，精準度較float更高。
+- float: 帶有小數點的數。使用32bits儲存數據。
+- char: Character 單一字母(單引號)。
+- String: a sequence of characters 字串(雙引號)。
+- boolean: true或false。
+
+**使用var有兩個限制:1.不能用在fields；2.不能在沒有初始值的ㄅ變數上使用。**
+
+**Primitive(原始) 資料類型**
+
+Primitive類型由Java預先定義並由保留關鍵字命名。Primitive值不與其他Primitive值共享狀態。Java語言支持的八種原始數據類型是: byte, short,int,long,float,double,boolean,char。除此之外的鎖有資料類型都是Non-primitive!
+
+常見的Non-primitives資料類型包含: String,Array,Arraylist,Class
+
+注意!!在Java當中的Non-primitive資料類型都是大寫開頭，Primitive類型都是由小寫開頭，因此，我們可以透過第一個字母的大小寫來判斷資料的性質!
+
 ### String Operation
 
 ### 關係 條件運算符
