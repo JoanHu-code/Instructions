@@ -205,6 +205,112 @@ Primitive類型由Java預先定義並由保留關鍵字命名。Primitive值不�
 
 ### String Operation
 
+**method**
+
+1. length()
+
+```java
+
+public class Main{
+  public static void main(String[] args){
+    String name = "Wilson";
+    System.out.println(name.length());  
+  }
+}
+
+```
+
+![基本語法](../img/Java/10.png)
+
+2. 轉換大小寫
+
+```java
+
+public class Main{
+  public static void main(String[] args){
+    String name = "Wilson";
+    System.out.println(name.toLowerCase());  
+  }
+}
+
+```
+
+![基本語法](../img/Java/11.png)
+
+```java
+
+public class Main{
+  public static void main(String[] args){
+    String name = "Wilson";
+    System.out.println(name.toUpperCase());  
+  }
+}
+
+```
+
+![基本語法](../img/Java/12.png)
+
+3. index索引: for any String , index: 0,1,2,3...,(n-1)
+
+```java
+
+public class Main{
+   public static void main(String[] args){
+      String name = "Wilson";
+      System.out.println(name.charAt(0));
+      System.out.println(name.charAt(name.length()-1));
+   }
+}
+
+```
+
+![基本語法](../img/Java/13.png)
+
+4. 反向尋找index
+
+```java
+
+public class Main{
+   public static void main(String[] args){
+      String name = "Wilson";
+      System.out.println(name.indexOf('s'));
+   }
+}
+
+```
+
+![基本語法](../img/Java/14.png)
+
+```java
+
+public class Main{
+   public static void main(String[] args){
+      String name = "Wilson";
+      System.out.println(name.indexOf("il"));
+   }
+}
+
+```
+
+![基本語法](../img/Java/15.png)
+
+> 只會顯示開始的值
+
+5. 字串轉文字
+
+```java
+
+public class Main{
+   public static void main(String[] args){
+      String age = "25";
+      System.out.println(Integer.parseInt(age)); //Java built-in method
+   }
+}
+
+```
+
+![基本語法](../img/Java/16.png)
+
 ### 關係 條件運算符
 
 ### Arithmetic Operator
