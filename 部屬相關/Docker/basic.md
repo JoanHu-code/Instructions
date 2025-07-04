@@ -197,3 +197,47 @@ docker container stop $(docker container ps -aq)
 docker container rm <id> -f
 ```
 > `-f`:就是強制停止加刪除
+
+### 容器的 attached 和 detached 模式
+
+#### attached 模式
+
+```shell
+docker container run -p 8082:80 nginx
+```
+
+![Docker](../../img/Docker/12.png)
+![Docker](../../img/Docker/15.png)
+![Docker](../../img/Docker/16.png)
+
+> 若按下 Ctrl+C 會讓容器終止
+
+![Docker](../../img/Docker/13.png)
+
+**透過此方式，讓容器在前台（attached）執行，此模式會把容器內的輸出即時打印到本地終端，因此你在本地可以直接看到容器裡的 log。**
+
+> 本尊(本地)的行為或受傷會直接影響影分身(容器)
+
+#### detached 模式
+
+```shell
+docker container run -d -p 8082:80 nginx
+```
+![Docker](../../img/Docker/14.png)
+
+> 只會輸出此容器的 ID，且此時終端不會顯示容器的 log。
+
+**透過此方式，讓容器在後台（detached）執行，這樣無論你在本地做什麼都不會影響到容器的運作。**
+
+> 如同本尊(本地)的行動或受傷不會影響影分身(容器)，影分身成為獨立的個體持續運行。
+
+=> 那要如何可以連接到影分身(容器)呢?
+
+```shell
+docker attach <container-id>
+```
+![Docker](../../img/Docker/17.png)
+
+>此指令可以和特定容器的標準輸入輸出做連結，此時你會看到容器即時的 log，並且此連結也會讓本地的行為影響容器，例如在本地 Ctrl+C 退出 attach 時，容器也可能跟著終止（視容器應用行為而定）。
+
+**在使用上一般推薦使用detach模式**
