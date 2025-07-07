@@ -241,3 +241,68 @@ docker attach <container-id>
 >此指令可以和特定容器的標準輸入輸出做連結，此時你會看到容器即時的 log，並且此連結也會讓本地的行為影響容器，例如在本地 Ctrl+C 退出 attach 時，容器也可能跟著終止（視容器應用行為而定）。
 
 **在使用上一般推薦使用detach模式**
+
+## 容器的交互模式
+
+> 查看log
+
+```shell
+docker container logs <id>
+```
+
+![Docker](../../img/Docker/18.png)
+
+> 動態查看log
+
+```shell
+docker container logs -f <id>
+```
+
+![Docker](../../img/Docker/19.png)
+
+> 要如何進入container內部去下指令?
+
+```shell
+docker exec -it <id> sh
+```
+
+就可以進去裡面下shell的指令
+
+![Docker](../../img/Docker/20.png)
+
+**離開時使用exit即可**
+
+> 也可以用這只另去創建一個交互作用的container
+
+```shell
+docker container run -it busybox sh
+```
+
+在裡面可以做的只另有
+
+1. 查看目錄
+
+```shell
+ls
+```
+
+2. 搜尋ip位置
+
+```shell
+ip a
+```
+
+3. 做ping操作
+
+```shell
+ping www.google.com
+```
+
+4. 退出
+
+```shell
+exit
+```
+
+![Docker](../../img/Docker/21.png)
+![Docker](../../img/Docker/22.png)
