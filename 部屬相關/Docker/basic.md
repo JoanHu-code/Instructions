@@ -306,3 +306,31 @@ exit
 
 ![Docker](../../img/Docker/21.png)
 ![Docker](../../img/Docker/22.png)
+
+## windows 是如何運行 docker engine
+
+
+> 用`docker version` 指令時察看，會發現到client端的 OS/Arch是windows/amd64，但Server端的則是linux/amd64
+
+**代表目前是用 Windows 控制端操作，但實際的 Docker Engine 是跑在 Linux 環境中。**
+
+Windows 並不直接執行 Docker Engine，而是透過虛擬化架構（如 Hyper-V 或 WSL2）啟動一個 Linux 虛擬機，Docker Engine 則在此環境內運行。
+
+
+![Docker](../../img/Docker/23.png)
+
+**在哪裡執行？Hyper-V or WSL2？**
+
+你可能會看到以下兩種情況之一：
+
+1. 使用 Hyper-V 模式
+可在 Hyper-V 管理員中看到一台 DockerDesktopVM 虛擬機
+
+![Docker](../../img/Docker/24.png)
+
+2. 使用 WSL2 模式
+若 Docker Desktop → Settings → General 有勾選 「Use the WSL 2 based engine」
+表示 Docker Engine 是執行在 WSL 2 環境中，不會出現在 Hyper-V 管理員中
+
+![Docker](../../img/Docker/25.png)
+![Docker](../../img/Docker/26.png)
