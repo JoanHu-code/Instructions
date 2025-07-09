@@ -334,3 +334,57 @@ Windows 並不直接執行 Docker Engine，而是透過虛擬化架構（如 Hyp
 
 ![Docker](../../img/Docker/25.png)
 ![Docker](../../img/Docker/26.png)
+
+## 容器和虛擬機
+
+**如何連接容器到shell命令提示**
+
+1. 在創立的時候就直接連接
+
+```shell
+docker container run -it busybox sh
+```
+
+2. 在一個已經運行的容器裡，執行額外的shell命令
+
+```shell
+docker conatiner exec -it <container-id> sh
+```
+
+**虛擬機 vs 容器**
+
+虛擬機:需要創建出或安裝完整的作業系統(OS)，虛擬機的底層需要Hypervisor(VMware、Virtual Box...等)
+
+容器:運行在容器引擎之上的一個應用程式，並不是一個獨立的作業系統，而只是一個應用程式，應用程式裡面又會包含一個或多個process
+
+**統整**
+
+1. 容器並不是mini虛擬機
+
+2. 容器是一個或多個的process
+
+4. 容器中的process有限制其CPU和記憶體等資源的訪問
+
+3. 當應用程式停止(所有process都停止)，容器也會停止
+
+![Docker](../../img/Docker/27.png)
+
+> 顯示容器裡的所有process
+
+```shell
+docker container top <container-id>
+```
+
+![Docker](../../img/Docker/28.png)
+
+可以由上圖的CMD可知，第一個是主process；下面的worker是副process
+
+PID:此process的id
+
+PPID:此 process的父process的id
+
+這些process是運行在docker引擎上面，若用windows系統就有可能是運行在Hyper-V的虛擬機裡面或WSL2裡面
+
+![Docker](../../img/Docker/29.png)
+
+> 由上圖可知，容器內部的id和外部的顯示是不同的
