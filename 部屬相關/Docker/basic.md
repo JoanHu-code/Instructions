@@ -4,7 +4,7 @@
   - [容器技術介紹](#容器技術介紹)
 - [容器快速上手](#容器快速上手)
   - [認識一下Docker命令行](#認識一下Docker命令行)
-  - [鏡像和容器](#鏡像和容器)
+  - [映像和容器](#映像和容器)
   - [創建我們第一個容器](#創建我們第一個容器)
   - [命令行技巧之批量操作](#命令行技巧之批量操作)
   - [容器的 attached 和 detached 模式](#容器的-attached-和-detached-模式)
@@ -12,6 +12,15 @@
   - [windows 是如何運行 docker engine](#windows-是如何運行-docker-engine)
   - [容器和虛擬機](#容器和虛擬機)
   - [創建容器時背後到底發生了什麼](#創建容器時背後到底發生了什麼)
+- [映像的創建管理和發布](#映像的創建管理和發布)
+  - [映像獲取的方式](#映像獲取的方式)
+  - [映像的registry介紹](#映像的registry介紹)
+  - [映像的獲取和查看](#映像的獲取和查看)
+  - [docker 映像的導入和導出](#docker-映像的導入和導出)
+  - [Dockerfile 的介紹](#Dockerfile-的介紹)
+  - [映像的建構和分享](#映像的建構和分享)
+  - [通過 commit 創建映像](#通過-commit-創建映像)
+  - [scratch 映像](#scratch-映像)
 
 ## Docker 的介紹和安裝
 
@@ -45,9 +54,9 @@
 
 **容器的標準化**
 
-1. 運行時標準化(runtime spec): 規範如何下載鏡像、創建容器、啟動容器等。
+1. 運行時標準化(runtime spec): 規範如何下載映像、創建容器、啟動容器等。
 
-2. 鏡像標準化(image spec): 定義鏡像的基本模式，例如人基本就有頭，身軀和四肢像這樣
+2. 映像標準化(image spec): 定義映像的基本模式，例如人基本就有頭，身軀和四肢像這樣
 
 **為什麼大家要使用容器?容器到底有什麼好?**
 
@@ -103,16 +112,16 @@ docker container ps -a
 ```
 ![Docker](../../img/Docker/08.png)
 
-7. 列出所有鏡像
+7. 列出所有映像
 
 ```shell
 docker image ls
 ```
 ![Docker](../../img/Docker/09.png)
 
-### 鏡像和容器
+### 映像和容器
 
-**鏡像(image)**
+**映像(image)**
 
 1. 是一個只可讀的文件
 2. 這文件裡面包含原始程式碼、工具等一些應用程式需要的文件
@@ -388,3 +397,18 @@ PPID:此 process的父process的id
 ![Docker](../../img/Docker/29.png)
 
 > 由上圖可知，容器內部的id和外部的顯示是不同的
+
+## 創建容器時背後到底發生了什麼
+
+```shell
+docker container run -d --publish 80:80 --name webhost nginx
+```
+step1：在本地檢查是否已有 nginx 映像（image），如果沒有則進入 step2，否則跳至 step4  
+step2：從遠端映像倉庫（預設是 Docker Hub）查找 nginx 映像  
+step3：拉取（pull）最新版本的 nginx 映像（例如：latest 標籤）  
+step4：基於 nginx 映像創建一個新的容器  
+step5：Docker Engine 為該容器分配一個內部 IP 地址（通常屬於 bridge 網路）  
+step6：將本地 port 80 映射（publish）到容器的 port 80 上（透過 NAT 轉發）  
+step7：啟動容器，並執行映像中定義的預設指令（CMD，例如啟動 nginx）
+
+![Docker](../../img/Docker/30.png)
