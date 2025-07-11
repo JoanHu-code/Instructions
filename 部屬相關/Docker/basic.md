@@ -251,7 +251,7 @@ docker attach <container-id>
 
 **在使用上一般推薦使用detach模式**
 
-## 容器的交互模式
+### 容器的交互模式
 
 > 查看log
 
@@ -316,7 +316,7 @@ exit
 ![Docker](../../img/Docker/21.png)
 ![Docker](../../img/Docker/22.png)
 
-## windows 是如何運行 docker engine
+### windows 是如何運行 docker engine
 
 
 > 用`docker version` 指令時察看，會發現到client端的 OS/Arch是windows/amd64，但Server端的則是linux/amd64
@@ -344,7 +344,7 @@ Windows 並不直接執行 Docker Engine，而是透過虛擬化架構（如 Hyp
 ![Docker](../../img/Docker/25.png)
 ![Docker](../../img/Docker/26.png)
 
-## 容器和虛擬機
+### 容器和虛擬機
 
 **如何連接容器到shell命令提示**
 
@@ -398,7 +398,7 @@ PPID:此 process的父process的id
 
 > 由上圖可知，容器內部的id和外部的顯示是不同的
 
-## 創建容器時背後到底發生了什麼
+### 創建容器時背後到底發生了什麼
 
 ```shell
 docker container run -d --publish 80:80 --name webhost nginx
@@ -410,5 +410,44 @@ step4：基於 nginx 映像創建一個新的容器
 step5：Docker Engine 為該容器分配一個內部 IP 地址（通常屬於 bridge 網路）  
 step6：將本地 port 80 映射（publish）到容器的 port 80 上（透過 NAT 轉發）  
 step7：啟動容器，並執行映像中定義的預設指令（CMD，例如啟動 nginx）
+
+
+## 映像的創建管理和發布
+
+### 映像獲取的方式
+
+映像（Image）的獲取方式主要可以分為三種，依據是否需要連網，可以再細分為兩大類：
+
+🔗 一、需連網的方式
+這是最常見的方式，又可分為兩種：
+
+從 Registry 直接拉取映像
+
+Public Registry：如 Docker Hub，任何人都可以自由拉取映像。
+
+Private Registry：例如公司內部建置的私有 Registry，只有授權使用者可以拉取映像。
+
+使用 Dockerfile 撰寫映像
+
+利用 docker build 根據 Dockerfile 建立映像，過程中通常需要連網下載 base image 或相關套件。
+
+📌 難易程度比較：
+使用 Registry 拉取映像最簡單，通常只需一行指令（如 docker pull）；而撰寫 Dockerfile 則較為繁瑣，需要撰寫多行設定與指令，較有彈性但也更麻煩。
+
+🔌 二、離線方式（不需連網）
+這種方式較少見，但在無法上網或封閉環境中仍會使用：
+
+透過映像檔（.tar）離線安裝
+
+先在有網路的環境中使用 docker save 將映像儲存為 .tar 檔案，透過 USB 等方式拷貝至目標機器，再用 docker load 匯入。
+
+✅ 總結
+
+| 類型 | 方法                            | 是否連網 | 難易度         |
+| -- | ----------------------------- | ---- | ----------- |
+| 1  | 從 Registry 拉取（Public/Private） | 需要   | 簡單          |
+| 2  | 使用 Dockerfile 自建映像            | 需要   | 較難          |
+| 3  | 使用 `.tar` 檔案匯入                | 不需要  | 中等（準備階段較麻煩） |
+
 
 ![Docker](../../img/Docker/30.png)
