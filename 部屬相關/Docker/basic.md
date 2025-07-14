@@ -451,3 +451,102 @@ Private Registry：例如公司內部建置的私有 Registry，只有授權使�
 
 
 ![Docker](../../img/Docker/30.png)
+
+### 映像的registry介紹
+
+常用拉取映像的registry
+
+1. (Docker Hub)[https://hub.docker.com/]
+2. (Red Head Quay)[https://www.redhat.com/en/technologies/cloud-computing/quay]
+
+![Docker](../../img/Docker/31.png)
+
+> 如上圖所示，推薦使用官方版本，較安全
+
+docker hub免費版有一些限制可以從(docker hub pricing)[https://www.docker.com/pricing/]所觀察到
+
+### 映像的獲取和查看
+
+```shell
+docker image --help
+```
+查看 docker image 子指令有哪些可用操作
+
+![Docker](../../img/Docker/32.png)
+
+1. pull 拉取映像最簡單
+
+我們可以去 Docker Hub 或 Red Hat Quay 查詢所需映像
+
+![Docker](../../img/Docker/33.png)
+
+例如:拉取nginx映像
+
+```shell
+docker image pull nginx
+```
+![Docker](../../img/Docker/40.png)
+
+> 什麼都沒打可以從第一行看出會自動下載latest(最新版本)
+
+若要指定版本，那在其指令後面加上`:+版本號`即可
+
+```shell
+docker image pull nginx:1.20.0
+```
+![Docker](../../img/Docker/41.png)
+
+**版本號的查詢可以在Tags裡面查詢**
+
+![Docker](../../img/Docker/34.png)
+
+2. 用inspect指令查詢image裡面的詳細資料
+
+```shell
+docker image inspect <image-id>
+```
+
+![Docker](../../img/Docker/43.png)
+![Docker](../../img/Docker/44.png)
+![Docker](../../img/Docker/45.png)
+
+**Architecture: "amd64" 表示此 image 為 x86_64 架構，若你的電腦是舊款 Apple M1/M2（ARM 架構）可能無法直接執行，需另找支援 ARM 架構的版本。**
+
+3. 查詢目前所有的image
+
+```shell
+docker image ls
+```
+![Docker](../../img/Docker/42.png)
+
+4. 用rm指令刪除映像
+
+```shell
+docker image rm <image-id>
+```
+
+**請注意若映像存在在容器裡，無論容器是否有在運行中都無法刪除，唯一可以刪除映像的條件為使用此映像容器全部被刪除後，才可刪除映像**
+
+![Docker](../../img/Docker/35.png)
+
+- 停止容器運行
+
+```shell
+docker container stop <container-id>
+```
+
+**會發現依舊無法刪除image，因為即使容器已停止，image 仍被 container 使用，所以還是無法刪除**
+
+![Docker](../../img/Docker/36.png)
+![Docker](../../img/Docker/37.png)
+![Docker](../../img/Docker/38.png)
+
+
+- 刪除整個容器
+
+```shell
+docker container rm -f <container-id>
+```
+![Docker](../../img/Docker/39.png)
+
+> 才可以刪除掉image
