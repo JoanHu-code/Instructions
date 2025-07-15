@@ -550,3 +550,37 @@ docker container rm -f <container-id>
 ![Docker](../../img/Docker/39.png)
 
 > 才可以刪除掉image
+
+### docker 映像的導入和導出
+
+**在離線的方式使用save和load去做映像的導入和導出**
+
+1. save 指令使用方法
+
+```shell
+docker image save <image-name:image-version> -o <file-name>
+```
+
+`-o`: output也就是輸出
+
+```shell
+docker image save nginx:1.20.0 -o nginx.image
+```
+
+![Docker](../../img/Docker/46.png)
+
+> 此時在此目錄底下就應該可以的到此文件
+
+2. load的指令方法
+
+```shell
+docker image load -i <filePath\fileName>
+```
+`-i`: input輸入的意思
+
+```shell
+docker image load -i .\nginx.image
+```
+![Docker](../../img/Docker/47.png)
+
+
