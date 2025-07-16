@@ -584,3 +584,56 @@ docker image load -i .\nginx.image
 ![Docker](../../img/Docker/47.png)
 
 
+### Dockerfile 的介紹
+
+**什麼是Dockerfile?**
+
+1. dockerfile是用來建造映象的文件
+2. dockerfile裡面包含建造映象的指令
+3. dockerfile裡面的指令有他自己的與法規範
+
+[Dockerfile的語法](https://docs.docker.com/reference/dockerfile/)
+
+> 舉例:若我們要在一台ubuntu 21.04上運行下面hello.py的python檔案該如何執行?
+
+```py
+print("hello world")
+```
+
+第一步準備python環境
+
+```shell
+apt-get update && \
+DEBIAN_FRONTEND=noninteractive apt-get install -y python3 python3-pip python3-venv
+```
+
+說明：
+- sudo apt-get update：更新套件列表
+- DEBIAN_FRONTEND=noninteractive：避免安裝時出現互動式提示（常用於自動化部署）
+- apt-get install -y：自動安裝（不需要使用者輸入 Y）
+- python3：Python 解譯器
+- python3-pip：Python 的套件管理工具
+- python3-venv：虛擬環境工具，方便你管理不同專案的相依套件
+
+第二步:運行hello.py
+
+```shell
+python3 hello.py
+```
+
+> 那我們要如何在Dockerfile裡面去實現呢
+
+```dockerfile
+FROM ubuntu:21.04
+RUN apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y python3 python3-pip python3-venv
+ADD hello.py /
+CMD ["python3", "/hello.py"]
+```
+說明：
+- FROM:選擇此os作為我們的docker image，做為基礎的image導入進來，此指令如同只用第三方的庫像是`import`或`include`等等。
+- RUN:執行後面的指令；在這裡是安裝python環境
+- ADD:新增hello.py檔案在映像的根目錄
+- CMD：執行裡面的指令(hello.py這個檔案)
+
+![Docker](../../img/Docker/48.png)
