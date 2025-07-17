@@ -624,7 +624,7 @@ python3 hello.py
 > 那我們要如何在Dockerfile裡面去實現呢
 
 ```dockerfile
-FROM ubuntu:21.04
+FROM ubuntu:22.04
 RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y python3 python3-pip python3-venv
 ADD hello.py /
@@ -636,4 +636,138 @@ CMD ["python3", "/hello.py"]
 - ADD:新增hello.py檔案在映像的根目錄
 - CMD：執行裡面的指令(hello.py這個檔案)
 
+### 映像的建構和分享
+
+1. 創建docker image的指令
+
+```shell
+docker image build -t <docker-image-name>:<version> <file-path>
+```
+`-t`: tag,也就是標記image的名字
+
+若version沒有寫那會預設為最新版的
+
+範例:
+
+```shell
+docker image build -t hello .
+```
+
 ![Docker](../../img/Docker/48.png)
+
+![Docker](../../img/Docker/49.png)
+
+> 要如何啟動這image?執行下面這指令
+
+```shell
+docker run -it <image-name>
+```
+
+`-it`: 交互作用
+
+例如:
+
+```shell
+docker run -it hello
+```
+![Docker](../../img/Docker/50.png)
+
+在我們打
+
+```shell
+docker container ls -a
+```
+
+時可以看到當檔案被執行完時也就退出了這個process
+
+![Docker](../../img/Docker/51.png)
+
+**要如何把自己的image推到docker hub裡?**
+
+1. 首先要先符合image名字的規範，為自己的docker hub帳號名稱/image 名稱
+
+方法一:從新建立一個符合docker hub名字規範的image
+
+```shell
+docker image build -t <dockerhub-name>/<image-name>:<image-version> <file-path>
+```
+
+![Docker](../../img/Docker/52.png)
+
+從上圖可以觀察到，這兩個image id是一樣的，因為他們是用同一種方式置做出來的
+
+2. 複製以經做出來的tag把他改名為符合docker hub名字規範的image
+
+```shell
+docker image tag <original-name>:<original-version> <changed-name>:<changed-version>
+```
+
+> 例如
+
+```shell
+docker image tag hello xiaozhehu/hello:1.0.0
+```
+
+![Docker](../../img/Docker/55.png)
+
+
+**小提示:若要刪除的image，他的image id 跟別人一樣時，不能打image id做刪除，需要打tag(名稱)**
+
+![Docker](../../img/Docker/53.png)
+![Docker](../../img/Docker/54.png)
+
+#### 如何把本地的image推送到docker hub裡面呢?
+
+第一步:先在本地登入docker
+
+```shell
+docker login
+```
+![Docker](../../img/Docker/56.png)
+
+第二步:輸入push指令
+
+```shell
+docker push <docker-hub-name>/<docker-image-name>:<docker-image-version>
+```
+`<docker-hub-name>/<docker-image-name>:<docker-image-version>`: 我們剛剛所改的那image的tag
+
+> 例子
+
+```shell
+docker push xiaozhehu/hello:1.0.0
+```
+![Docker](../../img/Docker/58.png)
+![Docker](../../img/Docker/57.png)
+
+> 我們可以把剛上傳的image拉下來看看是否真的可以執行
+
+步驟一: 把image拉下來
+
+```shell
+docker pull <docker-hub-name>/<docker-image-name>:<docker-image-version>
+```
+
+> 範例:
+
+```shell
+docker push xiaozhehu/hello:1.0.0
+```
+
+步驟二: 執行image
+
+```shell
+docker run <docker-hub-name>/<docker-image-name>:<docker-image-version>
+```
+
+> 範例:
+
+```shell
+docker push xiaozhehu/hello:1.0.0
+```
+
+
+![Docker](../../img/Docker/59.png)
+
+
+
