@@ -144,13 +144,13 @@ docker image ls
 1. 創建容器指令
 
 ```shell
-docker container run <image>
+docker container run <container-name>
 ```
 
 2. 停止容器
 
 ```shell
-docker container stop <names> or <id>
+docker container stop <container-name> or <id>
 ```
 
 **id小技巧，可以只寫前幾位**
@@ -170,7 +170,7 @@ docker container ps
 4. 刪除容器
 
 ```shell
-docker container rm <names> or <id>
+docker container rm <container-name> or <id>
 ```
 
 
@@ -594,7 +594,7 @@ docker image load -i .\nginx.image
 
 [Dockerfile的語法](https://docs.docker.com/reference/dockerfile/)
 
-> 舉例:若我們要在一台ubuntu 21.04上運行下面hello.py的python檔案該如何執行?
+> 舉例:若我們要在一台ubuntu 22.04上運行下面hello.py的python檔案該如何執行?
 
 ```py
 print("hello world")
@@ -763,11 +763,161 @@ docker run <docker-hub-name>/<docker-image-name>:<docker-image-version>
 > 範例:
 
 ```shell
-docker push xiaozhehu/hello:1.0.0
+docker run xiaozhehu/hello:1.0.0
 ```
 
 
 ![Docker](../../img/Docker/59.png)
 
+### 通過 commit 創建映像 
+
+**其實產生image還有第四種方式，可以通過commit來產生image**
+
+範例:
+
+1. 先創建一個nginx的容器
+
+```shell
+docker container run -d -p 8082:80 nginx
+```
+
+![Docker](../../img/Docker/60.png)
+![Docker](../../img/Docker/61.png)
+
+2. 進去容器裡面內部
+
+```shell
+docker container exec -it <container-id>
+```
+
+3. 查詢index.html，並且打開此檔案
+
+```shell
+cd usr/share/nginx
+ls
+cd html
+ls
+more index.html
+```
+![Docker](../../img/Docker/62.png)
+
+4. 試著修改index.html
+
+```shell
+echo "<h1>hello docker</h1> > index.html"
+```
+![Docker](../../img/Docker/63.png)
+![Docker](../../img/Docker/64.png)
+
+5. 把我改掉的image存成新的container，跟原本的nginx的container隔開
+
+```shell
+docker container commit a211 <docker-hub>/<image-name>:<image-version>
+```
+
+> 範例
+
+```shell
+docker container commit a211 xiaozhehu/nginx-test:1.0.0
+```
+![Docker](../../img/Docker/65.png)
+
+6. 推到自己的docker hub上，要記得先登入docker hub不然會招到deny
+
+```shell
+docker push xiaozhehu/nginx-test:1.0.0
+```
+
+![Docker](../../img/Docker/66.png)
+![Docker](../../img/Docker/67.png)
+![Docker](../../img/Docker/68.png)
 
 
+7. 此時可以刪除本機的image在把docker hub的image拉下來看看是否能執行
+
+```shell
+docker container rm -f <container-id>
+docker image rm -f <image-id>
+```
+
+**注意要先從原本的nginx image先刪掉，在刪除新建立的xiaozhehu/nginx-test:1.0.0，不然會珊不掉**
+
+```shell
+docker pull <docker-hub-image-name>
+```
+
+> 範例
+
+```shell
+docker pull xiaozhehu/nginx-test:1.0.0
+```
+![Docker](../../img/Docker/69.png)
+
+最後讓其image在容器內啟動
+
+```shell
+docker run -d -p 8083:80 xiaozhehu/nginx-test:1.0.0
+```
+![Docker](../../img/Docker/70.png)
+![Docker](../../img/Docker/71.png)
+
+> 舉例:若我們要在一台ubuntu 22.04上運行下面hello.py的python檔案，並且使用commit方法產生image該如何執行?
+
+1. 先建立一個ubuntu 22.04的container，並進入container內
+
+```shell
+docker container run -it ubuntu:22.04 sh
+```
+
+2. 下載python3
+
+```shell
+apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y python3 python3-pip python3-venv
+```
+
+![Docker](../../img/Docker/72.png)
+
+3. 確認成功安裝後就，在跟目錄裡面，新增一個python的文件，新增完沒問題就退出
+
+```shell
+python3
+```
+
+![Docker](../../img/Docker/73.png)
+
+```shell
+cd /
+echo "print('hello docker')" > hello.py
+python3 hello.py
+exit
+```
+![Docker](../../img/Docker/74.png)
+
+4. 給ubuntu 22.04這個image的container一個新的名字
+
+```shell
+docker conatiner commit 1d3c xiaozhehu/python-test:1.0.0
+```
+
+5. 推到docker hun
+
+```shell
+docker push xiaozhehu/python-test:1.0.0
+```
+![Docker](../../img/Docker/75.png)
+![Docker](../../img/Docker/76.png)
+
+6. 該如何讓其image去創建容器呢?
+
+不能直接執行下面這指令
+
+```shell
+docker container run -it xiaozhehu/python-test:1.0.0
+```
+他會默認直接進入shell模式，使用方法應該是直接在後面加上命令即可
+
+```shell
+docker container run -it xiaozhehu/python-test:1.0.0 python3 /hello.py
+```
+![Docker](../../img/Docker/77.png)
