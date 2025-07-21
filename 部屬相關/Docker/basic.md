@@ -935,4 +935,6 @@ docker container run -it xiaozhehu/python-test:1.0.0 python3 /hello.py
 
 ## Dockerfile 完全指南
 
+### 如何選擇基礎映象
+
 ![Docker](../../img/Docker/78.png)
