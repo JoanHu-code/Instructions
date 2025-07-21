@@ -20,7 +20,18 @@
   - [Dockerfile 的介紹](#Dockerfile-的介紹)
   - [映像的建構和分享](#映像的建構和分享)
   - [通過 commit 創建映像](#通過-commit-創建映像)
-  - [scratch 映像](#scratch-映像)
+- [Dockerfile 完全指南](#Dockerfile-完全指南)
+  - [如何選擇基礎映象](#如何選擇基礎映象)
+  - [通過 RUN 執行指令](#通過-RUN-執行指令)
+  - [文件的複製和目錄操作](#文件的複製和目錄操作)
+  - [建構參數和環境變數](#建構參數和環境變數)
+  - [容器啟動命令 CMD](#容器啟動命令-CMD)
+  - [容器啟動命令 ENTRYPOINT](#容器啟動命令-ENTRYPOINT)
+  - [一起建構一個 Python Flask 映象](#一起建構一個-Python-Flask-映象)
+  - [Dockerfile 技巧之 dockerignore](#Dockerfile-技巧之-dockerignore)
+  - [Dockerfile 技巧之多階段構建](#Dockerfile-技巧之多階段構建)
+  - [Dockerfile 技巧之盡量使用非 root 用戶](#Dockerfile-技巧之盡量使用非-root-用戶)
+
 
 ## Docker 的介紹和安裝
 
@@ -921,3 +932,7 @@ docker container run -it xiaozhehu/python-test:1.0.0
 docker container run -it xiaozhehu/python-test:1.0.0 python3 /hello.py
 ```
 ![Docker](../../img/Docker/77.png)
+
+## Dockerfile 完全指南
+
+![Docker](../../img/Docker/78.png)
