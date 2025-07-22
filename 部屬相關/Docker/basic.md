@@ -21,6 +21,7 @@
   - [映像的建構和分享](#映像的建構和分享)
   - [通過 commit 創建映像](#通過-commit-創建映像)
 - [Dockerfile 完全指南](#Dockerfile-完全指南)
+  - [本章介紹](#本章介紹)
   - [如何選擇基礎映象](#如何選擇基礎映象)
   - [通過 RUN 執行指令](#通過-RUN-執行指令)
   - [文件的複製和目錄操作](#文件的複製和目錄操作)
@@ -935,6 +936,27 @@ docker container run -it xiaozhehu/python-test:1.0.0 python3 /hello.py
 
 ## Dockerfile 完全指南
 
+### 本章介紹
+
+分兩部分:
+
+1. Dockefile的基本語法
+
+2. Dockerfile的技巧
+
+
 ### 如何選擇基礎映象
 
+基本原則:
+
+1. 優先選擇官方映象，如果沒有官方映象，則盡量選擇Dockerfile開源的映象
+
+2. 映像版本使用固定版本的tag而不是使用latest
+
+3. 盡量選擇體積小的映象，像alpine這種映像，這樣拉下來和推上去的速度也會較快
+
 ![Docker](../../img/Docker/78.png)
+
+- alpine: A minimal Docker image based on Alpine Linux with a complete package index and only 5 MB in size!
+
+![Docker](../../img/Docker/79.png)
