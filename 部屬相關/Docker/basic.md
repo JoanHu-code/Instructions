@@ -960,3 +960,45 @@ docker container run -it xiaozhehu/python-test:1.0.0 python3 /hello.py
 - alpine: A minimal Docker image based on Alpine Linux with a complete package index and only 5 MB in size!
 
 ![Docker](../../img/Docker/79.png)
+
+### 通過 RUN 執行指令
+
+docker裡面的Run指令基本上是用來安裝環境和執行此Container的命令
+
+每一個run指令都會產生一個image layer也會造成此image比較大，因此最好的辦法就是若要用多個run指令需要合併寫在一起
+
+例如:
+
+```dockerfile
+FROM ubuntu:22.04
+RUN apt-get update
+RUN apt-get install -y wget
+RUN wget https://github.com/ipinfo/cli/releases/download/ipinfo-2.0.1/ipinfo_2.0.1_linux_amd64.tar.gz
+RUN tar zxf ipinfo_2.0.1_linux_amd64.tar.gz
+RUN mv ipinfo_2.0.1_linux_amd64 /usr/bin/ipinfo
+RUN rm -rf ipinfo_2.0.1_linux_amd64.tar.gz
+```
+
+```shell
+docker image build -f Dockerfile.bad -t ipinfo-bad .
+```
+
+![Docker](../../img/Docker/80.png)
+![Docker](../../img/Docker/81.png)
+![Docker](../../img/Docker/82.png)
+
+> 如上圖所示，會看到很多image layer，因此比較好的方法應該要像下面這樣把run指令合併在一起只執行一次
+
+```dockerfile
+FROM ubuntu:22.04
+RUN apt-get update && \
+    apt-get install -y wget && \
+    wget https://github.com/ipinfo/cli/releases/download/ipinfo-2.0.1/ipinfo_2.0.1_linux_amd64.tar.gz && \
+    tar zxf ipinfo_2.0.1_linux_amd64.tar.gz && \
+    mv ipinfo_2.0.1_linux_amd64 /usr/bin/ipinfo && \
+    rm -rf ipinfo_2.0.1_linux_amd64.tar.gz
+```
+
+![Docker](../../img/Docker/83.png)
+![Docker](../../img/Docker/84.png)
+![Docker](../../img/Docker/85.png)
