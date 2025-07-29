@@ -1002,3 +1002,100 @@ RUN apt-get update && \
 ![Docker](../../img/Docker/83.png)
 ![Docker](../../img/Docker/84.png)
 ![Docker](../../img/Docker/85.png)
+
+### 文件的複製和目錄操作
+
+- copy: copy是把本機文件複製到鏡像裡面，權限也跟著一起複製過來，並且使用copy時若鏡像裏沒有此資料夾也會一起創造
+
+**Dockerfile.copy**
+
+```dockerfile
+FROM python:3.9.5-alpine3.13
+COPY hello.py /app/hello.py
+```
+
+```shell
+docker image build -f Dockerfile.copy -t hello-copy .
+```
+
+![Docker](../../img/Docker/86.png)
+
+```shell
+docker image history hello-copy
+```
+
+![Docker](../../img/Docker/87.png)
+
+```shell
+icacls "D:\USERS\Desktop\docker" /T
+```
+![Docker](../../img/Docker/88.png)
+
+```shell
+docker container run -it hello-copy sh
+```
+```shell
+cd /app
+```
+```shell
+ls -l
+```
+![Docker](../../img/Docker/89.png)
+
+- ADD:跟COPY的功能差不多，只是比COPY多了一個可以自動解壓縮的功能
+
+**Dockerfile.add**
+```dockerfile
+FROM python:3.9.5-alpine3.13
+ADD hello.py /app/hello.py
+```
+
+![Docker](../../img/Docker/90.png)
+
+> 解壓縮範例
+
+**Dockerfile.gzip**
+```dockerfile
+FROM python:3.9.5-alpine3.13
+ADD hello.tar /app/
+```
+
+```shell
+docker image build -f Dockerfile.gzip -t hello-tar .
+```
+```shell
+docker container run -it hello-tar sh
+```
+```shell
+cd /app
+```
+```shell
+ls -l
+```
+
+![Docker](../../img/Docker/91.png)
+
+**結論:普通文件的話建議使用copy，但若是要解壓縮的話建議使用add**
+
+- workdir: 切換目錄，若目錄本身不存在會自動生成
+
+```dockerfile
+FROM python:3.9.5-alpine3.13
+WORKDIR /app
+COPY hello.py hello.py
+```
+```shell
+docker image build -f Dockerfile.workdir -t hello-workdir .
+```
+
+```shell
+docker container run -it hello-workdir sh
+```
+```shell
+cd /app
+```
+```shell
+ls -l
+```
+
+![Docker](../../img/Docker/92.png)
