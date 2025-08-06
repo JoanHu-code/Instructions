@@ -75,8 +75,9 @@ C:\WINDOWS\System32\OpenSSH\
      User fecorpit
 
    ```
+> 4.1 和 4.2 選其一做(若遠端主機以有公鑰就無須在做下面指令)   
 
-4. 將公鑰檔案放到目標主機(被操控的電腦)的 C:\\Users\\USER\\.ssh 中 並且改名為 authorized_keys， 若檔案存在的話需打開檔案，在最後一行添加新的公鑰
+4.1 將公鑰檔案放到目標主機(被操控的電腦)的 C:\\Users\\USER\\.ssh 中 並且改名為 authorized_keys， 若檔案存在的話需打開檔案，在最後一行添加新的公鑰
 
    ```shell
 
@@ -89,6 +90,16 @@ C:\WINDOWS\System32\OpenSSH\
    authorized_keys
 
    ```
+4.2 打以下指令，把公鑰放在目標主機裡
+
+```shell
+ssh-copy-id username@remote_host
+```
+舉例:
+
+```shell
+ssh-copy-id user@192.168.1.100
+```
 
 # 連線指令:
 
@@ -102,7 +113,7 @@ C:\WINDOWS\System32\OpenSSH\
 
    ```
 
-2. 查看私要是否有被加進去
+2. 查看私鑰是否有被加進去
 
    ```shell
 
